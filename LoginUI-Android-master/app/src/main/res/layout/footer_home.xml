@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/footer_rl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="missingPrefix"
+    android:background="@android:color/white">
+
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:scale_base_width="1080"
+        app:scale_base_height="160">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/footer_closet"
+            app:scale_width="216"
+            app:scale_height="160">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scale_base_width="216"
+                app:scale_base_height="160">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_map"
+                    app:scale_left="108"
+                    app:scale_top="55"
+                    app:scale_left_baseposition="center"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57"
+                    app:scale_height="56"
+                    android:src="@drawable/icon_footer_closet"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_closet_tv"
+                    app:scale_left="0"
+                    app:scale_top="100"
+                    app:scale_width="216"
+                    app:scale_height="43"
+                    app:scale_textsize="23"
+                    android:text="옷장"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/black"
+                    />
+<!--                android:fontFamily="@font/jejugothic"-->
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/footer_cloth"
+            app:scale_left="216"
+            app:scale_width="216"
+            app:scale_height="160">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scale_base_width="216"
+                app:scale_base_height="160">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_bus"
+                    app:scale_left="108"
+                    app:scale_top="55"
+                    app:scale_left_baseposition="center"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57"
+                    app:scale_height="56"
+                    android:src="@drawable/icon_footer_cloth"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_cloth_tv"
+                    app:scale_left="0"
+                    app:scale_top="100"
+                    app:scale_width="216"
+                    app:scale_height="43"
+                    app:scale_textsize="23"
+                    android:text="코디추천"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/black"
+                    />
+                <!--                android:fontFamily="@font/jejugothic"-->
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/footer_hanger"
+            app:scale_left="432"
+            app:scale_width="216"
+            app:scale_height="160">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scale_base_width="216"
+                app:scale_base_height="160">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_rent"
+                    app:scale_left="108"
+                    app:scale_top="55"
+                    app:scale_left_baseposition="center"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57"
+                    app:scale_height="56"
+                    android:src="@drawable/icon_footer_hanger"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_hanger_tv"
+                    app:scale_left="0"
+                    app:scale_top="100"
+                    app:scale_width="216"
+                    app:scale_height="43"
+                    app:scale_textsize="23"
+                    android:text="옷 추가"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/black"
+                    />
+                <!--                android:fontFamily="@font/jejugothic"-->
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/footer_store"
+            app:scale_left="864"
+            app:scale_width="216"
+            app:scale_height="160">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scale_base_width="216"
+                app:scale_base_height="160">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_store"
+                    app:scale_left="108"
+                    app:scale_top="55"
+                    app:scale_left_baseposition="center"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57"
+                    app:scale_height="56"
+                    android:src="@drawable/icon_footer_store"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_store_tv"
+                    app:scale_left="0"
+                    app:scale_top="100"
+                    app:scale_width="216"
+                    app:scale_height="43"
+                    app:scale_textsize="23"
+                    android:text=" "
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/black"
+                    />
+                <!--                android:fontFamily="@font/jejugothic"-->
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/footer_together"
+            app:scale_left="648"
+            app:scale_width="216"
+            app:scale_height="160">
+
+            <com.ssomai.android.scalablelayout.ScalableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scale_base_width="216"
+                app:scale_base_height="160">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_together"
+                    app:scale_left="108"
+                    app:scale_top="55"
+                    app:scale_left_baseposition="center"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57"
+                    app:scale_height="56"
+                    android:src="@drawable/icon_footer_together"
+                    android:background="#00000000"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/icon_footer_together_tv"
+                    app:scale_left="0"
+                    app:scale_top="100"
+                    app:scale_width="216"
+                    app:scale_height="43"
+                    app:scale_textsize="23"
+                    android:text=" "
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:textColor="@android:color/black"
+                    />
+                <!--                android:fontFamily="@font/jejugothic"-->
+
+            </com.ssomai.android.scalablelayout.ScalableLayout>
+
+        </RelativeLayout>
+
+
+
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+</RelativeLayout>
