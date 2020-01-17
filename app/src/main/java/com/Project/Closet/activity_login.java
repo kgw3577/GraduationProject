@@ -21,6 +21,8 @@ public class activity_login extends AppCompatActivity {
     //test
     //test2
     //test3
+    
+    //test4 김규완
     ImageView imageView;
     TextView textView;
     int count = 0;
