@@ -16,13 +16,12 @@ import java.io.*;
 import java.net.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class activity_login extends AppCompatActivity {
-    //test
-    //test2
-    //test3
-    
-    //test4 김규완
+
     ImageView imageView;
     TextView textView;
     int count = 0;
@@ -37,6 +36,8 @@ public class activity_login extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.layout_login);
+        Button btnSignup = findViewById(R.id.bt_signup);
+        btnSignup.setOnClickListener(onClickListener);
         Button btnLogin = findViewById(R.id.bt_login);
         btnLogin.setOnClickListener(onClickListener);
 
@@ -46,7 +47,8 @@ public class activity_login extends AppCompatActivity {
         joinBtn = (Button) findViewById(R.id.bt_join);
     }
 
-    class CustomTask extends AsyncTask<String, Void, String> {
+
+    class LoginTask extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
         @Override
         protected String doInBackground(String... strings) {
@@ -98,7 +100,7 @@ public class activity_login extends AppCompatActivity {
                     String loginid = userId.getText().toString();
                     String loginpwd = userPwd.getText().toString();
                     try {
-                        String result  = new CustomTask().execute(loginid,loginpwd,"login").get();
+                        String result  = new LoginTask().execute(loginid,loginpwd,"login").get();
                         if(result.equals("true")) {
                             Toast.makeText(activity_login.this,"로그인",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(activity_login.this, activity_login.class);
@@ -118,8 +120,11 @@ public class activity_login extends AppCompatActivity {
                         }
                     }catch (Exception e) {}
                     break;
-                case R.id.bt_join : // 회원가입
-                    String joinid = userId.getText().toString();
+                case R.id.bt_signup : // 회원가입
+                    Intent intent = new Intent(getApplicationContext(), activity_signup.class);
+                    startActivity(intent);
+                    break;
+/*                  String joinid = userId.getText().toString();
                     String joinpwd = userPwd.getText().toString();
                     try {
                         String result  = new CustomTask().execute(joinid,joinpwd,"join").get();
@@ -133,7 +138,7 @@ public class activity_login extends AppCompatActivity {
                             Toast.makeText(activity_login.this,"회원가입을 축하합니다.",Toast.LENGTH_SHORT).show();
                         }
                     }catch (Exception e) {}
-                    break;
+                    break;*/
             }
         }
     }
