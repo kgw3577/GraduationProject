@@ -54,7 +54,7 @@ public class activity_login extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://192.168.0.208:8080/Android/Login.jsp");
+                URL url = new URL("http://13.125.248.126:8080/Android/Login.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");

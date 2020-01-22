@@ -31,7 +31,7 @@ public class UserDAO {
 		try {
 			//Class.forName("com.mysql.jdbc.Driver");
 			//conn = DriverManager.getConnection(jdbcUrl, dbId, dbPw);
-			sql = "select userID from user where userID=?";
+			sql = "select userID from USER where userID=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -40,7 +40,7 @@ public class UserDAO {
 					returns = "id";
 				} 
 			} else { // 입력한 아이디가 없는 경우
-				sql2 = "insert into user values(?, ?, ?, ?, ?, ?, ?);";
+				sql2 = "insert into USER values(?, ?, ?, ?, ?, ?, ?);";
 				pstmt2 = conn.prepareStatement(sql2);
 				pstmt2.setString(1, id);
 				pstmt2.setString(2, "test");
@@ -67,7 +67,7 @@ public class UserDAO {
 		try {
 			//Class.forName("com.mysql.jdbc.Driver");
 			//conn = DriverManager.getConnection(jdbcUrl, dbId, dbPw);
-			sql = "select userID, userPassword from user where userID=? and userPassword=?";
+			sql = "select userID, userPassword from USER where userID=? and userPassword=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
