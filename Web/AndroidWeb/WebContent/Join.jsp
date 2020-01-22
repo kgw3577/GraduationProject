@@ -3,6 +3,7 @@
 <%@ page import="user.UserDAO" %>
 
 <%
+	//test
 	request.setCharacterEncoding("UTF-8");
 	String id = request.getParameter("id");
 	String pwd = request.getParameter("pwd");
