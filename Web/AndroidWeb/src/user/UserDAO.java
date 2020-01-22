@@ -31,19 +31,24 @@ public class UserDAO {
 		try {
 			//Class.forName("com.mysql.jdbc.Driver");
 			//conn = DriverManager.getConnection(jdbcUrl, dbId, dbPw);
-			sql = "select id from oc22table where id=?";
+			sql = "select userID from user where userID=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("id").equals(id)) { // 이미 아이디가 있는 경우
+				if (rs.getString("userID").equals(id)) { // 이미 아이디가 있는 경우
 					returns = "id";
 				} 
 			} else { // 입력한 아이디가 없는 경우
-				sql2 = "insert into oc22table values(?,?)";
+				sql2 = "insert into user values(?, ?, ?, ?, ?, ?, ?);";
 				pstmt2 = conn.prepareStatement(sql2);
 				pstmt2.setString(1, id);
-				pstmt2.setString(2, pwd);
+				pstmt2.setString(2, "test");
+				pstmt2.setString(3, "test@test.com");
+				pstmt2.setString(4, pwd);
+				pstmt2.setString(5, "남자");
+				pstmt2.setString(6, "25");
+				pstmt2.setString(7, "NO");
 				pstmt2.executeUpdate();
 
 				returns = "ok";
@@ -62,13 +67,13 @@ public class UserDAO {
 		try {
 			//Class.forName("com.mysql.jdbc.Driver");
 			//conn = DriverManager.getConnection(jdbcUrl, dbId, dbPw);
-			sql = "select id,pw from oc22table where id=? and pw=?";
+			sql = "select userID, userPassword from user where userID=? and userPassword=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("id").equals(id) && rs.getString("pw").equals(pwd)) {
+				if (rs.getString("userID").equals(id) && rs.getString("userPassword").equals(pwd)) {
 					returns2 = "true";// 로그인 가능
 				} else {
 					returns2 = "false"; // 로그인 실패
