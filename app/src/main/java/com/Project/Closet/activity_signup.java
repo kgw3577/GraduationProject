@@ -36,7 +36,7 @@ public class activity_signup extends AppCompatActivity {
         userPwd = (EditText) findViewById(R.id.et_Password);
         joinBtn = (Button) findViewById(R.id.bt_join);
     }
-
+    // 병합 테스트
     class SignupTask extends AsyncTask<String, Void, String> {
         String sendMsg, receiveMsg;
 
