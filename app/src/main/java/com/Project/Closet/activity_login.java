@@ -103,7 +103,7 @@ public class activity_login extends AppCompatActivity {
                         String result  = new LoginTask().execute(loginid,loginpwd,"login").get();
                         if(result.equals("true")) {
                             Toast.makeText(activity_login.this,"로그인",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(activity_login.this, activity_login.class);
+                            Intent intent = new Intent(activity_login.this, activity_home.class);
                             startActivity(intent);
                             finish();
                         } else if(result.equals("false")) {
