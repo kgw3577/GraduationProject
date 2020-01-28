@@ -1,11 +1,12 @@
 package user;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import util.DatabaseUtil;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class UserDAO {
 	private Connection conn = null;
@@ -89,5 +90,45 @@ public class UserDAO {
 			if (conn != null)try {conn.close();} catch (SQLException ex) {}
 		}
 		return returns2;
+	}
+	
+	public String joindbs(String id, String pwd) {
+		try {
+			//Class.forName("com.mysql.jdbc.Driver");
+			//conn = DriverManager.getConnection(jdbcUrl, dbId, dbPw);
+			sql = "select userID from USER where userID=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getString("userID").equals(id)) { // 이미 아이디가 있는 경우
+					returns = "id";
+				} 
+			} else { // 입력한 아이디가 없는 경우
+				sql2 = "insert into USER values(?, ?, ?, ?, ?, ?, ?);";
+				pstmt2 = conn.prepareStatement(sql2);
+				pstmt2.setString(1, id);
+				pstmt2.setString(2, "test");
+				pstmt2.setString(3, "test@test.com");
+				pstmt2.setString(4, pwd);
+				pstmt2.setString(5, "남자");
+				pstmt2.setString(6, "25");
+				pstmt2.setString(7, "NO");
+				pstmt2.executeUpdate();
+
+				returns = "ok";
+				
+				JSONObject obj = new JSONObject();
+				obj.put("userID", id);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {if (pstmt != null)try {pstmt.close();} catch (SQLException ex) {}
+			if (conn != null)try {conn.close();} catch (SQLException ex) {}
+			if (pstmt2 != null)try {pstmt2.close();} catch (SQLException ex) {}
+			if (rs != null)try {rs.close();} catch (SQLException ex) {}
+		}
+		return returns;
 	}
 }
