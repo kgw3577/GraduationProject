@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="user.UserDAO" %>
+<%@ page import="util.Check" %>
 
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -11,11 +12,17 @@
 	
 	//인스턴스 생성
 	UserDAO User = new UserDAO(); 
+	Check check = new Check();
+
 	
 	//로그인
 	if(type.equals("login")) {
+		if(!check.isEmail(id)) {
+			out.print("email");
+		} else {
 		String returns = User.logindb(id, pwd);
 		out.print(returns);
+		}
 	} 
 
 %>

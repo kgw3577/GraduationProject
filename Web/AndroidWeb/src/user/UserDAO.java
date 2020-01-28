@@ -80,7 +80,7 @@ public class UserDAO {
 					returns2 = "false"; // 로그인 실패
 				}
 			} else {
-				returns2 = "noId"; // 아이디 또는 비밀번호 존재 X
+				returns2 = "false"; // 아이디 또는 비밀번호 존재 X
 			}
 
 		} catch (Exception e) {

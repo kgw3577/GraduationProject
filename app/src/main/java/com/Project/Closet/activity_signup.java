@@ -45,7 +45,8 @@ public class activity_signup extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://13.125.248.126:8080/Android/Join.jsp");
+               // URL url = new URL("http://13.125.248.126:8080/Android/Join.jsp");
+                URL url = new URL("http://192.168.0.208:8080/Android/Join.jsp");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -95,7 +96,11 @@ public class activity_signup extends AppCompatActivity {
                             Toast.makeText(activity_signup.this,"이미 존재하는 아이디입니다.",Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
-                        } else if(result.equals("ok")) {
+                        } else if(result.equals("email")) {
+                            Toast.makeText(activity_signup.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                            userId.setText("");
+                            userPwd.setText("");
+                        }else if(result.equals("ok")) {
                             userId.setText("");
                             userPwd.setText("");
                             Toast.makeText(activity_signup.this,"회원가입을 축하합니다.",Toast.LENGTH_SHORT).show();

@@ -54,7 +54,8 @@ public class activity_login extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                URL url = new URL("http://13.125.248.126:8080/Android/Login.jsp");
+                //URL url = new URL("http://13.125.248.126:8080/Android/Login.jsp");                // AWS 서버
+                URL url = new URL("http://192.168.0.208:8080/Android/Login.jsp");    // 로컬 작업용
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
@@ -107,11 +108,16 @@ public class activity_login extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if(result.equals("false")) {
-                            Toast.makeText(activity_login.this,"아이디 또는 비밀번호가 틀렸음",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_login.this,"아이디 또는 비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
-                        } else if(result.equals("noId")) {
+                        } /* else if(result.equals("noId")) {
                             Toast.makeText(activity_login.this, "존재하지 않는 아이디", Toast.LENGTH_SHORT).show();
+                            userId.setText("");
+                            userPwd.setText("");
+                        } */
+                        else if(result.equals("email")) {
+                            Toast.makeText(activity_login.this,"잘못된 이메일 형식입니다.",Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
                         } else {
