@@ -16,7 +16,7 @@
 	Check check = new Check();
 
 	//회원가입
-	if(type.equals("join")) {
+	if("join".equals(type)) {
 		if(!check.isEmail(id)) {
 			out.print("email");
 		} else {
@@ -27,11 +27,11 @@
 	
 	
 	//아이디 찾기
-	else if(type.equals("forget-id")) {
+	else if("forget-id".equals(type)) {
 
 	} 
 	//비밀번호 찾기
-	else if(type.equals("forget-pass")) {
+	else if("forget-pass".equals(type)) {
 
 	}
 	

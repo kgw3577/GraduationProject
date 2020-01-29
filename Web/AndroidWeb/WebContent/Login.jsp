@@ -16,7 +16,7 @@
 
 	
 	//로그인
-	if(type.equals("login")) {
+	if("login".equals(type)) {
 		if(!check.isEmail(id)) {
 			out.print("email");
 		} else {

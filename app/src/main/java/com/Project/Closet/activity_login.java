@@ -55,7 +55,7 @@ public class activity_login extends AppCompatActivity {
             try {
                 String str;
                 //URL url = new URL("http://13.125.248.126:8080/Android/Login.jsp");                // AWS 서버
-                URL url = new URL("http://192.168.0.208:8080/Android/Login.jsp");    // 로컬 작업용
+                URL url = new URL("http://192.168.0.3:8080/Android/Login.jsp");    // 로컬 작업용 (192.168.0.208)
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
                 conn.setRequestMethod("POST");
