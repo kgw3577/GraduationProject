@@ -1,5 +1,6 @@
 package com.Project.Closet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.ssomai.android.scalablelayout.ScalableLayout;
 
 import java.util.ArrayList;
 
@@ -33,6 +35,14 @@ public class activity_home extends AppCompatActivity {
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view);
 
+        ScalableLayout AddClothes = (ScalableLayout) findViewById(R.id.icon_footer_Add);
+        AddClothes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_home.this, activity_addClothes.class);
+                startActivity(intent);
+            }
+        });
         navMenu = (ImageView)findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +74,7 @@ public class activity_home extends AppCompatActivity {
         });
         this.initializeData();
 
-        final ViewPager viewPager = findViewById(R.id.final_viewPager);
+        final ViewPager viewPager = findViewById(R.id.Banner_viewPager);
         viewPager.setClipToPadding(false);
 
         float density = getResources().getDisplayMetrics().density;
@@ -79,7 +89,7 @@ public class activity_home extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        finalPager = (ViewPager) findViewById(R.id.final_Pager);
+        finalPager = (ViewPager) findViewById(R.id.tab_Pager);
 
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         finalPager.setAdapter(pagerAdapter);

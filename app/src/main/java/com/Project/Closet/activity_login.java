@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.AsyncTask;
+
 import java.io.*;
 import java.net.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class activity_login extends AppCompatActivity {
@@ -28,11 +31,14 @@ public class activity_login extends AppCompatActivity {
 
     EditText userId, userPwd;
     Button loginBtn, joinBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        BtnOnClickListener onClickListener = new BtnOnClickListener() ;
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+        BtnOnClickListener onClickListener = new BtnOnClickListener();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.layout_login);
@@ -48,43 +54,40 @@ public class activity_login extends AppCompatActivity {
     }
 
 
-    class LoginTask extends AsyncTask<String, Void, String> {
-        String sendMsg, receiveMsg;
+    public class LoginTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String... strings) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... params) {
+            OkHttpClient client = new OkHttpClient();
+            String URL = "http://13.125.248.126:8080/Android/Login.jsp";                // AWS 서버
+            //URL url = new URL("http://192.168.0.3:8080/Android/Login.jsp");    // 로컬 작업용 (192.168.0.208)
+            RequestBody formBody = new FormBody.Builder()
+                    .add("Content-Type", "application/x-www-form-urlencoded")
+                    .add("id", params[0])
+                    .add("pwd", params[1])
+                    .add("type", params[2])
+                    .build();
+            Request request = new Request.Builder()
+                    .url(URL)
+                    .post(formBody)
+                    .build();
+
             try {
-                String str;
-                //URL url = new URL("http://13.125.248.126:8080/Android/Login.jsp");                // AWS 서버
-                URL url = new URL("http://192.168.0.3:8080/Android/Login.jsp");    // 로컬 작업용 (192.168.0.208)
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                conn.setRequestMethod("POST");
-                OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "id="+strings[0]+"&pwd="+strings[1]+"&type="+strings[2];
-                osw.write(sendMsg);
-                osw.flush();
-                if(conn.getResponseCode() == conn.HTTP_OK) {
-                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
-                    BufferedReader reader = new BufferedReader(tmp);
-                    StringBuffer buffer = new StringBuffer();
-                    while ((str = reader.readLine()) != null) {
-                        buffer.append(str);
-                    }
-                    receiveMsg = buffer.toString();
-
-                } else {
-                    Log.i("통신 결과", conn.getResponseCode()+"에러");
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                Response response = client.newCall(request).execute();
+                return response.body().string();
             } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-            return receiveMsg;
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
-
 
 
     class BtnOnClickListener implements Button.OnClickListener {
@@ -97,36 +100,33 @@ public class activity_login extends AppCompatActivity {
                     startActivity(intent);
                     break;
                  */
-                case R.id.bt_login : // 로그인 버튼 눌렀을 경우
+                case R.id.bt_login: // 로그인 버튼 눌렀을 경우
                     String loginid = userId.getText().toString();
                     String loginpwd = userPwd.getText().toString();
                     try {
-                        String result  = new LoginTask().execute(loginid,loginpwd,"login").get();
-                        if(result.equals("true")) {
-                            Toast.makeText(activity_login.this,"로그인",Toast.LENGTH_SHORT).show();
+                        String result = new LoginTask().execute(loginid, loginpwd, "login").get();
+                        if (result.indexOf("true")>-1) {
+                            Toast.makeText(activity_login.this, "로그인", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(activity_login.this, activity_home.class);
                             startActivity(intent);
-                            finish();
-                        } else if(result.equals("false")) {
-                            Toast.makeText(activity_login.this,"아이디 또는 비밀번호가 틀렸습니다.",Toast.LENGTH_SHORT).show();
+                            //finish();
+                        } else if (result.indexOf("false")>-1) {
+                            Toast.makeText(activity_login.this, "아이디 또는 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
                         } /* else if(result.equals("noId")) {
                             Toast.makeText(activity_login.this, "존재하지 않는 아이디", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
-                        } */
-                        else if(result.equals("email")) {
-                            Toast.makeText(activity_login.this,"잘못된 이메일 형식입니다.",Toast.LENGTH_SHORT).show();
+                        } */ else if (result.indexOf("email")>-1) {
+                            Toast.makeText(activity_login.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");
-                        } else {
-                            Toast.makeText(activity_login.this, result, Toast.LENGTH_SHORT).show();
-                            //Log.i("리턴 값", result);
                         }
-                    }catch (Exception e) {}
+                    } catch (Exception e) {
+                    }
                     break;
-                case R.id.bt_signup : // 회원가입
+                case R.id.bt_signup: // 회원가입
                     Intent intent = new Intent(getApplicationContext(), activity_signup.class);
                     startActivity(intent);
                     break;
