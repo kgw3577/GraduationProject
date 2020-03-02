@@ -62,8 +62,10 @@ public class activity_login extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
-            String URL = "http://13.125.248.126:8080/Android/Login.jsp";                // AWS 서버
+            //String URL = "http://13.125.248.126:8080/Android/Login.jsp";                // AWS 서버
             //URL url = new URL("http://192.168.0.3:8080/Android/Login.jsp");    // 로컬 작업용 (192.168.0.208)
+
+            String URL = "http://54.180.99.123:8080/Android/Login.jsp";
             RequestBody formBody = new FormBody.Builder()
                     .add("Content-Type", "application/x-www-form-urlencoded")
                     .add("id", params[0])

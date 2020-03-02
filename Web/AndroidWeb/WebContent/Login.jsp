@@ -1,28 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="user.UserDAO" %>
-<%@ page import="util.Check" %>
+
+<jsp:useBean  id="u"  class="user.UserVO"  scope="page"/>
+<jsp:setProperty name="u" property="*" />
 
 <%
 	request.setCharacterEncoding("UTF-8");
-	String id = request.getParameter("id");
-	String pwd = request.getParameter("pwd");
-	String type = request.getParameter("type");//로그인 요청인지 회원가입 요청인지를 구분하여 메서드를 실행하도록 합니다.
-                                                
+	String type = request.getParameter("type"); //로그인 요청인지 회원가입 요청인지 구분하는 파라미터
 	
 	//인스턴스 생성
-	UserDAO User = new UserDAO(); 
-	Check check = new Check();
+	UserDAO userDao = new UserDAO();
 
-	
 	//로그인
-	if("login".equals(type)) {
-		if(!check.isEmail(id)) {
-			out.print("email");
-		} else {
-		String returns = User.logindb(id, pwd);
-		out.print(returns);
-		}
-	} 
-
+	if(type != null && "login".equals(type))
+		out.print(userDao.login(u)); //login 실행 후 결과 전송
 %>
