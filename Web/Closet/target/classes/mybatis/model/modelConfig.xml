@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+		
+<configuration>
+	
+	<!-- 매퍼 파일에서 VO클래스를 별칭으로 사용할 수 있게 함  -->
+	<typeAliases>
+		<typeAlias type="com.my.closet.user.vo.UserVO"  alias="userVO" />
+	</typeAliases>
+	
+</configuration>

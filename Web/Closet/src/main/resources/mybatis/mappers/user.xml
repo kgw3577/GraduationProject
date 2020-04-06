@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.user">
+
+	<!--반환 레코드를 config에서 지정한 userVO 빈에 저장 -->
+	<resultMap id="userResult" type="userVO">
+		<result property="id" column="userID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="name" column="userName" />
+		<result property="mail" column="userMail" />
+		<result property="pwd" column="userPassword" />
+		<result property="gender" column="userGender" />
+		<result property="age" column="userAge" />
+		<result property="emailChecked" column="emailChecked" />
+	</resultMap>
+
+	<!--반환 레코드를 해쉬맵에 저장 -->
+	<resultMap id="userResult_h" type="java.util.HashMap">
+		<result property="id" column="userID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="name" column="userName" />
+		<result property="mail" column="userMail" />
+		<result property="pwd" column="userPassword" />
+		<result property="gender" column="userGender" />
+		<result property="age" column="userAge" />
+		<result property="emailChecked" column="emailChecked" />
+	</resultMap>
+
+
+	<!-- SQL문. 반환 레코드를 userResult에 저장 -->
+
+	<!-- 조건값에 따라 select하는 쿼리. userVO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchUser" resultMap="userResult" parameterType="userVO">
+	<![CDATA[
+		select * from USER
+	]]>
+		<where>
+			<if test="id != '' and id != null">
+				userID = #{id}
+			</if>
+			<if test="pwd != '' and pwd != null">
+				and userPassword = #{pwd}
+			</if>
+			<if test="name != '' and name != null">
+				and userName = #{name}
+			</if>
+			<if test="mail != '' and mail != null">
+				and userMail = #{mail}
+			</if>
+		</where>
+	</select>
+
+	<!-- 사용자 추가 쿼리 -->
+	<insert id="insertUser" parameterType="userVO">
+	<![CDATA[
+		insert into USER
+		values(#{id},#{name},#{mail},#{pwd},#{gender},#{age},#{emailChecked})
+	]]>
+	</insert>
+
+	<update id="updateUser" parameterType="userVO">
+	<![CDATA[
+		update USER
+		set userName=#{name}, userMail=#{mail}, userPassword=#{pwd},
+			userGender=#{gender}, userAge=#{age}, emailChecked=#{emailChecked}
+		where
+		userID = #{id}
+	]]>
+	</update>
+
+	<delete id="deleteUser" parameterType="String">
+	<![CDATA[
+		delete from USER
+		where
+		userID = #{id}
+	]]>
+	</delete>
+
+
+</mapper>
+

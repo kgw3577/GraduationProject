@@ -113,8 +113,8 @@ public class activity_addClothes extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             OkHttpClient client = new OkHttpClient();
-            String URL = "http://192.168.0.3:8080/Android/upload"; // 로컬 작업용
-            //String URL = "http://54.180.99.123:8080/Android/upload"; // AWS 서버
+            //String URL = "http://192.168.0.3:8080/Android/upload"; // 로컬 작업용
+            String URL = "http://54.180.99.123:8080/Android/upload"; // AWS 서버
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
