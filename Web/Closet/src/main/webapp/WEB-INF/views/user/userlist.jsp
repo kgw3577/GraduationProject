@@ -35,7 +35,7 @@
 			<td width="7%"><b>성별</b></td>
 			<td width="7%"><b>나이</b></td>
 			<td width="7%"><b>이메일</b></td>
-			<td width="7%"><b>삭제</b></td>
+			<td width="7%"><b>내 정보</b></td>
 		</tr>
 
 		<c:choose>
@@ -53,25 +53,12 @@
 						<td>${user.gender}</td>
 						<td>${user.age}</td>
 						<td>${user.mail}</td>
-						<td><a href="${contextPath}/user/delete.do?id=${user.id}">삭제하기</a></td>
+						<td><a href="${contextPath}/user/myInfo/${user.id}">내 정보 보기</a></td>
 					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
-	answer : ${answer}
-	<a href="${contextPath}/user/userForm.do">
-		<p class="cls2">회원가입하기</p>
-	</a>
-	<a href="${contextPath}/user/loginForm.do">
-		<p class="cls2">로그인하기</p>
-	</a>
-	<a href="${contextPath}/user/modifyForm.do">
-		<p class="cls2">회원정보 수정하기</p>
-	</a>
-	<a href="${contextPath}/user/myInfoForm.do">
-		<p class="cls2">내 정보 확인하기</p>
-	</a>
 </body>
 </html>
 

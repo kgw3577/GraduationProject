@@ -66,21 +66,8 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public String updateUser(UserVO userVO) throws DataAccessException {
+		int result = sqlSession.update("mapper.user.updateUser",userVO);
 		
-		// 해당 ID를 가진 사용자가 있는지 검색
-		String id = userVO.getId();
-		UserVO selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", new UserVO(id));
-
-		// 검색 결과가 있고 해당 ID가 존재하면 update 실행
-		int result=0;
-		if (selectedUser != null) {
-			if (selectedUser.getId().equals(id))
-				result = sqlSession.update("mapper.user.updateUser",userVO);
-		}
-		// 해당 사용자가 없으면 "not_user" 반환
-		else
-			return "not_user";
-
 		if (result==1)
 			return "ok"; //update 성공
 		else

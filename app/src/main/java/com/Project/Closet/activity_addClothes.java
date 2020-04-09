@@ -113,13 +113,13 @@ public class activity_addClothes extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             OkHttpClient client = new OkHttpClient();
-            //String URL = "http://192.168.0.3:8080/Android/upload"; // 로컬 작업용
-            String URL = "http://54.180.99.123:8080/Android/upload"; // AWS 서버
+            //String URL = "http://192.168.0.3:8080/closet/upload/windows"; // 로컬 작업용
+            String URL = "http://54.180.99.123:8080/Closet/upload/clothes"; // AWS 서버
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("title", "clothes")
-                    .addFormDataPart("photo","clothes_photo.jpg", RequestBody.create(MultipartBody.FORM, new File(path)))
+                    .addFormDataPart("photo","clothes_image.jpg", RequestBody.create(MultipartBody.FORM, new File(path)))
                     .addFormDataPart("color", "blue") //파라미터값 : 데이터베이스 변수명으로 바꿀 것
                     .addFormDataPart("category", "pants")
                     .build();

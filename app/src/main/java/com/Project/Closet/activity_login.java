@@ -17,7 +17,12 @@ import java.io.*;
 import java.net.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -62,25 +67,25 @@ public class activity_login extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
-            //String URL = "http://13.125.248.126:8080/Android/Login.jsp";                // AWS 서버
-            //URL url = new URL("http://192.168.0.3:8080/Android/Login.jsp");    // 로컬 작업용 (192.168.0.208)
 
-            String URL = "http://54.180.99.123:8080/Android/Login.jsp";
-            RequestBody formBody = new FormBody.Builder()
-                    .add("Content-Type", "application/x-www-form-urlencoded")
-                    .add("id", params[0])
-                    .add("pwd", params[1])
-                    .add("type", params[2])
-                    .build();
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .post(formBody)
-                    .build();
+            //String URL = "http://192.168.0.3:8080/closet/user/login";     // 로컬 작업용
+            String URL = "http://54.180.99.123:8080/Closet/user/login";     // AWS 서버
 
             try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", params[0]);
+                jsonObject.put("pwd", params[1]);
+                MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+                RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+                Request request = new Request.Builder()
+                        .addHeader("description", "")
+                        .url(URL)
+                        .post(body)
+                        .build();
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (IOException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
                 return null;
             }

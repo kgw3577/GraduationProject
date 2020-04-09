@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.my.closet.user.dao.UserDAO;
+import com.my.closet.user.vo.LoginVO;
 import com.my.closet.user.vo.UserVO;
 
 @Service("userService")
@@ -33,7 +34,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String login(String id, String pwd) throws DataAccessException {
+	public String login(LoginVO loginVO) throws DataAccessException {
+		String id = loginVO.getId();
+		String pwd = loginVO.getPwd();
 		return userDAO.verifyIdPwd(id, pwd);
 	}
 

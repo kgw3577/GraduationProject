@@ -11,9 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -45,16 +49,22 @@ public class activity_signup extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                //URL url = new URL("http://13.125.248.126:8080/Android/Join.jsp");
-                //http://192.168.0.3:8080
-                URL url = new URL("http://54.180.99.123:8080/Android/Join.jsp"); //.208
+                //URL url = new URL("http://192.168.0.3:8080/closet/user/join");
+                URL url = new URL("http://54.180.99.123:8080/Closet/user/join");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("POST");
-                OutputStreamWriter osw = new OutputStreamWriter(conn.getOutputStream());
-                sendMsg = "id=" + strings[0] + "&pwd=" + strings[1] + "&type=" + strings[2];
-                osw.write(sendMsg);
-                osw.flush();
+                OutputStream os = conn.getOutputStream();
+                // build jsonObject
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.accumulate("id", strings[0]);
+                jsonObject.accumulate("pwd", strings[1]);
+                // convert JSONObject to JSON to String
+                String json = jsonObject.toString();
+
+                //sendMsg = "id=" + strings[0] + "&pwd=" + strings[1] + "&type=" + strings[2];
+                os.write(json.getBytes("UTF-8"));
+                os.flush();
                 if (conn.getResponseCode() == conn.HTTP_OK) {
                     InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
                     BufferedReader reader = new BufferedReader(tmp);
@@ -71,6 +81,8 @@ public class activity_signup extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
             return receiveMsg;

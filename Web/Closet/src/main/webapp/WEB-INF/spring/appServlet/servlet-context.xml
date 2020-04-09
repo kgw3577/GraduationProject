@@ -23,6 +23,19 @@
 	
 	<context:component-scan base-package="com.my.closet" />
 	
+	<!-- 멀티파트 리졸버 빈-->
+    <beans:bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+       <beans:property name="maxUploadSize" value="52428800" />
+       <beans:property name="maxInMemorySize" value="1000000" />
+       <beans:property name="defaultEncoding" value="utf-8" />
+    </beans:bean>
+    
+    <!-- 이미지 파일 저장 경로 지정-->
+	<beans:bean id = "uploadPath" class="java.lang.String">
+	<beans:constructor-arg value="C:\repo\clothes_image">
+	</beans:constructor-arg>
+	</beans:bean>
+	
 	
 	
 </beans:beans>
