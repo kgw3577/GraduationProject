@@ -8,12 +8,12 @@ import com.my.closet.clothes.vo.ClothesVO;
 
 public interface ClothesDAO {
 
-	public List<ClothesVO> selectAllUsers() throws DataAccessException; //모든 옷 선택
-	public ClothesVO selectUser(String no) throws DataAccessException; //no로 옷 선택 
-	public String addClothes(ClothesVO clothesVO) throws DataAccessException; //옷 추가
-	//아이디 찾기
-	//비밀번호 찾기
-	public String updateClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
-	public String deleteClothes(String no) throws DataAccessException; //옷 삭제
+	public List<ClothesVO> selectAllClothes() throws DataAccessException; //모든 옷 선택
+	public ClothesVO selectThisClothes(String no) throws DataAccessException; //no로 옷 하나 선택 -- int? String?
+	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException; //조건으로 옷 선택
 	
+	public String addClothes(ClothesVO clothesVO) throws DataAccessException; //옷 추가
+	public String updateClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
+	public String deleteClothes(String no) throws DataAccessException; //옷 삭제 (1,2,3,4,5로 여러 개 가능) --주의
+
 }

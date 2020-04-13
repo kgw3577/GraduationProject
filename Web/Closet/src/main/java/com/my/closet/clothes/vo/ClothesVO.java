@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 @Component("clothesVO")
 public class ClothesVO {
-	private int no; // 키
+	private int no; // PRIMARY KEY. AUTO INCREMENT
 	private String name;
 	private String category;
 	private String brand;
@@ -17,13 +17,20 @@ public class ClothesVO {
 	private String originFileName;
 	private String filePath;
 	private String like;
-	private String userID; // not null
-	private String closetName; // not null
+	private String userID; // FOREIGN KEY(CLOSET). not null 
+	private String closetName; // FOREIGN KEY(CLOSET). not null 
 
+	
+	//생성자
 	public ClothesVO() {
 		System.out.println("ClothesVO 생성자 호출");
 	}
 
+	public ClothesVO(String userID, String closetName, String fileName) {
+		System.out.println("ClothesVO 생성자 호출");
+	}
+	
+	//getter & setter
 	public int getNo() {
 		return no;
 	}

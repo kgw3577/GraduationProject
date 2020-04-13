@@ -53,14 +53,14 @@ public class UserControllerImpl implements UserController {
 			return new ResponseEntity<UserVO>(userInfo, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<UserVO>(userInfo, HttpStatus.OK);
+		//자동으로 JSON으로 변환해서 보내줌.
 	}
 
 	//회원 가입
 	@Override
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public ResponseEntity<String> join(@RequestBody UserVO user) throws Exception {
-		// JSON으로 보내야 함
-		// @RequestBody : 전송된 파라미터를 userVO 해당 속성에 자동으로 설정
+		// @RequestBody : 전송된 파라미터를 userVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
 		String answer = null;
 		try {
 			answer = userService.join(user);

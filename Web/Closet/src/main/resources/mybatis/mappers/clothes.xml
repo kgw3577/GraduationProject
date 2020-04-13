@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.clothes">
+	
+	<!--반환 레코드를 config에서 지정한 clothesVO 빈에 저장 -->
+	<resultMap id="clothesResult" type="clothesVO">
+		<result property="no" column="cloNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="name" column="cloName" />
+		<result property="category" column="cloCategory" />
+		<result property="brand" column="cloBrand" />
+		<result property="color" column="cloColor" />
+		<result property="date" column="cloDate" />
+		<result property="season" column="cloSeason" />
+		<result property="size" column="cloSize" />
+		<result property="img" column="cloImg" />
+		<result property="fileName" column="fileName" />
+		<result property="originFileName" column="originfileName" />
+		<result property="filePath" column="filePath" />
+		<result property="like" column="cloLike" />
+		<result property="userID" column="userID" />
+		<result property="closetName" column="closetName" />
+	</resultMap>
+
+	
+	<!-- SQL문. 반환 레코드를 clothesResult에 저장 -->
+
+	<!-- 조건값에 따라 select하는 쿼리. clothesVO의 속성에 따라 where 절을 추가함. -->
+	<!-- 더 추가해야 됨-->	
+	<select id="searchClothes" resultMap="clothesResult" parameterType="clothesVO">
+	<![CDATA[
+		select * from CLOTHES
+	]]>
+		<where>
+			<if test="no != '' and no != null">
+				cloNo = #{no}
+			</if>
+			<if test="name != '' and name != null">
+				and cloName = #{name}
+			</if>
+			<if test="category != '' and category != null">
+				and cloCategory = #{category}
+			</if>
+			<if test="brand != '' and brand != null">
+				and cloBrand = #{brand}
+			</if>
+			<if test="color != '' and color != null">
+				cloColor = #{color}
+			</if>
+			<if test="date != '' and date != null">
+				and cloDate = #{date}
+			</if>
+			<if test="season != '' and season != null">
+				and cloSeason = #{season}
+			</if>
+			<if test="size != '' and size != null">
+				and cloSize = #{size}
+			</if>
+		</where>
+	</select>
+
+	<!-- 옷 추가 쿼리 -->
+	<insert id="insertClothes" parameterType="clothesVO">
+	<![CDATA[
+		insert into CLOTHES
+		values(#{no},#{name},#{category},#{brand},#{color},#{date},#{season},#{size},#{img},#{fileName},#{originFileName},#{filePath},#{like},#{userID},#{closetName})
+	]]>
+	</insert>
+
+	<update id="updateClothes" parameterType="clothesVO">
+	<![CDATA[
+		update CLOTHES
+		set cloNo=#{no}, cloName=#{name}, cloCategory=#{category},
+			cloBrand=#{brand}, cloColor=#{color}, cloDate=#{date},
+			cloSeason=#{season}, cloSize=#{size}, cloImg=#{img},
+			fileName=#{fileName}, originfileName=#{originFileName}, filePath=#{filePath},
+			cloLike=#{like}, userID=#{userID}, closetName=#{closetName}
+		where
+		cloNo = #{no}
+	]]>
+	</update>
+
+	<!-- 여러 행 삭제할 수 있게 변경해야 함.-->
+	<delete id="deleteClothes" parameterType="clothesVO">
+	<![CDATA[
+		delete from CLOTHES
+		where
+		cloNo = #{no}
+	]]>
+	</delete>
+
+
+</mapper>
+

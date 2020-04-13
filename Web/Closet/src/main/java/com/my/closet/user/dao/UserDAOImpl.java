@@ -44,8 +44,6 @@ public class UserDAOImpl implements UserDAO {
 			int result = sqlSession.insert("mapper.user.insertUser", userVO);
 			if (result == 1)
 				return "ok";
-			// JSONObject obj = new JSONObject();
-			// obj.put("userID", id);
 		}
 		return "fail";
 	}

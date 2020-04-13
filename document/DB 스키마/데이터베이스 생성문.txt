@@ -1,8 +1,8 @@
 ﻿-- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
 
 
-CREATE DATABASE ANDROID;
-USE ANDROID;
+CREATE DATABASE CLOSET;
+USE CLOSET;
 
 -- USER Table Create SQL
 CREATE TABLE USER
@@ -62,9 +62,8 @@ CREATE TABLE CLOTHES
 ALTER TABLE CLOTHES COMMENT '옷';
 
 ALTER TABLE CLOTHES
-    ADD CONSTRAINT FK_CLOTHES_closetName_CLOSET_closetName FOREIGN KEY (closetName, userID)
-        REFERENCES CLOSET (closetName, userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
--- Cannot add foreign key constraint 에러뜸
+    ADD CONSTRAINT FK_CLOTHES_closetName_CLOSET_closetName FOREIGN KEY (userID, closetName)
+        REFERENCES CLOSET (userID, closetName) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 

@@ -66,6 +66,29 @@ public class FileUploadController {
 			mav.setViewName("result2");
 		return mav;
 	}
+	
+	public Map<String, Object> upload(String obj, MultipartHttpServletRequest multipartRequest) throws Exception {
+
+		if (obj.equals("clothes"))
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
+		else if (obj.equals("codi"))
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
+		else CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+
+		multipartRequest.setCharacterEncoding("utf-8");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Enumeration<?> enu = multipartRequest.getParameterNames();
+		while (enu.hasMoreElements()) {
+			String name = (String) enu.nextElement();
+			String value = multipartRequest.getParameter(name);
+			System.out.println(name + ", " + value);
+			map.put(name, value);
+		}
+
+		List<?> fileList = fileProcess(multipartRequest); //String
+		map.put("fileList", fileList);
+		return map;
+	}
 
 	private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) throws Exception {
 		List<String> fileList = new ArrayList<String>();
