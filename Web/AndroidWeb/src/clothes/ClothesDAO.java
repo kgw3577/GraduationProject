@@ -22,7 +22,7 @@ public class ClothesDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	//테스트
 	private PreparedStatement pstmt = null;
 	private PreparedStatement pstmt2 = null;
 	private ResultSet rs = null;
