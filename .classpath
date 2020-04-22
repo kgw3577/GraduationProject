@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="app/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="app/src/androidTest/java"/>
+	<classpathentry kind="src" path="app/src/main/java"/>
+	<classpathentry kind="src" path="app/src/test/java"/>
+	<classpathentry kind="src" path="Web/AndroidWeb/src"/>
+	<classpathentry kind="lib" path="app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/merged_java_res/debug/out.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/project_dex_archive/debug/out/0a3c5d9e991821085aa013947259802c6d01555c1ec4805c71a5eaec75cacb02_0.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/project_dex_archive/debug/out/0a3c5d9e991821085aa013947259802c6d01555c1ec4805c71a5eaec75cacb02_1.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/project_dex_archive/debug/out/0a3c5d9e991821085aa013947259802c6d01555c1ec4805c71a5eaec75cacb02_2.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/project_dex_archive/debug/out/0a3c5d9e991821085aa013947259802c6d01555c1ec4805c71a5eaec75cacb02_3.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="Web/AndroidWeb/WebContent/WEB-INF/lib/commons-fileupload-1.3.3.jar"/>
+	<classpathentry kind="lib" path="Web/AndroidWeb/WebContent/WEB-INF/lib/commons-io-2.6.jar"/>
+	<classpathentry kind="lib" path="Web/AndroidWeb/WebContent/WEB-INF/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="Web/AndroidWeb/WebContent/WEB-INF/lib/jstl.jar"/>
+	<classpathentry kind="lib" path="Web/AndroidWeb/WebContent/WEB-INF/lib/standard.jar"/>
+	<classpathentry kind="output" path="Web/AndroidWeb/build/classes"/>
+</classpath>
