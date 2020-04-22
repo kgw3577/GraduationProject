@@ -15,4 +15,5 @@
 	//로그인
 	if(type != null && "login".equals(type))
 		out.print(userDao.login(u)); //login 실행 후 결과 전송
+		
 %>
