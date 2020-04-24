@@ -13,9 +13,11 @@ public interface ClothesService {
 	public ClothesVO infoClothes(String no) throws DataAccessException; //특정 옷의 옷 정보 조회 -- int? String?
 	public List<ClothesVO> searchClothes(ClothesVO clothesVO) throws DataAccessException; //특정 조건의 옷 정보 리스트 조회
 	
+	public String winAddClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException;
 	public String addClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException; //옷 추가
 	//upload controller 포함시켜서? upload()실행하고, hashmap 파일 받아서 그걸로 dao 하기.
 	public String modifyClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
+	//사진을 변경할 경우의 수를 생각해야 함.
 	public String deleteClothes(String no) throws DataAccessException; //옷 삭제 (1,2,3,4,5로 여러 개 가능) --주의
 	
 	public String deleteImage(String ImgFileName); //옷 사진 삭제 로직

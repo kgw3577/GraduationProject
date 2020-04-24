@@ -28,7 +28,8 @@ public class FileDownloadController {
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+		else if(obj.equals("windows"))
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
 		OutputStream out = response.getOutputStream();
 		String downFile = CURR_IMAGE_REPO_PATH + imageFileName; // "\\" +

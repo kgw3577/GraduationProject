@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 출력창</title>
+<title>옷 정보 출력창</title>
 <style>
 .cls1 {
 	font-size: 40px;
@@ -26,34 +26,52 @@
 </style>
 </head>
 <body>
-	<p class="cls1">회원정보</p>
+	<p class="cls1">옷 정보</p>
 	<table align="center" border="1">
 		<tr align='center' bgcolor='lightgreen'>
-			<td width="7%"><b>아이디</b></td>
-			<td width="7%"><b>비밀번호</b></td>
+			<td width="7%"><b>번호</b></td>
 			<td width="7%"><b>이름</b></td>
-			<td width="7%"><b>성별</b></td>
-			<td width="7%"><b>나이</b></td>
-			<td width="7%"><b>이메일</b></td>
-			<td width="7%"><b>내 정보</b></td>
+			<td width="7%"><b>카테고리</b></td>
+			<td width="7%"><b>브랜드</b></td>
+			<td width="7%"><b>색상</b></td>
+			<td width="7%"><b>날짜</b></td>
+			<td width="7%"><b>계절</b></td>
+			<td width="7%"><b>사이즈</b></td>
+			<td width="7%"><b>이미지</b></td>
+			<td width="7%"><b>파일이름</b></td>
+			<td width="7%"><b>원본파일이름</b></td>
+			<td width="7%"><b>파일경로</b></td>
+			<td width="7%"><b>즐겨찾기</b></td>
+			<td width="7%"><b>소유자</b></td>
+			<td width="7%"><b>옷장이름</b></td>
 		</tr>
 
 		<c:choose>
-			<c:when test="${userList==null}">
+			<c:when test="${clothesList==null}">
 				<tr>
-					<td colspan=7><b>등록된 회원이 없습니다.</b></td>
+					<td colspan=7><b>등록된 옷이 없습니다.</b></td>
 				</tr>
 			</c:when>
-			<c:when test="${userList!=null}">
-				<c:forEach var="user" items="${userList}"> <!-- 컨트롤러에서 바인딩한 usersList에 바로 접근 -->
+			<c:when test="${clothesList!=null}">
+				<c:forEach var="clo" items="${clothesList}"> <!-- 컨트롤러에서 바인딩한 clothesList에 바로 접근 -->
 					<tr align='center'>
-						<td>${user.id}</td>
-						<td>${user.pwd}</td>
-						<td>${user.name}</td>
-						<td>${user.gender}</td>
-						<td>${user.age}</td>
-						<td>${user.mail}</td>
-						<td><a href="${contextPath}/user/myInfo/${user.id}">내 정보 보기</a></td>
+						<td>${clo.no}</td>
+						<td>${clo.name}</td>
+						<td>${clo.category}</td>
+						<td>${clo.brand}</td>
+						<td>${clo.color}</td>
+						<td>${clo.date}</td>
+						<td>${clo.season}</td>
+						<td>${clo.size}</td>
+						<td><img src="${contextPath}${clo.filePath}" style="width:150px"></td>
+						<td>${clo.fileName}</td>
+						<td>${clo.originFileName}</td>
+						<td>${clo.filePath}</td>
+						<td>${clo.like}</td>
+						<td>${clo.userID}</td>
+						<td>${clo.closetName}</td>
+
+						<td><a href="${contextPath}/clothes/myClothes/${clo.no}">내 옷 정보 보기</a></td>
 					</tr>
 				</c:forEach>
 			</c:when>

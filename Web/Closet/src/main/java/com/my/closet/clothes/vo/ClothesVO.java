@@ -28,6 +28,9 @@ public class ClothesVO {
 
 	public ClothesVO(String userID, String closetName, String fileName) {
 		System.out.println("ClothesVO 생성자 호출");
+		this.userID = userID;
+		this.closetName = closetName;
+		this.fileName = fileName;
 	}
 	
 	//getter & setter

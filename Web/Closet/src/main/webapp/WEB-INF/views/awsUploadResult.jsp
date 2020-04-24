@@ -17,11 +17,11 @@
 	<div class="result-images">
 	  <c:forEach var="imageFileName" items="${ map.fileList}"  >
 	         <%-- <img src="${pageContext.request.contextPath }/download?imageFileName=${imageFileName }" style="width:150px"> --%>
-	         <img src="${pageContext.request.contextPath }/download/windows?imageFileName=${imageFileName }" style="width:900px">
+	         <img src="${pageContext.request.contextPath }/download/clothes?imageFileName=${imageFileName }" style="width:900px">
 	         <br><br><br>
 	  </c:forEach>         
 	</div><p> 
 	
-	<a href='${pageContext.request.contextPath }/upload/form'> 다시 업로드 하기 </a> </p>
+	<a href='${pageContext.request.contextPath }/upload/awsform'> 다시 업로드 하기 </a> </p>
 </body>
 </html>

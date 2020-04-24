@@ -1,6 +1,7 @@
 package com.my.closet.clothes.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,9 @@ public class ClothesDAOImpl implements ClothesDAO {
 	}
 
 	@Override
-	public String addClothes(ClothesVO clothesVO) throws DataAccessException {
+	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException {
 
-		int result = sqlSession.insert("mapper.clothes.insertClothes", clothesVO);
+		int result = sqlSession.insert("mapper.clothes.insertClothes", clothesMap);
 		
 		if (result == 1)
 			return "ok"; //insert 성공

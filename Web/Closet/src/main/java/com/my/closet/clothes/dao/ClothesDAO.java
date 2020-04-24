@@ -1,6 +1,7 @@
 package com.my.closet.clothes.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
@@ -12,7 +13,7 @@ public interface ClothesDAO {
 	public ClothesVO selectThisClothes(String no) throws DataAccessException; //no로 옷 하나 선택 -- int? String?
 	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException; //조건으로 옷 선택
 	
-	public String addClothes(ClothesVO clothesVO) throws DataAccessException; //옷 추가
+	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException; //옷 추가 (예외적으로 해쉬맵으로 받음)
 	public String updateClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
 	public String deleteClothes(String no) throws DataAccessException; //옷 삭제 (1,2,3,4,5로 여러 개 가능) --주의
 

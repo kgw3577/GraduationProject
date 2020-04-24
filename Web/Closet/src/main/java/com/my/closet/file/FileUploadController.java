@@ -20,21 +20,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class FileUploadController {
-
+	// 같은 이름인 파일이 있으면 그 위에 새로 덮어씌워지는 것 주의. 해결방법 찾아야 함.
+	// 이름 무작위 생성하기?
+	
 	private static String CURR_IMAGE_REPO_PATH;
 
 	// server.xml : <Context docBase="/home/ubuntu/repo/clothes_image/"
 	// path="/Closet/repo/clothes_image/" reloadable="true"/>
 
 	// 업로드 양식 보기 (웹)(윈도우/옷)
-	@RequestMapping(value = "/upload/form")
-	public String form() {
-		return "uploadForm";
+	@RequestMapping(value = "/upload/winform")
+	public String winform() {
+		return "windowsUploadForm";
 	}
 	// 업로드 양식 보기 (웹)(리눅스/옷)
-	@RequestMapping(value = "/upload/form2")
-	public String form2() {
-		return "uploadForm2";
+	@RequestMapping(value = "/upload/awsform")
+	public String awsform() {
+		return "awsUploadForm";
 	}
 
 	@RequestMapping(value = "/upload/{object}", method = RequestMethod.POST)
@@ -45,7 +47,8 @@ public class FileUploadController {
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+		else if(obj.equals("windows"))
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
 		multipartRequest.setCharacterEncoding("utf-8");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -61,19 +64,21 @@ public class FileUploadController {
 		map.put("fileList", fileList);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("map", map);
-		mav.setViewName("result");
+		mav.setViewName("windowsUploadResult");
 		if(obj.equals("clothes"))
-			mav.setViewName("result2");
+			mav.setViewName("awsUploadResult");
 		return mav;
 	}
 	
 	public Map<String, Object> upload(String obj, MultipartHttpServletRequest multipartRequest) throws Exception {
 
+		//service 클래스 내부에서 쓸 함수.
 		if (obj.equals("clothes"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+		else if(obj.equals("windows"))
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
 		multipartRequest.setCharacterEncoding("utf-8");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -86,8 +91,14 @@ public class FileUploadController {
 		}
 
 		List<?> fileList = fileProcess(multipartRequest); //String
-		map.put("fileList", fileList);
-		return map;
+		String fileName = (String) fileList.get(0);
+		String filePath = "/download/clothes?imageFileName="+fileName;
+		if(obj.equals("windows"))
+			filePath = "/download/windows?imageFileName="+fileName;
+		
+		map.put("filePath", filePath);
+		map.put("fileName", fileName);
+		return map;  //옷 정보가 담긴 해쉬맵을 반환함
 	}
 
 	private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) throws Exception {
