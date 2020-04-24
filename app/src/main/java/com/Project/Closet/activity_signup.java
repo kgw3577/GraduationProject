@@ -121,7 +121,7 @@ public class activity_signup extends AppCompatActivity {
                     }catch (Exception e) {}
                     break;
 
-                // 뒤로 돌아가는 버튼 추가하기
+                // 뒤로 돌아가는 버튼 추가하기S
             }
         }
     }
