@@ -87,15 +87,6 @@
 		values(#{no},#{name},#{category},#{brand},#{color},#{date},#{season},#{size},#{img},#{fileName},#{originFileName},#{filePath},#{like},#{userID},#{closetName})
 	]]>
 	</insert>
-	
-	<!-- 옷 심플 추가 쿼리 -->
-	<insert id="siminsertClothes" parameterType="java.util.HashMap">
-	<![CDATA[
-		insert into CLOTHES
-		(fileName,userID,closetName)
-		values(#{fileName},#{userID},#{closetName})
-	]]>
-	</insert>
 
 	<update id="updateClothes" parameterType="clothesVO">
 	<![CDATA[

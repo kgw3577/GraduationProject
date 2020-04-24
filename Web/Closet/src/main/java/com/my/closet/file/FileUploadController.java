@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class FileUploadController {
 	// 같은 이름인 파일이 있으면 그 위에 새로 덮어씌워지는 것 주의. 해결방법 찾아야 함.
-	// 이름 무작위 생성하기?
+	// 이름 무작위 생성하기? : 파일 이름 안 겹치게 무작위 생성하고, 겹치는지 데베 확인까지 하는 모듈 만들기 --파일 이름도 primary key로?
 	
 	private static String CURR_IMAGE_REPO_PATH;
 
