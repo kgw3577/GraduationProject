@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +19,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.user.vo.LoginVO;
+
 @Controller
 public class FileUploadController {
 	// 같은 이름인 파일이 있으면 그 위에 새로 덮어씌워지는 것 주의. 해결방법 찾아야 함.
 	// 이름 무작위 생성하기? : 파일 이름 안 겹치게 무작위 생성하고, 겹치는지 데베 확인까지 하는 모듈 만들기 --파일 이름도 primary key로?
+	// -- 사용자 별로 폴더 만들기
 	
 	private static String CURR_IMAGE_REPO_PATH;
 
@@ -61,6 +65,17 @@ public class FileUploadController {
 		}
 
 		List<?> fileList = fileProcess(multipartRequest);
+		
+		HttpSession httpSession = multipartRequest.getSession(false);
+		if(httpSession ==null) {
+			System.out.println("세션 정보 없음");
+			return null;
+		}
+			
+		LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
+		System.out.println("userID : "+loginVO.getId());
+		
+		map.put("userID",loginVO.getId());
 		map.put("fileList", fileList);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("map", map);
@@ -82,6 +97,7 @@ public class FileUploadController {
 
 		multipartRequest.setCharacterEncoding("utf-8");
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		Enumeration<?> enu = multipartRequest.getParameterNames();
 		while (enu.hasMoreElements()) {
 			String name = (String) enu.nextElement();
@@ -91,13 +107,28 @@ public class FileUploadController {
 		}
 
 		List<?> fileList = fileProcess(multipartRequest); //String
+		
+		HttpSession httpSession = multipartRequest.getSession(false);
+		if(httpSession ==null) {
+			System.out.println("세션 정보 없음");
+			return null;
+		}
+		else {
+			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
+			System.out.println("userID : "+loginVO.getId());
+			map.put("userID",loginVO.getId());
+		}
+		
+		//사용자명 폴더
 		String fileName = (String) fileList.get(0);
 		String filePath = "/download/clothes?imageFileName="+fileName;
 		if(obj.equals("windows"))
 			filePath = "/download/windows?imageFileName="+fileName;
-		
-		map.put("filePath", filePath);
+
 		map.put("fileName", fileName);
+		map.put("filePath", filePath);
+		map.put("like", "no");
+		
 		return map;  //옷 정보가 담긴 해쉬맵을 반환함
 	}
 
@@ -121,4 +152,22 @@ public class FileUploadController {
 		}
 		return fileList;
 	}
+	
+	private String fileProcess(MultipartFile mFile) throws Exception {
+		String originalFileName = mFile.getOriginalFilename();
+		String fileName = mFile.getName(); //수정
+	
+		File file = new File(CURR_IMAGE_REPO_PATH + fileName);
+		if (mFile.getSize() != 0) { // File Null Check
+			if (!file.exists()) { // 경로에 파일이 없으면
+				if (file.getParentFile().mkdirs()) { // 그 경로에 해당하는 디렉터리를 만든 후
+					file.createNewFile(); // 파일을 생성
+				}
+			}
+			mFile.transferTo(new File(CURR_IMAGE_REPO_PATH + originalFileName)); // 임시로 저장된 multipartFile을 실제 파일로 전송
+		}
+		return originalFileName;
+	}
+	
+	
 }

@@ -3,6 +3,7 @@ package com.my.closet.clothes.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -24,25 +25,37 @@ public class ClothesDAOImpl implements ClothesDAO {
 
 	@Override
 	public ClothesVO selectThisClothes(String no) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		ClothesVO cloVO = new ClothesVO();
+		cloVO.setNo(Integer.parseInt(no));
+		
+		ClothesVO clothes = sqlSession.selectOne("mapper.clothes.searchClothes",cloVO);
+		return clothes;
 	}
 
 	@Override
 	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+		List<ClothesVO> clolist = sqlSession.selectList("mapper.clothes.searchClothes", clothesVO);
+		return clolist;
 	}
 
 	@Override
 	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException {
 
+		System.out.println("쿼리 실행 전");
 		int result = sqlSession.insert("mapper.clothes.insertClothes", clothesMap);
 		
-		if (result == 1)
+		System.out.println("쿼리 실행");
+		
+		if (result == 1) {
+			System.out.println("쿼리 성공");
 			return "ok"; //insert 성공
-		else
+		}
+		else {
+			System.out.println("쿼리 실패");
 			return "fail"; //insert 실패
+		}
+			
 	}
 
 	@Override
@@ -53,19 +66,12 @@ public class ClothesDAOImpl implements ClothesDAO {
 
 	@Override
 	public String deleteClothes(String no) throws DataAccessException {
-		// TODO Auto-generated method stub
+		int result = sqlSession.delete("mapper.clothes.deleteClothes",no);
 		
-		
-		/*
-		 여러 행 삭제 :
-		 $param = "1,2,3,4,5";
-		 delete from table where id in ($param);
-		 
-		 쿼리문에서 in 으로 처리
-		 */
-		
-		
-		return null;
+		if (result==1)
+			return "ok";
+		else
+			return "fail";
 	}
 
 }

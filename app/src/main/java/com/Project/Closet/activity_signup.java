@@ -49,8 +49,10 @@ public class activity_signup extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             try {
                 String str;
-                //URL url = new URL("http://192.168.0.3:8080/closet/user/join");
-                URL url = new URL("http://54.180.99.123:8080/Closet/user/join");
+
+                String rootURL = Global.baseURL;
+                URL url = new URL(rootURL+"/user/join");
+
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setRequestMethod("POST");

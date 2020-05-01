@@ -2,7 +2,6 @@ package com.Project.Closet;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,19 +13,13 @@ import android.widget.Toast;
 import android.os.AsyncTask;
 
 import java.io.*;
-import java.net.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.Project.Closet.HTTP.Service.UserService;
+import com.Project.Closet.HTTP.VO.UserVO;
 
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import retrofit2.Call;
 
 public class activity_login extends AppCompatActivity {
 
@@ -66,11 +59,17 @@ public class activity_login extends AppCompatActivity {
         }
         @Override
         protected String doInBackground(String... params) {
-            OkHttpClient client = new OkHttpClient();
 
-            //String URL = "http://192.168.0.3:8080/closet/user/login";     // 로컬 작업용
-            String URL = "http://54.180.99.123:8080/Closet/user/login";     // AWS 서버
-
+            UserVO userVO = new UserVO(params[0], params[1]);//id, pwd
+            Call<String> stringCall = UserService.getRetrofit(getApplicationContext()).login(userVO);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        /*
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("id", params[0]);
@@ -84,12 +83,16 @@ public class activity_login extends AppCompatActivity {
                         .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
+
+
+
                 return response.body().string();
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
                 return null;
             }
         }
+        */
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -155,4 +158,5 @@ public class activity_login extends AppCompatActivity {
             }
         }
     }
+
 }

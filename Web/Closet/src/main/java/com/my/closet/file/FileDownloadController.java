@@ -33,8 +33,10 @@ public class FileDownloadController {
 
 		OutputStream out = response.getOutputStream();
 		String downFile = CURR_IMAGE_REPO_PATH + imageFileName; // "\\" +
-		File file = new File(downFile);
+		File file = new File(downFile); //파일 생성
 
+		
+		//파일 전송하기
 		response.setHeader("Cache-Control", "no-cache");
 		response.addHeader("Content-disposition", "attachment; fileName=" + imageFileName);
 		FileInputStream in = new FileInputStream(file);

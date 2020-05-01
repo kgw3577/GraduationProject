@@ -36,6 +36,7 @@
 			<td width="7%"><b>나이</b></td>
 			<td width="7%"><b>이메일</b></td>
 			<td width="7%"><b>내 정보</b></td>
+			<td width="7%"><b>삭제하기</b></td>
 		</tr>
 
 		<c:choose>
@@ -54,11 +55,18 @@
 						<td>${user.age}</td>
 						<td>${user.mail}</td>
 						<td><a href="${contextPath}/user/myInfo/${user.id}">내 정보 보기</a></td>
+						<td>
+						<form method="post" action="/user/delete/${user.id}">
+   						<input type="hidden" name="_method" value="delete"/>
+   						<input type="submit" value="삭제" >
+						</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</c:when>
 		</c:choose>
 	</table>
+	
 </body>
 </html>
 

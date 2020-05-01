@@ -44,6 +44,7 @@
 			<td width="7%"><b>즐겨찾기</b></td>
 			<td width="7%"><b>소유자</b></td>
 			<td width="7%"><b>옷장이름</b></td>
+			<td width="7%"><b>삭제하기</b></td>
 		</tr>
 
 		<c:choose>
@@ -62,7 +63,7 @@
 						<td>${clo.color}</td>
 						<td>${clo.date}</td>
 						<td>${clo.season}</td>
-						<td>${clo.size}</td>
+						<td>${clo.cloSize}</td>
 						<td><img src="${contextPath}${clo.filePath}" style="width:150px"></td>
 						<td>${clo.fileName}</td>
 						<td>${clo.originFileName}</td>
@@ -71,7 +72,13 @@
 						<td>${clo.userID}</td>
 						<td>${clo.closetName}</td>
 
-						<td><a href="${contextPath}/clothes/myClothes/${clo.no}">내 옷 정보 보기</a></td>
+						<td><a href="${contextPath}/clothes/info/${clo.no}">내 옷 정보 보기</a></td>
+						<td>
+						<form method="post" action="/clothes/delete/${clo.no}">
+   						<input type="hidden" name="_method" value="delete"/>
+   						<input type="submit" value="삭제" >
+						</form>
+						</td>
 					</tr>
 				</c:forEach>
 			</c:when>

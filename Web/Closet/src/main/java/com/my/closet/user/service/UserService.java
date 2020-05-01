@@ -17,5 +17,6 @@ public interface UserService {
 	//비밀번호 찾기
 	public String modifyUser(UserVO userVO) throws DataAccessException; //회원 정보 수정
 	public String deleteAccount(String id) throws DataAccessException; //회원탈퇴
+	//해당 옷장이랑 옷 데이터베이스, 사진 파일들 전부 같이 삭제해야 함.
 	
 }

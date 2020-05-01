@@ -27,7 +27,7 @@ CREATE TABLE CLOSET
     `closetName`      VARCHAR(45)    NOT NULL    COMMENT '옷장이름', 
     `closetLocation`  VARCHAR(45)    NULL        COMMENT '옷장위치', 
     `closetMemo`      VARCHAR(45)    NULL        COMMENT '옷장메모', 
-    `colsetOpen`      VARCHAR(45)    NULL        COMMENT '공개여부', 
+    `closetOpen`      VARCHAR(45)    NULL        COMMENT '공개여부', 
     PRIMARY KEY (userID, closetName)
 );
 

@@ -4,28 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Project.Closet.HTTP.Service.ClothesService;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -33,15 +26,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
-import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.MultipartBody.*;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.internal.concurrent.Task;
+import retrofit2.Call;
+
+//import okhttp3.internal.concurrent.Task;
+
 
 public class activity_addClothes extends AppCompatActivity {
 
@@ -113,15 +110,87 @@ public class activity_addClothes extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
             OkHttpClient client = new OkHttpClient();
-            //String URL = "http://192.168.0.3:8080/closet/upload/windows"; // 로컬 작업용
-            String URL = "http://54.180.99.123:8080/Closet/upload/clothes"; // AWS 서버
+
+            //String rootURL = Global.getInstance().rootURL;
+            //String URL = rootURL+"/clothes/add";
+
+            RequestBody requestBody;
+            MultipartBody.Part body;
+            File file = new File(path);
+            LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
+            List<Part> arrBody = new ArrayList<>();
+
+
+            requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
+            mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default")); //필수
+            mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "brown skirt"));
+            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), "skirt"));
+            mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"), "zara"));
+            mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"), "brown"));
+            mapRequestBody.put("date", RequestBody.create(MediaType.parse("text/plain"), "200430"));
+            mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"), "spring"));
+            mapRequestBody.put("cloSize", RequestBody.create(MediaType.parse("text/plain"), "s"));
+            //mapRequestBody.put("filename", RequestBody.create(MediaType.parse("text/plain"), "brown skirt.jpg"));
+
+            body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
+            arrBody.add(body);
+
+            /*
+            //ap<String, RequestBody> map = new HashMap<>();
+            File file = new File(path);
+            RequestBody requestFile =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            // MultipartBody.Part is used to send also the actual file name
+            MultipartBody.Part body =
+                    MultipartBody.Part.createFormData("brown skirts", file.getName(), requestFile);
+             */
+
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothes(mapRequestBody, arrBody);
+
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+
+/*
+            Map<String, RequestBody> map = new HashMap<>();
+            //map.put("userID", "candy");
+            //map.put("Name", Utils.toRequestBody("example"));
+            String types = path.substring((path.length() - 3));
+
+            File file = new File(path);
+            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            map.put("name = \'filename\'; filename=\'brown skirt.jpg\'", fileBody);
+
+            //map.put("newProfilePicture" + "\"; filename=\"" + "f.jpg", RequestBody.create(MediaType.parse("image/jpg"), file));
+
+
+            Call<String> stringCall = RestfulAdapter.getInstance().addClothes(map);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+*/
+/*
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("title", "clothes")
-                    .addFormDataPart("photo","clothes_image.jpg", RequestBody.create(MultipartBody.FORM, new File(path)))
-                    .addFormDataPart("color", "blue") //파라미터값 : 데이터베이스 변수명으로 바꿀 것
-                    .addFormDataPart("category", "pants")
+                    .addFormDataPart("userID", "candy") //필수
+                    .addFormDataPart("closetName", "default") //필수
+                    .addFormDataPart("name","brown skirt")
+                    .addFormDataPart("category", "skirt")
+                    .addFormDataPart("brand", "zara")
+                    .addFormDataPart("color", "brown")
+                    .addFormDataPart("date", "200430")
+                    .addFormDataPart("season", "spring")
+                    .addFormDataPart("cloSize", "s")
+                    .addFormDataPart("filename","brown skirt.jpg", RequestBody.create(MultipartBody.FORM, new File(path)))
                     .build();
 
             Request request = new Request.Builder()
@@ -136,6 +205,7 @@ public class activity_addClothes extends AppCompatActivity {
                 e.printStackTrace();
                 return null;
             }
+*/
         }
         @Override
         protected void onPostExecute(String s) {
@@ -201,4 +271,6 @@ public class activity_addClothes extends AppCompatActivity {
             }
         }
     }
+
+
 }

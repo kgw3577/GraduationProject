@@ -40,8 +40,12 @@
 		class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
+	
+	<bean id="txManager"  class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	       <property name="dataSource" ref="dataSource" />
+    </bean>
+     
+   <tx:annotation-driven transaction-manager="txManager" /> 
 
-	<!-- DAO 빈 생성 : sqlSession 빈 주입 <bean id="userDAO" class="user.dao.UserDAOImpl"> 
-		<property name="sqlSession" ref="sqlSession"></property> </bean> -->
 
 </beans>

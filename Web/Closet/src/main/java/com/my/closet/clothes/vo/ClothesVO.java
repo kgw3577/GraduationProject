@@ -11,7 +11,7 @@ public class ClothesVO {
 	private String color;
 	private String date;
 	private String season;
-	private String size;
+	private String cloSize;
 	private String img;
 	private String fileName;
 	private String originFileName;
@@ -19,13 +19,46 @@ public class ClothesVO {
 	private String like;
 	private String userID; // FOREIGN KEY(CLOSET). not null 
 	private String closetName; // FOREIGN KEY(CLOSET). not null 
+	
+	//임시
+	private int pageStart =-1;
+	private int pageSize =-1;
 
 	
+	public int getPageStart() {
+		return pageStart;
+	}
+
+	public void setPageStart(int pageStart) {
+		this.pageStart = pageStart;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+
+	
+
 	//생성자
 	public ClothesVO() {
 		System.out.println("ClothesVO 생성자 호출");
 	}
+	
+	public ClothesVO(int no) {
+		System.out.println("ClothesVO 생성자 호출");
+		this.no = no;
+	}
 
+	public ClothesVO(String userID) {
+		System.out.println("ClothesVO 생성자 호출");
+		this.userID = userID;
+	}
+	
 	public ClothesVO(String userID, String closetName, String fileName) {
 		System.out.println("ClothesVO 생성자 호출");
 		this.userID = userID;
@@ -90,12 +123,12 @@ public class ClothesVO {
 		this.season = season;
 	}
 
-	public String getSize() {
-		return size;
+	public String getCloSize() {
+		return cloSize;
 	}
 
-	public void setSize(String size) {
-		this.size = size;
+	public void setCloSize(String cloSize) {
+		this.cloSize = cloSize;
 	}
 
 	public String getImg() {

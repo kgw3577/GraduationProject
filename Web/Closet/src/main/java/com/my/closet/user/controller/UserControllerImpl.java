@@ -4,7 +4,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +26,13 @@ import com.my.closet.user.vo.UserVO;
 @RequestMapping("/user")
 public class UserControllerImpl implements UserController {
 
+	//Logger 클래스 객체 가져오기
+	private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+	
 	@Autowired
 	private UserService userService;
 	@Autowired
 	UserVO userVO;
-
-	//uri, 보낼 때 형식, 받을 때 형식, 넘겨줄 인자, 요청 메소드, 통신 형식 파일로 정리할 것
 	
 	//회원 리스트 보기(웹)
 	@Override
@@ -63,10 +67,12 @@ public class UserControllerImpl implements UserController {
 		String answer = null;
 		try {
 			answer = userService.join(user);
-			System.out.println("ID : " + user.getId());
-			System.out.println("Password : " + user.getPwd());
-			System.out.println("이름 : " + user.getName());
-			System.out.println("성별 : " + user.getGender());
+
+			logger.info("info 레벨 - ID : " + user.getId()); //로그 메시지 레벨을 info로 설정
+			logger.info("info 레벨 - Password : " + user.getPwd());
+			logger.info("info 레벨 - 이름 : " + user.getName());
+			logger.info("info 레벨 - 성별 : " + user.getGender());
+			
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}
@@ -76,16 +82,30 @@ public class UserControllerImpl implements UserController {
 	//로그인
 	@Override
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(@RequestBody LoginVO loginVO) throws Exception {
-
+	public ResponseEntity<String> login(@RequestBody LoginVO loginVO, HttpSession session) throws Exception {
+		
+		try {
+			LoginVO loVO = (LoginVO) session.getAttribute("login");
+			System.out.println("세션에 저장된 userID : "+loVO.getId());
+		}catch(Exception e) {
+			System.out.println("세션 정보 없음");
+		}
+		
+		logger.info("ID : " + loginVO.getId());
+		logger.info("Password : " + loginVO.getPwd());
 		String answer = null;
 		try {
 			answer = userService.login(loginVO);
-			System.out.println("ID : " + loginVO.getId());
-			System.out.println("Password : " + loginVO.getPwd());
 		} catch (Exception e) {
+			session.invalidate();
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}
+		
+		if (answer.equals("true")) //로그인 성공시
+			session.setAttribute("login", loginVO); //세션에 로그인 정보 (새로) 바인딩
+		else //실패시
+			session.invalidate(); //세션 날림
+		
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
