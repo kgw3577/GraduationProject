@@ -43,6 +43,14 @@ public class activity_home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
+        MyCloset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_home.this, activity_mycloset.class);
+                startActivity(intent);
+            }
+        });
         navMenu = (ImageView)findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
             @Override
