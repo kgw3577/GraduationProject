@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.VO.clothes_List;
+import com.Project.Closet.HTTP.VO.Clothes_List;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class TabFragment1 extends Fragment {
     RecyclerView list_clothes;
     item_Cloth_List ClothList;
 
-    clothes_List ClothesList;
+    Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
     ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_tab1);
     @RequiresApi(api = Build.VERSION_CODES.M)
