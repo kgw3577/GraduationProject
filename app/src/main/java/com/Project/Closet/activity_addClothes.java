@@ -146,7 +146,9 @@ public class activity_addClothes extends AppCompatActivity {
                     MultipartBody.Part.createFormData("brown skirts", file.getName(), requestFile);
              */
 
-            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothes(mapRequestBody, arrBody);
+
+            //딥러닝 서버로 전송. (addClothesDeep)
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothesDeep(mapRequestBody, arrBody);
 
             try {
                 return stringCall.execute().body();
