@@ -3,7 +3,6 @@ package com.Project.Closet.HTTP.Service;
 import android.content.Context;
 
 import com.Project.Closet.HTTP.APIAdapterDeep;
-import com.Project.Closet.HTTP.APIAdapterDeepCath;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 
 import java.util.LinkedHashMap;
@@ -19,7 +18,7 @@ import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
-public class ClothesServiceDeepCath extends APIAdapterDeepCath {
+public class ClothesServiceDeep extends APIAdapterDeep {
 //딥러닝 서버로 전송하는 어댑터
 
     /**
@@ -34,10 +33,10 @@ public class ClothesServiceDeepCath extends APIAdapterDeepCath {
     }
     public interface ClothesAPI{
 
-        //딥러닝 카테고리 분석
+        //딥러닝 서버 실험용 사진 전송
         @Multipart
         @POST("test")
-        Call<String> addClothesDeepCath(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
+        Call<String> addClothesDeep(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
         //response는 true/false
 
     }

@@ -20,7 +20,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public class ClothesService extends APIAdapterDeep {
+public class ClothesService extends APIAdapter {
 //딥러닝 서버로 전송하는 어댑터
 
     /**
@@ -47,17 +47,6 @@ public class ClothesService extends APIAdapterDeep {
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("clothes/all")
         Call<List<ClothesVO>> myAllClothes(@Query("page") String page, @Query("pageSize") String pageSize);
-
-
-
-        //딥러닝 서버 실험용 사진 전송
-        @Multipart
-        @POST("test")
-        Call<String> addClothesDeep(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
-        //response는 true/false
-
-
-
 
     }
 }

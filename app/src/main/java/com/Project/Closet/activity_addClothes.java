@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.ClothesServiceDeep;
 import com.Project.Closet.HTTP.Service.ClothesServiceDeepCath;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -149,13 +150,15 @@ public class activity_addClothes extends AppCompatActivity {
 
 
             //딥러닝 서버로 전송. (addClothesDeep)
-            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothesDeep(mapRequestBody, arrBody);
-            Call<String> stringCall2 = ClothesServiceDeepCath.getRetrofit(getApplicationContext()).addClothesDeepCath(mapRequestBody, arrBody);
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothes(mapRequestBody, arrBody);
+            Call<String> stringCallDeepParam = ClothesServiceDeep.getRetrofit(getApplicationContext()).addClothesDeep(mapRequestBody, arrBody);
+            Call<String> stringCallDeepCate = ClothesServiceDeepCath.getRetrofit(getApplicationContext()).addClothesDeepCath(mapRequestBody, arrBody);
 
 
             try {
-                stringCall.execute().body();
-                return stringCall2.execute().body();
+                stringCallDeepParam.execute(); //딥러닝 속성값 추출 서버에 이미지 보내기
+                stringCallDeepCate.execute(); //딥러닝 카테고리 추출 서버에 이미지 보내기
+                return stringCall.execute().body(); //웹서버에 이미지 보내고 응답 받기
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
