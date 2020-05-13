@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.ClothesServiceDeepCath;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -149,9 +150,12 @@ public class activity_addClothes extends AppCompatActivity {
 
             //딥러닝 서버로 전송. (addClothesDeep)
             Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothesDeep(mapRequestBody, arrBody);
+            Call<String> stringCall2 = ClothesServiceDeepCath.getRetrofit(getApplicationContext()).addClothesDeepCath(mapRequestBody, arrBody);
+
 
             try {
-                return stringCall.execute().body();
+                stringCall.execute().body();
+                return stringCall2.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
