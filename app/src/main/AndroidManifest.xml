@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity_mycloset"></activity>
+        <activity android:name=".Coordinator.Codi_main"></activity>
+        <activity android:name=".activity_mycloset" />
         <activity android:name=".activity_addClothes" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

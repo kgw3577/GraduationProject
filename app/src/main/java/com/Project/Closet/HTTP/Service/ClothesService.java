@@ -3,7 +3,6 @@ package com.Project.Closet.HTTP.Service;
 import android.content.Context;
 
 import com.Project.Closet.HTTP.APIAdapter;
-import com.Project.Closet.HTTP.APIAdapterDeep;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 
 import java.util.LinkedHashMap;
@@ -17,7 +16,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class ClothesService extends APIAdapter {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.Project.Closet.Coordinator.Codi_main;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -35,14 +36,7 @@ public class activity_home extends AppCompatActivity {
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view);
 
-        ScalableLayout AddClothes = (ScalableLayout) findViewById(R.id.icon_footer_Add);
-        AddClothes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_addClothes.class);
-                startActivity(intent);
-            }
-        });
+        //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
         MyCloset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,6 +45,28 @@ public class activity_home extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //코디 아이콘 클릭
+        ScalableLayout Codi = (ScalableLayout) findViewById(R.id.icon_footer_codi);
+        Codi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_home.this, Codi_main.class);
+                startActivity(intent);
+            }
+        });
+
+        //옷 추가 아이콘 클릭
+        ScalableLayout AddClothes = (ScalableLayout) findViewById(R.id.icon_footer_Add);
+        AddClothes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_home.this, activity_addClothes.class);
+                startActivity(intent);
+            }
+        });
+
+
         navMenu = (ImageView)findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
             @Override

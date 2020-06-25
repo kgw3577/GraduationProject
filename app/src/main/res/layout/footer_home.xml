@@ -29,17 +29,17 @@
                 android:id="@+id/icon_footer_Closet">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/icon_footer_map"
-                    app:scale_left="108"
-                    app:scale_top="55"
-                    app:scale_left_baseposition="center"
-                    app:scale_top_baseposition="center"
-                    app:scale_width="57"
-                    app:scale_height="56"
+                    android:layout_width="wrap_content"
+                    android:layout_height="5dp"
+                    android:background="#00000000"
                     android:src="@drawable/icon_footer_closet"
-                    android:background="#00000000"/>
+                    app:scale_height="56"
+                    app:scale_left="108"
+                    app:scale_left_baseposition="center"
+                    app:scale_top="55"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,7 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:scale_base_width="216"
-                app:scale_base_height="160">
+                app:scale_base_height="160"
+                android:id="@+id/icon_footer_codi">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -97,7 +98,7 @@
                     app:scale_width="216"
                     app:scale_height="43"
                     app:scale_textsize="23"
-                    android:text="코디추천"
+                    android:text="코디"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"

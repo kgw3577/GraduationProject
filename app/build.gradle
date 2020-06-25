@@ -50,4 +50,8 @@ dependencies {
     //restlet
     implementation group: 'org.restlet.jee', name: 'org.restlet', version: '2.3.8'
 
+    //이미지 로더
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    //포토 에디터
+
 }

@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.Service.ClothesServiceDeep;
-import com.Project.Closet.HTTP.Service.ClothesServiceDeepCath;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -138,83 +136,16 @@ public class activity_addClothes extends AppCompatActivity {
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 
-            /*
-            //ap<String, RequestBody> map = new HashMap<>();
-            File file = new File(path);
-            RequestBody requestFile =
-                    RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            // MultipartBody.Part is used to send also the actual file name
-            MultipartBody.Part body =
-                    MultipartBody.Part.createFormData("brown skirts", file.getName(), requestFile);
-             */
-
 
             //딥러닝 서버로 전송. (addClothesDeep)
             Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothes(mapRequestBody, arrBody);
-            Call<String> stringCallDeepParam = ClothesServiceDeep.getRetrofit(getApplicationContext()).addClothesDeep(mapRequestBody, arrBody);
-            Call<String> stringCallDeepCate = ClothesServiceDeepCath.getRetrofit(getApplicationContext()).addClothesDeepCath(mapRequestBody, arrBody);
-
-
             try {
-                stringCallDeepParam.execute(); //딥러닝 속성값 추출 서버에 이미지 보내기
-                stringCallDeepCate.execute(); //딥러닝 카테고리 추출 서버에 이미지 보내기
                 return stringCall.execute().body(); //웹서버에 이미지 보내고 응답 받기
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
 
-
-/*
-            Map<String, RequestBody> map = new HashMap<>();
-            //map.put("userID", "candy");
-            //map.put("Name", Utils.toRequestBody("example"));
-            String types = path.substring((path.length() - 3));
-
-            File file = new File(path);
-            RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            map.put("name = \'filename\'; filename=\'brown skirt.jpg\'", fileBody);
-
-            //map.put("newProfilePicture" + "\"; filename=\"" + "f.jpg", RequestBody.create(MediaType.parse("image/jpg"), file));
-
-
-            Call<String> stringCall = RestfulAdapter.getInstance().addClothes(map);
-            try {
-                return stringCall.execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-*/
-/*
-
-            RequestBody requestBody = new MultipartBody.Builder()
-                    .setType(MultipartBody.FORM)
-                    .addFormDataPart("userID", "candy") //필수
-                    .addFormDataPart("closetName", "default") //필수
-                    .addFormDataPart("name","brown skirt")
-                    .addFormDataPart("category", "skirt")
-                    .addFormDataPart("brand", "zara")
-                    .addFormDataPart("color", "brown")
-                    .addFormDataPart("date", "200430")
-                    .addFormDataPart("season", "spring")
-                    .addFormDataPart("cloSize", "s")
-                    .addFormDataPart("filename","brown skirt.jpg", RequestBody.create(MultipartBody.FORM, new File(path)))
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .post(requestBody)
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-*/
         }
         @Override
         protected void onPostExecute(String s) {
@@ -260,6 +191,7 @@ public class activity_addClothes extends AppCompatActivity {
 
                     //(마우스 클릭됐을 때 실행 되도록 바꿀 것)
                     String res = new UploadTask().execute().get();
+
                     if (res.indexOf("true") > -1) {
                         Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
                     } else if (res.indexOf("false") > -1) {
