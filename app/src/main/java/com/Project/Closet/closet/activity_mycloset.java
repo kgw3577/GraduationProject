@@ -1,22 +1,21 @@
-package com.Project.Closet;
+package com.Project.Closet.closet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 import retrofit2.Call;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.Project.Closet.ClothesListAdapter;
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
-import com.google.gson.Gson;
+import com.Project.Closet.R;
+import com.Project.Closet.item_Cloth_List;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,13 +48,9 @@ public class activity_mycloset extends AppCompatActivity {
         @Override
         protected List<ClothesVO> doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
-            String url = "http://52.79.164.93:3600/v1/truck/list";
-
 
             Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getApplicationContext()).myAllClothes(params[0], "10");
             try {
-                //Response response = client.newCall(request).execute();
-                //return response.body().string();
                 return cloListCall.execute().body();
 
                 // Do something with the response.
@@ -64,29 +59,6 @@ public class activity_mycloset extends AppCompatActivity {
                 return null;
             }
 
-
-            /*
-            RequestBody formBody = new FormBody.Builder()
-                    .add("page", params[0])
-                    .add("pageSize", "10")
-                    .build();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(formBody)
-                    .build();
-            try {
-                Response response = client.newCall(request).execute();
-
-                return response.body().string();
-                // Do something with the response.
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-
-
-             */
         }
         @Override
         protected void onPostExecute(List<ClothesVO> clolist) {
@@ -99,24 +71,6 @@ public class activity_mycloset extends AppCompatActivity {
                 }
                 clothesListAdapter.notifyDataSetChanged();
             }
-
-
-
-            /*
-            super.onPostExecute(s);
-            if(s!=null) {
-                Gson gson = new Gson();
-                ClothList= gson.fromJson(s, item_Cloth_List.class);
-
-                for(item_Cloth e:ClothList.list) {
-                    ImageUrlList.add(new String(ClothList.imageUrl + e.getThumbnail()));
-                    Log.e("item", ClothList.imageUrl + e.getThumbnail());
-
-                }
-                clothesListAdapter.notifyDataSetChanged();
-            }
-
-             */
         }
     }
 }

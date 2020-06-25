@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.Project.Closet.Coordinator.Codi_main;
+import com.Project.Closet.R;
+import com.Project.Closet.activity_addClothes;
+import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.closet.activity_mycloset;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -23,10 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 public class activity_home extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager finalPager;
-    private ArrayList<Integer> imageList;
-    private static final int DP = 24;
     ImageView navMenu;
-    int currentPosition = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,15 @@ public class activity_home extends AppCompatActivity {
         setContentView(R.layout.layout_home);
 
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
+
 
         //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
         MyCloset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_mycloset.class);
+                Intent intent = new Intent(activity_home.this, activity_closet.class);
                 startActivity(intent);
             }
         });
@@ -66,7 +68,7 @@ public class activity_home extends AppCompatActivity {
             }
         });
 
-
+        //메뉴 버튼 클릭하면 드로워 열고 닫기
         navMenu = (ImageView)findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +80,8 @@ public class activity_home extends AppCompatActivity {
                 }
             }
         });
+
+        //드로워(메뉴) 아이템 선택
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -96,25 +100,16 @@ public class activity_home extends AppCompatActivity {
                 return true;
             }
         });
-        this.initializeData();
 
-        final ViewPager viewPager = findViewById(R.id.Banner_viewPager);
-        viewPager.setClipToPadding(false);
 
-        float density = getResources().getDisplayMetrics().density;
-        int margin = (int) (DP * density);
-        viewPager.setPadding(margin, 0, margin, 0);
-        viewPager.setPageMargin(margin/2);
-        viewPager.setAdapter(new viewPagerAdapter(this, imageList));
-
+        //탭 목록 설정
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
+        tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
         finalPager = (ViewPager) findViewById(R.id.tab_Pager);
-
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         finalPager.setAdapter(pagerAdapter);
         finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -124,29 +119,19 @@ public class activity_home extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 finalPager.setCurrentItem(tab.getPosition());
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
             }
         });
-
     }
 
-    public void initializeData()
-    {
-        imageList = new ArrayList();
 
-        imageList.add(R.drawable.temp_banner_1);
-        imageList.add(R.drawable.temp_banner_2);
-        imageList.add(R.drawable.temp_banner_3);
-    }
-
+    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
@@ -156,5 +141,4 @@ public class activity_home extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 }

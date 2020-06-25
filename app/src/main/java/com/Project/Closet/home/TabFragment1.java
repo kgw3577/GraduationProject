@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.home;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -8,9 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.Project.Closet.ClothesListAdapter;
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.Clothes_List;
+import com.Project.Closet.R;
+import com.Project.Closet.item_Cloth_List;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,6 +47,7 @@ public class TabFragment1 extends Fragment {
 
         new networkTask().execute(Integer.toString(page));
 
+        //핵심 코드
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
         list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -74,26 +79,12 @@ public class TabFragment1 extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
             String baseURL = Global.baseURL;
-            String url = "http://52.79.164.93:3600/v1/truck/list";
 
             Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], "10");
             //인자 page, pageSize
             //pageSize는 최소 5여야 함.
 
-/*
-            RequestBody formBody = new FormBody.Builder()
-                    .add("page", params[0])
-                    .add("pageSize", "10")
-                    .build();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .post(formBody)
-                    .build();
-                    */
-
             try {
-                //Response response = client.newCall(request).execute();
-                //return response.body().string();
                 return cloListCall.execute().body();
 
                 // Do something with the response.
@@ -113,34 +104,5 @@ public class TabFragment1 extends Fragment {
                 clothesListAdapter.notifyDataSetChanged();
             }
         }
-
-/*
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            if(s!=null) {
-                Gson gson = new Gson();
-                //ClothList= gson.fromJson(s, item_Cloth_List.class);
-                ClothesList= gson.fromJson(s, clothes_List.class);
-
-
-                for(ClothesVO e:ClothesList.getList()) {
-                    ImageUrlList.add(new String(e.getFilePath()));
-                    Log.e("item", e.getFilePath());
-                }
-                clothesListAdapter.notifyDataSetChanged();
-
-
-                for(item_Cloth e:ClothList.list) {
-                    ImageUrlList.add(new String(ClothList.imageUrl + e.getThumbnail()));
-                    Log.e("item", ClothList.imageUrl + e.getThumbnail());
-
-                }
-                clothesListAdapter.notifyDataSetChanged();
-
-            }
-        }
-
-        */
     }
 }

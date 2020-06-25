@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.home;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,9 +24,6 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 TabFragment2 tabFragment2 = new TabFragment2();
                 return tabFragment2;
-            case 2:
-                TabFragment3 tabFragment3 = new TabFragment3();
-                return tabFragment3;
             default:
                 return null;
         }

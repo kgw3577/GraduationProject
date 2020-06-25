@@ -44,12 +44,11 @@ public class activity_addClothes extends AppCompatActivity {
 
     private final int CAMERA_CODE = 11;
     private final int GALLERY_CODE = 12;
-    private Uri photoUri;
-    private String currentPhotoPath;//실제 사진 파일 경로
-    String mImageCaptureName;//이미지 이름
     static final String TAG = "lynnfield";
     Uri uri = Uri.parse("content");
     String path;
+
+    String categoryArray[] = {"top", "bottom", "suit", "outer", "shoes", "bag", "accessory"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,37 +70,6 @@ public class activity_addClothes extends AppCompatActivity {
 
     }
 
-/*    public boolean shouldOverrideUrlLoading() {
-
-        final String items[] = {"갤러리에서 가져오기","카메라로 촬영하기"};
-        new AlertDialog.Builder(activity_gallery.this)
-                .setIcon(R.drawable.ic_launcher_background)
-                .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        dialog.dismiss();
-
-                        if (item == 0) {//갤러리 호출
-                            Uri uri = Uri.parse("content://media/external/images/media");
-                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                            intent.setAction(Intent.ACTION_GET_CONTENT);
-                            intent.setType("image/*");
-                            startActivityForResult(intent, GALLERY_CODE);
-
-                        } else if (item == 1) { //카메라로 찍기
-                                *//*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);*//*
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, CAMERA_CODE);
-
-                        }
-                    }
-                }).show();
-        return true;
-    }*/
-
-
-
     public class UploadTask extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPreExecute() {
@@ -111,21 +79,19 @@ public class activity_addClothes extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             OkHttpClient client = new OkHttpClient();
 
-            //String rootURL = Global.getInstance().rootURL;
-            //String URL = rootURL+"/clothes/add";
-
             RequestBody requestBody;
             MultipartBody.Part body;
             File file = new File(path);
             LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
             List<Part> arrBody = new ArrayList<>();
+            int randomCateNum = (int) (Math.random() * 7);
 
 
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default")); //필수
             mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "brown skirt"));
-            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), "skirt"));
+            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), categoryArray[randomCateNum]));
             mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"), "zara"));
             mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"), "brown"));
             mapRequestBody.put("date", RequestBody.create(MediaType.parse("text/plain"), "200430"));

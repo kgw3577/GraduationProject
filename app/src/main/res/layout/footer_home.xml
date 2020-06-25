@@ -171,17 +171,17 @@
                 app:scale_base_height="160">
 
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/icon_my"
+                    android:layout_width="17dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/icon_footer_store"
-                    app:scale_left="108"
-                    app:scale_top="55"
-                    app:scale_left_baseposition="center"
-                    app:scale_top_baseposition="center"
-                    app:scale_width="57"
+                    android:background="#00000000"
+                    android:src="@drawable/icon_my"
                     app:scale_height="56"
-                    android:src="@drawable/icon_footer_store"
-                    android:background="#00000000"/>
+                    app:scale_left="108"
+                    app:scale_left_baseposition="center"
+                    app:scale_top="55"
+                    app:scale_top_baseposition="center"
+                    app:scale_width="57" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -192,7 +192,7 @@
                     app:scale_width="216"
                     app:scale_height="43"
                     app:scale_textsize="23"
-                    android:text=" "
+                    android:text="내 정보"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"
@@ -240,7 +240,7 @@
                     app:scale_width="216"
                     app:scale_height="43"
                     app:scale_textsize="23"
-                    android:text=" "
+                    android:text="공유"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"

@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,73 +16,156 @@
                  android:layout_height="wrap_content"/>-->
     -->
 
+
+
+
+
+
     <RelativeLayout
         android:id="@+id/layout_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <!--android:layout_margin="5dp"-->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardview_category_closet"
-            android:layout_width="match_parent"
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            card_view:cardCornerRadius="5dp">
-            <LinearLayout
+            android:layout_alignParentTop="true"
+            android:background="@android:color/black"
+            app:scale_base_height="180"
+            app:scale_base_width="1080">
+
+            <include
+                layout="@layout/header_main"
+
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="전체"
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 옷장 1 "
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 옷장 2 "
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                android:layout_height="match_parent" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview_category_clothes"
-            android:layout_below="@+id/cardview_category_closet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_height="95sp"
+            android:layout_below="@+id/header"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             card_view:cardCornerRadius="5dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="전체"
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="9dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_all"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_all"
+                        android:text="  모두"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_top"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_top"
+                        android:text="  상의"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_bottom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_bottom"
+                        android:text="  하의"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_suit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_dress"
+                        android:text="  한벌"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=" 상의 "
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 하의 "
-                    android:textSize="14dp"
-                    android:textColor="#000000"/>
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginRight="7dp"
+                    android:layout_marginBottom="9dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_outer"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_outer"
+                        android:text="  외투"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_shoes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_shoes"
+                        android:text="  신발"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_bag"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_bag"
+                        android:text="  가방"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_accessory"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/drawable_left_hat"
+                        android:text="  악세서리"
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
         <ScrollView

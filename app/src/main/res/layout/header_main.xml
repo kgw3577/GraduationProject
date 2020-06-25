@@ -72,7 +72,7 @@
                     app:scale_left="340"
                     app:scale_top="11"
                     app:scale_width="284"
-                    app:scale_height="94"
+                    app:scale_height="100"
                     android:src="@drawable/sample"/>
 
             </com.ssomai.android.scalablelayout.ScalableLayout>
@@ -96,15 +96,15 @@
                 app:scale_base_height="116">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="10dp"
+                    android:layout_height="9dp"
+                    android:src="@drawable/search2"
+                    app:scale_height="83"
+                    app:scale_left="170"
                     app:scale_left_baseposition="center"
-                    app:scale_top_baseposition="center"
-                    app:scale_left="180"
                     app:scale_top="58"
-                    app:scale_width="53"
-                    app:scale_height="53"
-                    android:src="@drawable/icon_my"/>
+                    app:scale_top_baseposition="center"
+                    app:scale_width="83" />
 
 
 

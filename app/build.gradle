@@ -52,6 +52,5 @@ dependencies {
 
     //이미지 로더
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    //포토 에디터
 
 }

@@ -106,16 +106,16 @@
 
             <EditText
                 android:id="@+id/et_Email"
-                android:layout_width="match_parent"
+                android:layout_width="334dp"
                 android:layout_height="match_parent"
-                android:drawablePadding="16dp"
+                android:backgroundTint="@android:color/black"
                 android:drawableRight="@drawable/ic_email_white_24dp"
+                android:drawablePadding="16dp"
                 android:fontFamily="@font/calibri"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
-                android:backgroundTint="@android:color/black"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
