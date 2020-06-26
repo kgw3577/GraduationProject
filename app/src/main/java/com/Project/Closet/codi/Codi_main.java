@@ -1,4 +1,4 @@
-package com.Project.Closet.Coordinator;
+package com.Project.Closet.codi;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,7 +9,6 @@ import android.view.View;
 import com.Project.Closet.R;
 
 
-import java.io.File;
 import java.io.IOException;
 
 public class Codi_main extends AppCompatActivity implements View.OnClickListener {

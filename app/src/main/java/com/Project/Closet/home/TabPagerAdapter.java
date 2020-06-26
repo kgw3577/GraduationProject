@@ -19,11 +19,9 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                TabFragment1 tabFragment1 = new TabFragment1();
-                return tabFragment1;
+                return new TabFragment_likeClo();
             case 1:
-                TabFragment2 tabFragment2 = new TabFragment2();
-                return tabFragment2;
+                return new TabFragment_likeCodi();
             default:
                 return null;
         }

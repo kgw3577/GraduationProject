@@ -29,12 +29,17 @@ import com.my.closet.user.controller.UserControllerImpl;
 
 
 //1. 원본파일 컬럼 지우기
-//2. 사용자별 폴더 만들고, 파일명 중복 체크 후 수정 기능 만들기
+//2. 사용자별 폴더 만들고, 파일명 중복 체크 후 수정 기능 만들기 --> 시간 추가하면 됨.
+//파일 이름 참고 : 
+// username+ System.currentTimeMillis() + ".png" 이런 식으로 지을 것.
+
 //3. 500 에러 원인 해명
 //4. 파일 삭제 유틸
 //5. 한 번에 여러 개 삭제
 //6. 옷 검색
 //7. 하위 레코드가 남아 있으면 상위 레코드를 지울 수 없는 문제 해결
+//8. 옷 정보 수정하기 구현
+
 
 @RestController("clothesController")
 @RequestMapping("/clothes")
@@ -100,10 +105,24 @@ public class ClothesControllerImpl implements ClothesController {
 		return new ResponseEntity<ClothesVO>(clothesInfo, HttpStatus.OK);
 	}
 
+	//옷 찾기
 	@Override
-	public ResponseEntity<ClothesVO> searchClothes(ClothesVO clothesVO) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<ClothesVO>> searchClothes(HttpSession session, ClothesVO clothesVO, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<ClothesVO> searched_clolist;
+		try{
+			if(!page.isEmpty()&&!pageSize.isEmpty()) {
+				int pageInt = Integer.parseInt(page);
+				int pageSizeInt = Integer.parseInt(pageSize);
+				clothesVO.setPageStart(pageInt*pageSizeInt);
+				clothesVO.setPageSize(pageSizeInt);
+			}
+			searched_clolist = clothesService.searchClothes(session, clothesVO);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<ClothesVO>>(searched_clolist, HttpStatus.OK);
 	}
 
 	//옷 추가하기

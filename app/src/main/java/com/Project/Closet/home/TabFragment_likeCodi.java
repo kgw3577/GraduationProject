@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.Project.Closet.R;
 
-public class TabFragment2 extends Fragment {
+public class TabFragment_likeCodi extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

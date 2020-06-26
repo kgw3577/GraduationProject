@@ -13,7 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import com.Project.Closet.Coordinator.Codi_main;
+import com.Project.Closet.codi.Codi_main;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
 import com.google.android.material.navigation.NavigationView;
@@ -35,16 +35,17 @@ public class activity_closet extends AppCompatActivity {
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
 
-        //옷장 아이콘 클릭
-        ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
+        //옷장 아이콘 클릭 -> 새로고침 하도록 하자
+        /*ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
         MyCloset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_closet.this, activity_mycloset.class);
+                Intent intent = new Intent(activity_closet.this, activity_closet.class);
                 startActivity(intent);
             }
         });
-
+         */
+        
         //코디 아이콘 클릭
         ScalableLayout Codi = (ScalableLayout) findViewById(R.id.icon_footer_codi);
         Codi.setOnClickListener(new View.OnClickListener() {

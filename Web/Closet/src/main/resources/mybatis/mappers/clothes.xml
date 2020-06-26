@@ -12,16 +12,16 @@
 		<result property="category" column="cloCategory" />
 		<result property="brand" column="cloBrand" />
 		<result property="color" column="cloColor" />
-		<result property="date" column="cloDate" />
 		<result property="season" column="cloSeason" />
 		<result property="cloSize" column="cloSize" />
 		<result property="img" column="cloImg" />
 		<result property="fileName" column="fileName" />
-		<result property="originFileName" column="originfileName" />
 		<result property="filePath" column="filePath" />
 		<result property="like" column="cloLike" />
 		<result property="userID" column="userID" />
 		<result property="closetName" column="closetName" />
+		<result property="date" column="cloDate" />
+		
 	</resultMap>
 
 	<!--반환 레코드를 해쉬맵에 저장 -->
@@ -31,16 +31,16 @@
 		<result property="category" column="cloCategory" />
 		<result property="brand" column="cloBrand" />
 		<result property="color" column="cloColor" />
-		<result property="date" column="cloDate" />
 		<result property="season" column="cloSeason" />
 		<result property="cloSize" column="cloSize" />
 		<result property="img" column="cloImg" />
 		<result property="fileName" column="fileName" />
-		<result property="originFileName" column="originfileName" />
 		<result property="filePath" column="filePath" />
 		<result property="like" column="cloLike" />
 		<result property="userID" column="userID" />
 		<result property="closetName" column="closetName" />
+		<result property="date" column="cloDate" />	
+		
 	</resultMap>
 	
 	
@@ -82,14 +82,14 @@
 			<if test="like != '' and like != null">
 				and cloLike = #{like}
 			</if>
-			<if test="userID != '' and userID != null">
-				and userID = #{userID}
-			</if>
 			<if test="closetName != '' and closetName != null">
-				and closetName = #{closetName}
+				and closetName = #{closetName} 
+			</if>
+			<if test="userID != '' and userID != null">
+				and userID = #{userID} ORDER BY cloDate DESC
 			</if>
 			<if test="pageStart != -1 and pageSize != -1">
-				LIMIT #{pageStart}, #{pageSize};
+				LIMIT #{pageStart}, #{pageSize}
 			</if>
 		</where>
 	</select>
@@ -99,8 +99,8 @@
 	<insert id="insertClothes" parameterType="java.util.HashMap">
 	<![CDATA[
 		insert into CLOTHES
-		values(#{no},#{name},#{category},#{brand},#{color},#{date},#{season},
-		#{cloSize},#{img},#{fileName},#{originFileName},#{filePath},#{like},#{userID},#{closetName})
+		values(#{no},#{name},#{category},#{brand},#{color},#{season},
+		#{cloSize},#{img},#{fileName},#{filePath},#{like},#{userID},#{closetName},#{date})
 	]]>
 	</insert>
 
@@ -108,9 +108,9 @@
 	<![CDATA[
 		update CLOTHES
 		set cloName=#{name}, cloCategory=#{category},
-			cloBrand=#{brand}, cloColor=#{color}, cloDate=#{date},
+			cloBrand=#{brand}, cloColor=#{color},
 			cloSeason=#{season}, cloSize=#{cloSize}, cloImg=#{img}, 
-			fileName=#{fileName}, originfileName=#{originFileName}, filePath=#{filePath},
+			fileName=#{fileName}, filePath=#{filePath},
 			cloLike=#{like}, userID=#{userID}, closetName=#{closetName}
 		where
 		cloNo = #{no}

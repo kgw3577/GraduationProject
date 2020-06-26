@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -15,10 +17,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.home.activity_home;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -29,6 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -49,6 +57,7 @@ public class activity_addClothes extends AppCompatActivity {
     String path;
 
     String categoryArray[] = {"top", "bottom", "suit", "outer", "shoes", "bag", "accessory"};
+    String likeArray[] = {"yes","no"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +79,13 @@ public class activity_addClothes extends AppCompatActivity {
 
     }
 
-    public class UploadTask extends AsyncTask<Void, Void, String> {
+    public class UploadTask extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected String doInBackground(Void... params) {
+        protected String doInBackground(String... params) {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody requestBody;
@@ -84,20 +93,23 @@ public class activity_addClothes extends AppCompatActivity {
             File file = new File(path);
             LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
             List<Part> arrBody = new ArrayList<>();
-            int randomCateNum = (int) (Math.random() * 7);
+            int randomNum = (int) (Math.random() * 7);
 
 
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default")); //필수
             mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "brown skirt"));
-            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), categoryArray[randomCateNum]));
+            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
             mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"), "zara"));
             mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"), "brown"));
-            mapRequestBody.put("date", RequestBody.create(MediaType.parse("text/plain"), "200430"));
             mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"), "spring"));
             mapRequestBody.put("cloSize", RequestBody.create(MediaType.parse("text/plain"), "s"));
+            mapRequestBody.put("like", RequestBody.create(MediaType.parse("text/plain"), likeArray[(int)(Math.random() * 2)]));
             //mapRequestBody.put("filename", RequestBody.create(MediaType.parse("text/plain"), "brown skirt.jpg"));
+
+            //파일 이름 참고 :
+            // username+ System.currentTimeMillis() + ".png" 이런 식으로 지을 것.
 
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
@@ -147,7 +159,7 @@ public class activity_addClothes extends AppCompatActivity {
                     Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
 
                     //임시 파일로 저장하기
-                    Context context = getApplicationContext();
+                    final Context context = getApplicationContext();
                     String filename = "myTemp";
                     File tempFile = File.createTempFile(filename, null, context.getCacheDir());
                     FileOutputStream out = new FileOutputStream(tempFile);
@@ -155,14 +167,77 @@ public class activity_addClothes extends AppCompatActivity {
                     out.close();
                     path = tempFile.getAbsolutePath(); //임시 파일 경로
 
-                    //(마우스 클릭됐을 때 실행 되도록 바꿀 것)
-                    String res = new UploadTask().execute().get();
+                    final String[] Category = {""};
+                    Button select = (Button) findViewById(R.id.select_category);
+                    select.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
+                            final String[] items = getResources().getStringArray(R.array.Category);
+                            final ArrayList<String> selectedItem  = new ArrayList<String>();
+                            selectedItem.add(items[0]);
 
-                    if (res.indexOf("true") > -1) {
-                        Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
-                    } else if (res.indexOf("false") > -1) {
-                        Toast.makeText(activity_addClothes.this, "업로드 실패", Toast.LENGTH_SHORT).show();
-                    }
+                            builder.setTitle("카테고리 선택");
+
+                            builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int pos)
+                                {
+                                    selectedItem.clear();
+                                    selectedItem.add(items[pos]);
+                                }
+                            });
+
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                                @Override
+                                public void onClick(DialogInterface dialog, int pos)
+                                {
+                                    Category[0] = selectedItem.get(0);
+                                    Toast toast = Toast.makeText(getApplicationContext(), "선택된 항목 : " + selectedItem.get(0), Toast.LENGTH_LONG);
+                                    toast.setGravity(Gravity.CENTER, 0, 0);
+                                    toast.show();
+                                }
+                            });
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+                        }
+                    });
+
+                    Button btn_ok = (Button) findViewById(R.id.ok);
+                    btn_ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(!Category[0].isEmpty()){
+                                String res = null;
+                                try {
+                                    res = new UploadTask().execute(Category[0]).get();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                try{
+                                    if (res.contains("ok")) {
+                                    Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                                    } else if (res.contains("fail")) {
+                                    Toast.makeText(activity_addClothes.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                                    }
+                                    Intent intent = new Intent(getApplicationContext(), activity_closet.class);
+                                    startActivity(intent);
+                                }  catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(activity_addClothes.this, "업로드 오류", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
+                                    startActivity(intent);
+                                }
+
+                            }
+                            else
+                                Toast.makeText(activity_addClothes.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
+
+                        }
+                    });
 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -171,8 +246,6 @@ public class activity_addClothes extends AppCompatActivity {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-/*                Bitmap bitmap = result.getBitmap();
-                ((ImageView)findViewById(R.id.edit_iv)).setImageBitmap(bitmap);*/
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }

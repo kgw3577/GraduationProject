@@ -5,6 +5,7 @@
     android:id="@+id/final_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
         <RelativeLayout
@@ -20,8 +21,8 @@
                 app:scale_base_width="1080">
 
                 <include
-                    layout="@layout/header_main"
 
+                    layout="@layout/header_main"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
@@ -42,13 +43,13 @@
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
-
             <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:layout_below="@+id/header"
-                android:layout_above="@+id/footer"
                 android:id="@+id/home_coordinator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/footer"
+                android:layout_below="@+id/header"
+                android:layout_marginTop="18sp"
                 android:background="@android:color/white">
 
                 <com.google.android.material.appbar.AppBarLayout

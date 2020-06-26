@@ -127,7 +127,6 @@ public class FileUploadController {
 
 		map.put("fileName", fileName);
 		map.put("filePath", filePath);
-		map.put("like", "no");
 		
 		return map;  //옷 정보가 담긴 해쉬맵을 반환함
 	}

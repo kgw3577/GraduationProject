@@ -39,11 +39,11 @@
 			<td width="7%"><b>사이즈</b></td>
 			<td width="7%"><b>이미지</b></td>
 			<td width="7%"><b>파일이름</b></td>
-			<td width="7%"><b>원본파일이름</b></td>
 			<td width="7%"><b>파일경로</b></td>
 			<td width="7%"><b>즐겨찾기</b></td>
 			<td width="7%"><b>소유자</b></td>
 			<td width="7%"><b>옷장이름</b></td>
+			<td width="7%"><b>옷 정보</b></td>
 			<td width="7%"><b>삭제하기</b></td>
 		</tr>
 
@@ -66,7 +66,6 @@
 						<td>${clo.cloSize}</td>
 						<td><img src="${contextPath}${clo.filePath}" style="width:150px"></td>
 						<td>${clo.fileName}</td>
-						<td>${clo.originFileName}</td>
 						<td>${clo.filePath}</td>
 						<td>${clo.like}</td>
 						<td>${clo.userID}</td>

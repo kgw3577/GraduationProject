@@ -7,16 +7,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.Project.Closet.Coordinator.Codi_main;
+import com.Project.Closet.codi.Codi_main;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
 import com.Project.Closet.closet.activity_closet;
-import com.Project.Closet.closet.activity_mycloset;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
-
-import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

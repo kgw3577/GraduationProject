@@ -10,6 +10,8 @@
 		<typeAlias type="com.my.closet.user.vo.UserVO"  alias="userVO" />
 		<typeAlias type="com.my.closet.closet.vo.ClosetVO"  alias="closetVO" />
 		<typeAlias type="com.my.closet.clothes.vo.ClothesVO"  alias="clothesVO" />
+		<typeAlias type="com.my.closet.codi.vo.CodiVO"  alias="codiVO" />
+		
 	</typeAliases>
 	
 </configuration>

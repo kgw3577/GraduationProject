@@ -38,6 +38,8 @@ public class UserControllerImpl implements UserController {
 	@Override
 	@RequestMapping(value = "/userlist", method = RequestMethod.GET)
 	public ModelAndView userlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println(System.currentTimeMillis());
+		
 		ModelAndView mav = new ModelAndView(getViewName(request));
 		List<UserVO> userList = userService.listAllUsers();
 		mav.addObject("userList", userList);

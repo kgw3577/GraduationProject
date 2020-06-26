@@ -35,7 +35,7 @@ public class TabFragment_allClothes extends Fragment {
 
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_tab1);
+    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class TabFragment_allClothes extends Fragment {
 
         new networkTask().execute(Integer.toString(page));
 
-        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        View view = inflater.inflate(R.layout.fragment_large, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
         list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
         list_clothes.setAdapter(clothesListAdapter);

@@ -46,31 +46,13 @@ public class ClothesService extends APIAdapter {
         @GET("clothes/all")
         Call<List<ClothesVO>> myAllClothes(@Query("page") String page, @Query("pageSize") String pageSize);
 
-        //상의 목록 가져오기
-        @GET("clothes/category/top")
-        Call<List<ClothesVO>> chooseTop(@Query("page") String page, @Query("pageSize") String pageSize);
-        //하의 목록 가져오기
-        @GET("clothes/category/bottom")
-        Call<List<ClothesVO>> chooseBottom(@Query("page") String page, @Query("pageSize") String pageSize);
-        //한벌옷 목록 가져오기
-        @GET("clothes/category/suit")
-        Call<List<ClothesVO>> chooseSuit(@Query("page") String page, @Query("pageSize") String pageSize);
-        //외투 목록 가져오기
-        @GET("clothes/category/outer")
-        Call<List<ClothesVO>> chooseOuter(@Query("page") String page, @Query("pageSize") String pageSize);
-        //신발 목록 가져오기
-        @GET("clothes/category/shoes")
-        Call<List<ClothesVO>> chooseShoes(@Query("page") String page, @Query("pageSize") String pageSize);
-        //가방 목록 가져오기
-        @GET("clothes/category/bag")
-        Call<List<ClothesVO>> chooseBag(@Query("page") String page, @Query("pageSize") String pageSize);
-        //악세서리 목록 가져오기
-        @GET("clothes/category/accessory")
-        Call<List<ClothesVO>> chooseAccessory(@Query("page") String page, @Query("pageSize") String pageSize);
+        //특정 카테고리 목록 가져오기
+        @GET("clothes/search")
+        Call<List<ClothesVO>> chooseCategory(@Query("category") String category, @Query("page") String page, @Query("pageSize") String pageSize);
 
         //즐겨찾기한 옷 목록 가져오기
-        @GET("clothes/favorite")
-        Call<List<ClothesVO>> favoriteClothes(@Query("page") String page, @Query("pageSize") String pageSize);
+        @GET("clothes/search")
+        Call<List<ClothesVO>> favoriteClothes(@Query("like") String like, @Query("page") String page, @Query("pageSize") String pageSize);
 
     }
 }

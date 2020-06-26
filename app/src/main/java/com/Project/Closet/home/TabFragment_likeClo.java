@@ -28,14 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 
-public class TabFragment1 extends Fragment {
+public class TabFragment_likeClo extends Fragment {
     int page=0;
     RecyclerView list_clothes;
     item_Cloth_List ClothList;
 
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_tab1);
+    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +48,7 @@ public class TabFragment1 extends Fragment {
         new networkTask().execute(Integer.toString(page));
 
         //핵심 코드
-        View view = inflater.inflate(R.layout.fragment_tab1, container, false);
+        View view = inflater.inflate(R.layout.fragment_large, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
         list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
         list_clothes.setAdapter(clothesListAdapter);
@@ -80,7 +80,8 @@ public class TabFragment1 extends Fragment {
             OkHttpClient client = new OkHttpClient();
             String baseURL = Global.baseURL;
 
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], "10");
+            //즐겨찾기 여부가 "yes"인 옷 가져오기
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).favoriteClothes("yes", params[0], "10");
             //인자 page, pageSize
             //pageSize는 최소 5여야 함.
 

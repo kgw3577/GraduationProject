@@ -50,15 +50,26 @@ public class ClothesServiceImpl implements ClothesService {
 		return clothesDAO.selectClothes(clothesVO);
 	}
 
+	//옷 정보 보기
 	@Override
 	public ClothesVO infoClothes(String no) throws DataAccessException {
 		return clothesDAO.selectThisClothes(no);
 	}
 
+	//옷 찾기
 	@Override
-	public List<ClothesVO> searchClothes(ClothesVO clothesVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ClothesVO> searchClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException {
+		LoginVO loginVO;
+		try {
+			loginVO = (LoginVO) session.getAttribute("login");
+			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+		}catch(Exception e) {
+			System.out.println("세션을 찾을 수 없음.");
+			return null;
+		}
+		clothesVO.setUserID(loginVO.getId());
+
+		return clothesDAO.selectClothes(clothesVO);
 	}
 
 	@Override

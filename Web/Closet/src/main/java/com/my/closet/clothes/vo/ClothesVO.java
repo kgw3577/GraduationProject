@@ -6,19 +6,18 @@ import org.springframework.stereotype.Component;
 public class ClothesVO {
 	private int no; // PRIMARY KEY. AUTO INCREMENT
 	private String name;
-	private String category;
+	private String category; // not null
 	private String brand;
 	private String color;
-	private String date;
 	private String season;
 	private String cloSize;
 	private String img;
 	private String fileName;
-	private String originFileName;
 	private String filePath;
 	private String like;
 	private String userID; // FOREIGN KEY(CLOSET). not null 
 	private String closetName; // FOREIGN KEY(CLOSET). not null 
+	private String date;
 	
 	//임시
 	private int pageStart =-1;
@@ -145,14 +144,6 @@ public class ClothesVO {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
-	}
-
-	public String getOriginFileName() {
-		return originFileName;
-	}
-
-	public void setOriginFileName(String originFileName) {
-		this.originFileName = originFileName;
 	}
 
 	public String getFilePath() {

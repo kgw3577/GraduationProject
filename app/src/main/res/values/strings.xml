@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Smart Closet</string>
+
+    <string-array name = "Category">
+        <item>"top"</item>
+        <item>"bottom"</item>
+        <item>"suit"</item>
+        <item>"outer"</item>
+        <item>"shoes"</item>
+        <item>"bag"</item>
+        <item>"accessory"</item>
+    </string-array>
 </resources>
