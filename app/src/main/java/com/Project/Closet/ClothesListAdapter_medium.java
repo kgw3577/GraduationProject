@@ -6,22 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import com.bumptech.glide.Glide;
+
+import java.util.List;
+
+public class ClothesListAdapter_medium extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<String> items;
     int item_layout;
-    public ClothesListAdapter(Context context, List<String> items, int item_layout) {
+    public ClothesListAdapter_medium(Context context, List<String> items, int item_layout) {
         this.mContext=context;
         this.items=items;
         this.item_layout=item_layout;
@@ -29,7 +26,7 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_cloth,null);
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_cloth_medium,null);
         return new ViewHolder(v);
     }
 

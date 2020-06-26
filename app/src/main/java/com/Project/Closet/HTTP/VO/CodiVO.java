@@ -1,11 +1,9 @@
 package com.Project.Closet.HTTP.VO;
 
-public class ClothesVO {
+public class CodiVO {
     private int no; // PRIMARY KEY. AUTO INCREMENT
     private String name;
-    private String category; //not null
-    private String brand;
-    private String color;
+    private String category;
     private String date;
     private String season;
     private String cloSize;
@@ -18,11 +16,11 @@ public class ClothesVO {
 
 
     //생성자
-    public ClothesVO() {
+    public CodiVO() {
         System.out.println("ClothesVO 생성자 호출");
     }
 
-    public ClothesVO(String userID, String closetName, String fileName) {
+    public CodiVO(String userID, String closetName, String fileName) {
         System.out.println("ClothesVO 생성자 호출");
         this.userID = userID;
         this.closetName = closetName;
@@ -52,22 +50,6 @@ public class ClothesVO {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
     }
 
     public String getDate() {

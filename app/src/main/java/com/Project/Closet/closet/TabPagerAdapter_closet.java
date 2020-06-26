@@ -19,29 +19,21 @@ public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                TabFragment_allClothes tabFragment_allClothes = new TabFragment_allClothes();
-                return tabFragment_allClothes;
+                return new TabFragment_allClothes();
             case 1:
-                TabFragment_top tabFragment_top = new TabFragment_top();
-                return tabFragment_top;
+                return new TabFragment_top();
             case 2:
-                TabFragment_bottom tabFragment_bottom = new TabFragment_bottom();
-                return tabFragment_bottom;
+                return new TabFragment_bottom();
             case 3:
-                TabFragment_suit tabFragment_suit = new TabFragment_suit();
-                return tabFragment_suit;
+                return new TabFragment_suit();
             case 4:
-                TabFragment_outer tabFragment_outer = new TabFragment_outer();
-                return tabFragment_outer;
+                return new TabFragment_outer();
             case 5:
-                TabFragment_shoes tabFragment_shoes = new TabFragment_shoes();
-                return tabFragment_shoes;
+                return new TabFragment_shoes();
             case 6:
-                TabFragment_bag tabFragment_bag = new TabFragment_bag();
-                return tabFragment_bag;
+                return new TabFragment_bag();
             case 7:
-                TabFragment_accessory tabFragment_accessory = new TabFragment_accessory();
-                return tabFragment_accessory;
+                return new TabFragment_accessory();
             default:
                 return null;
         }

@@ -19,7 +19,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 public class ClothesService extends APIAdapter {
-//딥러닝 서버로 전송하는 어댑터
+//웹서버로 전송하는 어댑터
 
     /**
      * Retrofit 객체를 가져오는 메소드

@@ -13,7 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.ClothesListAdapter;
+import com.Project.Closet.ClothesListAdapter_large;
+import com.Project.Closet.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
@@ -35,7 +36,7 @@ public class TabFragment_top extends Fragment {
 
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
+    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_large);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class TabFragment_top extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_large, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 4));
         list_clothes.setAdapter(clothesListAdapter);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -80,9 +81,9 @@ public class TabFragment_top extends Fragment {
             String baseURL = Global.baseURL;
 
             //카테고리 top 조회
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("top", params[0], "10");
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("top", params[0], "20");
             //인자 page, pageSize
-            //pageSize는 최소 5여야 함.
+            //pageSize는 최소 17?이어야 함. (화면 갱신되려면)
 
             try {
                 return cloListCall.execute().body();

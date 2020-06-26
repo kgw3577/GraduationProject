@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Smart Closet</string>
 
-    <string-array name = "Category">
+    <!--한글로 변경할 것, 웹서버 상에서 변환해서 저장하자-->
+    <string-array name="Category">
         <item>"top"</item>
         <item>"bottom"</item>
         <item>"suit"</item>
@@ -10,4 +11,7 @@
         <item>"bag"</item>
         <item>"accessory"</item>
     </string-array>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.Project.Closet.ClothesListAdapter;
+import com.Project.Closet.ClothesListAdapter_large;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.Service.ClothesService;
@@ -35,7 +35,7 @@ public class TabFragment_likeClo extends Fragment {
 
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
+    ClothesListAdapter_large clothesListAdapterLarge = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_large);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class TabFragment_likeClo extends Fragment {
         View view = inflater.inflate(R.layout.fragment_large, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
         list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        list_clothes.setAdapter(clothesListAdapter);
+        list_clothes.setAdapter(clothesListAdapterLarge);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -102,7 +102,7 @@ public class TabFragment_likeClo extends Fragment {
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
                     Log.e("item", e.getFilePath());
                 }
-                clothesListAdapter.notifyDataSetChanged();
+                clothesListAdapterLarge.notifyDataSetChanged();
             }
         }
     }
