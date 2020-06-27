@@ -1,15 +1,14 @@
 <resources>
     <string name="app_name">Smart Closet</string>
 
-    <!--한글로 변경할 것, 웹서버 상에서 변환해서 저장하자-->
     <string-array name="Category">
-        <item>"top"</item>
-        <item>"bottom"</item>
-        <item>"suit"</item>
-        <item>"outer"</item>
-        <item>"shoes"</item>
-        <item>"bag"</item>
-        <item>"accessory"</item>
+        <item>"상의"</item>
+        <item>"하의"</item>
+        <item>"한벌옷"</item>
+        <item>"외투"</item>
+        <item>"신발"</item>
+        <item>"가방"</item>
+        <item>"악세서리"</item>
     </string-array>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

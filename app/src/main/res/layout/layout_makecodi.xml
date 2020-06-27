@@ -12,7 +12,6 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/search"
         android:visibility="visible"
         android:layout_below="@id/iv_acc1"/>
 
@@ -40,7 +39,6 @@
         android:id="@+id/iv_bottom"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/search"
         android:layout_centerHorizontal="true"
         android:visibility="visible"
         android:layout_below="@id/iv_top"/>
@@ -102,7 +100,6 @@
     android:id="@+id/iv_outer"
     android:layout_width="150dp"
     android:layout_height="300dp"
-    android:src="@drawable/search"
     android:layout_centerHorizontal="true"
     android:visibility="visible"
     android:layout_toLeftOf="@id/iv_top"
@@ -133,7 +130,6 @@
         android:id="@+id/iv_shoes"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/search"
         android:layout_centerHorizontal="true"
         android:visibility="visible"
         android:layout_toRightOf="@id/iv_bottom"
@@ -165,7 +161,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/search"
         android:visibility="visible"
         android:layout_toRightOf="@id/iv_bottom"
         android:layout_above="@id/iv_shoes"
@@ -196,7 +191,6 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/search"
         android:visibility="visible" />
 
     <TextView

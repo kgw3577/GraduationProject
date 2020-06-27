@@ -8,21 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-<<<<<<< HEAD
 import android.widget.ImageView;
-=======
 import android.widget.RelativeLayout;
 import android.widget.Toast;
->>>>>>> origin/master
 
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-<<<<<<< HEAD
 import androidx.fragment.app.FragmentActivity;
-=======
 import androidx.fragment.app.FragmentTransaction;
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,14 +39,7 @@ import retrofit2.Call;
 
 public class TabFragment_allClothes extends Fragment {
     int page=0;
-<<<<<<< HEAD
-
-    RecyclerView list_clothes;
-    item_Cloth_List ClothList;
-    Clothes_List ClothesList;
-=======
     RecyclerView rv_clothes;
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
     ArrayList<String> ImageUrlList = new ArrayList<String>();
 
     //리사이클러뷰 어댑터 초기화
@@ -62,19 +49,7 @@ public class TabFragment_allClothes extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-
-/*        Cloth_Info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Cloth_Info.getVisibility()==View.VISIBLE)
-                    Cloth_Info.setVisibility(View.INVISIBLE);
-            }
-        });*/
-        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
-=======
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
             @Override
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
 

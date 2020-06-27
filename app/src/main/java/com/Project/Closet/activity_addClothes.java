@@ -55,8 +55,6 @@ public class activity_addClothes extends AppCompatActivity {
     static final String TAG = "lynnfield";
     Uri uri = Uri.parse("content");
     String path;
-
-    String categoryArray[] = {"top", "bottom", "suit", "outer", "shoes", "bag", "accessory"};
     String likeArray[] = {"yes","no"};
 
     @Override
@@ -76,7 +74,6 @@ public class activity_addClothes extends AppCompatActivity {
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(activity_addClothes.this);
-
     }
 
     public class UploadTask extends AsyncTask<String, Void, String> {
@@ -93,12 +90,11 @@ public class activity_addClothes extends AppCompatActivity {
             File file = new File(path);
             LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
             List<Part> arrBody = new ArrayList<>();
-            int randomNum = (int) (Math.random() * 7);
 
 
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
-            mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default")); //필수
+            mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
             mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "brown skirt"));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
             mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"), "zara"));
@@ -115,7 +111,6 @@ public class activity_addClothes extends AppCompatActivity {
             arrBody.add(body);
 
 
-            //딥러닝 서버로 전송. (addClothesDeep)
             Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothes(mapRequestBody, arrBody);
             try {
                 return stringCall.execute().body(); //웹서버에 이미지 보내고 응답 받기
@@ -193,9 +188,33 @@ public class activity_addClothes extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int pos)
                                 {
                                     Category[0] = selectedItem.get(0);
-                                    Toast toast = Toast.makeText(getApplicationContext(), "선택된 항목 : " + selectedItem.get(0), Toast.LENGTH_LONG);
+                                    Toast toast = Toast.makeText(getApplicationContext(), "선택된 카테고리 : " + selectedItem.get(0), Toast.LENGTH_LONG);
                                     toast.setGravity(Gravity.CENTER, 0, 0);
                                     toast.show();
+
+                                    switch(Category[0]){
+                                        case "상의":
+                                            Category[0] = "top";
+                                            break;
+                                        case "하의":
+                                            Category[0] = "bottom";
+                                            break;
+                                        case "한벌옷":
+                                            Category[0] = "suit";
+                                            break;
+                                        case "외투":
+                                            Category[0] = "outer";
+                                            break;
+                                        case "신발":
+                                            Category[0] = "shoes";
+                                            break;
+                                        case "가방":
+                                            Category[0] = "bag";
+                                            break;
+                                        case "악세서리":
+                                            Category[0] = "accessory";
+                                            break;
+                                    }
                                 }
                             });
 
@@ -235,7 +254,6 @@ public class activity_addClothes extends AppCompatActivity {
                             }
                             else
                                 Toast.makeText(activity_addClothes.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
-
                         }
                     });
 

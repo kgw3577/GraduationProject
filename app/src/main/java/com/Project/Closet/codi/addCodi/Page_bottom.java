@@ -124,7 +124,7 @@ public class Page_bottom extends Fragment {
             Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("bottom", params[0], "25");
             //페이지 사이즈 설정
             //인자 page, pageSize
-            //pageSize는 최소 21?이어야 함. (화면 갱신되려면)
+            //pageSize는 최소 21이어야 함. (화면 갱신되려면)
             try {
                 return cloListCall.execute().body();
 

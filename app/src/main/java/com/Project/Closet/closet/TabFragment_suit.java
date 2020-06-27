@@ -19,6 +19,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.Clothes_List;
 import com.Project.Closet.R;
+import com.Project.Closet.util.ClothesListAdapter_small;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class TabFragment_suit extends Fragment {
     RecyclerView list_clothes;
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter_large clothesListAdapterLarge = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +47,8 @@ public class TabFragment_suit extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        list_clothes.setAdapter(clothesListAdapterLarge);
+        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        list_clothes.setAdapter(clothesListAdapter);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -76,7 +77,7 @@ public class TabFragment_suit extends Fragment {
             OkHttpClient client = new OkHttpClient();
             String baseURL = Global.baseURL;
 
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("suit", params[0], "10");
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("suit", params[0], "25");
             //인자 page, pageSize
             //pageSize는 최소 5여야 함.
 
@@ -97,7 +98,7 @@ public class TabFragment_suit extends Fragment {
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
                     Log.e("item", e.getFilePath());
                 }
-                clothesListAdapterLarge.notifyDataSetChanged();
+                clothesListAdapter.notifyDataSetChanged();
             }
         }
     }
