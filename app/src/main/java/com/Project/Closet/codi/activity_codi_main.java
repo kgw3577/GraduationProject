@@ -1,13 +1,10 @@
 package com.Project.Closet.codi;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
 import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.codi.addCodi.activity_addCodi;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;

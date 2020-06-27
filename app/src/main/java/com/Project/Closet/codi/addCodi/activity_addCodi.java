@@ -1,4 +1,4 @@
-package com.Project.Closet.codi;
+package com.Project.Closet.codi.addCodi;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -22,6 +22,7 @@ import com.Project.Closet.closet.TabFragment_outer;
 import com.Project.Closet.closet.TabFragment_shoes;
 import com.Project.Closet.closet.TabFragment_suit;
 import com.Project.Closet.closet.TabFragment_top;
+import com.Project.Closet.codi.PagerAdapter_addCodi;
 
 public class activity_addCodi extends AppCompatActivity {
 
