@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,14 @@ public class activity_closet extends AppCompatActivity {
     ImageView navMenu;
 
     RelativeLayout Cloth_Info;
-
-
+    ImageView iv_image;
+    TextView tv_name;
+    TextView tv_category;
+    TextView tv_detailcategory;
+    TextView tv_season;
+    TextView tv_brand;
+    TextView tv_size;
+    TextView tv_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +43,14 @@ public class activity_closet extends AppCompatActivity {
 
         Cloth_Info = (RelativeLayout) findViewById(R.id.cloth_info);
         Cloth_Info.setVisibility(View.GONE);
-
+        iv_image = (ImageView) findViewById(R.id.iv_image);
+        tv_name = (TextView) findViewById(R.id.tv_info_name);
+        tv_category = (TextView) findViewById(R.id.tv_info_catergory);
+        tv_detailcategory = (TextView) findViewById(R.id.tv_info_detailcategory);
+        tv_season = (TextView) findViewById(R.id.tv_info_season);
+        tv_brand = (TextView) findViewById(R.id.tv_info_brand);
+        tv_size = (TextView) findViewById(R.id.tv_info_size);
+        tv_date = (TextView) findViewById(R.id.tv_info_date);
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
@@ -159,6 +173,8 @@ public class activity_closet extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
+            Cloth_Info.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }

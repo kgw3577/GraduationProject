@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -19,6 +20,7 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,7 +38,7 @@ public class TabFragment_allClothes extends Fragment {
     int page=0;
     RecyclerView rv_clothes;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-
+    ArrayList<ClothesVO> clothesVO = new ArrayList<ClothesVO>();
     //리사이클러뷰 어댑터 초기화
     ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
 
@@ -46,8 +48,17 @@ public class TabFragment_allClothes extends Fragment {
         super.onCreate(savedInstanceState);
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(View v, int position, ImageView iv_Clothes) {
                 ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
+                Glide.with((((activity_closet) getActivity()).iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_image);
+                ((activity_closet)getActivity()).tv_name.setText(clothesVO.get(position).getName());
+                ((activity_closet)getActivity()).tv_category.setText(clothesVO.get(position).getClosetName());
+                ((activity_closet)getActivity()).tv_detailcategory.setText(clothesVO.get(position).getCategory());
+                ((activity_closet)getActivity()).tv_season.setText(clothesVO.get(position).getSeason());
+                ((activity_closet)getActivity()).tv_brand.setText(clothesVO.get(position).getBrand());
+                ((activity_closet)getActivity()).tv_size.setText(clothesVO.get(position).getCloSize());
+                ((activity_closet)getActivity()).tv_date.setText(clothesVO.get(position).getDate());
+
             }
         });
     }
@@ -121,6 +132,7 @@ public class TabFragment_allClothes extends Fragment {
                 for(ClothesVO e:clolist) {
                     //옷 데이터를 받아온 후 이미지 url 리스트를 갱신
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
+                    clothesVO.add(e);
                     Log.e("item", e.getFilePath());
                 }
                 clothesListAdapter.notifyDataSetChanged();
