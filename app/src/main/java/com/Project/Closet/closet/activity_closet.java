@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,13 +25,14 @@ public class activity_closet extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager finalPager;
     ImageView navMenu;
-
+    RelativeLayout Cloth_Info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_closet);
-
+        Cloth_Info = (RelativeLayout) findViewById(R.id.cloth_info);
+        Cloth_Info.setVisibility(View.GONE);
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
@@ -153,8 +155,12 @@ public class activity_closet extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+
+        } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
+            Cloth_Info.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
+
     }
 }

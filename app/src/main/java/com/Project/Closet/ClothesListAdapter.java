@@ -21,10 +21,19 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     Context mContext;
     List<String> items;
     int item_layout;
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+    private OnItemClickListener mListener = null ;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener ;
+    }
     public ClothesListAdapter(Context context, List<String> items, int item_layout) {
+
         this.mContext=context;
         this.items=items;
         this.item_layout=item_layout;
+
     }
 
     @Override
@@ -51,6 +60,18 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public ViewHolder(View itemView) {
             super(itemView);
             iv_Cloth=(ImageView) itemView.findViewById(R.id.cardview_cloth_iv);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos) ;
+                        }
+                    }
+                }
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.Project.Closet.closet;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,9 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,9 +35,9 @@ import retrofit2.Call;
 
 public class TabFragment_allClothes extends Fragment {
     int page=0;
+
     RecyclerView list_clothes;
     item_Cloth_List ClothList;
-
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
     ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
@@ -40,7 +45,22 @@ public class TabFragment_allClothes extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+/*        Cloth_Info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(Cloth_Info.getVisibility()==View.VISIBLE)
+                    Cloth_Info.setVisibility(View.INVISIBLE);
+            }
+        });*/
+        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
+            }
+        });
     }
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +83,8 @@ public class TabFragment_allClothes extends Fragment {
                 }
             }
         });
+
+
         return view;
     }
 
