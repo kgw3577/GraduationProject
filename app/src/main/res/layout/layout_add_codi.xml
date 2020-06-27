@@ -61,30 +61,21 @@
         layout="@layout/layout_makecodi"
         android:layout_width="match_parent"
         android:layout_height="420dp"
-        android:layout_below="@id/header"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp" />
+        android:layout_below="@id/header"/>
 
 
     <LinearLayout
+        android:id="@+id/selectbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/layout_makecodi"
         android:orientation="vertical"
-        android:background="@color/black_overlay">
+        android:visibility="invisible">
 
         <include
             layout="@layout/layout_makecodi_viewpager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </RelativeLayout>

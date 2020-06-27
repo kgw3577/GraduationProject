@@ -1,4 +1,4 @@
-package com.Project.Closet.codi;
+package com.Project.Closet.codi.addCodi;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -14,7 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.ClothesListAdapter_small;
+import com.Project.Closet.util.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 
 /* 그리드 사이즈 조절 방법 :
@@ -46,8 +46,8 @@ public class TabFragment_allClothes extends Fragment {
         super.onCreate(savedInstanceState);
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-                ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
+            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+
             }
         });
     }

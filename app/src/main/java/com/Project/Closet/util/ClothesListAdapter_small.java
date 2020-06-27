@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.util;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.
     int item_layout; //리사이클러뷰 레이아웃. fragment_recyclerview임.
 
     public interface OnItemClickListener {
-        void onItemClick(View v, int position);
+        void onItemClick(View v, int position, ImageView iv_Clothes);
     }
 
     // 리스너 객체 참조를 저장하는 변수
@@ -81,7 +82,7 @@ public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.
                     if (pos != RecyclerView.NO_POSITION) {
                         // 리스너 객체의 메서드 호출.
                         if (mListener != null) {
-                            mListener.onItemClick(v, pos) ;
+                            mListener.onItemClick(v, pos, iv_Clothes) ;
                         }
                         // 데이터 리스트로부터 아이템 데이터 참조.
                         //RecyclerItem item = mData.get(pos) ;

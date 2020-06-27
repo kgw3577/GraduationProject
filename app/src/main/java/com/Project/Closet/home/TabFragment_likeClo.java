@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.Project.Closet.ClothesListAdapter_large;
-import com.Project.Closet.ClothesListAdapter_medium;
+import com.Project.Closet.util.ClothesListAdapter_medium;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.VO.Clothes_List;
 import com.Project.Closet.R;
 
 import java.io.IOException;

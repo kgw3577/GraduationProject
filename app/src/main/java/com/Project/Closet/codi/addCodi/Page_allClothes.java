@@ -1,5 +1,8 @@
 package com.Project.Closet.codi.addCodi;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -14,12 +18,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.ClothesListAdapter_small;
+import com.Project.Closet.util.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +36,21 @@ import retrofit2.Call;
 */
 
 public class Page_allClothes extends Fragment {
+
+    public interface FragListener{
+        void ReceivedData(Object data);
+    }
+    private FragListener mFragListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(getActivity() != null && getActivity() instanceof FragListener){
+            mFragListener = (FragListener) getActivity();
+        }
+    }
+
+
     int page=0;
     RecyclerView rv_clothes;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
@@ -46,9 +64,11 @@ public class Page_allClothes extends Fragment {
         super.onCreate(savedInstanceState);
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-                //((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
-                
+            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+                Bitmap selectedImage = ((BitmapDrawable)iv_Clothes.getDrawable()).getBitmap();
+                if(mFragListener != null){
+                    mFragListener.ReceivedData(selectedImage);
+                }
             }
         });
     }
