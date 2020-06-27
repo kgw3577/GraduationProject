@@ -98,10 +98,10 @@
                 app:scale_base_height="116">
 
                 <ImageView
-                    android:id="@+id/search_button"
+                    android:id="@+id/add_codi_iv"
                     android:layout_width="10dp"
-                    android:layout_height="9dp"
-                    android:src="@drawable/search2"
+                    android:layout_height="22dp"
+                    android:src="@drawable/add"
                     app:scale_height="83"
                     app:scale_left="170"
                     app:scale_left_baseposition="center"

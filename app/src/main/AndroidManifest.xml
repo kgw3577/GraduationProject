@@ -14,8 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".codi.Codi_main"></activity>
+        <activity android:name=".codi.addCodi.activity_addCodi"></activity>
+        <activity android:name=".codi.activity_addClothes" />
         <activity android:name=".closet.activity_closet" />
+        <activity android:name=".codi.activity_codi_main" />
         <activity android:name=".activity_addClothes" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

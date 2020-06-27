@@ -1,6 +1,5 @@
-package com.Project.Closet.closet;
+package com.Project.Closet.codi.addCodi;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,17 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-<<<<<<< HEAD
-import androidx.fragment.app.FragmentActivity;
-=======
 import androidx.fragment.app.FragmentTransaction;
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,12 +19,12 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.activity_closet;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 
 /* 그리드 사이즈 조절 방법 :
@@ -40,16 +32,9 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class TabFragment_allClothes extends Fragment {
+public class Page_allClothes extends Fragment {
     int page=0;
-<<<<<<< HEAD
-
-    RecyclerView list_clothes;
-    item_Cloth_List ClothList;
-    Clothes_List ClothesList;
-=======
     RecyclerView rv_clothes;
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
     ArrayList<String> ImageUrlList = new ArrayList<String>();
 
     //리사이클러뷰 어댑터 초기화
@@ -59,22 +44,11 @@ public class TabFragment_allClothes extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-
-/*        Cloth_Info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(Cloth_Info.getVisibility()==View.VISIBLE)
-                    Cloth_Info.setVisibility(View.INVISIBLE);
-            }
-        });*/
-        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
-=======
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
->>>>>>> 5c01f554454ab44fbccb6c87d98f8db9f2499e62
             @Override
             public void onItemClick(View v, int position) {
-                ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
+                //((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
+                
             }
         });
     }

@@ -21,8 +21,7 @@
                 app:scale_base_width="1080">
 
                 <include
-
-                    layout="@layout/header_main"
+                    layout="@layout/header_codi"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
@@ -76,8 +75,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:descendantFocusability="blocksDescendants"
-                        >
+                        android:descendantFocusability="blocksDescendants">
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tabLayout"
@@ -92,13 +90,6 @@
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
-            <RelativeLayout
-                android:id="@+id/cloth_info"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <include
-                    layout="@layout/cardview_cloth_info"/>
-            </RelativeLayout>
         </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

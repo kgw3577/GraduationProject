@@ -1,4 +1,4 @@
-package com.Project.Closet.closet;
+package com.Project.Closet.codi.addCodi;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.ClothesListAdapter_large;
-import com.Project.Closet.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
@@ -27,12 +26,12 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 
-public class TabFragment_outer extends Fragment {
+public class Page_accessory extends Fragment {
     int page=0;
     RecyclerView list_clothes;
 
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+    ClothesListAdapter_large clothesListAdapterLarge = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +45,8 @@ public class TabFragment_outer extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        list_clothes.setAdapter(clothesListAdapter);
+        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        list_clothes.setAdapter(clothesListAdapterLarge);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -76,9 +75,9 @@ public class TabFragment_outer extends Fragment {
             OkHttpClient client = new OkHttpClient();
             String baseURL = Global.baseURL;
 
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("outer", params[0], "25");
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("accessory", params[0], "10");
             //인자 page, pageSize
-            //pageSize는 최소 21?이어야 함.
+            //pageSize는 최소 5여야 함.
 
             try {
                 return cloListCall.execute().body();
@@ -97,7 +96,7 @@ public class TabFragment_outer extends Fragment {
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
                     Log.e("item", e.getFilePath());
                 }
-                clothesListAdapter.notifyDataSetChanged();
+                clothesListAdapterLarge.notifyDataSetChanged();
             }
         }
     }

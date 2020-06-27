@@ -7,10 +7,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.Project.Closet.codi.Codi_main;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
 import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.codi.activity_codi_main;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -50,7 +50,7 @@ public class activity_home extends AppCompatActivity {
         Codi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, Codi_main.class);
+                Intent intent = new Intent(activity_home.this, activity_codi_main.class);
                 startActivity(intent);
             }
         });

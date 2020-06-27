@@ -13,13 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.ClothesListAdapter;
+import com.Project.Closet.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.Clothes_List;
 import com.Project.Closet.R;
-import com.Project.Closet.item_Cloth_List;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,11 +30,9 @@ import retrofit2.Call;
 public class TabFragment_bottom extends Fragment {
     int page=0;
     RecyclerView list_clothes;
-    item_Cloth_List ClothList;
-
     Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_large);
+    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,9 +44,9 @@ public class TabFragment_bottom extends Fragment {
 
         new networkTask().execute(Integer.toString(page));
 
-        View view = inflater.inflate(R.layout.fragment_large, container, false);
+        View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 4));
         list_clothes.setAdapter(clothesListAdapter);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -79,9 +76,9 @@ public class TabFragment_bottom extends Fragment {
             OkHttpClient client = new OkHttpClient();
             String baseURL = Global.baseURL;
 
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("bottom", params[0], "10");
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory("bottom", params[0], "25");
             //인자 page, pageSize
-            //pageSize는 최소 5여야 함.
+            //pageSize는 최소 21?이어야 함.
 
             try {
                 return cloListCall.execute().body();

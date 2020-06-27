@@ -1,4 +1,4 @@
-package com.Project.Closet.closet;
+package com.Project.Closet.codi.addCodi;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.ClothesListAdapter_large;
 import com.Project.Closet.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
@@ -27,7 +26,7 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 
-public class TabFragment_outer extends Fragment {
+public class Page_outer extends Fragment {
     int page=0;
     RecyclerView list_clothes;
 
