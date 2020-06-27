@@ -75,7 +75,9 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="blocksDescendants"
+                        >
 
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tabLayout"
@@ -90,6 +92,13 @@
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
+            <RelativeLayout
+                android:id="@+id/cloth_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    layout="@layout/cardview_cloth_info"/>
+            </RelativeLayout>
         </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView

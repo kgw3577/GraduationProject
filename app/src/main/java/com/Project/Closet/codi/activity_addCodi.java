@@ -1,6 +1,8 @@
 package com.Project.Closet.codi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -12,8 +14,24 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.Project.Closet.R;
+import com.Project.Closet.closet.TabFragment_accessory;
+import com.Project.Closet.closet.TabFragment_allClothes;
+import com.Project.Closet.closet.TabFragment_bag;
+import com.Project.Closet.closet.TabFragment_bottom;
+import com.Project.Closet.closet.TabFragment_outer;
+import com.Project.Closet.closet.TabFragment_shoes;
+import com.Project.Closet.closet.TabFragment_suit;
+import com.Project.Closet.closet.TabFragment_top;
 
 public class activity_addCodi extends AppCompatActivity {
+
+    enum Category {
+        ALL, TOP, BOTTOM, SUIT, OUTER, SHOES, BAG, ACCESSORY
+    }
+
+    //뷰페이저 선언
+    private ViewPager viewPager;
+    private PagerAdapter_addCodi pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +57,23 @@ public class activity_addCodi extends AppCompatActivity {
         tvDone.setOnClickListener(onClickListener);
         ivTop.setOnClickListener(onClickListener);
         ivBottom.setOnClickListener(onClickListener);
+
+        //하단 뷰페이저 어댑터 설정
+        viewPager = (ViewPager) findViewById(R.id.viewPager) ;
+        viewPager.setOffscreenPageLimit(1); //캐싱을 해놓을 프래그먼트 개수
+
+        pagerAdapter = new PagerAdapter_addCodi(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
+
+        //뷰페이저에 프래그먼트 설정
+        pagerAdapter.addItem(new TabFragment_allClothes());
+        pagerAdapter.addItem(new TabFragment_top());
+        pagerAdapter.addItem(new TabFragment_bottom());
+        pagerAdapter.addItem(new TabFragment_suit());
+        pagerAdapter.addItem(new TabFragment_outer());
+        pagerAdapter.addItem(new TabFragment_shoes());
+        pagerAdapter.addItem(new TabFragment_bag());
+        pagerAdapter.addItem(new TabFragment_accessory());
+        viewPager.setAdapter(pagerAdapter);
 
     }
 

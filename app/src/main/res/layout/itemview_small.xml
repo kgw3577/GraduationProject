@@ -9,7 +9,7 @@
         android:id="@+id/cardview_cloth"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_margin="3dp"
         card_view:cardCornerRadius="10dp">
 
         <LinearLayout
@@ -19,9 +19,9 @@
 
             <ImageView
                 android:id="@+id/cardview_cloth_iv"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center|center_horizontal|center_vertical"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center_horizontal|center_vertical"
                 android:src="@drawable/temp_banner_1" />
 
         </LinearLayout>

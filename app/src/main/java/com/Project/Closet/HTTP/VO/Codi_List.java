@@ -1,13 +1,12 @@
 package com.Project.Closet.HTTP.VO;
 
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import java.util.List;
 
-public class Clothes_List {
+public class Codi_List {
     //String imageUrl;
     String filePath;
-    List<ClothesVO> list;
-    public List<ClothesVO> getList()
+    List<CodiVO> list;
+    public List<CodiVO> getList()
     {
         return list;
     }

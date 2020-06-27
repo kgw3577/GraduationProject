@@ -9,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.Project.Closet.ClothesListAdapter_large;
+import com.Project.Closet.ClothesListAdapter_medium;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.Clothes_List;
 import com.Project.Closet.R;
-import com.Project.Closet.item_Cloth_List;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,11 +31,8 @@ import retrofit2.Call;
 public class TabFragment_likeClo extends Fragment {
     int page=0;
     RecyclerView list_clothes;
-    item_Cloth_List ClothList;
-
-    Clothes_List ClothesList;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ClothesListAdapter_large clothesListAdapterLarge = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_large);
+    ClothesListAdapter_medium clothesListAdapter = new ClothesListAdapter_medium(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +45,10 @@ public class TabFragment_likeClo extends Fragment {
         new networkTask().execute(Integer.toString(page));
 
         //핵심 코드
-        View view = inflater.inflate(R.layout.fragment_large, container, false);
+        View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         list_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        list_clothes.setAdapter(clothesListAdapterLarge);
+        list_clothes.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        list_clothes.setAdapter(clothesListAdapter);
         list_clothes.setNestedScrollingEnabled(true);
         list_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -81,9 +78,9 @@ public class TabFragment_likeClo extends Fragment {
             String baseURL = Global.baseURL;
 
             //즐겨찾기 여부가 "yes"인 옷 가져오기
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).favoriteClothes("yes", params[0], "10");
+            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).favoriteClothes("yes", params[0], "15");
             //인자 page, pageSize
-            //pageSize는 최소 5여야 함.
+            //pageSize는 최소 10이어야 함.
 
             try {
                 return cloListCall.execute().body();
@@ -102,7 +99,7 @@ public class TabFragment_likeClo extends Fragment {
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
                     Log.e("item", e.getFilePath());
                 }
-                clothesListAdapterLarge.notifyDataSetChanged();
+                clothesListAdapter.notifyDataSetChanged();
             }
         }
     }

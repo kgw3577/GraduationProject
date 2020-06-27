@@ -26,7 +26,7 @@ public class ClothesListAdapter_large extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_cloth_large,null);
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_large,null);
         return new ViewHolder(v);
     }
 
