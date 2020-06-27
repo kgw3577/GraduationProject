@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -46,7 +47,7 @@ public class TabFragment_allClothes extends Fragment {
         super.onCreate(savedInstanceState);
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
+            public void onItemClick(View v, int position, ImageView iv_Clothes) {
                 ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
             }
         });

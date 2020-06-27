@@ -159,6 +159,8 @@ public class activity_closet extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
+            Cloth_Info.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
