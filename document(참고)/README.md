@@ -16,11 +16,14 @@ AWS 루트 주소 : http://13.209.3.5:8080
 I. 회원 관리
 공통 URL : /user
 
+
 1. 회원 정보 조회 (수정중)
 /user/myInfo
+
 1.1. Request 
 ● 메소드 : GET
 ● 세션 정보로 userID가 관리되므로 파라미터 전송할 필요 없음.
+
 1.2. Response
 ● Json 형식의 회원 정보
 ● 예 {"id":"candy","name":"lemon","mail":"lemon@gmail.com","pwd":"5577","gender":"male","age":"5000","emailChecked":"no"}
