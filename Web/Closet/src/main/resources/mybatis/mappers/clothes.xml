@@ -95,7 +95,7 @@
 	</select>
 	
 	
-	<!-- 옷 추가 쿼리 -->
+	<!-- 옷 추가 쿼리. 칼럼 하나도 빼먹지 말 것 -->
 	<insert id="insertClothes" parameterType="java.util.HashMap">
 	<![CDATA[
 		insert into CLOTHES
@@ -108,8 +108,8 @@
 	<![CDATA[
 		update CLOTHES
 		set cloName=#{name}, cloCategory=#{category},
-			cloBrand=#{brand}, cloColor=#{color},
-			cloSeason=#{season}, cloSize=#{cloSize}, cloImg=#{img}, 
+			cloBrand=#{brand}, cloColor=#{color}, cloSeason=#{season},
+			cloSize=#{cloSize}, cloImg=#{img}, 
 			fileName=#{fileName}, filePath=#{filePath},
 			cloLike=#{like}, userID=#{userID}, closetName=#{closetName}
 		where
@@ -126,6 +126,4 @@
 	]]>
 	</delete>
 
-
 </mapper>
-

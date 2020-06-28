@@ -1,0 +1,115 @@
+﻿-- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
+
+
+CREATE DATABASE CLOSET;
+USE CLOSET;
+
+-- USER Table Create SQL
+CREATE TABLE USER
+(
+    `userID`        VARCHAR(45)    NOT NULL    COMMENT '유저아이디', 
+    `userName`      VARCHAR(45)    NULL        COMMENT '유저이름', 
+    `userMail`      VARCHAR(70)    NULL        COMMENT '유저메일', 
+    `userPassword`  VARCHAR(45)    NULL        COMMENT '유저패스워드', 
+    `userGender`    VARCHAR(10)    NULL        COMMENT '유저성별', 
+    `userAge`       VARCHAR(10)    NULL        COMMENT '유저나이', 
+    `emailChecked`  VARCHAR(45)    NULL        COMMENT '유저메일체크', 
+    PRIMARY KEY (userID)
+);
+
+ALTER TABLE USER COMMENT '유저';
+
+
+
+-- USER Table Create SQL
+CREATE TABLE CLOTHES
+(
+    `cloNo`           INT             NOT NULL    COMMENT '옷번호(대리키)' AUTO_INCREMENT, 
+    `cloName`         VARCHAR(45)     NULL        COMMENT '옷이름', 
+    `cloCategory`     VARCHAR(45)     NULL        COMMENT '옷카테고리', 
+    `cloBrand`        VARCHAR(45)     NULL        COMMENT '옷브랜드', 
+    `cloColor`        VARCHAR(45)     NULL        COMMENT '옷색상', 
+    `cloDate`         VARCHAR(45)     NULL        COMMENT '옷추가날짜', 
+    `cloSeason`       VARCHAR(45)     NULL        COMMENT '옷계절', 
+    `cloSize`         VARCHAR(45)     NULL        COMMENT '옷사이즈', 
+    `cloImg`          VARCHAR(45)     NULL        COMMENT '옷이미지', 
+    `fileName`        VARCHAR(45)     NULL        COMMENT '파일이름', 
+    `originfileName`  VARCHAR(45)     NULL        COMMENT '파일원본이름', 
+    `filePath`        VARCHAR(100)    NULL        COMMENT '파일경로', 
+    `cloLike`         VARCHAR(45)     NULL        COMMENT '즐겨찾기', 
+    `userID`          VARCHAR(45)     NOT NULL    COMMENT '유저아이디', 
+    `closetName`      VARCHAR(45)     NOT NULL    COMMENT '옷장이름', 
+    PRIMARY KEY (cloNo)
+);
+
+ALTER TABLE CLOTHES COMMENT '옷';
+
+ALTER TABLE CLOTHES
+    ADD CONSTRAINT FK_CLOTHES_closetName_CLOSET_closetName FOREIGN KEY (userID, closetName)
+        REFERENCES CLOSET (userID, closetName) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- USER Table Create SQL
+CREATE TABLE CODI
+(
+    `codiNo`           INT             NOT NULL    COMMENT '코디번호(대리키)' AUTO_INCREMENT, 
+    `codiName`         VARCHAR(45)     NULL        COMMENT '이름', 
+    `season`     VARCHAR(45)     NULL        COMMENT '계절', 
+    `where`        VARCHAR(45)     NULL        COMMENT '장소', 
+    `buyDate`        DATE     NULL        COMMENT '구입 날짜', 
+    `comment`         VARCHAR(1000)     NULL        COMMENT '코멘트 500자', 
+    `like`       VARCHAR(10)     NULL		DEFAULT 'no'        COMMENT '즐겨찾기 여부', 
+    `fileName`         VARCHAR(50)     NULL        COMMENT '파일이름', 
+    `filePath`          VARCHAR(80)     NULL        COMMENT '파일경로', 
+    `addedDate`        TIMESTAMP     NOT NULL	DEFAULT CURRENT_TIMESTAMP        COMMENT '추가 날짜', 
+    `userID`          VARCHAR(30)     NOT NULL    COMMENT '유저아이디', 
+    PRIMARY KEY (codiNo)
+);
+
+ALTER TABLE CODI COMMENT '코디';
+
+ALTER TABLE CODI
+    ADD CONSTRAINT FK_CODI_name_CLOSET_name FOREIGN KEY (userID)
+        REFERENCES CLOSET (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+-- USER Table Create SQL
+CREATE TABLE CLOSET
+(
+    `userID`          VARCHAR(45)    NOT NULL    COMMENT '유저아이디', 
+    `closetName`      VARCHAR(45)    NOT NULL    COMMENT '옷장이름', 
+    `closetLocation`  VARCHAR(45)    NULL        COMMENT '옷장위치', 
+    `closetMemo`      VARCHAR(45)    NULL        COMMENT '옷장메모', 
+    `closetOpen`      VARCHAR(45)    NULL        COMMENT '공개여부', 
+    PRIMARY KEY (userID, closetName)
+);
+
+ALTER TABLE CLOSET COMMENT '옷장';
+
+ALTER TABLE CLOSET
+    ADD CONSTRAINT FK_CLOSET_userID_USER_userID FOREIGN KEY (userID)
+        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+
+-- USER Table Create SQL
+CREATE TABLE RELATION
+(
+    `relationUserID`  VARCHAR(45)    NOT NULL    COMMENT '주사람ID', 
+    `relatedUserID`   VARCHAR(45)    NOT NULL    COMMENT '부사람ID', 
+    `type`            VARCHAR(45)    NULL        COMMENT '관계', 
+    PRIMARY KEY (relationUserID, relatedUserID)
+);
+
+ALTER TABLE RELATION COMMENT '유저관계';
+
+ALTER TABLE RELATION
+    ADD CONSTRAINT FK_RELATION_relationUserID_USER_userID FOREIGN KEY (relationUserID)
+        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE RELATION
+    ADD CONSTRAINT FK_RELATION_relatedUserID_USER_userID FOREIGN KEY (relatedUserID)
+        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+

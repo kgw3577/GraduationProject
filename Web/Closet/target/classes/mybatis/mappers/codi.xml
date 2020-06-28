@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.codi">
+	
+	<!--반환 레코드를 config에서 지정한 codiVO 빈에 저장 -->
+	<resultMap id="codiResult" type="codiVO">
+		<result property="codiNo" column="codiNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="codiName" column="codiName" />
+		<result property="season" column="season" />
+		<result property="where" column="where" />
+		<result property="buyDate" column="buyDate" />
+		<result property="comment" column="comment" />
+		<result property="like" column="like" />
+		<result property="fileName" column="fileName" />
+		<result property="filePath" column="filePath" />
+		<result property="addedDate" column="addedDate" />		
+		<result property="userID" column="userID" />	
+	</resultMap>
+
+	<!--반환 레코드를 해쉬맵에 저장 -->
+	<resultMap id="codiResult_h" type="java.util.HashMap">
+		<result property="codiNo" column="codiNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="codiName" column="codiName" />
+		<result property="season" column="season" />
+		<result property="where" column="where" />
+		<result property="buyDate" column="buyDate" />
+		<result property="comment" column="comment" />
+		<result property="like" column="like" />
+		<result property="fileName" column="fileName" />
+		<result property="filePath" column="filePath" />
+		<result property="addedDate" column="addedDate" />		
+		<result property="userID" column="userID" />	
+	</resultMap>
+	
+	
+	<!-- SQL문. 반환 레코드를 codiResult에 저장 -->
+
+	<!-- 조건값에 따라 select하는 쿼리. 받은 codiVO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchCodi" resultMap="codiResult" parameterType="codiVO">
+	<![CDATA[
+		select * from CODI
+	]]>
+		<where>
+			<if test="codiNo != '' and codiNo != null">
+				codiNo = #{codiNo}
+			</if>
+			<if test="codiName != '' and codiName != null">
+				and codiName = #{codiName}
+			</if>
+			<if test="season != '' and season != null">
+				and season = #{season}
+			</if>
+			<if test="where != '' and where != null">
+				and where = #{where}
+			</if>
+			<if test="buyDate != '' and buyDate != null">
+				and buyDate = #{buyDate}
+			</if>
+			<if test="comment != '' and comment != null">
+				and comment = #{comment}
+			</if>
+			<if test="like != '' and like != null">
+				and like = #{like}
+			</if>
+			<if test="fileName != '' and fileName != null">
+				and fileName = #{fileName}
+			</if>
+			<if test="filePath != '' and filePath != null">
+				and filePath = #{filePath}
+			</if>		
+			<if test="addedDate != '' and addedDate != null">
+				and addedDate = #{addedDate}
+			</if>		
+			<if test="userID != '' and userID != null">
+				and userID = #{userID} ORDER BY addedDate DESC
+			</if>
+			<if test="pageStart != -1 and pageSize != -1">
+				LIMIT #{pageStart}, #{pageSize}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 코디 추가 쿼리. 칼럼 하나도 빼먹지 말 것 -->
+	<insert id="insertCodi" parameterType="java.util.HashMap">
+	<![CDATA[
+		insert into CODI
+		values(#{codiNo},#{codiName},#{season},#{where},
+		#{buyDate},#{comment},#{like},
+		#{fileName},#{filePath},#{addedDate}, #{userID})
+	]]>
+	</insert>
+
+	<update id="updateCodi" parameterType="codiVO">
+	<![CDATA[
+		update CODI
+		set codiNo = #{codiNo}, codiName = #{codiName},
+			season = #{season}, where = #{where},
+			buyDate = #{buyDate}, comment = #{comment}, like = #{like}, 
+			fileName=#{fileName}, filePath=#{filePath},
+			addedDate = #{addedDate}, userID=#{userID}
+		where
+		codiNo = #{codiNo}
+	]]>
+	</update>
+
+	<!-- 여러 행 삭제할 수 있게 변경해야 함.-->
+	<delete id="deleteCodi" parameterType="codiVO">
+	<![CDATA[
+		delete from CODI
+		where
+		codiNo = #{codiNo}
+	]]>
+	</delete>
+
+</mapper>
+

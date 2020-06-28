@@ -12,7 +12,7 @@
 	
 	<!-- DailyRollingFile Appenders : 로그 메시지를 파일로 출력-->
 	<appender name="dailyFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="C:\\repo\\logs\\output.log" />
+		<param name="File" value="/home/ubuntu/output.log" />
 		<param name="Append" value="true" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="DatePattern" value="'.'yyyy-MM-dd" />
