@@ -143,6 +143,7 @@ public class Page_accessory extends Fragment {
                     //옷 데이터를 받아온 후 이미지 url 리스트를 갱신
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
                     Log.e("item", e.getFilePath());
+
                 }
                 clothesListAdapter.notifyDataSetChanged();
             }

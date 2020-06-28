@@ -19,6 +19,13 @@ public class ClothesListAdapter_medium extends RecyclerView.Adapter<RecyclerView
     Context mContext;
     List<String> items;
     int item_layout;
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
+    private OnItemClickListener mListener = null ;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener ;
+    }
     public ClothesListAdapter_medium(Context context, List<String> items, int item_layout) {
         this.mContext=context;
         this.items=items;
