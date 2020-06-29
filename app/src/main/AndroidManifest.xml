@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".codi.addCodi.activity_addCodi"></activity>
-        <activity android:name=".codi.activity_addClothes" />
+        <activity android:name=".codi.addCodi.activity_addCodi" />
+        <activity android:name=".codi.addCodi.activity_sendCodi" />
         <activity android:name=".closet.activity_closet" />
         <activity android:name=".codi.activity_codi_main" />
         <activity android:name=".activity_addClothes" />

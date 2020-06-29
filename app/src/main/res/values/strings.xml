@@ -10,6 +10,21 @@
         <item>"가방"</item>
         <item>"악세서리"</item>
     </string-array>
+
+    <string-array name="Season">
+        <item>"봄"</item>
+        <item>"여름"</item>
+        <item>"가을"</item>
+        <item>"겨울"</item>
+    </string-array>
+
+    <string-array name="Place">
+        <item>"데일리"</item>
+        <item>"포멀"</item>
+        <item>"스페셜"</item>
+    </string-array>
+
+
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

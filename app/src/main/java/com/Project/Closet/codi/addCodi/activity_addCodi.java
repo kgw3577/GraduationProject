@@ -1,12 +1,17 @@
 package com.Project.Closet.codi.addCodi;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +21,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.codi.activity_codi_main;
+import com.Project.Closet.home.activity_home;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 
 public class activity_addCodi extends AppCompatActivity implements Page_allClothes.FragListener, Page_top.FragListener, Page_bottom.FragListener
     , Page_suit.FragListener, Page_outer.FragListener, Page_shoes.FragListener, Page_bag.FragListener, Page_accessory.FragListener {
@@ -47,11 +71,22 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
     ImageView ivBag;
     ImageView ivAccessory1;
 
+    RelativeLayout layout_preview;
+    ImageView ivPreviewImage;
+    Bitmap savedCodi;
+    Bitmap resizedImage;
+    String path;
+
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_codi);
+
+        layout_preview = (RelativeLayout) findViewById(R.id.preview);
+        layout_preview.setVisibility(View.GONE);
+        ivPreviewImage  = (ImageView) findViewById(R.id.iv_preview_image);
 
         //헤더 메뉴 아이콘 받아오기
         ImageView ivSearch = (ImageView) findViewById(R.id.iv_search);
@@ -128,8 +163,6 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         @Override
         public void onClick(View view) {
 
-            Bitmap savedBitmap;
-
             switch (view.getId()) {
                 case R.id.iv_search :
                     break ;
@@ -137,21 +170,32 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
                     getApplication();
                     break ;
                 case R.id.tv_preview : //미리보기 버튼 : 현재 코디 비트맵으로 저장한 후 보여주기
+                    layout_preview.setVisibility(View.VISIBLE);
                     layoutMakeCodi.setDrawingCacheEnabled(false); //캐시를 지운다
                     layoutMakeCodi.setDrawingCacheEnabled(true); //캐시를 얻는다
-                    layoutMakeCodi.buildDrawingCache(); //뷰 이미지를 Drawing cache에 저장
-                    savedBitmap = layoutMakeCodi.getDrawingCache();
-                    if (savedBitmap != null) {
-                        ivBottom.setImageBitmap(savedBitmap.copy(savedBitmap.getConfig(), false));
+                    layoutMakeCodi.buildDrawingCache(); //뷰 이미지 캡쳐 Drawing cache에 저장
+                    savedCodi = layoutMakeCodi.getDrawingCache(); //캡쳐를 비트맵으로 저장
+                    if (savedCodi != null) {
+                        Log.e("confirm","코디 저장됨.");
+                        layout_preview.setVisibility(View.VISIBLE);
+                        ivPreviewImage.setImageBitmap(savedCodi.copy(savedCodi.getConfig(), false));
                     }
                     break ;
-                case R.id.tv_done :
+                case R.id.tv_done : //완료 버튼
+                    //현재 코디 이미지 캡쳐
                     layoutMakeCodi.setDrawingCacheEnabled(false); //캐시를 지운다
                     layoutMakeCodi.setDrawingCacheEnabled(true); //캐시를 얻는다
                     layoutMakeCodi.buildDrawingCache(); //뷰 이미지를 Drawing cache에 저장
-                    savedBitmap = layoutMakeCodi.getDrawingCache();
+                    savedCodi = layoutMakeCodi.getDrawingCache(); //캡쳐를 비트맵으로 저장
+                    resizedImage = Bitmap.createScaledBitmap(savedCodi, 500, 500, true);
+                    if (resizedImage != null) {
+                        upload();
+                        //Intent intent = new Intent(activity_addCodi.this, activity_sendCodi.class);
+                        //resizedImage = Bitmap.createScaledBitmap(savedCodi, 500, 500, true);
+                        //intent.putExtra("codiImage", resizedImage) ;
+                        //startActivity(intent);
+                    }
                     break ;
-
                 case R.id.iv_top :
                     iv_selected = ivTop;
                     viewPager.setCurrentItem(Category.TOP);
@@ -188,10 +232,99 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         }
     }
 
+    String upload(){
+        String res="";
+
+        //임시 파일로 저장하기
+        final Context context = getApplicationContext();
+        String filename = "myTemp";
+        File tempFile = null;
+        try {
+            tempFile = File.createTempFile(filename, null, context.getCacheDir());
+            FileOutputStream out = new FileOutputStream(tempFile);
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+            out.close();
+            path = tempFile.getAbsolutePath(); //임시 파일 경로
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            res = new UploadTask().execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            if (res.contains("ok")) {
+                Toast.makeText(activity_addCodi.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), activity_codi_main.class);
+                startActivity(intent);
+            } else if (res.contains("fail")) {
+                Toast.makeText(activity_addCodi.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(activity_addCodi.this, "업로드 오류", Toast.LENGTH_SHORT).show();
+            //Intent intent = new Intent(getApplicationContext(), activity_home.class);
+            //startActivity(intent);
+        }
+        return res;
+    }
+
+    public class UploadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody requestBody;
+            MultipartBody.Part body;
+            File file = new File(path);
+            LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
+            List<MultipartBody.Part> arrBody = new ArrayList<>();
 
 
+            requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
+            mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
+            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), "outer"));
+            body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
+            arrBody.add(body);
 
 
+            Call<String> stringCall = CodiService.getRetrofit(getApplicationContext()).addCodi(mapRequestBody, arrBody);
+            try {
+                return stringCall.execute().body(); //웹서버에 이미지 보내고 응답 받기
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
+        if (layout_preview.getVisibility() == View.VISIBLE) {
+            layout_preview.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 
 
 }

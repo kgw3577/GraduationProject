@@ -95,15 +95,17 @@
 	</select>
 	
 	
-	<!-- 옷 추가 쿼리. 칼럼 하나도 빼먹지 말 것 -->
+	<!-- 옷 추가 쿼리  -->
 	<insert id="insertClothes" parameterType="java.util.HashMap">
 	<![CDATA[
-		insert into CLOTHES
+		insert into CLOTHES 
 		values(#{no},#{name},#{category},#{brand},#{color},#{season},
-		#{cloSize},#{img},#{fileName},#{filePath},#{like},#{userID},#{closetName},#{date})
+		#{cloSize},#{img},#{fileName},#{filePath},#{like},#{userID},
+		#{closetName},#{date})
 	]]>
 	</insert>
 
+	<!-- 옷 정보(즐겨찾기) 수정 쿼리 -->
 	<update id="updateFavorite" parameterType="clothesVO">
 	<![CDATA[
 		update CLOTHES
@@ -113,7 +115,7 @@
 	]]>
 	</update>
 
-	<!-- 여러 행 삭제할 수 있게 변경해야 함.-->
+	<!-- 옷 삭제 쿼리 -->
 	<delete id="deleteClothes" parameterType="clothesVO">
 	<![CDATA[
 		delete from CLOTHES
