@@ -44,6 +44,7 @@ public class activity_codi_main extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity_codi_main.this, activity_closet.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }
         });

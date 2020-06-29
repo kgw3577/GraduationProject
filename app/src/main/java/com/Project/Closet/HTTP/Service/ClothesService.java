@@ -42,7 +42,7 @@ public class ClothesService extends APIAdapter {
         //옷 추가
         //POST 방식, 파라메터는 @Field("파라메터명") 으로 보낼 수 있습니다.
         @Multipart
-        @POST("codi/add")
+        @POST("clothes/add")
         Call<String> addClothes(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
         //response는 true/false
 
