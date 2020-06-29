@@ -99,6 +99,13 @@
                 <include
                     layout="@layout/cardview_cloth_info"/>
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/cloth_info_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <include
+                    layout="@layout/cardview_cloth_info_edit"/>
+            </RelativeLayout>
         </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
