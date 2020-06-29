@@ -1,4 +1,4 @@
-package com.my.closet.clothes.service;
+package com.my.closet.codi.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,30 +13,30 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.my.closet.clothes.dao.ClothesDAO;
-import com.my.closet.clothes.vo.ClothesVO;
+import com.my.closet.codi.dao.CodiDAO;
+import com.my.closet.codi.vo.CodiVO;
 import com.my.closet.file.FileUploadController;
 import com.my.closet.user.vo.LoginVO;
 
 
-@Service("clothesService")
+@Service("codiService")
 @Transactional(propagation=Propagation.REQUIRED) //서비스 클래스의 모든 메서드에 트랜잭션을 적용
-public class ClothesServiceImpl implements ClothesService {
+public class CodiServiceImpl implements CodiService {
 
 	@Autowired
-	private ClothesDAO clothesDAO;
+	private CodiDAO codiDAO;
 	@Autowired
 	private FileUploadController uploadCon;
 	
 	@Override
-	public List<ClothesVO> listAllClothes() throws DataAccessException {
-		List<ClothesVO> clothesList = clothesDAO.selectAllClothes();
-		return clothesList;
+	public List<CodiVO> listAllCodi() throws DataAccessException {
+		List<CodiVO> codiList = codiDAO.selectAllCodi();
+		return codiList;
 	}
 	
-	//내 옷 전부 조회
+	//내 코디 전부 조회
 	@Override
-	public List<ClothesVO> myAllClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException {
+	public List<CodiVO> myAllCodi(HttpSession session, CodiVO codiFilter) throws DataAccessException {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
@@ -45,20 +45,21 @@ public class ClothesServiceImpl implements ClothesService {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
-		clothesVO.setUserID(loginVO.getId());
+		//페이지 정보만 담긴 VO에 세션으로부터 받아온 유저아이디 정보 묶음
+		codiFilter.setUserID(loginVO.getId());
 
-		return clothesDAO.selectClothes(clothesVO);
+		return codiDAO.selectCodi(codiFilter);
 	}
 
-	//옷 정보 보기
+	//코디 정보 보기
 	@Override
-	public ClothesVO infoClothes(String no) throws DataAccessException {
-		return clothesDAO.selectThisClothes(no);
+	public CodiVO infoCodi(String codiNo) throws DataAccessException {
+		return codiDAO.selectThisCodi(codiNo);
 	}
 
-	//옷 찾기
+	//코디 찾기
 	@Override
-	public List<ClothesVO> searchClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException {
+	public List<CodiVO> searchCodi(HttpSession session, CodiVO codiFilter) throws DataAccessException {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
@@ -67,56 +68,53 @@ public class ClothesServiceImpl implements ClothesService {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
-		clothesVO.setUserID(loginVO.getId());
+		codiFilter.setUserID(loginVO.getId());
 
-		return clothesDAO.selectClothes(clothesVO);
+		return codiDAO.selectCodi(codiFilter);
 	}
 
 	@Override
-	public String winAddClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
+	public String winAddCodi(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
 		
 		//업로드 컨트롤러의 upload 함수로 사진 파일+파라미터 정보가 담긴 request를 한꺼번에 넘기고, 업로드 후에 해쉬맵으로 속성 정보를 받아온다.
-		Map<String, Object> clothesMap = new HashMap<String, Object>();
+		Map<String, Object> codiInfo = new HashMap<String, Object>();
 		try {
-			clothesMap=uploadCon.upload("windows", multipartRequest);
+			codiInfo=uploadCon.upload("windows", multipartRequest);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("업로드 콘 실패");
+			return "fail";
+		}
+		System.out.println("해쉬맵 생성 성공. 해쉬맵을 출력합니다.");
+		for(Map.Entry<String, Object> elem : codiInfo.entrySet()){
+			 
+            String key = elem.getKey();
+            Object value = elem.getValue();
+ 
+            System.out.println(key+" : "+value);
+ 
+        }
+		
+		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
+		return codiDAO.addCodi(codiInfo);
+		
+	}
+	
+	@Override
+	public String addCodi(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
+		
+		//업로드 컨트롤러의 upload 함수로 사진 파일+파라미터 정보가 담긴 request를 한꺼번에 넘기고, 업로드 후에 해쉬맵으로 속성 정보를 받아온다.
+		Map<String, Object> codiInfo = new HashMap<String, Object>();
+		try {
+			codiInfo=uploadCon.upload("codi", multipartRequest);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println("업로드 콘 실패");
 		}
 		System.out.println("해쉬맵 생성 성공. 해쉬맵을 출력합니다.");
-		try {
-		for(Map.Entry<String, Object> elem : clothesMap.entrySet()){
-			 
-            String key = elem.getKey();
-            Object value = elem.getValue();
- 
-            System.out.println(key+" : "+value);
- 
-        }
-		}catch(NullPointerException e) {
-			e.printStackTrace();
-		}
-		clothesMap.put("category","outer");
-		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
-		return clothesDAO.addClothes(clothesMap);
-		
-	}
-	
-	@Override
-	public String addClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
-		
-		//업로드 컨트롤러의 upload 함수로 사진 파일+파라미터 정보가 담긴 request를 한꺼번에 넘기고, 업로드 후에 해쉬맵으로 속성 정보를 받아온다.
-		Map<String, Object> clothesMap = new HashMap<String, Object>();
-		try {
-			clothesMap=uploadCon.upload("clothes", multipartRequest);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("업로드 콘 실패");
-		}
-		System.out.println("해쉬맵 생성 성공");
-		for(Map.Entry<String, Object> elem : clothesMap.entrySet()){
+		for(Map.Entry<String, Object> elem : codiInfo.entrySet()){
 			 
             String key = elem.getKey();
             Object value = elem.getValue();
@@ -126,20 +124,18 @@ public class ClothesServiceImpl implements ClothesService {
         }
 		
 		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
-		return clothesDAO.addClothes(clothesMap);
+		return codiDAO.addCodi(codiInfo);
 		
-	}
-	
+	}	
 	
 
 	@Override
-	public String modifyClothes(ClothesVO clothesInfo) throws DataAccessException {
-		//즐겨찾기 DAO만 완성.
-		return clothesDAO.updateFavorite(clothesInfo);
+	public String modifyCodi(CodiVO codiInfo) throws DataAccessException {
+		return codiDAO.updateCodi(codiInfo);
 	}
 
 	@Override
-	public String deleteClothes(String no) throws DataAccessException {
+	public String deleteCodi(String codiNo) throws DataAccessException {
 		/*
 		 여러 행 삭제 :
 		 $param = "1,2,3,4,5";
@@ -147,7 +143,8 @@ public class ClothesServiceImpl implements ClothesService {
 		 
 		 쿼리문에서 in 으로 처리
 		 */
-		return clothesDAO.deleteClothes(no);
+		//사진 삭제 처리도 해야 함.
+		return codiDAO.deleteCodi(codiNo);
 	}
 
 

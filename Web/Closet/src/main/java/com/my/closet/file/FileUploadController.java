@@ -23,9 +23,6 @@ import com.my.closet.user.vo.LoginVO;
 
 @Controller
 public class FileUploadController {
-	// 같은 이름인 파일이 있으면 그 위에 새로 덮어씌워지는 것 주의. 해결방법 찾아야 함.
-	// 이름 무작위 생성하기? : 파일 이름 안 겹치게 무작위 생성하고, 겹치는지 데베 확인까지 하는 모듈 만들기 --파일 이름도 primary key로?
-	// -- 사용자 별로 폴더 만들기
 	
 	private static String CURR_IMAGE_REPO_PATH;
 
@@ -46,7 +43,8 @@ public class FileUploadController {
 	@RequestMapping(value = "/upload/{object}", method = RequestMethod.POST)
 	public ModelAndView upload(@PathVariable("object") String obj, MultipartHttpServletRequest multipartRequest,
 			HttpServletResponse response) throws Exception {
-
+		String userID="";
+		
 		if (obj.equals("clothes"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
@@ -64,30 +62,40 @@ public class FileUploadController {
 			map.put(name, value);
 		}
 
-		List<?> fileList = fileProcess(multipartRequest);
-		
+
+		//세션으로부터 유저아이디 받아오기
 		HttpSession httpSession = multipartRequest.getSession(false);
 		if(httpSession ==null) {
 			System.out.println("세션 정보 없음");
-			return null;
+			userID = "a";
 		}
-			
-		LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
-		System.out.println("userID : "+loginVO.getId());
+		else {
+			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
+			userID = loginVO.getId();
+			System.out.println("userID : "+userID);
+		}
+		map.put("userID",userID);
 		
-		map.put("userID",loginVO.getId());
+		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
+		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
+		
+		
+		map.put("userID",userID);
 		map.put("fileList", fileList);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("map", map);
 		mav.setViewName("windowsUploadResult");
-		if(obj.equals("clothes"))
+		if(obj.equals("clothes")||obj.equals("clothes"))
 			mav.setViewName("awsUploadResult");
 		return mav;
 	}
 	
+	
+	//service 클래스 내부에서 쓸 함수.
 	public Map<String, Object> upload(String obj, MultipartHttpServletRequest multipartRequest) throws Exception {
 
-		//service 클래스 내부에서 쓸 함수.
+		String userID;
+		
 		if (obj.equals("clothes"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
@@ -106,32 +114,37 @@ public class FileUploadController {
 			map.put(name, value);
 		}
 
-		List<?> fileList = fileProcess(multipartRequest); //String
-		
+		//세션으로부터 유저아이디 받아오기
 		HttpSession httpSession = multipartRequest.getSession(false);
 		if(httpSession ==null) {
 			System.out.println("세션 정보 없음");
-			return null;
+			userID = "a";
 		}
 		else {
 			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
-			System.out.println("userID : "+loginVO.getId());
-			map.put("userID",loginVO.getId());
+			userID = loginVO.getId();
+			System.out.println("userID : "+userID);
+			
 		}
 		
-		//사용자명 폴더
-		String fileName = (String) fileList.get(0);
-		String filePath = "/download/clothes?imageFileName="+fileName;
-		if(obj.equals("windows"))
-			filePath = "/download/windows?imageFileName="+fileName;
+		
+		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
+		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
+		
+		String filePath = "/download/clothes?imageFileName="+new_name;
+		if(obj.equals("codi"))
+			filePath = "/download/codi?imageFileName="+new_name;
+		else if(obj.equals("windows"))
+			filePath = "/download/windows?imageFileName="+new_name;
 
-		map.put("fileName", fileName);
+		map.put("userID",userID);
+		map.put("fileName", new_name);
 		map.put("filePath", filePath);
 		
 		return map;  //옷 정보가 담긴 해쉬맵을 반환함
 	}
 
-	private List<String> fileProcess(MultipartHttpServletRequest multipartRequest) throws Exception {
+	private List<String> fileProcess(String new_name, MultipartHttpServletRequest multipartRequest) throws Exception {
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		while (fileNames.hasNext()) {
@@ -139,14 +152,14 @@ public class FileUploadController {
 			MultipartFile mFile = multipartRequest.getFile(fileName);
 			String originalFileName = mFile.getOriginalFilename();
 			fileList.add(originalFileName);
-			File file = new File(CURR_IMAGE_REPO_PATH + fileName);
+			File file = new File(CURR_IMAGE_REPO_PATH + new_name);
 			if (mFile.getSize() != 0) { // File Null Check
 				if (!file.exists()) { // 경로에 파일이 없으면
 					if (file.getParentFile().mkdirs()) { // 그 경로에 해당하는 디렉터리를 만든 후
 						file.createNewFile(); // 파일을 생성
 					}
 				}
-				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH + originalFileName)); // 임시로 저장된 multipartFile을 실제 파일로 전송
+				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH + new_name)); // 임시로 저장된 multipartFile을 실제 파일로 전송
 			}
 		}
 		return fileList;

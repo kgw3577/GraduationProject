@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#80000000">
+    android:background="#80000000"
+    android:clickable="true"
+    android:focusable="true">
 
     <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,19 +28,22 @@
                 android:gravity="right">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_heart"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:src="@drawable/favorite_empty"/>
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_modify"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:src="@drawable/modification"/>
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:id="@+id/iv_delete"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:src="@drawable/delete"/>
 
@@ -156,6 +161,20 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:id="@+id/tv_info_date"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/tv_clothes_no"
+                    android:visibility="invisible"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/tv_clothes_favorite"
+                    android:visibility="invisible"
                     />
             </LinearLayout>
 

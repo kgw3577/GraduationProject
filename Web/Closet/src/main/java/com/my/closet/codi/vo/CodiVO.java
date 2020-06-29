@@ -7,10 +7,10 @@ public class CodiVO {
 	private int codiNo; // PRIMARY KEY. AUTO INCREMENT
 	private String codiName;
 	private String season; //계절
-	private String where; //장소
+	private String place; //장소
 	private String buyDate; //구입 날짜
 	private String comment; //코멘트 500자
-	private String like; //즐겨찾기 여부, DEFAULT 'no'
+	private String favorite; //즐겨찾기 여부, DEFAULT 'no'
 	private String fileName;
 	private String filePath;
 	private String addedDate; //등록일, DEFAULT CURRENT_TIMESTAMP
@@ -68,12 +68,12 @@ public class CodiVO {
 		this.season = season;
 	}
 
-	public String getWhere() {
-		return where;
+	public String getPlace() {
+		return place;
 	}
 
-	public void setWhere(String where) {
-		this.where = where;
+	public void setPlace(String place) {
+		this.place = place;
 	}
 
 	public String getBuyDate() {
@@ -92,12 +92,12 @@ public class CodiVO {
 		this.comment = comment;
 	}
 
-	public String getLike() {
-		return like;
+	public String getFavorite() {
+		return favorite;
 	}
 
-	public void setLike(String like) {
-		this.like = like;
+	public void setFavorite(String favorite) {
+		this.favorite = favorite;
 	}
 
 	public String getFileName() {

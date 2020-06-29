@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.ClothesVO;
+import com.Project.Closet.HTTP.VO.UserVO;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,11 +12,16 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class ClothesService extends APIAdapter {
@@ -36,7 +42,7 @@ public class ClothesService extends APIAdapter {
         //옷 추가
         //POST 방식, 파라메터는 @Field("파라메터명") 으로 보낼 수 있습니다.
         @Multipart
-        @POST("clothes/add")
+        @POST("codi/add")
         Call<String> addClothes(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
         //response는 true/false
 
@@ -53,6 +59,17 @@ public class ClothesService extends APIAdapter {
         //즐겨찾기한 옷 목록 가져오기
         @GET("clothes/search")
         Call<List<ClothesVO>> favoriteClothes(@Query("like") String like, @Query("page") String page, @Query("pageSize") String pageSize);
+
+        //옷 정보 수정하기
+        @Headers("Content-Type: application/json")
+        @PUT("clothes/modify")
+        Call<String> modifyClothes(@Body ClothesVO clothesFilter);
+
+        //옷 삭제
+        //id를 파라미터로 받아 API URL을 완성해서 DELETE 방식으로 요청
+        @DELETE("clothes/delete/{cloNo}")
+        Call<String> deleteClothes(@Path("cloNo") String cloNo);
+        //response는 ok/fail
 
     }
 }

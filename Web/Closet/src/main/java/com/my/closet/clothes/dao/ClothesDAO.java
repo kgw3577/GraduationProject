@@ -15,7 +15,7 @@ public interface ClothesDAO {
 	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException; //조건으로 옷 선택
 	
 	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException; //옷 추가 (예외적으로 해쉬맵으로 받음)
-	public String updateClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
+	public String updateFavorite(ClothesVO clothesInfo) throws DataAccessException; //옷 정보 수정
 	public String deleteClothes(String no) throws DataAccessException; //옷 삭제 (1,2,3,4,5로 여러 개 가능) --주의
 
 }

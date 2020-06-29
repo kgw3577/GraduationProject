@@ -21,7 +21,7 @@ public interface ClothesService {
 	
 	public String winAddClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException;
 	public String addClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException; //옷 추가
-	public String modifyClothes(ClothesVO clothesVO) throws DataAccessException; //옷 정보 수정
+	public String modifyClothes(ClothesVO clothesInfo) throws DataAccessException; //옷 정보 수정
 	//사진을 변경할 경우의 수를 생각해야 함.
 	public String deleteClothes(String no) throws DataAccessException; //옷 삭제 (1,2,3,4,5로 여러 개 가능) --주의
 	//FileDeleteController 구현 후 그 함수 사용.

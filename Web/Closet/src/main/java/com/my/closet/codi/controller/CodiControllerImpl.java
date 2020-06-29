@@ -1,4 +1,4 @@
-package com.my.closet.clothes.controller;
+package com.my.closet.codi.controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,107 +23,98 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.my.closet.clothes.service.ClothesService;
-import com.my.closet.clothes.vo.ClothesVO;
+import com.my.closet.codi.service.CodiService;
+import com.my.closet.codi.vo.CodiVO;
 import com.my.closet.user.controller.UserControllerImpl;
 
 
-
-//3. 500 에러 원인 해명
-//4. 파일 삭제 유틸
-//5. 한 번에 여러 개 삭제
-//7. 하위 레코드가 남아 있으면 상위 레코드를 지울 수 없는 문제 해결
-//8. 옷 정보 수정하기 구현
-
-
-@RestController("clothesController")
-@RequestMapping("/clothes")
-public class ClothesControllerImpl implements ClothesController {
+@RestController("codiController")
+@RequestMapping("/codi")
+public class CodiControllerImpl implements CodiController {
 
 	//Logger 클래스 객체 가져오기
-	private static final Logger logger = LoggerFactory.getLogger(ClothesControllerImpl.class);
-	
-	
+	private static final Logger logger = LoggerFactory.getLogger(CodiControllerImpl.class);
+		
 	@Autowired
-	private ClothesService clothesService;
+	private CodiService codiService;
 	@Autowired
-	ClothesVO clothesVO;
+	CodiVO codiVO;
 	
-	//옷 추가 테스트용 폼(웹. 관리용)
+	//코디 추가 테스트용 폼(웹. 관리용)
 	@RequestMapping(value = "/addform")
 	public ModelAndView addTestform() {
-		return new ModelAndView("clothes/addTestUploadForm");
+		return new ModelAndView("codi/addTestUploadForm");
 	}
 	
-	//전체 옷 조회 (웹. 관리용)
+	//전체 코디 조회 (웹. 관리용)
 	@Override
-	@RequestMapping(value = "/clolist", method = RequestMethod.GET)
-	public ModelAndView clotheslist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/codilist", method = RequestMethod.GET)
+	public ModelAndView codilist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<ClothesVO> clothesList = clothesService.listAllClothes();
-		mav.addObject("clothesList", clothesList);
+		List<CodiVO> codiList = codiService.listAllCodi();
+		mav.addObject("codiList", codiList);
 		return mav;
 	}
 	
-	//내 옷 전부 조회
+	//내 코디 전부 조회
 	@Override
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<ClothesVO>> myAllClothes(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
-		List<ClothesVO> myclolist;
+	public ResponseEntity<List<CodiVO>> myAllCodi(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
+		List<CodiVO> myCodiList;
 		try{
-			ClothesVO cloVO = new ClothesVO();
+			CodiVO codiFilter = new CodiVO();
 			if(!page.isEmpty()&&!pageSize.isEmpty()) {
 				int pageInt = Integer.parseInt(page);
 				int pageSizeInt = Integer.parseInt(pageSize);
-				cloVO.setPageStart(pageInt*pageSizeInt);
-				cloVO.setPageSize(pageSizeInt);
+				codiFilter.setPageStart(pageInt*pageSizeInt);
+				codiFilter.setPageSize(pageSizeInt);
 			}
-			myclolist = clothesService.myAllClothes(session, cloVO);
+			myCodiList = codiService.myAllCodi(session, codiFilter);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<List<CodiVO>>(Collections.<CodiVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<ClothesVO>>(myclolist, HttpStatus.OK);
+		return new ResponseEntity<List<CodiVO>>(myCodiList, HttpStatus.OK);
 	}
 	
-	//옷 정보 보기
+	//코디 정보 보기
 	@Override
-	@RequestMapping(value = "/info/{no}", method = RequestMethod.GET)
-	public ResponseEntity<ClothesVO> infoClothes(@PathVariable("no") String no) throws Exception {
-		ClothesVO clothesInfo;
+	@RequestMapping(value = "/info/{codiNo}", method = RequestMethod.GET)
+	public ResponseEntity<CodiVO> infoCodi(@PathVariable("codiNo") String codiNo) throws Exception {
+		CodiVO codiInfo;
 		try {
-			clothesInfo = clothesService.infoClothes(no);
+			codiInfo = codiService.infoCodi(codiNo);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<ClothesVO>(new ClothesVO(), HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<CodiVO>(new CodiVO(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<ClothesVO>(clothesInfo, HttpStatus.OK);
+		return new ResponseEntity<CodiVO>(codiInfo, HttpStatus.OK);
 	}
 
-	//옷 찾기
+	//코디 찾기
 	@Override
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<ClothesVO>> searchClothes(HttpSession session, ClothesVO clothesVO, @RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<ClothesVO> searched_clolist;
+	public ResponseEntity<List<CodiVO>> searchCodi(HttpSession session, CodiVO codiFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<CodiVO> searched_codiList;
 		try{
 			if(!page.isEmpty()&&!pageSize.isEmpty()) {
 				int pageInt = Integer.parseInt(page);
 				int pageSizeInt = Integer.parseInt(pageSize);
-				clothesVO.setPageStart(pageInt*pageSizeInt);
-				clothesVO.setPageSize(pageSizeInt);
+				codiFilter.setPageStart(pageInt*pageSizeInt);
+				codiFilter.setPageSize(pageSizeInt);
 			}
-			searched_clolist = clothesService.searchClothes(session, clothesVO);
+			searched_codiList = codiService.searchCodi(session, codiFilter);
 		}catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<List<CodiVO>>(Collections.<CodiVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<ClothesVO>>(searched_clolist, HttpStatus.OK);
+		return new ResponseEntity<List<CodiVO>>(searched_codiList, HttpStatus.OK);
 	}
 
-	//옷 추가하기
+	//코디 추가하기
 	@Override
 	@RequestMapping(value = "/add", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
-	public ResponseEntity<String> addClothes(MultipartHttpServletRequest multipartRequest,
+	public ResponseEntity<String> addCodi(MultipartHttpServletRequest multipartRequest,
 			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception{
 		
 		logger.debug("#create: multipartFile({})", multipartFile);
@@ -131,8 +122,8 @@ public class ClothesControllerImpl implements ClothesController {
 		
 		String answer = null;
 		try {
-			answer = clothesService.addClothes(multipartRequest);
-			//윈도우 시험용 : winAddClothes
+			answer = codiService.addCodi(multipartRequest);
+			//윈도우 시험용 : winAddCodi
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
@@ -140,36 +131,34 @@ public class ClothesControllerImpl implements ClothesController {
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
-	
-	//옷 정보 수정
+	//코디 정보 수정
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)
-	public ResponseEntity<String> modifyClothes(@RequestBody ClothesVO clothesInfo) throws Exception {
-		System.out.println("받아온 옷 정보 : "+clothesInfo.getNo()+clothesInfo.getLike());
-		
+	public ResponseEntity<String> modifyCodi(@RequestBody CodiVO codiInfo) throws Exception {
+		System.out.println("받아온 코디 정보 : "+codiInfo.getPlace()+codiInfo.getFileName());
+				
 		String answer = null;
 		try {
-			answer = clothesService.modifyClothes(clothesInfo);
+			answer = codiService.modifyCodi(codiInfo);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
-	//옷 삭제
+	//코디 삭제
 	@Override
-	@RequestMapping(value = "/delete/{cloNo}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteClothes(@PathVariable("cloNo") String cloNo) throws Exception {
-		String answer = null;
+	@RequestMapping(value = "/delete/{codiNo}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteCodi(@PathVariable("codiNo") String codiNo) throws Exception {
+		String answer;
 		try {
-			answer= clothesService.deleteClothes(cloNo);
-			System.out.println("컨트롤러에서 받아온 응답 : "+answer);
+			answer= codiService.deleteCodi(codiNo);
 		} catch(Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<String>("fail", HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		// TODO Auto-generated method stub
-		return new ResponseEntity<String>(answer, HttpStatus.OK);
+		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 	}
 	
 	private String getViewName(HttpServletRequest request) throws Exception {

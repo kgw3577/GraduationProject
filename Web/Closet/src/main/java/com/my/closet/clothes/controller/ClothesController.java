@@ -25,7 +25,7 @@ public interface ClothesController {
 	
 	public ResponseEntity<String> addClothes(MultipartHttpServletRequest multipartRequest,MultipartFile multipartFile) throws Exception; //옷 추가
 
-	public ResponseEntity<String> modifyClothes(ClothesVO clothesVO) throws Exception; //옷 정보 수정
+	public ResponseEntity<String> modifyClothes(ClothesVO clothesInfo) throws Exception; //옷 정보 수정
 	public ResponseEntity<String> deleteClothes(String no) throws Exception; //옷 삭제
 	
 }

@@ -59,14 +59,20 @@ public class ClothesDAOImpl implements ClothesDAO {
 	}
 
 	@Override
-	public String updateClothes(ClothesVO clothesVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public String updateFavorite(ClothesVO clothesInfo) throws DataAccessException {
+		int result = sqlSession.update("mapper.clothes.updateFavorite",clothesInfo);
+		System.out.println(result);
+		
+		if (result==1)
+			return "ok"; //update 성공
+		else
+			return "fail"; //update 실패
 	}
 
 	@Override
 	public String deleteClothes(String no) throws DataAccessException {
-		int result = sqlSession.delete("mapper.clothes.deleteClothes",no);
+		int result = sqlSession.delete("mapper.clothes.deleteClothes",Integer.parseInt(no));
+		System.out.println(result);
 		
 		if (result==1)
 			return "ok";

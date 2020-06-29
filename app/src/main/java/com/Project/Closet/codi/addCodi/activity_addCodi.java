@@ -1,6 +1,7 @@
 package com.Project.Closet.codi.addCodi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
@@ -33,7 +34,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
 
     //뷰페이저 선언
     private ViewPager viewPager;
-    private CustomFragmentPagerAdapter pagerAdapter;
+    private PagerAdapter_addCodi pagerAdapter;
 
     //셀렉트바 선언
     LinearLayout selectbar;
@@ -95,7 +96,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
             }
         });
 
-        pagerAdapter = new CustomFragmentPagerAdapter(getSupportFragmentManager(),8); //getSupportFragmentManager로 프래그먼트 참조가능
+        pagerAdapter = new PagerAdapter_addCodi(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
         //뷰페이저에 프래그먼트 설정
         pagerAdapter.addItem(new Page_allClothes());

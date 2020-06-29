@@ -1,6 +1,5 @@
-package com.Project.Closet.closet;
+package com.Project.Closet.fragment;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,22 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
+import android.widget.Switch;
 
 import androidx.annotation.RequiresApi;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.util.ClothesListAdapter_small;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
+import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.util.ClothesListAdapter_large;
+import com.Project.Closet.util.ClothesListAdapter_small;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
@@ -38,33 +38,26 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class TabFragment_allClothes extends Fragment {
+public class TabFragment_Codi_large extends Fragment {
+
+    String identifier; //프래그먼트의 종류를 알려줌
     int page=0;
     RecyclerView rv_clothes;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ArrayList<ClothesVO> clothesVO = new ArrayList<ClothesVO>();
+    ArrayList<CodiVO> codiVOList = new ArrayList<CodiVO>();
     //리사이클러뷰 어댑터 초기화
-    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+    ClothesListAdapter_large clothesListAdapter = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+
+    Call<List<CodiVO>> codiListCall; //코디 VO 리스트를 응답으로 받는 http 요청
+
+    public TabFragment_Codi_large(String identifier){
+        this.identifier = identifier;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
-                ((activity_closet)getActivity()).Cloth_Info.setVisibility(View.VISIBLE);
-                Glide.with((((activity_closet) getActivity()).iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_image);
-                ((activity_closet)getActivity()).tv_name.setText(clothesVO.get(position).getName());
-                ((activity_closet)getActivity()).tv_category.setText(clothesVO.get(position).getClosetName());
-                ((activity_closet)getActivity()).tv_detailcategory.setText(clothesVO.get(position).getCategory());
-                ((activity_closet)getActivity()).tv_season.setText(clothesVO.get(position).getSeason());
-                ((activity_closet)getActivity()).tv_brand.setText(clothesVO.get(position).getBrand());
-                ((activity_closet)getActivity()).tv_size.setText(clothesVO.get(position).getCloSize());
-                ((activity_closet)getActivity()).tv_date.setText(clothesVO.get(position).getDate());
-
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -77,7 +70,7 @@ public class TabFragment_allClothes extends Fragment {
         //리사이클러 뷰 설정하기
         View view = inflater.inflate(R.layout.fragment_recyclerview, container, false);
         rv_clothes = (RecyclerView) view.findViewById(R.id.tab_clothes_rv);
-        rv_clothes.setLayoutManager(new GridLayoutManager(getContext(), 4)); //그리드 사이즈 설정
+        rv_clothes.setLayoutManager(new GridLayoutManager(getContext(), 2)); //그리드 사이즈 설정
         rv_clothes.setAdapter(clothesListAdapter);
         rv_clothes.setNestedScrollingEnabled(true);
         rv_clothes.setOnScrollChangeListener(new View.OnScrollChangeListener() {
@@ -103,7 +96,7 @@ public class TabFragment_allClothes extends Fragment {
         return view;
     }
 
-    public class networkTask extends AsyncTask<String, Void, List<ClothesVO>> {
+    public class networkTask extends AsyncTask<String, Void, List<CodiVO>> {
 
         @Override
         protected void onPreExecute() {
@@ -112,15 +105,37 @@ public class TabFragment_allClothes extends Fragment {
         }
 
         @Override
-        protected List<ClothesVO> doInBackground(String... params) {
+        protected List<CodiVO> doInBackground(String... params) {
 
-            //모든 옷 조회
-            Call<List<ClothesVO>> cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], "25");
+
+
+            switch (identifier){
+                case "all" : //모든 코디 조회
+                    codiListCall = CodiService.getRetrofit(getActivity()).myAllCodi(params[0], "7");
+                    break;
+                case "spring" : //봄 코디 조회
+                case "summer" : //여름 코디 조회
+                case "fall" : //가을 코디 조회
+                case "winter" : //겨울 코디 조회
+                    codiListCall = CodiService.getRetrofit(getActivity()).chooseSeason(identifier, params[0], "7");
+                    break;
+                case "daily" : //일상 코디 조회
+                case "formal" : //포멀 코디 조회
+                case "special" : //특수 코디 조회
+                    codiListCall = CodiService.getRetrofit(getActivity()).choosePlace(identifier, params[0], "7");
+                    break;
+                case "favorite" : //즐겨찾기한 코디 조회
+                    codiListCall = CodiService.getRetrofit(getActivity()).favoriteCodi("yes", params[0], "7");
+            }
+
+
+
+
             //페이지 사이즈 설정
             //인자 page, pageSize
             //pageSize는 최소 21?이어야 함. (화면 갱신되려면)
             try {
-                return cloListCall.execute().body();
+                return codiListCall.execute().body();
 
                 // Do something with the response.
             } catch (IOException e) {
@@ -130,13 +145,13 @@ public class TabFragment_allClothes extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<ClothesVO> clolist) {
-            super.onPostExecute(clolist);
-            if(clolist!=null) {
-                for(ClothesVO e:clolist) {
+        protected void onPostExecute(List<CodiVO> codiList) {
+            super.onPostExecute(codiList);
+            if(codiList!=null) {
+                for(CodiVO e: codiList) {
                     //옷 데이터를 받아온 후 이미지 url 리스트를 갱신
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
-                    clothesVO.add(e);
+                    codiVOList.add(e);
                     Log.e("item", e.getFilePath());
                 }
                 clothesListAdapter.notifyDataSetChanged();

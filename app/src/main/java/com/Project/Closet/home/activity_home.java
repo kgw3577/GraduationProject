@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.Project.Closet.R;
@@ -22,18 +23,41 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 public class activity_home extends AppCompatActivity {
+
     private TabLayout tabLayout;
     private ViewPager finalPager;
+    TabPagerAdapter_home pagerAdapter;
     ImageView navMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        repeatedFunction(); //onResume()으로 화면의 지속적인 갱신을 위해 코드를 따로 뺌
+    }
+
+
+    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        repeatedFunction();
+    }
+
+    public void repeatedFunction(){
         setContentView(R.layout.layout_home);
 
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
-
 
         //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
@@ -107,7 +131,7 @@ public class activity_home extends AppCompatActivity {
 
         //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
         finalPager = (ViewPager) findViewById(R.id.tab_Pager);
-        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        pagerAdapter = new TabPagerAdapter_home(getSupportFragmentManager(), tabLayout.getTabCount());
         finalPager.setAdapter(pagerAdapter);
         finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -125,17 +149,5 @@ public class activity_home extends AppCompatActivity {
 
             }
         });
-    }
-
-
-    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 }

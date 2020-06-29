@@ -3,13 +3,12 @@ package com.my.closet.codi.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.my.closet.clothes.vo.ClothesVO;
+import com.my.closet.codi.vo.CodiVO;
 
 @Repository("codiDAO")
 public class CodiDAOImpl implements CodiDAO {
@@ -18,34 +17,34 @@ public class CodiDAOImpl implements CodiDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<ClothesVO> selectAllClothes() throws DataAccessException {
-		List<ClothesVO> clolist = sqlSession.selectList("mapper.clothes.searchClothes", new ClothesVO());
-		return clolist;
+	public List<CodiVO> selectAllCodi() throws DataAccessException {
+		//빈 필터를 보냄으로써 모든 코디 조회
+		List<CodiVO> codilist = sqlSession.selectList("mapper.codi.searchCodi", new CodiVO());
+		return codilist;
 	}
 
 	@Override
-	public ClothesVO selectThisClothes(String no) throws DataAccessException {
+	public CodiVO selectThisCodi(String codiNo) throws DataAccessException {
 		
-		ClothesVO cloVO = new ClothesVO();
-		cloVO.setNo(Integer.parseInt(no));
+		CodiVO codiVO = new CodiVO();
+		codiVO.setCodiNo(Integer.parseInt(codiNo));
 		
-		ClothesVO clothes = sqlSession.selectOne("mapper.clothes.searchClothes",cloVO);
-		return clothes;
+		CodiVO codi = sqlSession.selectOne("mapper.codi.searchCodi",codiVO);
+		return codi;
 	}
 
 	@Override
-	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException {
-		List<ClothesVO> clolist = sqlSession.selectList("mapper.clothes.searchClothes", clothesVO);
-		return clolist;
+	public List<CodiVO> selectCodi(CodiVO codiFilter) throws DataAccessException {
+		List<CodiVO> codiList = sqlSession.selectList("mapper.codi.searchCodi", codiFilter);
+		return codiList;
 	}
 
 	@Override
-	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException {
+	public String addCodi(Map<String, Object> codiInfo) throws DataAccessException {
 
-		System.out.println("쿼리 실행 전");
-		int result = sqlSession.insert("mapper.clothes.insertClothes", clothesMap);
-		
-		System.out.println("쿼리 실행");
+		System.out.println("insert 쿼리 실행 전");
+		int result = sqlSession.insert("mapper.codi.insertCodi", codiInfo);
+		System.out.println("insert 쿼리 실행");
 		
 		if (result == 1) {
 			System.out.println("쿼리 성공");
@@ -54,19 +53,22 @@ public class CodiDAOImpl implements CodiDAO {
 		else {
 			System.out.println("쿼리 실패");
 			return "fail"; //insert 실패
-		}
-			
+		}			
 	}
 
 	@Override
-	public String updateClothes(ClothesVO clothesVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		return null;
+	public String updateCodi(CodiVO codiInfo) throws DataAccessException {
+		int result = sqlSession.update("mapper.codi.updateCodi",codiInfo);
+		
+		if (result==1)
+			return "ok"; //update 성공
+		else
+			return "fail"; //update 실패
 	}
 
 	@Override
-	public String deleteClothes(String no) throws DataAccessException {
-		int result = sqlSession.delete("mapper.clothes.deleteClothes",no);
+	public String deleteCodi(String codiNo) throws DataAccessException {
+		int result = sqlSession.delete("mapper.codi.deleteCodi",codiNo);
 		
 		if (result==1)
 			return "ok";

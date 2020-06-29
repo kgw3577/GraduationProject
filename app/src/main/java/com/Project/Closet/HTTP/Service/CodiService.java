@@ -46,13 +46,16 @@ public class CodiService extends APIAdapter {
         @GET("codi/all")
         Call<List<CodiVO>> myAllCodi(@Query("page") String page, @Query("pageSize") String pageSize);
 
-        //특정 코디 목록 가져오기
+        //계절별 코디 목록 가져오기
         @GET("codi/search")
-        Call<List<CodiVO>> chooseCategory(@Query("category") String category, @Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<CodiVO>> chooseSeason(@Query("season") String season, @Query("page") String page, @Query("pageSize") String pageSize);
+        //상황별 코디 목록 가져오기
+        @GET("codi/search")
+        Call<List<CodiVO>> choosePlace(@Query("place") String place, @Query("page") String page, @Query("pageSize") String pageSize);
 
         //즐겨찾기한 코디 목록 가져오기
         @GET("codi/search")
-        Call<List<CodiVO>> favoriteCodi(@Query("like") String like, @Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<CodiVO>> favoriteCodi(@Query("favorite") String favorite, @Query("page") String page, @Query("pageSize") String pageSize);
 
     }
 }

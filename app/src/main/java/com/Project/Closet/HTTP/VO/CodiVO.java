@@ -1,63 +1,60 @@
 package com.Project.Closet.HTTP.VO;
 
 public class CodiVO {
-    private int no; // PRIMARY KEY. AUTO INCREMENT
-    private String name;
-    private String category;
-    private String date;
-    private String season;
-    private String cloSize;
-    private String img;
+    private int codiNo; // PRIMARY KEY. AUTO INCREMENT
+    private String codiName;
+    private String season; //계절
+    private String place; //장소
+    private String buyDate; //구입 날짜
+    private String comment; //코멘트 500자
+    private String favorite; //즐겨찾기 여부, DEFAULT 'no'
     private String fileName;
     private String filePath;
-    private String like;
+    private String addedDate; //등록일, DEFAULT CURRENT_TIMESTAMP
     private String userID; // FOREIGN KEY(CLOSET). not null
-    private String closetName; // FOREIGN KEY(CLOSET). not null
+
+    //임시
+    private int pageStart =-1;
+    private int pageSize =-1;
 
 
     //생성자
     public CodiVO() {
-        System.out.println("ClothesVO 생성자 호출");
+        System.out.println("CodiVO 생성자 호출");
     }
 
-    public CodiVO(String userID, String closetName, String fileName) {
-        System.out.println("ClothesVO 생성자 호출");
+    public CodiVO(int codiNo) {
+        System.out.println("CodiVO 생성자 호출");
+        this.codiNo = codiNo;
+    }
+
+    public CodiVO(String userID) {
+        System.out.println("CodiVO 생성자 호출");
         this.userID = userID;
-        this.closetName = closetName;
+    }
+
+    public CodiVO(String userID, String fileName) {
+        System.out.println("CodiVO 생성자 호출");
+        this.userID = userID;
         this.fileName = fileName;
     }
 
-    //getter & setter
-    public int getNo() {
-        return no;
+
+    //게터&세터
+    public int getCodiNo() {
+        return codiNo;
     }
 
-    public void setNo(int no) {
-        this.no = no;
+    public void setCodiNo(int codiNo) {
+        this.codiNo = codiNo;
     }
 
-    public String getName() {
-        return name;
+    public String getCodiName() {
+        return codiName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setCodiName(String codiName) {
+        this.codiName = codiName;
     }
 
     public String getSeason() {
@@ -68,20 +65,36 @@ public class CodiVO {
         this.season = season;
     }
 
-    public String getCloSize() {
-        return cloSize;
+    public String getPlace() {
+        return place;
     }
 
-    public void setCloSize(String cloSize) {
-        this.cloSize = cloSize;
+    public void setPlace(String place) {
+        this.place = place;
     }
 
-    public String getImg() {
-        return img;
+    public String getBuyDate() {
+        return buyDate;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setBuyDate(String buyDate) {
+        this.buyDate = buyDate;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
     }
 
     public String getFileName() {
@@ -100,12 +113,12 @@ public class CodiVO {
         this.filePath = filePath;
     }
 
-    public String getLike() {
-        return like;
+    public String getAddedDate() {
+        return addedDate;
     }
 
-    public void setLike(String like) {
-        this.like = like;
+    public void setAddedDate(String addedDate) {
+        this.addedDate = addedDate;
     }
 
     public String getUserID() {
@@ -116,11 +129,22 @@ public class CodiVO {
         this.userID = userID;
     }
 
-    public String getClosetName() {
-        return closetName;
+    public int getPageStart() {
+        return pageStart;
     }
 
-    public void setClosetName(String closetName) {
-        this.closetName = closetName;
+    public void setPageStart(int pageStart) {
+        this.pageStart = pageStart;
     }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+
+
 }

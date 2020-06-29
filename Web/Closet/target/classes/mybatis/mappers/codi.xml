@@ -10,10 +10,10 @@
 		<result property="codiNo" column="codiNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
 		<result property="codiName" column="codiName" />
 		<result property="season" column="season" />
-		<result property="where" column="where" />
+		<result property="place" column="place" />
 		<result property="buyDate" column="buyDate" />
 		<result property="comment" column="comment" />
-		<result property="like" column="like" />
+		<result property="favorite" column="favorite" />
 		<result property="fileName" column="fileName" />
 		<result property="filePath" column="filePath" />
 		<result property="addedDate" column="addedDate" />		
@@ -25,10 +25,10 @@
 		<result property="codiNo" column="codiNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
 		<result property="codiName" column="codiName" />
 		<result property="season" column="season" />
-		<result property="where" column="where" />
+		<result property="place" column="place" />
 		<result property="buyDate" column="buyDate" />
 		<result property="comment" column="comment" />
-		<result property="like" column="like" />
+		<result property="favorite" column="favorite" />
 		<result property="fileName" column="fileName" />
 		<result property="filePath" column="filePath" />
 		<result property="addedDate" column="addedDate" />		
@@ -53,8 +53,8 @@
 			<if test="season != '' and season != null">
 				and season = #{season}
 			</if>
-			<if test="where != '' and where != null">
-				and where = #{where}
+			<if test="place != '' and place != null">
+				and place = #{place}
 			</if>
 			<if test="buyDate != '' and buyDate != null">
 				and buyDate = #{buyDate}
@@ -62,8 +62,8 @@
 			<if test="comment != '' and comment != null">
 				and comment = #{comment}
 			</if>
-			<if test="like != '' and like != null">
-				and like = #{like}
+			<if test="favorite != '' and favorite != null">
+				and favorite = #{favorite}
 			</if>
 			<if test="fileName != '' and fileName != null">
 				and fileName = #{fileName}
@@ -84,12 +84,12 @@
 	</select>
 	
 	
-	<!-- 코디 추가 쿼리. 칼럼 하나도 빼먹지 말 것 -->
+	<!-- 코디 추가 쿼리. 칼럼 하나도 빼먹지 말 것. 받은 해쉬맵 정보로 insert. -->
 	<insert id="insertCodi" parameterType="java.util.HashMap">
 	<![CDATA[
 		insert into CODI
-		values(#{codiNo},#{codiName},#{season},#{where},
-		#{buyDate},#{comment},#{like},
+		values(#{codiNo},#{codiName},#{season},#{place},
+		#{buyDate},#{comment},#{favorite},
 		#{fileName},#{filePath},#{addedDate}, #{userID})
 	]]>
 	</insert>
@@ -98,8 +98,8 @@
 	<![CDATA[
 		update CODI
 		set codiNo = #{codiNo}, codiName = #{codiName},
-			season = #{season}, where = #{where},
-			buyDate = #{buyDate}, comment = #{comment}, like = #{like}, 
+			season = #{season}, place = #{place},
+			buyDate = #{buyDate}, comment = #{comment}, favorite = #{favorite}, 
 			fileName=#{fileName}, filePath=#{filePath},
 			addedDate = #{addedDate}, userID=#{userID}
 		where

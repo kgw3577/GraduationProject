@@ -95,18 +95,7 @@ public class activity_addClothes extends AppCompatActivity {
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
-            mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "brown skirt"));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
-            mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"), "zara"));
-            mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"), "brown"));
-            mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"), "spring"));
-            mapRequestBody.put("cloSize", RequestBody.create(MediaType.parse("text/plain"), "s"));
-            mapRequestBody.put("like", RequestBody.create(MediaType.parse("text/plain"), likeArray[(int)(Math.random() * 2)]));
-            //mapRequestBody.put("filename", RequestBody.create(MediaType.parse("text/plain"), "brown skirt.jpg"));
-
-            //파일 이름 참고 :
-            // username+ System.currentTimeMillis() + ".png" 이런 식으로 지을 것.
-
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 

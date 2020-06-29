@@ -104,14 +104,10 @@
 	]]>
 	</insert>
 
-	<update id="updateClothes" parameterType="clothesVO">
+	<update id="updateFavorite" parameterType="clothesVO">
 	<![CDATA[
 		update CLOTHES
-		set cloName=#{name}, cloCategory=#{category},
-			cloBrand=#{brand}, cloColor=#{color}, cloSeason=#{season},
-			cloSize=#{cloSize}, cloImg=#{img}, 
-			fileName=#{fileName}, filePath=#{filePath},
-			cloLike=#{like}, userID=#{userID}, closetName=#{closetName}
+		set cloLike=#{like}
 		where
 		cloNo = #{no}
 	]]>
