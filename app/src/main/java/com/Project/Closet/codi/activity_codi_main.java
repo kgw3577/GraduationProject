@@ -121,9 +121,9 @@ public class activity_codi_main extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
         tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
         tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
-        tabLayout.getTabAt(5).setIcon(R.drawable.shoes); // 메뉴6
-        tabLayout.getTabAt(6).setIcon(R.drawable.bag); // 메뉴7
-        tabLayout.getTabAt(7).setIcon(R.drawable.hat); // 메뉴7
+        tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
+        tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
+        tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

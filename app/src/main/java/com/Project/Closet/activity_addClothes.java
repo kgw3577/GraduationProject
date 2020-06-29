@@ -57,6 +57,7 @@ public class activity_addClothes extends AppCompatActivity {
     String path;
     String likeArray[] = {"yes","no"};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,12 +143,17 @@ public class activity_addClothes extends AppCompatActivity {
                     ImageView view = (ImageView)findViewById(R.id.add_image);
                     Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
 
+                    //크기 줄여주기 (메모리 부족 오류 방지)
+                    double height=bitmap.getHeight();
+                    double width=bitmap.getWidth();
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int)Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
+
                     //임시 파일로 저장하기
                     final Context context = getApplicationContext();
                     String filename = "myTemp";
                     File tempFile = File.createTempFile(filename, null, context.getCacheDir());
                     FileOutputStream out = new FileOutputStream(tempFile);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
                     out.close();
                     path = tempFile.getAbsolutePath(); //임시 파일 경로
 
