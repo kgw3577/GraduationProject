@@ -168,7 +168,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:scale_base_width="216"
-                app:scale_base_height="160">
+                app:scale_base_height="160"
+                android:id="@+id/icon_footer_profile">
 
                 <ImageView
                     android:id="@+id/icon_my"

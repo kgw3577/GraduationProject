@@ -25,7 +25,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
+import com.Project.Closet.activity_profile;
 import com.Project.Closet.codi.activity_codi_main;
+import com.Project.Closet.home.activity_home;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -273,6 +275,15 @@ public class activity_closet extends AppCompatActivity {
             }
         });
 
+        //내 정보 아이콘 클릭
+        ScalableLayout Profile = (ScalableLayout) findViewById(R.id.icon_footer_profile);
+        Profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_closet.this, activity_profile.class);
+                startActivity(intent);
+            }
+        });
         //메뉴 버튼 클릭하면 드로워 열고 닫기
         navMenu = (ImageView)findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
