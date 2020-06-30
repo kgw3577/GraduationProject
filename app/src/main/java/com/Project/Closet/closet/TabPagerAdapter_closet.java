@@ -1,12 +1,19 @@
 package com.Project.Closet.closet;
 
+import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
+import com.Project.Closet.R;
 import com.Project.Closet.fragment.TabFragment_Clothes_inCloset;
 
 public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
+
+    Fragment fragment;
+
     // Count number of tabs
     private int tabCount;
 
@@ -21,21 +28,21 @@ public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return new TabFragment_Clothes_inCloset("all", "small");
+                return TabFragment_Clothes_inCloset.newInstance("all","small");
             case 1:
-                return new TabFragment_Clothes_inCloset("top", "small");
+                return TabFragment_Clothes_inCloset.newInstance("top","small");
             case 2:
-                return new TabFragment_Clothes_inCloset("bottom", "small");
+                return TabFragment_Clothes_inCloset.newInstance("bottom","small");
             case 3:
-                return new TabFragment_Clothes_inCloset("suit", "small");
+                return TabFragment_Clothes_inCloset.newInstance("suit","small");
             case 4:
-                return new TabFragment_Clothes_inCloset("outer", "small");
+                return TabFragment_Clothes_inCloset.newInstance("outer","small");
             case 5:
-                return new TabFragment_Clothes_inCloset("shoes", "small");
+                return TabFragment_Clothes_inCloset.newInstance("shoes","small");
             case 6:
-                return new TabFragment_Clothes_inCloset("bag", "small");
+                return TabFragment_Clothes_inCloset.newInstance("bag","small");
             case 7:
-                return new TabFragment_Clothes_inCloset("accessory", "small");
+                return TabFragment_Clothes_inCloset.newInstance("accessory","small");
             default:
                 return null;
         }

@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.util.ClothesListAdapter_small;
+import com.Project.Closet.util.ClothesListAdapter;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
@@ -56,13 +56,13 @@ public class Page_shoes extends Fragment {
     ArrayList<String> ImageUrlList = new ArrayList<String>();
 
     //리사이클러뷰 어댑터 초기화
-    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, "small");
+    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, "small");
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
+        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
                 Bitmap selectedImage = ((BitmapDrawable)iv_Clothes.getDrawable()).getBitmap();

@@ -20,7 +20,7 @@ import java.util.List;
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
 //뷰 홀더 : 아이템 뷰를 저장하는 객체
 //아이템 뷰 : 각각의 카드뷰 한 개
-public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     String size;
 
     Context mContext;
@@ -41,7 +41,7 @@ public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.
 
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public ClothesListAdapter_small(Context context, List<String> items, int item_layout, String size) {
+    public ClothesListAdapter(Context context, List<String> items, int item_layout, String size) {
         this.mContext=context;
         this.items=items;
         this.item_layout=item_layout;

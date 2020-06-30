@@ -1,6 +1,5 @@
 package com.Project.Closet.fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,9 +22,8 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.home.activity_home;
-import com.Project.Closet.util.ClothesListAdapter_small;
+import com.Project.Closet.util.ClothesListAdapter;
 import com.bumptech.glide.Glide;
 
 import java.io.IOException;
@@ -44,9 +42,9 @@ import retrofit2.Call;
 public class TabFragment_Clothes_inHome extends Fragment {
 
     String identifier; //프래그먼트의 종류를 알려줌
-
-
     String size;
+
+
     int gridsize;
     String pagesize;
 
@@ -65,12 +63,33 @@ public class TabFragment_Clothes_inHome extends Fragment {
     ArrayList<String> ImageUrlList = new ArrayList<String>();
     ArrayList<ClothesVO> clothesList = new ArrayList<ClothesVO>();
     //리사이클러뷰 어댑터
-    ClothesListAdapter_small clothesListAdapter;
+    ClothesListAdapter clothesListAdapter;
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
 
-    public TabFragment_Clothes_inHome(String identifier, String size){
-        this.identifier = identifier;
-        this.size = size;
+    public static TabFragment_Clothes_inHome newInstance(String identifier, String size) {
+
+        Bundle args = new Bundle();
+        args.putString("identifier", identifier);  // 키값, 데이터
+        args.putString("size", size);
+
+        TabFragment_Clothes_inHome fragment = new TabFragment_Clothes_inHome();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+        Bundle args = getArguments(); // 데이터 받기
+        if(args != null)
+        {
+            identifier = args.getString("identifier");
+            size = args.getString("size");
+        }
+
         switch (size){
             case "small":
                 gridsize = 4; //스몰 그리드 4x5
@@ -85,17 +104,12 @@ public class TabFragment_Clothes_inHome extends Fragment {
                 pagesize="7"; //라지 페이지 사이즈 7
                 break;
         }
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         //리사이클러뷰 어댑터 초기화
-        clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, size);
+        clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, size);
 
-        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter_small.OnItemClickListener() {
+        clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
                 ((activity_home) Objects.requireNonNull(getActivity())).Cloth_Info.setVisibility(View.VISIBLE);

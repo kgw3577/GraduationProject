@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.Project.Closet.fragment.TabFragment_Clothes_inCloset;
 import com.Project.Closet.fragment.TabFragment_Codi_large;
 
 public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
@@ -21,21 +22,21 @@ public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return new TabFragment_Codi_large("all");
+                return TabFragment_Codi_large.newInstance("all");
             case 1:
-                return new TabFragment_Codi_large("spring");
+                return TabFragment_Codi_large.newInstance("spring");
             case 2:
-                return new TabFragment_Codi_large("summer");
+                return TabFragment_Codi_large.newInstance("summer");
             case 3:
-                return new TabFragment_Codi_large("fall");
+                return TabFragment_Codi_large.newInstance("fall");
             case 4:
-                return new TabFragment_Codi_large("winter");
+                return TabFragment_Codi_large.newInstance("winter");
             case 5:
-                return new TabFragment_Codi_large("daily");
+                return TabFragment_Codi_large.newInstance("casual");
             case 6:
-                return new TabFragment_Codi_large("formal");
+                return TabFragment_Codi_large.newInstance("formal");
             case 7:
-                return new TabFragment_Codi_large("special");
+                return TabFragment_Codi_large.newInstance("special");
             default:
                 return null;
         }

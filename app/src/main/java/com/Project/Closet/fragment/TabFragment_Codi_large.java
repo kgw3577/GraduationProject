@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Switch;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -17,15 +15,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Service.CodiService;
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.util.ClothesListAdapter_large;
-import com.Project.Closet.util.ClothesListAdapter_small;
-import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,6 +34,7 @@ import retrofit2.Call;
 public class TabFragment_Codi_large extends Fragment {
 
     String identifier; //프래그먼트의 종류를 알려줌
+
     int page=0;
     RecyclerView rv_clothes;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
@@ -50,8 +44,14 @@ public class TabFragment_Codi_large extends Fragment {
 
     Call<List<CodiVO>> codiListCall; //코디 VO 리스트를 응답으로 받는 http 요청
 
-    public TabFragment_Codi_large(String identifier){
-        this.identifier = identifier;
+    public static TabFragment_Codi_large newInstance(String identifier) {
+
+        Bundle args = new Bundle();
+        args.putString("identifier", identifier);  // 키값, 데이터
+
+        TabFragment_Codi_large fragment = new TabFragment_Codi_large();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -63,6 +63,13 @@ public class TabFragment_Codi_large extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Bundle args = getArguments(); // 데이터 받기
+        if(args != null)
+        {
+            identifier = args.getString("identifier");
+        }
+
 
         //현재 페이지수와 함께 웹서버에 옷 데이터 요청
         new networkTask().execute(Integer.toString(page));
@@ -119,7 +126,7 @@ public class TabFragment_Codi_large extends Fragment {
                 case "winter" : //겨울 코디 조회
                     codiListCall = CodiService.getRetrofit(getActivity()).chooseSeason(identifier, params[0], "7");
                     break;
-                case "daily" : //일상 코디 조회
+                case "casual" : //일상 코디 조회
                 case "formal" : //포멀 코디 조회
                 case "special" : //특수 코디 조회
                     codiListCall = CodiService.getRetrofit(getActivity()).choosePlace(identifier, params[0], "7");

@@ -22,9 +22,9 @@ public class TabPagerAdapter_home extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return new TabFragment_Clothes_inHome("favorite","medium"); //favorite으로 추후 수정
+                return TabFragment_Clothes_inHome.newInstance("favorite","medium");
             case 1:
-                return new TabFragment_Codi_large("favorite");
+                return TabFragment_Codi_large.newInstance("favorite");
             default:
                 return null;
         }
