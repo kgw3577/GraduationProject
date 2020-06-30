@@ -97,6 +97,7 @@ public class activity_addClothes extends AppCompatActivity {
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
+            mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "한글 이름"));
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 
