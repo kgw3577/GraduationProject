@@ -216,6 +216,7 @@
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/icon_footer_share"
                 app:scale_base_width="216"
                 app:scale_base_height="160">
 
