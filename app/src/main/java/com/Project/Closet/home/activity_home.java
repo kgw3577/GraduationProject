@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_addClothes;
 import com.Project.Closet.activity_profile;
+import com.Project.Closet.activity_share;
 import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.codi.activity_codi_main;
 import com.google.android.material.navigation.NavigationView;
@@ -130,6 +131,15 @@ public class activity_home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity_home.this, activity_addClothes.class);
+                startActivity(intent);
+            }
+        });
+        //내 정보 아이콘 클릭
+        ScalableLayout Share = (ScalableLayout) findViewById(R.id.icon_footer_share);
+        Share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity_home.this, activity_share.class);
                 startActivity(intent);
             }
         });
