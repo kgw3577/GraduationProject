@@ -56,7 +56,7 @@ public class Page_accessory extends Fragment {
     ArrayList<String> ImageUrlList = new ArrayList<String>();
 
     //리사이클러뷰 어댑터 초기화
-    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+    ClothesListAdapter_small clothesListAdapter = new ClothesListAdapter_small(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, "small");
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override

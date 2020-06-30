@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.R;
-import com.Project.Closet.codi.addCodi.PagerAdapter_addCodi;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -20,9 +19,7 @@ import java.util.List;
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
 //뷰 홀더 : 아이템 뷰를 저장하는 객체
 //아이템 뷰 : 각각의 카드뷰 한 개
-public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    String size;
-
+public class ClothesListAdapter_largee extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<String> items; //이미지 url 리스트
     int item_layout; //리사이클러뷰 레이아웃. fragment_recyclerview임.
@@ -41,27 +38,16 @@ public class ClothesListAdapter_small extends RecyclerView.Adapter<RecyclerView.
 
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public ClothesListAdapter_small(Context context, List<String> items, int item_layout, String size) {
+    public ClothesListAdapter_largee(Context context, List<String> items, int item_layout) {
         this.mContext=context;
         this.items=items;
         this.item_layout=item_layout;
-        this.size = size;
     }
 
     //뷰홀더 객체 생성하며 리턴 (아이템뷰를 위한)
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v=null;
-        if("small".equals(size)){
-            v= LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_small,null);
-        }
-        else if("medium".equals(size)){
-            v= LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_medium,null);
-        }
-        else if("large".equals(size)){
-            v= LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_large,null);
-        }
-
+        View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.itemview_large,null);
         return new ViewHolder(v);
     }
 

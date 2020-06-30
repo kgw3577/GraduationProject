@@ -1,5 +1,6 @@
 package com.Project.Closet.codi.addCodi;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -9,7 +10,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -72,7 +75,11 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
     ImageView iv_selected; // 현재 선택된 이미지뷰
     int selectedNum; //선택된 이미지뷰 번호
     List<TextView> tvList; //텍스트뷰 리스트
-    boolean[] is_selected_once;
+    boolean[] is_selected_once; //이미지뷰에 이미지가 선택됐는지 체크
+    boolean is_topBottom; //상하의/한벌옷 체크
+    boolean is_checked_top;
+    boolean is_checked_bottom;
+    boolean is_checked_suit;
 
     //파트별 뷰 선언
     ImageView ivTop; //상의 파트
@@ -106,6 +113,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
     String path;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +125,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         ivPreviewImage  = (ImageView) findViewById(R.id.iv_preview_image);
 
         //헤더 메뉴 아이콘 받아오기
+        ImageView ivRevert = (ImageView) findViewById(R.id.iv_revert);
         ImageView ivSearch = (ImageView) findViewById(R.id.iv_search);
         ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
         TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
@@ -169,6 +178,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
 
         //버튼 온클릭리스너 설정
         BtnOnClickListener onClickListener = new BtnOnClickListener();
+        ivRevert.setOnClickListener(onClickListener);
         ivSearch.setOnClickListener(onClickListener);
         ivRandom.setOnClickListener(onClickListener);
         tvPreview.setOnClickListener(onClickListener);
@@ -180,6 +190,9 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         ivShoes.setOnClickListener(onClickListener);
         ivBag.setOnClickListener(onClickListener);
         ivAccessory1.setOnClickListener(onClickListener);
+        ivAccessory2.setOnClickListener(onClickListener);
+        ivAccessory3.setOnClickListener(onClickListener);
+        ivAccessory4.setOnClickListener(onClickListener);
 
         //하단 뷰페이저 어댑터 설정
         viewPager = (ViewPager) findViewById(R.id.viewPager) ;
@@ -206,7 +219,12 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         pagerAdapter.addItem(new Page_accessory());
         viewPager.setAdapter(pagerAdapter);
 
-
+        //상하의/한벌옷 모드 초기 설정
+        is_topBottom = true; //상하의 모드
+        is_checked_top = false;
+        is_checked_bottom = false;
+        is_checked_suit = false;
+        is_selected_once[Category.SUIT] = true; //한벌옷 체크 여부 끔
 
     }
 
@@ -235,6 +253,9 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
         public void onClick(View view) {
 
             switch (view.getId()) {
+                case R.id.iv_revert :
+                    revertMode();
+                    break ;
                 case R.id.iv_search :
                     break ;
                 case R.id.iv_random :
@@ -377,6 +398,44 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
             //startActivity(intent);
         }
         return res;
+    }
+
+    void revertMode(){
+
+        if(is_topBottom){ //상하의 설정이면
+            Toast.makeText(activity_addCodi.this, "한벌옷 설정으로 전환합니다.", Toast.LENGTH_SHORT).show();
+            is_topBottom = false; //해당 설정을 끄고
+            ivTop.setVisibility(View.GONE); //상하의 이미지뷰와 텍스트뷰를 끔
+            ivBottom.setVisibility(View.GONE);
+            tvTop.setVisibility(View.GONE);
+            tvBottom.setVisibility(View.GONE);
+            is_checked_top = is_selected_once[Category.TOP]; //상하의 선택여부를 저장하고
+            is_checked_bottom = is_selected_once[Category.BOTTOM];
+            is_selected_once[Category.TOP] = true; //체크 여부도 끔
+            is_selected_once[Category.BOTTOM] = true;
+
+            ivSuit.setVisibility(View.VISIBLE); //한벌옷 이미지뷰를 보이게 함
+            is_selected_once[Category.SUIT] = is_checked_suit; //한벌옷 체크여부를 불러옴
+            if(!is_selected_once[Category.SUIT]) //false이면
+                tvSuit.setVisibility(View.VISIBLE); //텍스트뷰 켬
+            }
+        else{ //한벌옷 설정이면
+            Toast.makeText(activity_addCodi.this, "상/하의 설정으로 전환합니다.", Toast.LENGTH_SHORT).show();
+            is_topBottom = true;//해당 설정을 끄고
+            ivSuit.setVisibility(View.GONE); //한벌옷 이미지뷰와 텍스트뷰를 끔
+            tvSuit.setVisibility(View.GONE);
+            is_checked_suit = is_selected_once[Category.SUIT]; //한벌옷 선택여부를 저장하고
+            is_selected_once[Category.SUIT] = true; //체크 여부도 끔
+
+            ivTop.setVisibility(View.VISIBLE); //상하의 이미지뷰를 보이게 함
+            ivBottom.setVisibility(View.VISIBLE);
+            is_selected_once[Category.TOP] = is_checked_top; //상하의 선택여부를 불러옴
+            is_selected_once[Category.BOTTOM] = is_checked_bottom;
+            if(!is_selected_once[Category.TOP]) //false이면
+                tvTop.setVisibility(View.VISIBLE); //텍스트뷰 켬
+            if(!is_selected_once[Category.BOTTOM])
+                tvBottom.setVisibility(View.VISIBLE);
+        }
     }
 
     public class UploadTask extends AsyncTask<String, Void, String> {

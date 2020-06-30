@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Project.Closet.R;
@@ -29,6 +31,23 @@ public class activity_home extends AppCompatActivity {
     TabPagerAdapter_home pagerAdapter;
     ImageView navMenu;
 
+    public RelativeLayout Cloth_Info;
+    public ImageView iv_image;
+    public TextView tv_name;
+    public TextView tv_category;
+    public TextView tv_detailcategory;
+    public TextView tv_season;
+    public TextView tv_brand;
+    public TextView tv_size;
+    public TextView tv_date;
+
+    public ImageView iv_heart;
+    public ImageView iv_modify;
+    public ImageView iv_delete;
+    public TextView tv_cloNo;
+    public TextView tv_cloFavorite;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +61,15 @@ public class activity_home extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
+            Cloth_Info.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
         }
+
     }
+
+
 
     @Override
     public void onResume() {
@@ -55,6 +79,26 @@ public class activity_home extends AppCompatActivity {
 
     public void repeatedFunction(){
         setContentView(R.layout.layout_home);
+        Cloth_Info = (RelativeLayout) findViewById(R.id.cloth_info);
+        Cloth_Info.setVisibility(View.GONE);
+        iv_image = (ImageView) findViewById(R.id.iv_image);
+        tv_name = (TextView) findViewById(R.id.tv_info_name);
+        tv_category = (TextView) findViewById(R.id.tv_info_catergory);
+        tv_detailcategory = (TextView) findViewById(R.id.tv_info_detailcategory);
+        tv_season = (TextView) findViewById(R.id.tv_info_season);
+        tv_brand = (TextView) findViewById(R.id.tv_info_brand);
+        tv_size = (TextView) findViewById(R.id.tv_info_size);
+        tv_date = (TextView) findViewById(R.id.tv_info_date);
+
+        iv_heart = (ImageView) findViewById(R.id.iv_heart);
+        iv_modify = (ImageView) findViewById(R.id.iv_modify);
+        iv_delete = (ImageView) findViewById(R.id.iv_delete);
+        tv_cloNo = (TextView) findViewById(R.id.tv_clothes_no);
+        tv_cloFavorite = (TextView) findViewById(R.id.tv_clothes_favorite);
+
+
+
+
 
         final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
@@ -150,4 +194,7 @@ public class activity_home extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

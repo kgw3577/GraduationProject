@@ -19,21 +19,40 @@
         android:layout_marginBottom="10dp"
         >
 
+
+        <ImageView
+            android:id="@+id/iv_revert"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/revert" />
+
         <ImageView
             android:id="@+id/iv_search"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/iv_revert"
             app:srcCompat="@drawable/search2" />
+
 
         <ImageView
             android:id="@+id/iv_random"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/iv_search"
+            android:layout_marginLeft="15dp"
             app:srcCompat="@drawable/random" />
+
+
+
+
+
+
+
+
 
         <TextView
             android:id="@+id/tv_preview"
@@ -61,7 +80,8 @@
         layout="@layout/layout_makecodi"
         android:layout_width="match_parent"
         android:layout_height="420dp"
-        android:layout_below="@id/header"/>
+        android:layout_below="@id/header"
+        />
 
 
     <LinearLayout

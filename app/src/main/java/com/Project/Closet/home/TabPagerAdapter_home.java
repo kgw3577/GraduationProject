@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.Project.Closet.fragment.TabFragment_Clothes_medium;
+import com.Project.Closet.fragment.TabFragment_Clothes_inHome;
 import com.Project.Closet.fragment.TabFragment_Codi_large;
 
 public class TabPagerAdapter_home extends FragmentStatePagerAdapter {
@@ -22,7 +22,7 @@ public class TabPagerAdapter_home extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return new TabFragment_Clothes_medium("like"); //favorite으로 추후 수정
+                return new TabFragment_Clothes_inHome("favorite","medium"); //favorite으로 추후 수정
             case 1:
                 return new TabFragment_Codi_large("favorite");
             default:
