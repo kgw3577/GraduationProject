@@ -94,6 +94,34 @@ ALTER TABLE CLOSET
 
 
 
+
+-- USER Table Create SQL
+CREATE TABLE BOARD_CLO
+(
+    `boardID`          VARCHAR(45)    NOT NULL    COMMENT '게시글 아이디', 
+    `userID`          VARCHAR(45)    NOT NULL    COMMENT '유저아이디', 
+    `contents`      TEXT    NULL    COMMENT '게시글 내용',
+    `regDate`      VARCHAR(45)    NOT NULL    COMMENT '옷장이름',
+    PRIMARY KEY (userID, closetName)
+);
+
+ALTER TABLE CLOSET COMMENT '옷 공유 게시판';
+
+ALTER TABLE CLOSET
+    ADD CONSTRAINT FK_CLOSET_userID_USER_userID FOREIGN KEY (userID)
+        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+
+ALTER DATABASE DB명 COLLATE 언어셋
+예) DB명: work / 언어셋 : Korean_Wansung_CI_AS
+ALTER DATABASE Work COLLATE Korean_Wansung_CI_AS 
+
+show tables;
+
+
+
+
 -- USER Table Create SQL
 CREATE TABLE RELATION
 (
