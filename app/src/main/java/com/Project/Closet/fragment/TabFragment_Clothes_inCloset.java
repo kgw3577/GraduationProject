@@ -113,6 +113,7 @@ public class TabFragment_Clothes_inCloset extends Fragment {
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
                 ((activity_closet) Objects.requireNonNull(getActivity())).Cloth_Info.setVisibility(View.VISIBLE);
                 Glide.with((((activity_closet) getActivity()).iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_image);
+                Glide.with((((activity_closet) getActivity()).iv_edit_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_edit_image);
                 ((activity_closet)getActivity()).tv_name.setText(clothesList.get(position).getName());
                 ((activity_closet)getActivity()).tv_category.setText(clothesList.get(position).getClosetName());
                 ((activity_closet)getActivity()).tv_detailcategory.setText(clothesList.get(position).getCategory());
@@ -339,6 +340,9 @@ public class TabFragment_Clothes_inCloset extends Fragment {
                     break ;
 
                 case R.id.iv_modify :
+                    //((activity_closet)getActivity()).Cloth_Info.setVisibility(View.GONE);
+                    ((activity_closet)getActivity()).Cloth_Info_edit.setVisibility(View.VISIBLE);
+                    ((activity_closet)getActivity()).tv_edit_date.setText(((activity_closet)getActivity()).tv_date.getText());
                     break ;
 
                 case R.id.iv_delete : //삭제

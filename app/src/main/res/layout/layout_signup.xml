@@ -96,8 +96,28 @@
                 android:drawablePadding="16dp"
                 android:drawableRight="@drawable/ic_email_white_24dp"
                 android:fontFamily="@font/calibri"
-                android:hint="Email"
+                android:hint="ID"
                 android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@android:color/black"
+                android:backgroundTint="@android:color/black"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+            //android:theme="@style/EditScreenTextInputLayoutStyle">
+
+            <EditText
+                android:id="@+id/et_NickName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawablePadding="16dp"
+                android:drawableRight="@drawable/ic_email_white_24dp"
+                android:fontFamily="@font/calibri"
+                android:hint="NickName"
+                android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:backgroundTint="@android:color/black"
