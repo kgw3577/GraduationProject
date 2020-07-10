@@ -36,7 +36,7 @@ desc CODI;
 
 
 -- USER Table Create SQL
-CREATE TABLE BOARD_CLO
+CREATE TABLE BOARD
 (
     `boardNo`           INT             NOT NULL    COMMENT '게시글 고유번호'	AUTO_INCREMENT, 
     `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키', 
@@ -59,14 +59,13 @@ ALTER TABLE BOARD_CLO
         REFERENCES CLOTHES (cloNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 desc BOARD;
-insert into BOARD_CLO values (null, 'a', 68, '제목' ,'안녕하세요? 게시글 내용입니다.', null, null);
-select * from BOARD_CLO;
+insert into BOARD values (null, 'codi', 'a', null, null, '제목' ,'안녕하세요? 게시글 내용입니다.', null, 0);
+SET foreign_key_checks = 1;
+DELETE FROM BOARD WHERE boardNo=8;
+select * from BOARD;
 
-ALTER TABLE BOARD_CLO
+ALTER TABLE BOARD
    modify numHeart int DEFAULT 0 NULL;
-
-ALTER TABLE BOARD_CLO CHANGE boardNo cloBoardNo INT  NOT NULL    AUTO_INCREMENT;
-
 
 -- 외래키 삭제 하기
 SHOW CREATE TABLE BOARD; -- create 문 보기

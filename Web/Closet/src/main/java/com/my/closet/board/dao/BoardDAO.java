@@ -9,9 +9,10 @@ import com.my.closet.board.vo.BoardVO;
 
 public interface BoardDAO {
 
-	public List<BoardVO> selectAllBoard() throws DataAccessException; //모든 게시판
-	public List<BoardVO> selectAllBoard_Clothes() throws DataAccessException; //모든 옷 게시판
-	public List<BoardVO> selectAllBoard_Codi() throws DataAccessException; //모든 코디 게시판
+	public List<BoardVO> boardlist() throws DataAccessException; //모든 게시판
+	public List<BoardVO> selectAllBoard(BoardVO boardFilter) throws DataAccessException; //모든 게시판
+	public List<BoardVO> selectAllBoard_Clothes(BoardVO boardFilter) throws DataAccessException; //모든 옷 게시판
+	public List<BoardVO> selectAllBoard_Codi(BoardVO boardFilter) throws DataAccessException; //모든 코디 게시판
 	
 	public BoardVO selectThisBoard(String boardNo) throws DataAccessException; //boardNo로 코디 하나 선택
 	public List<BoardVO> selectBoard(BoardVO boardFilter) throws DataAccessException; //조건으로 코디 선택

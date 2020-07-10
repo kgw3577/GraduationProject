@@ -15,15 +15,22 @@ import com.my.closet.board.vo.BoardVO;
 
 public interface BoardController {
 	
-	public ModelAndView cloBoardlist(HttpServletRequest request, HttpServletResponse response) throws Exception; //모든 코디 리스트 조회
-	public ResponseEntity<List<BoardVO>> myAllCloBoard(HttpSession session, String page, String pageSize) throws Exception; //내 코디 전부 조회
+	public ModelAndView boardlist(HttpServletRequest request, HttpServletResponse response) throws Exception; //모든 게시글 리스트 조회. 웹 관리용.
 	
-	public ResponseEntity<BoardVO> infoCloBoard(String cloBoardNo) throws Exception; //코디 정보 보기
-	public ResponseEntity<List<BoardVO>> searchCloBoard(HttpSession session, BoardVO cloBoardFilter, String page, String pageSize) throws Exception; //코디 찾기
 	
-	public ResponseEntity<String> addCloBoard(MultipartHttpServletRequest multipartRequest, MultipartFile multipartFile) throws Exception; //코디 추가
+	public ResponseEntity<List<BoardVO>> AllBoard(String page, String pageSize) throws Exception; //모든 게시글 리스트 조회
+	public ResponseEntity<List<BoardVO>> AllBoard_Clothes(String page, String pageSize) throws Exception; //모든 옷 게시글 조회
+	public ResponseEntity<List<BoardVO>> AllBoard_Codi(String page, String pageSize) throws Exception; //모든 코디 게시글 조회
+	
+	public ResponseEntity<List<BoardVO>> myAllBoard(HttpSession session, String page, String pageSize) throws Exception; //내 게시글 전부 조회
+	public ResponseEntity<List<BoardVO>> usersAllBoard(String userID, String page, String pageSize) throws Exception; //특정 유저 게시글 전부 조회
+	
+	public ResponseEntity<BoardVO> infoBoard(String boardNo) throws Exception; //특정 게시글 조회
+	public ResponseEntity<List<BoardVO>> searchBoard(BoardVO boardFilter, String page, String pageSize) throws Exception; //특정 조건의 게시글 리스트 조회
+	
+	public ResponseEntity<String> addBoard(MultipartHttpServletRequest multipartRequest, MultipartFile multipartFile) throws Exception; //게시글 추가
 
-	public ResponseEntity<String> modifyCloBoard(BoardVO cloBoardInfo) throws Exception; //코디 정보 수정
-	public ResponseEntity<String> deleteCloBoard(String cloBoardNo) throws Exception; //코디 삭제
+	public ResponseEntity<String> modifyBoard(BoardVO boardInfo) throws Exception; //게시글 수정
+	public ResponseEntity<String> deleteBoard(String boardNo) throws Exception; //게시글 삭제
 	
 }

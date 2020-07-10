@@ -23,98 +23,132 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.my.closet.cloBoard.service.CloBoardService;
-import com.my.closet.cloBoard.vo.CloBoardVO;
-import com.my.closet.user.controller.UserControllerImpl;
+import com.my.closet.board.service.BoardService;
+import com.my.closet.board.vo.BoardVO;
 
 
-@RestController("cloBoardController")
-@RequestMapping("/cloBoard")
+@RestController("boardController")
+@RequestMapping("/board")
 public class BoardControllerImpl implements BoardController {
 
 	//Logger 클래스 객체 가져오기
 	private static final Logger logger = LoggerFactory.getLogger(BoardControllerImpl.class);
 		
 	@Autowired
-	private BoardService cloBoardService;
+	private BoardService boardService;
 	@Autowired
-	BoardVO cloBoardVO;
-	
-	//코디 추가 테스트용 폼(웹. 관리용)
-	@RequestMapping(value = "/addform")
-	public ModelAndView addTestform() {
-		return new ModelAndView("cloBoard/addTestUploadForm");
-	}
-	
-	//전체 코디 조회 (웹. 관리용)
+	BoardVO boardVO;
+
+	//모든 게시글 리스트 조회. 웹 관리용.
 	@Override
-	@RequestMapping(value = "/cloBoardlist", method = RequestMethod.GET)
-	public ModelAndView cloBoardlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/boardlist", method = RequestMethod.GET)
+	public ModelAndView boardlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<BoardVO> cloBoardList = cloBoardService.listAllCloBoard();
-		mav.addObject("cloBoardList", cloBoardList);
+		List<BoardVO> boardList = boardService.boardlist();
+		mav.addObject("boardList", boardList);
 		return mav;
 	}
 	
-	//내 코디 전부 조회
+	//모든 게시글 리스트 조회
 	@Override
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> myAllCloBoard(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
-		List<BoardVO> myCloBoardList;
+	public ResponseEntity<List<BoardVO>> AllBoard(@RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<BoardVO> boardList;
 		try{
-			BoardVO cloBoardFilter = new BoardVO();
-			if(!page.isEmpty()&&!pageSize.isEmpty()) {
-				int pageInt = Integer.parseInt(page);
-				int pageSizeInt = Integer.parseInt(pageSize);
-				cloBoardFilter.setPageStart(pageInt*pageSizeInt);
-				cloBoardFilter.setPageSize(pageSizeInt);
-			}
-			myCloBoardList = cloBoardService.myAllCloBoard(session, cloBoardFilter);
+			boardList = boardService.listAllBoard(page, pageSize);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<BoardVO>>(myCloBoardList, HttpStatus.OK);
+		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
+	}
+	//모든 옷 게시글 조회
+	@Override
+	@RequestMapping(value = "/all_clothes", method = RequestMethod.GET)
+	public ResponseEntity<List<BoardVO>> AllBoard_Clothes(@RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<BoardVO> boardList;
+		try{
+			boardList = boardService.listAllBoard_Clothes(page, pageSize);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
+	}
+	//모든 코디 게시글 조회
+	@Override
+	@RequestMapping(value = "/all_codi", method = RequestMethod.GET)
+	public ResponseEntity<List<BoardVO>> AllBoard_Codi(@RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<BoardVO> boardList;
+		try{
+			boardList = boardService.listAllBoard_Codi(page, pageSize);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
 	}
 	
-	//코디 정보 보기
+	
+	//내 게시글 전부 조회
 	@Override
-	@RequestMapping(value = "/info/{cloBoardNo}", method = RequestMethod.GET)
-	public ResponseEntity<BoardVO> infoCloBoard(@PathVariable("cloBoardNo") String cloBoardNo) throws Exception {
-		BoardVO cloBoardInfo;
+	@RequestMapping(value = "/space/my", method = RequestMethod.GET)
+	public ResponseEntity<List<BoardVO>> myAllBoard(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
+		List<BoardVO> myBoardList;
+		try{			
+			myBoardList = boardService.myAllBoard(session, page, pageSize);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<BoardVO>>(myBoardList, HttpStatus.OK);
+	}
+	//특정 유저 게시글 전부 조회
+	@Override
+	@RequestMapping(value = "/space/{userID}", method = RequestMethod.GET)
+	public ResponseEntity<List<BoardVO>> usersAllBoard(@PathVariable("userID") String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<BoardVO> myBoardList;
+		try{			
+			myBoardList = boardService.usersAllBoard(userID, page, pageSize);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<BoardVO>>(myBoardList, HttpStatus.OK);
+	}
+	
+	
+	//특정 게시글 조회
+	@Override
+	@RequestMapping(value = "/info/{boardNo}", method = RequestMethod.GET)
+	public ResponseEntity<BoardVO> infoBoard(@PathVariable("boardNo") String boardNo) throws Exception {
+		BoardVO boardInfo;
 		try {
-			cloBoardInfo = cloBoardService.infoCloBoard(cloBoardNo);
+			boardInfo = boardService.infoBoard(boardNo);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<BoardVO>(new BoardVO(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<BoardVO>(cloBoardInfo, HttpStatus.OK);
+		return new ResponseEntity<BoardVO>(boardInfo, HttpStatus.OK);
 	}
-
-	//코디 찾기
+	//특정 조건의 게시글 리스트 조회
 	@Override
 	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> searchCloBoard(HttpSession session, BoardVO cloBoardFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<BoardVO> searched_cloBoardList;
+	public ResponseEntity<List<BoardVO>> searchBoard(BoardVO boardFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+		List<BoardVO> searched_boardList;
 		try{
-			if(!page.isEmpty()&&!pageSize.isEmpty()) {
-				int pageInt = Integer.parseInt(page);
-				int pageSizeInt = Integer.parseInt(pageSize);
-				cloBoardFilter.setPageStart(pageInt*pageSizeInt);
-				cloBoardFilter.setPageSize(pageSizeInt);
-			}
-			searched_cloBoardList = cloBoardService.searchCloBoard(session, cloBoardFilter);
+			searched_boardList = boardService.searchBoard(boardFilter, page, pageSize);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<BoardVO>>(searched_cloBoardList, HttpStatus.OK);
+		return new ResponseEntity<List<BoardVO>>(searched_boardList, HttpStatus.OK);
 	}
 
-	//코디 추가하기
+	//게시글 추가
 	@Override
 	@RequestMapping(value = "/add", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
-	public ResponseEntity<String> addCloBoard(MultipartHttpServletRequest multipartRequest,
+	public ResponseEntity<String> addBoard(MultipartHttpServletRequest multipartRequest,
 			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception{
 		
 		logger.debug("#create: multipartFile({})", multipartFile);
@@ -122,8 +156,8 @@ public class BoardControllerImpl implements BoardController {
 		
 		String answer = null;
 		try {
-			answer = cloBoardService.addCloBoard(multipartRequest);
-			//윈도우 시험용 : winAddCloBoard
+			answer = boardService.addBoard(multipartRequest);
+			//윈도우 시험용 : winAddBoard
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
@@ -131,28 +165,28 @@ public class BoardControllerImpl implements BoardController {
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
-	//코디 정보 수정
+	//게시글 수정
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)
-	public ResponseEntity<String> modifyCloBoard(@RequestBody BoardVO cloBoardInfo) throws Exception {
-		System.out.println("받아온 코디 정보 : "+cloBoardInfo.getPlace()+cloBoardInfo.getFileName());
+	public ResponseEntity<String> modifyBoard(@RequestBody BoardVO boardInfo) throws Exception {
+		System.out.println("받아온 코디 정보 : "+boardInfo.getSubject()+boardInfo.getFileName());
 				
 		String answer = null;
 		try {
-			answer = cloBoardService.modifyCloBoard(cloBoardInfo);
+			answer = boardService.modifyBoard(boardInfo);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
-	//코디 삭제
+	//게시글 삭제
 	@Override
-	@RequestMapping(value = "/delete/{cloBoardNo}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteCloBoard(@PathVariable("cloBoardNo") String cloBoardNo) throws Exception {
+	@RequestMapping(value = "/delete/{boardNo}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteBoard(@PathVariable("boardNo") String boardNo) throws Exception {
 		String answer;
 		try {
-			answer= cloBoardService.deleteCloBoard(cloBoardNo);
+			answer= boardService.deleteBoard(boardNo);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<String>("fail", HttpStatus.SERVICE_UNAVAILABLE);
@@ -193,5 +227,7 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return viewName;
 	}
+
+
 	
 }

@@ -1,5 +1,6 @@
 package com.my.closet.board.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,29 +32,63 @@ public class BoardServiceImpl implements BoardService {
 	private FileUploadController uploadCon;
 	
 	
+	
+	
 	//모든 게시글 리스트 조회. 웹 관리용.
 	@Override
-	public List<BoardVO> listAllBoard() throws DataAccessException {
-		List<BoardVO> boardList = boardDAO.selectAllBoard();
+	public List<BoardVO> boardlist() throws DataAccessException {
+		return boardDAO.boardlist();
+	}
+	
+	
+	//모든 게시글 리스트 조회.
+	@Override
+	public List<BoardVO> listAllBoard(String page, String pageSize) throws DataAccessException {
+		
+		//페이지 필터 생성
+		BoardVO boardFilter = new BoardVO();
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
+		List<BoardVO> boardList = boardDAO.selectAllBoard(boardFilter);
 		return boardList;
 	}
 	//모든 옷 게시글 조회
 	@Override
-	public List<BoardVO> listAllBoard_Clothes() throws DataAccessException {
-		List<BoardVO> boardList = boardDAO.selectAllBoard_Clothes();
-		return boardList;
+	public List<BoardVO> listAllBoard_Clothes(String page, String pageSize) throws DataAccessException {
+		//페이지 필터 생성
+		BoardVO boardFilter = new BoardVO();
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
+		List<BoardVO> boardList = boardDAO.selectAllBoard_Clothes(boardFilter);
+		return boardList;		
 	}
 	//모든 코디 게시글 조회
 	@Override
-	public List<BoardVO> listAllBoard_Codi() throws DataAccessException {
-		List<BoardVO> boardList = boardDAO.selectAllBoard_Codi();
+	public List<BoardVO> listAllBoard_Codi(String page, String pageSize) throws DataAccessException {
+		//페이지 필터 생성
+		BoardVO boardFilter = new BoardVO();
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
+		List<BoardVO> boardList = boardDAO.selectAllBoard_Codi(boardFilter);
 		return boardList;
 	}
 	
 	
 	//내 게시글 전부 조회
 	@Override
-	public List<BoardVO> myAllBoard(HttpSession session) throws DataAccessException {
+	public List<BoardVO> myAllBoard(HttpSession session, String page, String pageSize) throws DataAccessException {
 		//세션으로부터 내 아이디 가져오기
 		LoginVO loginVO;
 		try {
@@ -64,16 +101,30 @@ public class BoardServiceImpl implements BoardService {
 		//내 아이디로 필터 생성
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setUserID(loginVO.getId());
+		//페이지 필터 적용
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
 		//해당 필터로 검색
 		return boardDAO.selectBoard(boardFilter);	
 	}
 	
 	//특정 유저 게시글 전부 조회
 	@Override
-	public List<BoardVO> usersAllBoard(String userID) throws DataAccessException {
+	public List<BoardVO> usersAllBoard(String userID, String page, String pageSize) throws DataAccessException {
 		//해당 유저 아이디로 필터 생성
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setUserID(userID);
+		//페이지 필터 적용
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}		
 		//해당 필터로 검색
 		return boardDAO.selectBoard(boardFilter);	
 	}
@@ -85,7 +136,14 @@ public class BoardServiceImpl implements BoardService {
 	}
 	//특정 조건의 게시글 리스트 조회
 	@Override
-	public List<BoardVO> searchBoard(BoardVO boardFilter) throws DataAccessException {
+	public List<BoardVO> searchBoard(BoardVO boardFilter, String page, String pageSize) throws DataAccessException {
+		//페이지 필터 적용
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}	
 		return boardDAO.selectBoard(boardFilter);
 	}
 
@@ -109,36 +167,35 @@ public class BoardServiceImpl implements BoardService {
             Object value = elem.getValue();
  
             System.out.println(key+" : "+value);
- 
         }
 		
 		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
 		return boardDAO.addBoard(boardMap);
 	}
 	//게시글 추가 (윈도우 테스트용)
-		@Override
-		public String winAddBoard(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
-			//업로드 컨트롤러의 upload 함수로 사진 파일+파라미터 정보가 담긴 request를 한꺼번에 넘기고, 업로드 후에 해쉬맵으로 속성 정보를 받아온다.
-			Map<String, Object> boardMap = new HashMap<String, Object>();
-			try {
-				boardMap=uploadCon.upload("windows", multipartRequest);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("업로드 콘 실패");
-			}
-			System.out.println("해쉬맵 생성 성공");
-			for(Map.Entry<String, Object> elem : boardMap.entrySet()){
-				 
-	            String key = elem.getKey();
-	            Object value = elem.getValue();
-	 
-	            System.out.println(key+" : "+value);
-	        }
-			
-			//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
-			return boardDAO.addBoard(boardMap);
+	@Override
+	public String winAddBoard(MultipartHttpServletRequest multipartRequest) throws DataAccessException {
+		//업로드 컨트롤러의 upload 함수로 사진 파일+파라미터 정보가 담긴 request를 한꺼번에 넘기고, 업로드 후에 해쉬맵으로 속성 정보를 받아온다.
+		Map<String, Object> boardMap = new HashMap<String, Object>();
+		try {
+			boardMap=uploadCon.upload("windows", multipartRequest);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("업로드 콘 실패");
 		}
+		System.out.println("해쉬맵 생성 성공");
+		for(Map.Entry<String, Object> elem : boardMap.entrySet()){
+			 
+            String key = elem.getKey();
+            Object value = elem.getValue();
+ 
+            System.out.println(key+" : "+value);
+        }
+		
+		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
+		return boardDAO.addBoard(boardMap);
+	}
 
 	@Override
 	public String modifyBoard(BoardVO boardInfo) throws DataAccessException {

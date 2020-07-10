@@ -17,28 +17,31 @@ public class BoardDAOImpl implements BoardDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<BoardVO> selectAllBoard() throws DataAccessException {
+	public List<BoardVO> boardlist() throws DataAccessException {
 		//빈 필터를 보냄으로써 모든 게시판 조회
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", new BoardVO());
 		return boardlist;
 	}
+	
 	@Override
-	public List<BoardVO> selectAllBoard_Clothes() throws DataAccessException {
-		//게시판 타입 '옷' 필터 생성
-		BoardVO boardFilter = new BoardVO();
+	public List<BoardVO> selectAllBoard(BoardVO boardFilter) throws DataAccessException {
+		//페이지 필터를 적용한 모든 게시글 조회
+		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
+		return boardlist;
+	}
+	@Override
+	public List<BoardVO> selectAllBoard_Clothes(BoardVO boardFilter) throws DataAccessException {
+		//게시판 타입 '옷' 필터 적용
 		boardFilter.setBoardType("clothes");
-		
 		//필터로 서치
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		return boardlist;
 	}
 
 	@Override
-	public List<BoardVO> selectAllBoard_Codi() throws DataAccessException {
-		//게시판 타입 '옷' 필터 생성
-		BoardVO boardFilter = new BoardVO();
+	public List<BoardVO> selectAllBoard_Codi(BoardVO boardFilter) throws DataAccessException {
+		//게시판 타입 '코디' 필터 적용
 		boardFilter.setBoardType("codi");
-		
 		//필터로 서치
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		return boardlist;
