@@ -1,7 +1,4 @@
-package com.Project.Closet;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
+package com.Project.Closet.board;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -21,9 +18,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.home.activity_home;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -39,8 +42,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.MultipartBody.*;
+import okhttp3.MultipartBody.Part;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -48,14 +50,21 @@ import retrofit2.Call;
 //import okhttp3.internal.concurrent.Task;
 
 
-public class activity_addClothes extends AppCompatActivity {
+public class activity_addBoard extends AppCompatActivity {
+
 
     private final int CAMERA_CODE = 11;
     private final int GALLERY_CODE = 12;
-    static final String TAG = "lynnfield";
+    private final int CLOSET_CODE = 20;
+
+    static final String TAG = "red";
     Uri uri = Uri.parse("content");
     String path;
-    String likeArray[] = {"yes","no"};
+
+    String imageType;
+    String boardType;
+
+    int a;
 
 
     @Override
@@ -68,13 +77,30 @@ public class activity_addClothes extends AppCompatActivity {
                 Log.d(TAG, "권한 설정 완료");
             } else {
                 Log.d(TAG, "권한 설정 요청");
-                ActivityCompat.requestPermissions(activity_addClothes.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(activity_addBoard.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
-        final ImageView edit_iv = (ImageView) findViewById(R.id.add_image);
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(activity_addClothes.this);
+
+        // Intent 가져오기.
+        Intent intent = getIntent();
+        Intent newIntent;
+
+        // No 값을 int 타입에서 String 타입으로 변환하여 표시.
+        imageType = intent.getStringExtra("imageType"); //new or closet
+        boardType = intent.getStringExtra("boardType"); //clothes or codi
+
+        if("new".equals(imageType))
+            CropImage.activity()
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .start(activity_addBoard.this);
+        else if("closet".equals(imageType) && "clothes".equals(boardType)){
+            newIntent = new Intent(activity_addBoard.this, SelectClothes.class);
+            startActivityForResult(newIntent, CLOSET_CODE);
+        }
+        else if("closet".equals(imageType) && "codi".equals(boardType)){
+            newIntent = new Intent(activity_addBoard.this, SelectCodi.class);
+            startActivityForResult(newIntent, CLOSET_CODE);
+        }
     }
 
     public class UploadTask extends AsyncTask<String, Void, String> {
@@ -87,17 +113,16 @@ public class activity_addClothes extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody requestBody;
-            MultipartBody.Part body;
+            Part body;
             File file = new File(path);
             LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
             List<Part> arrBody = new ArrayList<>();
 
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
-            mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
             mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "한글 이름"));
-            body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
+            body = Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 
 
@@ -144,17 +169,18 @@ public class activity_addClothes extends AppCompatActivity {
                     Bitmap bitmap = ((BitmapDrawable)view.getDrawable()).getBitmap();
 
                     //크기 줄여주기 (메모리 부족 오류 방지)
-                    double height=bitmap.getHeight();
-                    double width=bitmap.getWidth();
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int)Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
+                    //double height=bitmap.getHeight();
+                    //double width=bitmap.getWidth();
+                    //Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int)Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
 
-                    ////
                     //임시 파일로 저장하기
                     final Context context = getApplicationContext();
                     String filename = "myTemp";
                     File tempFile = File.createTempFile(filename, null, context.getCacheDir());
                     FileOutputStream out = new FileOutputStream(tempFile);
-                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+                    //bitmap.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 0, out); //비손실 압축
+
                     out.close();
                     path = tempFile.getAbsolutePath(); //임시 파일 경로
 
@@ -163,7 +189,7 @@ public class activity_addClothes extends AppCompatActivity {
                     select.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
+                            AlertDialog.Builder builder = new AlertDialog.Builder(activity_addBoard.this);
                             final String[] items = getResources().getStringArray(R.array.Category);
                             final ArrayList<String> selectedItem  = new ArrayList<String>();
                             selectedItem.add(items[0]);
@@ -234,22 +260,22 @@ public class activity_addClothes extends AppCompatActivity {
                                 }
                                 try{
                                     if (res.contains("ok")) {
-                                    Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity_addBoard.this, "업로드 성공", Toast.LENGTH_SHORT).show();
                                     } else if (res.contains("fail")) {
-                                    Toast.makeText(activity_addClothes.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity_addBoard.this, "업로드 실패", Toast.LENGTH_SHORT).show();
                                     }
                                     Intent intent = new Intent(getApplicationContext(), activity_closet.class);
                                     startActivity(intent);
                                 }  catch (NullPointerException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(activity_addClothes.this, "업로드 오류", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity_addBoard.this, "업로드 오류", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), activity_home.class);
                                     startActivity(intent);
                                 }
 
                             }
                             else
-                                Toast.makeText(activity_addClothes.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity_addBoard.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -263,6 +289,10 @@ public class activity_addClothes extends AppCompatActivity {
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
+        }
+        else if (requestCode == CLOSET_CODE && resultCode == RESULT_OK && intent.hasExtra("data")){
+            //옷장에서 해당 비트맵을 가져옴. putextra로. 그리고 똑같이 전송함. png로.
+            Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
         }
     }
 

@@ -100,6 +100,8 @@ public class FileUploadController {
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 		else if (obj.equals("codi"))
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
+		else if (obj.equals("board"))
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/board_image/";
 		else if(obj.equals("windows"))
 			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
@@ -131,9 +133,14 @@ public class FileUploadController {
 		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
 		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
 		
-		String filePath = "/download/clothes?imageFileName="+new_name;
+		String filePath=null;
+		
+		if(obj.equals("clothes"))
+			filePath = "/download/clothes?imageFileName="+new_name;
 		if(obj.equals("codi"))
 			filePath = "/download/codi?imageFileName="+new_name;
+		if(obj.equals("board"))
+			filePath = "/download/board?imageFileName="+new_name;
 		else if(obj.equals("windows"))
 			filePath = "/download/windows?imageFileName="+new_name;
 

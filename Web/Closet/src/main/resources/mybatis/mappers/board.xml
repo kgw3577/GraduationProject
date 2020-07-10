@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+	
+	<!--반환 레코드를 config에서 지정한 boardVO 빈에 저장 -->
+	<resultMap id="boardResult" type="boardVO">
+		<result property="boardNo" column="boardNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="boardType" column="boardType" />
+		<result property="userID" column="userID" />
+		<result property="fileName" column="fileName" />
+		<result property="filePath" column="filePath" />
+		<result property="subject" column="subject" />
+		<result property="contents" column="contents" />
+		<result property="regDate" column="regDate" />
+		<result property="numHeart" column="numHeart" />
+	</resultMap>
+
+	<!--반환 레코드를 해쉬맵에 저장 -->
+	<resultMap id="boardResult_h" type="java.util.HashMap">
+		<result property="boardNo" column="boardNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="boardType" column="boardType" />
+		<result property="userID" column="userID" />
+		<result property="fileName" column="fileName" />
+		<result property="filePath" column="filePath" />
+		<result property="subject" column="subject" />
+		<result property="contents" column="contents" />
+		<result property="regDate" column="regDate" />
+		<result property="numHeart" column="numHeart" />	
+	</resultMap>
+	
+	
+	<!-- SQL문. 반환 레코드를 cloBoardResult에 저장 -->
+
+	<!-- 조건값에 따라 select하는 쿼리. 받은 VO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchBoard" resultMap="boardResult" parameterType="boardVO">
+	<![CDATA[
+		select * from BOARD
+	]]>
+		<where>
+			<if test="boardNo != '' and boardNo != null">
+				boardNo = #{boardNo}
+			</if>
+			<if test="boardType != '' and boardType != null">
+				boardType = #{boardType}
+			</if>
+			<if test="userID != '' and userID != null">
+				and userID = #{userID}
+			</if>
+			<if test="fileName != '' and fileName != null">
+				and fileName = #{fileName}
+			</if>
+			<if test="filePath != '' and filePath != null">
+				and filePath = #{filePath}
+			</if>
+			<if test="subject != '' and subject != null">
+				and subject = #{subject}
+			</if>
+			<if test="contents != '' and contents != null">
+				and contents = #{contents}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate}
+			</if>
+			<if test="numHeart != '' and numHeart != null">
+				and numHeart = #{numHeart}
+			</if>
+			<if test="pageStart != -1 and pageSize != -1">
+				 ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 추가 쿼리. 칼럼 하나도 빼먹지 말 것. -->
+	<insert id="insertBoard" parameterType="java.util.HashMap">
+	<![CDATA[
+		insert into BOARD
+		values(#{boardNo},#{boardType},#{userID},
+		#{fileName},#{filePath},#{subject},
+		#{contents},#{regDate},#{numHeart})
+	]]>
+	</insert>
+
+	<!-- 세부 수정 하나하나 만들어야 함. -->
+	<update id="updateBoard" parameterType="boardVO">
+	<![CDATA[
+		update BOARD
+		set boardNo = #{boardNo}, boardType = #{boardType},
+			userID = #{userID},
+			fileName = #{fileName}, filePath = #{filePath}, 
+			subject = #{subject}, contents = #{contents},
+			regDate = #{regDate}, numHeart = #{numHeart}
+		where
+		boardNo = #{boardNo}
+	]]>
+	</update>
+	
+
+	<!-- 여러 행 삭제할 수 있게 변경해야 함.-->
+	<delete id="deleteBoard" parameterType="boardVO">
+	<![CDATA[
+		delete from BOARD
+		where
+		boardNo = #{boardNo}
+	]]>
+	</delete>
+
+</mapper>
+

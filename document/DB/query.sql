@@ -58,7 +58,7 @@ ALTER TABLE BOARD_CLO
     ADD CONSTRAINT BOARD_CLO_CLOTHES FOREIGN KEY (cloNo)
         REFERENCES CLOTHES (cloNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-desc BOARD_CLO;
+desc BOARD;
 insert into BOARD_CLO values (null, 'a', 68, '제목' ,'안녕하세요? 게시글 내용입니다.', null, null);
 select * from BOARD_CLO;
 
@@ -68,36 +68,23 @@ ALTER TABLE BOARD_CLO
 ALTER TABLE BOARD_CLO CHANGE boardNo cloBoardNo INT  NOT NULL    AUTO_INCREMENT;
 
 
+-- 외래키 삭제 하기
+SHOW CREATE TABLE BOARD; -- create 문 보기
+ALTER TABLE BOARD_CLO DROP FOREIGN KEY BOARD_CLO_CLOTHES;
+ALTER TABLE BOARD_CLO DROP `cloNo`;
+-- 컬럼 추가하기
+ALTER TABLE `BOARD` ADD `boardType`        VARCHAR(20)     NOT NULL       COMMENT '게시판 타입' AFTER `boardNo`;
+ALTER TABLE `BOARD_CLO` ADD `fileName`        VARCHAR(45)     NULL       COMMENT '파일이름' AFTER `userID`;
+ALTER TABLE `BOARD_CLO` ADD `filePath`        VARCHAR(100)     NULL       COMMENT '파일경로' AFTER `fileName`;
 
--- USER Table Create SQL
-CREATE TABLE BOARD_CODI
-(
-    `codiBoardNo`           INT             NOT NULL    COMMENT '게시글 고유번호'	AUTO_INCREMENT, 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키', 
-    `codiNo`           INT             NOT NULL	COMMENT '코디 고유번호-코디 외래키', 
-    `subject`      VARCHAR(45)    NOT NULL    COMMENT '게시글 제목',
-    `contents`      TEXT    NULL    COMMENT '게시글 내용',
-    `regDate`      TIMESTAMP     NOT NULL	DEFAULT CURRENT_TIMESTAMP        COMMENT '등록일', 
-    `numHeart`      INT     NULL	DEFAULT 0        COMMENT '하트 개수', 
-    PRIMARY KEY (boardNo)
-);
+RENAME TABLE BOARD_CLO TO BOARD;
+ALTER TABLE BOARD CHANGE cloBoardNo boardNo  INT  NOT NULL    AUTO_INCREMENT;
 
-ALTER TABLE BOARD_CODI COMMENT '코디 공유 게시판';
-
-ALTER TABLE BOARD_CODI
-    ADD CONSTRAINT BOARD_CODI_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE BOARD_CODI
-    ADD CONSTRAINT BOARD_CODI_CODI FOREIGN KEY (codiNo)
-        REFERENCES CODI (codiNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-desc BOARD_CODI;
-insert into BOARD_CODI values (null, 'c', 25, '제목' ,'안녕하세요? 코디 게시글 내용입니다.', null, null);
-select * from BOARD_CODI;
-
-ALTER TABLE BOARD_CODI CHANGE boardNo codiBoardNo INT  NOT NULL    AUTO_INCREMENT;
-
+-- 중복 테이블 삭제
+ALTER TABLE BOARD_CODI DROP FOREIGN KEY  BOARD_CODI_USER;
+ALTER TABLE BOARD_CODI DROP `userID`;
+SET foreign_key_checks = 0;
+DROP TABLE BOARD_CODI;
 
 
 
@@ -313,3 +300,6 @@ select * from RELATION_CLO_CODI;
 
 
 
+
+DESC RELATION;
+SHOW CREATE TABLE `RELATION`;

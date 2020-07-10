@@ -15,7 +15,7 @@ public class ClothesVO {
 	private String fileName;
 	private String filePath;
 	private String like;
-	private String userID; // FOREIGN KEY(CLOSET). not null 
+	private String userID; // FOREIGN KEY(USER). not null 
 	private String closetName; // FOREIGN KEY(CLOSET). not null 
 	private String date;
 	
