@@ -255,48 +255,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
 
 
-        //옷장 아이콘 클릭 -> 새로고침 하도록 하자
-        /*ScalableLayout MyCloset = (ScalableLayout) getView().findViewById(R.id.icon_footer_Closet);
-        MyCloset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity_closet.this, activity_closet.class);
-                startActivity(intent);
-            }
-        });
-         */
-        
-        //코디 아이콘 클릭
-        ScalableLayout Codi = (ScalableLayout) getView().findViewById(R.id.icon_footer_codi);
-        Codi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), activity_codi_main.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
-
-        //옷 추가 아이콘 클릭
-        ScalableLayout AddClothes = (ScalableLayout) getView().findViewById(R.id.icon_footer_Add);
-        AddClothes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), activity_addClothes.class);
-                startActivity(intent);
-            }
-        });
-
-        //내 정보 아이콘 클릭
-        ScalableLayout Profile = (ScalableLayout) getView().findViewById(R.id.icon_footer_profile);
-        Profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), activity_profile.class);
-                startActivity(intent);
-            }
-        });
-
         //메뉴 버튼 클릭하면 드로워 열고 닫기
         navMenu = (ImageView)getView().findViewById(R.id.header_nav_iv);
         navMenu.setOnClickListener(new View.OnClickListener() {
@@ -377,27 +335,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         });
     }
 
-
-/*
-    class BtnOnClickListener implements Button.OnClickListener {
-
-        @Override
-        public void onClick(View view) {
-
-            switch (view.getId()) {
-                case R.id.iv_heart :
-                    Toast.makeText(getApplicationContext(), "하트 선택", Toast.LENGTH_SHORT).show();
-                    break ;
-                case R.id.iv_modify :
-                    break ;
-                case R.id.iv_delete : //삭제
-                    break ;
-            }
-        }
-    }
-
- */
-
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -430,6 +367,5 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             getActivity().finish();
             toast.cancel();
         }
-
     }
 }
