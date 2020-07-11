@@ -30,7 +30,7 @@
 
         <fragment
             android:name="com.Project.Closet.closet.fragment_closet"
-            android:id="@+id/fragment"
+            android:id="@+id/fragment_place"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/footer"

@@ -46,7 +46,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     private TabLayout tabLayout;
     TabPagerAdapter_closet pagerAdapter;
     private ViewPager finalPager;
-    ImageView navMenu;
+    RelativeLayout navMenu;
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
@@ -85,7 +85,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
-        //setContentView(R.layout.layout_closet);
+        activity.setOnBackPressedListener(this);
         Cloth_Info = (RelativeLayout) getView().findViewById(R.id.cloth_info);
         Cloth_Info.setVisibility(View.GONE);
         Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
@@ -256,7 +256,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
 
         //메뉴 버튼 클릭하면 드로워 열고 닫기
-        navMenu = (ImageView)getView().findViewById(R.id.header_nav_iv);
+        navMenu = getView().findViewById(R.id.header_nav);
         navMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -288,51 +288,53 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             }
         });
 
+        if(tabLayout == null){
+            //탭 목록 설정
+            tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("모두"));
+            tabLayout.addTab(tabLayout.newTab().setText("상의"));
+            tabLayout.addTab(tabLayout.newTab().setText("하의"));
+            tabLayout.addTab(tabLayout.newTab().setText("한벌"));
+            tabLayout.addTab(tabLayout.newTab().setText("외투"));
+            tabLayout.addTab(tabLayout.newTab().setText("신발"));
+            tabLayout.addTab(tabLayout.newTab().setText("가방"));
+            tabLayout.addTab(tabLayout.newTab().setText("장식"));
 
-        //탭 목록 설정
-        tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("모두"));
-        tabLayout.addTab(tabLayout.newTab().setText("상의"));
-        tabLayout.addTab(tabLayout.newTab().setText("하의"));
-        tabLayout.addTab(tabLayout.newTab().setText("한벌"));
-        tabLayout.addTab(tabLayout.newTab().setText("외투"));
-        tabLayout.addTab(tabLayout.newTab().setText("신발"));
-        tabLayout.addTab(tabLayout.newTab().setText("가방"));
-        tabLayout.addTab(tabLayout.newTab().setText("장식"));
+            // 탭메뉴 아이콘 설정
+            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
+            tabLayout.getTabAt(1).setIcon(R.drawable.top); // 메뉴2
+            tabLayout.getTabAt(2).setIcon(R.drawable.bottom); // 메뉴3
+            tabLayout.getTabAt(3).setIcon(R.drawable.suit2); // 메뉴4
+            tabLayout.getTabAt(4).setIcon(R.drawable.outer); // 메뉴5
+            tabLayout.getTabAt(5).setIcon(R.drawable.shoes); // 메뉴6
+            tabLayout.getTabAt(6).setIcon(R.drawable.bag); // 메뉴7
+            tabLayout.getTabAt(7).setIcon(R.drawable.hat); // 메뉴8
 
-        // 탭메뉴 아이콘 설정
-        tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
-        tabLayout.getTabAt(1).setIcon(R.drawable.top); // 메뉴2
-        tabLayout.getTabAt(2).setIcon(R.drawable.bottom); // 메뉴3
-        tabLayout.getTabAt(3).setIcon(R.drawable.suit2); // 메뉴4
-        tabLayout.getTabAt(4).setIcon(R.drawable.outer); // 메뉴5
-        tabLayout.getTabAt(5).setIcon(R.drawable.shoes); // 메뉴6
-        tabLayout.getTabAt(6).setIcon(R.drawable.bag); // 메뉴7
-        tabLayout.getTabAt(7).setIcon(R.drawable.hat); // 메뉴8
-
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-        finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
-        pagerAdapter = new TabPagerAdapter_closet(getChildFragmentManager(), tabLayout.getTabCount());
-        finalPager.setAdapter(pagerAdapter);
-        finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
+            finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
+            pagerAdapter = new TabPagerAdapter_closet(getChildFragmentManager(), tabLayout.getTabCount());
+            finalPager.setAdapter(pagerAdapter);
+            finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                finalPager.setCurrentItem(tab.getPosition());
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    finalPager.setCurrentItem(tab.getPosition());
+                }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+                }
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {

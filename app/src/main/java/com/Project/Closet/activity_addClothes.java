@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.home.activity_home;
+import com.Project.Closet.home.activity_home2;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -232,21 +233,27 @@ public class activity_addClothes extends AppCompatActivity {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
+
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
+
                                 try{
                                     if (res.contains("ok")) {
-                                    Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activity_addClothes.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                                        setResult(RESULT_OK, intent);
+                                        finish();
                                     } else if (res.contains("fail")) {
-                                    Toast.makeText(activity_addClothes.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(activity_addClothes.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                                        setResult(RESULT_CANCELED, intent);
+                                        finish();
                                     }
-                                    Intent intent = new Intent(getApplicationContext(), activity_closet.class);
-                                    startActivity(intent);
                                 }  catch (NullPointerException e) {
                                     e.printStackTrace();
                                     Toast.makeText(activity_addClothes.this, "업로드 오류", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
-                                    startActivity(intent);
+                                    setResult(RESULT_CANCELED, intent);
+                                    finish();
                                 }
-
                             }
                             else
                                 Toast.makeText(activity_addClothes.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
