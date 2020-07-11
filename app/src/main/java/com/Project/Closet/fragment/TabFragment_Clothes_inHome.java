@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,14 +23,12 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.home.activity_home;
+import com.Project.Closet.home.fragment_home;
 import com.Project.Closet.util.ClothesListAdapter;
-import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -41,15 +40,15 @@ import retrofit2.Call;
 
 public class TabFragment_Clothes_inHome extends Fragment {
 
+    fragment_home parentFragment;
+
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
-
 
     int gridsize;
     String pagesize;
 
-
-
+    public RelativeLayout Cloth_Info;
     ImageView iv_heart;
     ImageView iv_modify;
     ImageView iv_delete;
@@ -66,6 +65,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
     ClothesListAdapter clothesListAdapter;
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
 
+
     public static TabFragment_Clothes_inHome newInstance(String identifier, String size) {
 
         Bundle args = new Bundle();
@@ -76,6 +76,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -105,24 +106,30 @@ public class TabFragment_Clothes_inHome extends Fragment {
                 break;
         }
 
-
         //리사이클러뷰 어댑터 초기화
         clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, size);
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
-                ((activity_home) Objects.requireNonNull(getActivity())).Cloth_Info.setVisibility(View.VISIBLE);
-                Glide.with((((activity_home) getActivity()).iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_home) getActivity()).iv_image);
-                ((activity_home)getActivity()).tv_name.setText(clothesList.get(position).getName());
-                ((activity_home)getActivity()).tv_category.setText(clothesList.get(position).getClosetName());
-                ((activity_home)getActivity()).tv_detailcategory.setText(clothesList.get(position).getCategory());
-                ((activity_home)getActivity()).tv_season.setText(clothesList.get(position).getSeason());
-                ((activity_home)getActivity()).tv_brand.setText(clothesList.get(position).getBrand());
-                ((activity_home)getActivity()).tv_size.setText(clothesList.get(position).getCloSize());
-                ((activity_home)getActivity()).tv_date.setText(clothesList.get(position).getDate());
+                parentFragment = ((fragment_home)getParentFragment());
 
-                ((activity_home)getActivity()).tv_cloNo.setText(Integer.toString(clothesList.get(position).getNo()));
+
+                Cloth_Info = parentFragment.getView().findViewById(R.id.cloth_info);
+                parentFragment.Cloth_Info.setVisibility(View.VISIBLE);
+
+                //Glide.with((parentFragment.iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_image);
+                //Glide.with((parentFragment.iv_edit_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_edit_image);
+                //parentFragment.tv_name.setText(clothesList.get(position).getName());
+                //parentFragment.tv_category.setText(clothesList.get(position).getClosetName());
+                //parentFragment.tv_detailcategory.setText(clothesList.get(position).getCategory());
+                //parentFragment.tv_season.setText(clothesList.get(position).getSeason());
+                //parentFragment.tv_brand.setText(clothesList.get(position).getBrand());
+                //parentFragment.tv_size.setText(clothesList.get(position).getCloSize());
+                //parentFragment.tv_date.setText(clothesList.get(position).getDate());
+
+                /*
+                parentFragment.tv_cloNo.setText(Integer.toString(clothesList.get(position).getNo()));
                 if("yes".equals(clothesList.get(position).getLike())){
                     iv_heart.setImageResource(R.drawable.favorite_color);
                     tv_cloFavorite.setText("yes");
@@ -131,6 +138,8 @@ public class TabFragment_Clothes_inHome extends Fragment {
                     iv_heart.setImageResource(R.drawable.favorite_empty);
                     tv_cloFavorite.setText("no");
                 }
+
+                 */
 
             }
         });
@@ -168,11 +177,12 @@ public class TabFragment_Clothes_inHome extends Fragment {
             }
         });
 
-        iv_heart = ((activity_home)getActivity()).iv_heart;
-        iv_modify = ((activity_home)getActivity()).iv_modify;
-        iv_delete = ((activity_home)getActivity()).iv_delete;
-        tv_cloNo = ((activity_home)getActivity()).tv_cloNo;
-        tv_cloFavorite = ((activity_home)getActivity()).tv_cloFavorite;
+
+        iv_heart = getParentFragment().getView().findViewById(R.id.iv_heart);
+        iv_modify = getParentFragment().getView().findViewById(R.id.iv_modify);
+        iv_delete = getParentFragment().getView().findViewById(R.id.iv_delete);
+        tv_cloNo = getParentFragment().getView().findViewById(R.id.tv_clothes_no);
+        tv_cloFavorite = getParentFragment().getView().findViewById(R.id.tv_clothes_favorite);
         
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         iv_heart.setOnClickListener(onClickListener);
@@ -251,7 +261,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
         @Override
         protected String doInBackground(ClothesVO... ClothesFilter) {
 
-            Call<String> stringCall = ClothesService.getRetrofit(((activity_home)getActivity()).getApplicationContext()).modifyClothes(ClothesFilter[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(parentFragment.getContext()).modifyClothes(ClothesFilter[0]);
             try {
                 return stringCall.execute().body();
             } catch (IOException e) {
@@ -274,7 +284,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
         @Override
         protected String doInBackground(String... cloNo) {
 
-            Call<String> stringCall = ClothesService.getRetrofit(((activity_home)getActivity()).getApplicationContext()).deleteClothes(cloNo[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(parentFragment.getContext()).deleteClothes(cloNo[0]);
             try {
                 return stringCall.execute().body();
             } catch (IOException e) {
@@ -326,21 +336,23 @@ public class TabFragment_Clothes_inHome extends Fragment {
                     Log.e("tag",res);
                     if("ok".equals(res)){
                         if(reverted_favorite){
-                            Toast.makeText(((activity_home)getActivity()).getApplicationContext(), "즐겨찾기에 추가했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(parentFragment.getContext(), "즐겨찾기에 추가했습니다.", Toast.LENGTH_SHORT).show();
                             tv_cloFavorite.setText("yes");
                             iv_heart.setImageResource(R.drawable.favorite_color);
                         }else{
-                            Toast.makeText(((activity_home)getActivity()).getApplicationContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(parentFragment.getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             tv_cloFavorite.setText("no");
                             iv_heart.setImageResource(R.drawable.favorite_empty);
                         }
-                        ((activity_home)getActivity()).onResume();
                     }
                     else
-                        Toast.makeText(((activity_home)getActivity()).getApplicationContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parentFragment.getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
                     break ;
 
                 case R.id.iv_modify :
+                    //parentFragment.Cloth_Info.setVisibility(View.GONE);
+                    parentFragment.Cloth_Info_edit.setVisibility(View.VISIBLE);
+                    parentFragment.tv_edit_date.setText(parentFragment.tv_date.getText());
                     break ;
 
                 case R.id.iv_delete : //삭제
@@ -354,11 +366,18 @@ public class TabFragment_Clothes_inHome extends Fragment {
                     }
 
                     if("ok".equals(res)){
-                        Toast.makeText(((activity_home)getActivity()).getApplicationContext(), "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
-                        ((activity_home)getActivity()).Cloth_Info.setVisibility(View.GONE);
-                        ((activity_home)getActivity()).onResume();
+                        Toast.makeText(parentFragment.getContext(), "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
+                        parentFragment.Cloth_Info.setVisibility(View.GONE);
+
+
+                        parentFragment.onResume();
+
+                        //Intent intent = parentFragment.getIntent();
+                        ////intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                        //parentFragment.finish();
+                        //startActivity(intent);
                     }else{
-                        Toast.makeText(((activity_home)getActivity()).getApplicationContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(parentFragment.getContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -372,24 +391,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
     }
-/*
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try
-        {
-            if (networkTask.getStatus() == AsyncTask.Status.RUNNING)
-            {
-                networkTask.cancel(true);
-            }
-            else
-            {
-            }
-        }
-        catch (Exception e)
-        {
-        }
-    }
 
- */
+
+
 }

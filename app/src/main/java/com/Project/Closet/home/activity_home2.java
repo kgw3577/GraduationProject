@@ -39,7 +39,7 @@ import com.ssomai.android.scalablelayout.ScalableLayout;
 public class activity_home2 extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-    Fragment f_closet, f_codi;
+    Fragment f_closet, f_codi, f_home;
 
     OnBackPressedListener listener;
 
@@ -68,6 +68,7 @@ public class activity_home2 extends AppCompatActivity {
 
                 if(f_closet != null) fragmentManager.beginTransaction().show(f_closet).commit();
                 if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
             }
         });
 
@@ -83,16 +84,23 @@ public class activity_home2 extends AppCompatActivity {
 
                 if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
                 if(f_codi != null) fragmentManager.beginTransaction().show(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
             }
         });
 
         //옷 추가 아이콘 클릭
-        ScalableLayout AddClothes = (ScalableLayout) findViewById(R.id.icon_footer_Add);
-        AddClothes.setOnClickListener(new View.OnClickListener() {
+        ScalableLayout Home = (ScalableLayout) findViewById(R.id.icon_footer_Add);
+        Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home2.this, activity_addClothes.class);
-                startActivityForResult(intent,ADD_CLOTHES);
+                if(f_home == null) {
+                    f_home = new fragment_home();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_home,"home").commit();
+                }
+
+                if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
+                if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().show(f_home).commit();
             }
         });
 
