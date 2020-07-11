@@ -53,10 +53,8 @@ public class activity_home2 extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         f_closet = new fragment_closet();
-        fragmentManager.beginTransaction().replace(R.id.fragment_place, f_closet).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment_place, f_closet,"closet").commit();
 
-        //f_codi = new fragment_codi();
-        //transaction.hide(this);
 
         //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
@@ -65,7 +63,7 @@ public class activity_home2 extends AppCompatActivity {
             public void onClick(View view) {
                 if(f_closet == null) {
                     f_closet = new fragment_closet();
-                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_closet).commit();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_closet,"closet").commit();
                 }
 
                 if(f_closet != null) fragmentManager.beginTransaction().show(f_closet).commit();
@@ -80,7 +78,7 @@ public class activity_home2 extends AppCompatActivity {
             public void onClick(View view) {
                 if(f_codi == null) {
                     f_codi = new fragment_codi();
-                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_codi).commit();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_codi,"codi").commit();
                 }
 
                 if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
@@ -115,9 +113,13 @@ public class activity_home2 extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        FragmentTransaction transaction;
+
         if (requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_closet);
             f_closet = new fragment_closet();
-            fragmentManager.beginTransaction().replace(R.id.fragment_place, f_closet).commit();
+            transaction.add(R.id.fragment_place,f_closet,"closet").commit();
         }
     }
 
