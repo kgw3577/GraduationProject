@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".board.SelectCodi"></activity>
+        <activity android:name=".board.SelectCodi" />
         <activity android:name=".board.SelectClothes" />
         <activity android:name=".activity_share" />
         <activity android:name=".activity_profile" />
@@ -36,6 +36,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".home.activity_home" />
+        <activity android:name=".home.activity_home2" />
     </application>
 
 </manifest>

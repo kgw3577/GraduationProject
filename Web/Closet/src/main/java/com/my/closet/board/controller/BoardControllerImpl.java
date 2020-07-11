@@ -227,7 +227,5 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return viewName;
 	}
-
-
 	
 }

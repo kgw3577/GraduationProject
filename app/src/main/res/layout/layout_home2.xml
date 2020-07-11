@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/final_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            app:scale_base_height="160"
+            app:scale_base_width="1080">
+
+            <include
+                layout="@layout/footer_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+        <fragment
+            android:name="com.Project.Closet.closet.fragment_closet"
+            android:id="@+id/fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/footer"
+            android:background="@android:color/white">
+        </fragment>
+
+    </RelativeLayout>
+
+</LinearLayout>
