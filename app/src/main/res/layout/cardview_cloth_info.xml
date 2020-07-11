@@ -176,6 +176,13 @@
                     android:id="@+id/tv_clothes_favorite"
                     android:visibility="invisible"
                     />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/tv_clothes_position"
+                    android:visibility="invisible"
+                    />
             </LinearLayout>
 
         </LinearLayout>

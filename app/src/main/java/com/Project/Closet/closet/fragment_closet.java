@@ -44,7 +44,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
 
     private TabLayout tabLayout;
-    TabPagerAdapter_closet pagerAdapter;
+    public TabPagerAdapter_closet pagerAdapter;
     private ViewPager finalPager;
     RelativeLayout navMenu;
     public RelativeLayout Cloth_Info;
@@ -65,6 +65,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public ImageView iv_save;
     public TextView tv_cloNo;
     public TextView tv_cloFavorite;
+    public TextView tv_cloPosition;
     public TextView tv_edit_category;
     public TextView tv_edit_season;
     public TextView tv_edit_date;
@@ -85,7 +86,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
-        activity.setOnBackPressedListener(this);
+        //activity.setOnBackPressedListener(this);
         Cloth_Info = (RelativeLayout) getView().findViewById(R.id.cloth_info);
         Cloth_Info.setVisibility(View.GONE);
         Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
@@ -109,6 +110,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_save = (ImageView) getView().findViewById(R.id.iv_save);
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
+        tv_cloPosition = (TextView) getView().findViewById(R.id.tv_clothes_position);
         tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_name);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);

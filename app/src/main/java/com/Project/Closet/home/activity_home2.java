@@ -143,4 +143,14 @@ public class activity_home2 extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+    public void refresh_home(){
+        if(f_home != null){
+            FragmentTransaction transaction;
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_home);
+            f_home = new fragment_home();
+            transaction.add(R.id.fragment_place,f_home,"home").commit();
+        }
+    }
 }

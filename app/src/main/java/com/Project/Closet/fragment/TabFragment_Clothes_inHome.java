@@ -23,8 +23,10 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.home.fragment_home;
 import com.Project.Closet.util.ClothesListAdapter;
+import com.bumptech.glide.Glide;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -82,6 +84,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        parentFragment = ((fragment_home)getParentFragment());
 
 
         Bundle args = getArguments(); // 데이터 받기
@@ -112,23 +115,22 @@ public class TabFragment_Clothes_inHome extends Fragment {
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position, ImageView iv_Clothes) {
-                parentFragment = ((fragment_home)getParentFragment());
+
 
 
                 Cloth_Info = parentFragment.getView().findViewById(R.id.cloth_info);
                 parentFragment.Cloth_Info.setVisibility(View.VISIBLE);
 
-                //Glide.with((parentFragment.iv_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_image);
-                //Glide.with((parentFragment.iv_edit_image).getContext()).load(ImageUrlList.get(position)).into(((activity_closet) getActivity()).iv_edit_image);
-                //parentFragment.tv_name.setText(clothesList.get(position).getName());
-                //parentFragment.tv_category.setText(clothesList.get(position).getClosetName());
-                //parentFragment.tv_detailcategory.setText(clothesList.get(position).getCategory());
-                //parentFragment.tv_season.setText(clothesList.get(position).getSeason());
-                //parentFragment.tv_brand.setText(clothesList.get(position).getBrand());
-                //parentFragment.tv_size.setText(clothesList.get(position).getCloSize());
-                //parentFragment.tv_date.setText(clothesList.get(position).getDate());
+                Glide.with((parentFragment.iv_image).getContext()).load(ImageUrlList.get(position)).into(parentFragment.iv_image);
+                Glide.with((parentFragment.iv_edit_image).getContext()).load(ImageUrlList.get(position)).into(parentFragment.iv_edit_image);
+                parentFragment.tv_name.setText(clothesList.get(position).getName());
+                parentFragment.tv_category.setText(clothesList.get(position).getClosetName());
+                parentFragment.tv_detailcategory.setText(clothesList.get(position).getCategory());
+                parentFragment.tv_season.setText(clothesList.get(position).getSeason());
+                parentFragment.tv_brand.setText(clothesList.get(position).getBrand());
+                parentFragment.tv_size.setText(clothesList.get(position).getCloSize());
+                parentFragment.tv_date.setText(clothesList.get(position).getDate());
 
-                /*
                 parentFragment.tv_cloNo.setText(Integer.toString(clothesList.get(position).getNo()));
                 if("yes".equals(clothesList.get(position).getLike())){
                     iv_heart.setImageResource(R.drawable.favorite_color);
@@ -139,7 +141,6 @@ public class TabFragment_Clothes_inHome extends Fragment {
                     tv_cloFavorite.setText("no");
                 }
 
-                 */
 
             }
         });

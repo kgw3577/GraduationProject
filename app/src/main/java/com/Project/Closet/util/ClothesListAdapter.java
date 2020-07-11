@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Project.Closet.Global;
+import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.PagerAdapter_addCodi;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,7 +27,8 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     String size;
 
     Context mContext;
-    List<String> items; //이미지 url 리스트
+    ArrayList<ClothesVO> ClothesList; //이미지 url 리스트
+
     int item_layout; //리사이클러뷰 레이아웃. fragment_recyclerview임.
 
     public interface OnItemClickListener {
@@ -41,9 +45,9 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public ClothesListAdapter(Context context, List<String> items, int item_layout, String size) {
+    public ClothesListAdapter(Context context, ArrayList<ClothesVO> items, int item_layout, String size) {
         this.mContext=context;
-        this.items=items;
+        this.ClothesList=items;
         this.item_layout=item_layout;
         this.size = size;
     }
@@ -69,15 +73,15 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
-        final String item=items.get(position);
-        Glide.with(myViewHolder.itemView.getContext()).load(item).into(myViewHolder.iv_Clothes);
+        final ClothesVO clothesVO=ClothesList.get(position);
+        Glide.with(myViewHolder.itemView.getContext()).load(Global.baseURL+clothesVO.getFilePath()).into(myViewHolder.iv_Clothes);
     }
 
     //아이템 개수 반환
     @Override
     public int getItemCount() {
-        Log.e("1",""+this.items.size());
-        return this.items.size();
+        Log.e("ClothesListAdapter","아이템 개수 반환"+this.ClothesList.size());
+        return this.ClothesList.size();
     }
 
     //뷰 홀더 : 아이템 뷰를 저장하는 객체
