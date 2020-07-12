@@ -9,8 +9,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,14 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Service.CodiService;
-import com.Project.Closet.HTTP.VO.ClothesVO;
-import com.Project.Closet.HTTP.VO.UserVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
-import com.Project.Closet.codi.activity_codi_main;
-import com.Project.Closet.home.activity_home;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,8 +41,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
-public class activity_addCodi extends AppCompatActivity implements Page_allClothes.FragListener, Page_top.FragListener, Page_bottom.FragListener
-    , Page_suit.FragListener, Page_outer.FragListener, Page_shoes.FragListener, Page_bag.FragListener, Page_accessory.FragListener {
+public class activity_addCodi extends AppCompatActivity implements Page_category.FragListener {
 
     class Category {
         //final static int ALL = 0;
@@ -210,13 +201,13 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
 
         //뷰페이저에 프래그먼트 설정
         //pagerAdapter.addItem(new Page_allClothes());
-        pagerAdapter.addItem(new Page_top()); //0
-        pagerAdapter.addItem(new Page_bottom()); //1
-        pagerAdapter.addItem(new Page_suit());
-        pagerAdapter.addItem(new Page_outer());
-        pagerAdapter.addItem(new Page_shoes());
-        pagerAdapter.addItem(new Page_bag());
-        pagerAdapter.addItem(new Page_accessory());
+        pagerAdapter.addItem(Page_category.newInstance("top","small")); //0
+        pagerAdapter.addItem(Page_category.newInstance("bottom","small")); //1
+        pagerAdapter.addItem(Page_category.newInstance("suit","small"));
+        pagerAdapter.addItem(Page_category.newInstance("outer","small"));
+        pagerAdapter.addItem(Page_category.newInstance("shoes","small"));
+        pagerAdapter.addItem(Page_category.newInstance("bag","small"));
+        pagerAdapter.addItem(Page_category.newInstance("accessory","small"));
         viewPager.setAdapter(pagerAdapter);
 
         //상하의/한벌옷 모드 초기 설정
@@ -383,19 +374,22 @@ public class activity_addCodi extends AppCompatActivity implements Page_allCloth
             e.printStackTrace();
         }
 
+        Intent intent = new Intent();
         try {
             if (res.contains("ok")) {
                 Toast.makeText(activity_addCodi.this, "업로드 성공", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), activity_codi_main.class);
-                startActivity(intent);
+                setResult(RESULT_OK, intent);
+                finish();
             } else if (res.contains("fail")) {
                 Toast.makeText(activity_addCodi.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_CANCELED, intent);
+                finish();
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
             Toast.makeText(activity_addCodi.this, "업로드 오류", Toast.LENGTH_SHORT).show();
-            //Intent intent = new Intent(getApplicationContext(), activity_home.class);
-            //startActivity(intent);
+            setResult(RESULT_CANCELED, intent);
+            finish();
         }
         return res;
     }

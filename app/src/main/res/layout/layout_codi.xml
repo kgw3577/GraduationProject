@@ -21,7 +21,7 @@
                 app:scale_base_width="1080">
 
                 <include
-                    layout="@layout/header_codi"
+                    layout="@layout/header_closets"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>

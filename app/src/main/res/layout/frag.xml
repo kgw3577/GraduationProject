@@ -22,17 +22,17 @@
 
                 <include
 
-                    layout="@layout/header_main"
+                    layout="@layout/header_closets"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
+
 
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/home_coordinator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/footer"
                 android:layout_below="@+id/header"
                 android:layout_marginTop="18sp"
                 android:background="@android:color/white">
@@ -73,10 +73,7 @@
                             android:id="@+id/tab_Pager"
                             android:layout_width="match_parent"
                             android:layout_height="600dp"
-                            android:layout_below="@+id/tabLayout" >
-
-                            <include layout="@layout/cardview_cloth_info_edit" />
-                        </androidx.viewpager.widget.ViewPager>
+                            android:layout_below="@+id/tabLayout" />
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -91,7 +88,8 @@
                 android:id="@+id/cloth_info_edit"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
+                <include
+                    layout="@layout/cardview_cloth_info_edit"/>
             </RelativeLayout>
         </RelativeLayout>
 

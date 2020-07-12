@@ -1,18 +1,12 @@
 package com.Project.Closet.codi.addCodi;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -21,18 +15,13 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
 import com.Project.Closet.codi.activity_codi_main;
-import com.Project.Closet.home.activity_home;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.Project.Closet.old.activity_home3;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -157,7 +146,7 @@ public class activity_sendCodi extends AppCompatActivity {
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                         Toast.makeText(activity_sendCodi.this, "업로드 오류", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), activity_home.class);
+                        Intent intent = new Intent(getApplicationContext(), activity_home3.class);
                         startActivity(intent);
                     }
                 } else

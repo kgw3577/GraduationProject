@@ -1,16 +1,12 @@
-package com.Project.Closet.closet;
+package com.Project.Closet.old;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,18 +20,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.R;
-import com.Project.Closet.activity_addClothes;
+import com.Project.Closet.closet.activity_addClothes;
 import com.Project.Closet.activity_profile;
+import com.Project.Closet.closet.TabPagerAdapter_closet;
 import com.Project.Closet.codi.activity_codi_main;
-import com.Project.Closet.home.activity_home;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.ssomai.android.scalablelayout.ScalableLayout;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class activity_closet extends AppCompatActivity {
     private TabLayout tabLayout;

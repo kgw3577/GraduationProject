@@ -28,26 +28,32 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/header_nav"
-            app:scale_width="200"
+            android:id="@+id/header_search"
+
+            app:scale_top="0"
+            app:scale_width="250"
             app:scale_height="116">
 
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:scale_base_width="200"
+                app:scale_base_width="250"
                 app:scale_base_height="116">
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/header_nav_iv"
+                    android:id="@+id/search_button"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:src="@drawable/search2"
+                    app:scale_height="100"
+                    app:scale_left="100"
                     app:scale_left_baseposition="center"
-                    app:scale_top_baseposition="center"
-                    app:scale_left="70"
                     app:scale_top="58"
-                    app:scale_width="56"
-                    app:scale_height="41"
-                    android:src="@drawable/icon_home_nav"/>
+                    app:scale_top_baseposition="center"
+                    app:scale_width="90" />
+
+
+
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
         </RelativeLayout>
@@ -72,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/sample"
                     app:scale_height="100"
-                    app:scale_left="340"
+                    app:scale_left="400"
                     app:scale_left_baseposition="center"
                     app:scale_top="11"
                     app:scale_width="284" />
@@ -85,7 +91,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/header_weather"
+            android:id="@+id/header_add"
             app:scale_left="830"
             app:scale_top="0"
             app:scale_width="250"
@@ -98,9 +104,9 @@
                 app:scale_base_height="116">
 
                 <ImageView
-                    android:id="@+id/add_codi_iv"
-                    android:layout_width="10dp"
-                    android:layout_height="22dp"
+                    android:id="@+id/add"
+                    android:layout_width="20dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/add"
                     app:scale_height="83"
                     app:scale_left="170"

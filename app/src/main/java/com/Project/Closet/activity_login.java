@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.Project.Closet.HTTP.Service.UserService;
 import com.Project.Closet.HTTP.VO.UserVO;
 import com.Project.Closet.home.activity_home;
-import com.Project.Closet.home.activity_home2;
 
 import retrofit2.Call;
 
@@ -91,7 +90,7 @@ public class activity_login extends AppCompatActivity {
                         String result = new LoginTask().execute(loginid, loginpwd, "login").get();
                         if (result.contains("true")) {
                             Toast.makeText(activity_login.this, "로그인", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(activity_login.this, activity_home2.class);
+                            Intent intent = new Intent(activity_login.this, activity_home.class);
                             startActivity(intent);
                             //finish();
                         } else if (result.contains("false")) {

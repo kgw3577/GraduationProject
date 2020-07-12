@@ -2,116 +2,59 @@ package com.Project.Closet.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.Project.Closet.R;
-import com.Project.Closet.activity_addClothes;
 import com.Project.Closet.activity_profile;
 import com.Project.Closet.activity_share;
-import com.Project.Closet.closet.activity_closet;
-import com.Project.Closet.codi.activity_codi_main;
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
+import com.Project.Closet.closet.fragment_closet;
+import com.Project.Closet.codi.fragment_codi;
+import com.Project.Closet.old.activity_home3;
+import com.Project.Closet.util.OnBackPressedListener;
 import com.ssomai.android.scalablelayout.ScalableLayout;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.viewpager.widget.ViewPager;
 
 public class activity_home extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager finalPager;
-    TabPagerAdapter_home pagerAdapter;
-    ImageView navMenu;
+    private FragmentManager fragmentManager;
+    Fragment f_closet, f_codi, f_home;
 
-    public RelativeLayout Cloth_Info;
-    public ImageView iv_image;
-    public TextView tv_name;
-    public TextView tv_category;
-    public TextView tv_detailcategory;
-    public TextView tv_season;
-    public TextView tv_brand;
-    public TextView tv_size;
-    public TextView tv_date;
+    OnBackPressedListener listener;
 
-    public ImageView iv_heart;
-    public ImageView iv_modify;
-    public ImageView iv_delete;
-    public TextView tv_cloNo;
-    public TextView tv_cloFavorite;
+    int ADD_CLOTHES = 11;
 
+    boolean is_home_changed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repeatedFunction(); //onResume()으로 화면의 지속적인 갱신을 위해 코드를 따로 뺌
-    }
+        setContentView(R.layout.layout_home2);
 
 
-    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
-            Cloth_Info.setVisibility(View.GONE);
-        } else {
-            super.onBackPressed();
-        }
+        fragmentManager = getSupportFragmentManager();
+        f_home = new fragment_home();
+        fragmentManager.beginTransaction().replace(R.id.fragment_place, f_home,"home").commit();
 
-    }
-
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        repeatedFunction();
-    }
-
-    public void repeatedFunction(){
-        setContentView(R.layout.layout_home);
-        Cloth_Info = (RelativeLayout) findViewById(R.id.cloth_info);
-        Cloth_Info.setVisibility(View.GONE);
-        iv_image = (ImageView) findViewById(R.id.iv_image);
-        tv_name = (TextView) findViewById(R.id.tv_info_name);
-        tv_category = (TextView) findViewById(R.id.tv_info_catergory);
-        tv_detailcategory = (TextView) findViewById(R.id.tv_info_detailcategory);
-        tv_season = (TextView) findViewById(R.id.tv_info_season);
-        tv_brand = (TextView) findViewById(R.id.tv_info_brand);
-        tv_size = (TextView) findViewById(R.id.tv_info_size);
-        tv_date = (TextView) findViewById(R.id.tv_info_date);
-
-        iv_heart = (ImageView) findViewById(R.id.iv_heart);
-        iv_modify = (ImageView) findViewById(R.id.iv_modify);
-        iv_delete = (ImageView) findViewById(R.id.iv_delete);
-        tv_cloNo = (TextView) findViewById(R.id.tv_clothes_no);
-        tv_cloFavorite = (TextView) findViewById(R.id.tv_clothes_favorite);
-
-
-
-
-
-        final DrawerLayout drawLayout = (DrawerLayout) findViewById(R.id.final_drawer_layout);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
         //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
         MyCloset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_closet.class);
-                startActivity(intent);
+                if(f_closet == null) {
+                    f_closet = new fragment_closet();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_closet,"closet").commit();
+                }
+
+                if(f_closet != null) fragmentManager.beginTransaction().show(f_closet).commit();
+                if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
+                setOnBackPressedListener((fragment_closet)f_closet);
             }
         });
 
@@ -120,21 +63,43 @@ public class activity_home extends AppCompatActivity {
         Codi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_codi_main.class);
-                startActivity(intent);
+                if(f_codi == null) {
+                    f_codi = new fragment_codi();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_codi,"codi").commit();
+                }
+
+                if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
+                if(f_codi != null) fragmentManager.beginTransaction().show(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
+                setOnBackPressedListener((fragment_codi)f_codi);
             }
         });
 
-        //옷 추가 아이콘 클릭
-        ScalableLayout AddClothes = (ScalableLayout) findViewById(R.id.icon_footer_Add);
-        AddClothes.setOnClickListener(new View.OnClickListener() {
+        //홈 아이콘 클릭
+        ScalableLayout Home = (ScalableLayout) findViewById(R.id.icon_footer_Add);
+        Home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_addClothes.class);
-                startActivity(intent);
+
+                if(is_home_changed){
+                    refresh_home();
+                    is_home_changed=false;
+                }
+                else{
+                    if(f_home == null) {
+                        f_home = new fragment_home();
+                        fragmentManager.beginTransaction().add(R.id.fragment_place, f_home,"home").commit();
+                    }
+
+                    if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
+                    if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
+                    if(f_home != null) fragmentManager.beginTransaction().show(f_home).commit();
+                    setOnBackPressedListener((fragment_home)f_home);
+                }
             }
         });
-        //내 정보 아이콘 클릭
+
+        //공유 아이콘 클릭
         ScalableLayout Share = (ScalableLayout) findViewById(R.id.icon_footer_share);
         Share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,68 +119,126 @@ public class activity_home extends AppCompatActivity {
             }
         });
 
-        //메뉴 버튼 클릭하면 드로워 열고 닫기
-        navMenu = (ImageView)findViewById(R.id.header_nav_iv);
-        navMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    drawLayout.openDrawer(GravityCompat.START);
-                }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FragmentTransaction transaction;
+
+        if (requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_closet);
+            f_closet = new fragment_closet();
+            transaction.add(R.id.fragment_place,f_closet,"closet").commit();
+        }
+    }
+
+    public OnBackPressedListener getOnBackPressedListener(){
+        return listener;
+    }
+
+    public void setOnBackPressedListener(OnBackPressedListener listener){
+        this.listener = listener;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(listener!=null){
+            listener.onBackPressed();
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+    public void refresh_clothes(Fragment end_fragment){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(end_fragment instanceof fragment_closet){
+            if(f_home != null){
+                System.out.println("home초기화");
+                transaction.remove(f_home);
+                f_home = new fragment_home();
+                transaction.add(R.id.fragment_place,f_home,"home");
             }
-        });
-
-        //드로워(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(getApplicationContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(getApplicationContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(getApplicationContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
+            if(f_closet != null){
+                System.out.println("closet초기화");
+                transaction.remove(f_closet);
+                f_closet = new fragment_closet();
+                transaction.add(R.id.fragment_place,f_closet,"closet");
             }
-        });
-
-
-        //탭 목록 설정
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
-        tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-        finalPager = (ViewPager) findViewById(R.id.tab_Pager);
-        pagerAdapter = new TabPagerAdapter_home(getSupportFragmentManager(), tabLayout.getTabCount());
-        finalPager.setAdapter(pagerAdapter);
-        finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                finalPager.setCurrentItem(tab.getPosition());
+        }
+        else if((end_fragment instanceof fragment_home)){
+            if(f_closet != null){
+                System.out.println("closet초기화");
+                transaction.remove(f_closet);
+                f_closet = new fragment_closet();
+                transaction.add(R.id.fragment_place,f_closet,"closet");
             }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
+            if(f_home != null){
+                System.out.println("home초기화");
+                transaction.remove(f_home);
+                f_home = new fragment_home();
+                transaction.add(R.id.fragment_place,f_home,"home");
             }
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        }
+        transaction.commit();
     }
 
 
 
+
+    public void refresh_codi(Fragment end_fragment){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if(end_fragment instanceof fragment_codi){
+            if(f_home != null){
+                System.out.println("home초기화");
+                transaction.remove(f_home);
+                f_home = new fragment_home();
+                transaction.add(R.id.fragment_place,f_home,"home");
+            }
+            if(f_codi != null){
+                System.out.println("codi초기화");
+                transaction.remove(f_codi);
+                f_codi = new fragment_codi();
+                transaction.add(R.id.fragment_place,f_codi,"codi");
+            }
+        }
+        else if((end_fragment instanceof fragment_home)){
+            if(f_codi != null){
+                System.out.println("codi초기화");
+                transaction.remove(f_codi);
+                f_codi = new fragment_codi();
+                transaction.add(R.id.fragment_place,f_codi,"codi");
+            }
+            if(f_home != null){
+                System.out.println("home초기화");
+                transaction.remove(f_home);
+                f_home = new fragment_home();
+                transaction.add(R.id.fragment_place,f_home,"home");
+            }
+        }
+        transaction.commit();
+    }
+
+
+
+
+
+
+
+
+
+    public void refresh_home(){
+        if(f_home != null){
+            FragmentTransaction transaction;
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_home);
+            f_home = new fragment_home();
+            transaction.add(R.id.fragment_place,f_home,"home").commit();
+        }
+    }
+
+    public void notify_home_changed(){
+        is_home_changed=true;
+    }
 }

@@ -2,7 +2,6 @@ package com.Project.Closet.codi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,8 +14,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.R;
-import com.Project.Closet.activity_addClothes;
-import com.Project.Closet.closet.activity_closet;
+import com.Project.Closet.closet.activity_addClothes;
+import com.Project.Closet.old.activity_closet;
 import com.Project.Closet.codi.addCodi.activity_addCodi;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -150,7 +149,7 @@ public class activity_codi_main extends AppCompatActivity {
 
 
         //코디 추가 버튼
-        ImageView view_add_codi = (ImageView) findViewById(R.id.add_codi_iv);
+        ImageView view_add_codi = (ImageView) findViewById(R.id.add);
         view_add_codi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -18,17 +18,15 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_closet;
-import com.Project.Closet.home.activity_home;
+import com.Project.Closet.old.activity_closet;
+import com.Project.Closet.old.activity_home3;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -269,7 +267,7 @@ public class activity_addBoard extends AppCompatActivity {
                                 }  catch (NullPointerException e) {
                                     e.printStackTrace();
                                     Toast.makeText(activity_addBoard.this, "업로드 오류", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
+                                    Intent intent = new Intent(getApplicationContext(), activity_home3.class);
                                     startActivity(intent);
                                 }
 

@@ -60,13 +60,18 @@ public class ClothesService extends APIAdapter {
         @GET("clothes/search")
         Call<List<ClothesVO>> favoriteClothes(@Query("like") String like, @Query("page") String page, @Query("pageSize") String pageSize);
 
+        //옷 정보 받아오기
+        //cloNo를 파라미터로 받아 API URL을 완성해서 GET 방식으로 요청
+        @GET("clothes/info/{cloNo}")
+        Call<ClothesVO> infoClothes(@Path("cloNo") String cloNo);
+
         //옷 정보 수정하기
         @Headers("Content-Type: application/json")
         @PUT("clothes/modify")
         Call<String> modifyClothes(@Body ClothesVO clothesFilter);
 
         //옷 삭제
-        //id를 파라미터로 받아 API URL을 완성해서 DELETE 방식으로 요청
+        //cloNo를 파라미터로 받아 API URL을 완성해서 DELETE 방식으로 요청
         @DELETE("clothes/delete/{cloNo}")
         Call<String> deleteClothes(@Path("cloNo") String cloNo);
         //response는 ok/fail

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".activity_addClothes"
+    tools:context=".closet.activity_addClothes"
     android:orientation="vertical">
 
     <ImageView

@@ -133,7 +133,7 @@
                     app:scale_top_baseposition="center"
                     app:scale_width="57"
                     app:scale_height="56"
-                    android:src="@drawable/icon_footer_hanger"
+                    android:src="@drawable/home"
                     android:background="#00000000"/>
 
                 <TextView
@@ -145,7 +145,7 @@
                     app:scale_width="216"
                     app:scale_height="43"
                     app:scale_textsize="23"
-                    android:text="옷 추가"
+                    android:text="홈"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"

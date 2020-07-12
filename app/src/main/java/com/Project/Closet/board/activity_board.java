@@ -20,7 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.R;
-import com.Project.Closet.activity_addClothes;
+import com.Project.Closet.closet.activity_addClothes;
 import com.Project.Closet.activity_profile;
 import com.Project.Closet.codi.activity_codi_main;
 import com.google.android.material.navigation.NavigationView;

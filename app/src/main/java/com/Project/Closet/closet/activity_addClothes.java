@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.closet;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -23,10 +23,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.closet.activity_closet;
-import com.Project.Closet.home.activity_home;
-import com.Project.Closet.home.activity_home2;
+import com.Project.Closet.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -147,7 +146,7 @@ public class activity_addClothes extends AppCompatActivity {
                     //크기 줄여주기 (메모리 부족 오류 방지)
                     double height=bitmap.getHeight();
                     double width=bitmap.getWidth();
-                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int)Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
+                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int) Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
 
                     ////
                     //임시 파일로 저장하기
@@ -235,8 +234,6 @@ public class activity_addClothes extends AppCompatActivity {
                                 }
 
                                 Intent intent = new Intent();
-                                setResult(RESULT_OK, intent);
-                                finish();
 
                                 try{
                                     if (res.contains("ok")) {
