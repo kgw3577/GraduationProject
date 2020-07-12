@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:id="@+id/tv_clothes_position"
-                    android:visibility="invisible"
+                    android:visibility="visible"
                     />
             </LinearLayout>
 

@@ -1,6 +1,8 @@
 package com.Project.Closet.util;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
@@ -27,12 +30,12 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     String size;
 
     Context mContext;
-    ArrayList<ClothesVO> ClothesList; //이미지 url 리스트
+    private List<ClothesVO> ClothesList; //이미지 url 리스트
 
     int item_layout; //리사이클러뷰 레이아웃. fragment_recyclerview임.
 
     public interface OnItemClickListener {
-        void onItemClick(View v, int position, ImageView iv_Clothes);
+        void onItemClick(View v, int position, ClothesVO clothesVO, ImageView iv_Clothes);
     }
 
     // 리스너 객체 참조를 저장하는 변수
@@ -45,7 +48,7 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public ClothesListAdapter(Context context, ArrayList<ClothesVO> items, int item_layout, String size) {
+    public ClothesListAdapter(Context context, List<ClothesVO> items, int item_layout, String size) {
         this.mContext=context;
         this.ClothesList=items;
         this.item_layout=item_layout;
@@ -100,7 +103,7 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if (pos != RecyclerView.NO_POSITION) {
                         // 리스너 객체의 메서드 호출.
                         if (mListener != null) {
-                            mListener.onItemClick(v, pos, iv_Clothes) ;
+                            mListener.onItemClick(v, pos, ClothesList.get(pos), iv_Clothes) ;
                         }
                         // 데이터 리스트로부터 아이템 데이터 참조.
                         //RecyclerItem item = mData.get(pos) ;
@@ -108,5 +111,23 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
             });
         }
+    }
+
+
+    public void updateList(List<ClothesVO> newList) {
+        ListDiffCallback callback = new ListDiffCallback(this.ClothesList, newList);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(callback);
+        this.ClothesList.clear();
+        this.ClothesList.addAll(newList);
+        diffResult.dispatchUpdatesTo(ClothesListAdapter.this);
+        /*
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                diffResult.dispatchUpdatesTo(ClothesListAdapter.this);
+            }
+        });
+
+         */
     }
 }

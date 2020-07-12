@@ -53,10 +53,11 @@ public class Page_accessory extends Fragment {
 
     int page=0;
     RecyclerView rv_clothes;
+    ArrayList<ClothesVO> clothesList = new ArrayList<ClothesVO>();
     ArrayList<String> ImageUrlList = new ArrayList<String>();
 
     //리사이클러뷰 어댑터 초기화
-    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, "small");
+    ClothesListAdapter clothesListAdapter = new ClothesListAdapter(getActivity(),clothesList, R.layout.fragment_recyclerview, "small");
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -64,7 +65,7 @@ public class Page_accessory extends Fragment {
         super.onCreate(savedInstanceState);
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, int position, ClothesVO clothesVO, ImageView iv_Clothes) {
                 Bitmap selectedImage = ((BitmapDrawable)iv_Clothes.getDrawable()).getBitmap();
                 if(mFragListener != null){
                     mFragListener.ReceivedData(selectedImage);
@@ -142,6 +143,7 @@ public class Page_accessory extends Fragment {
                 for(ClothesVO e:clolist) {
                     //옷 데이터를 받아온 후 이미지 url 리스트를 갱신
                     ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
+                    clothesList.add(e);
                     Log.e("item", e.getFilePath());
 
                 }

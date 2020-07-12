@@ -65,8 +65,8 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
 
     int page=0;
     RecyclerView rv_clothes;
-    ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ArrayList<ClothesVO> clothesList = new ArrayList<ClothesVO>();
+    List<String> ImageUrlList = new ArrayList<String>();
+    List<ClothesVO> clothesList = new ArrayList<ClothesVO>();
     //리사이클러뷰 어댑터
     ClothesListAdapter clothesListAdapter;
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
@@ -118,27 +118,27 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, int position, ClothesVO clothesVO, ImageView iv_Clothes) {
 
-
+                ClothesVO clothes = clothesList.get(position);
 
                 parentFragment.Cloth_Info.setVisibility(View.VISIBLE);
 
                 Glide.with((parentFragment.iv_image).getContext()).load(ImageUrlList.get(position)).into(parentFragment.iv_image);
                 Glide.with((parentFragment.iv_edit_image).getContext()).load(ImageUrlList.get(position)).into(parentFragment.iv_edit_image);
-                parentFragment.tv_name.setText(clothesList.get(position).getName());
-                parentFragment.tv_category.setText(clothesList.get(position).getClosetName());
-                parentFragment.tv_detailcategory.setText(clothesList.get(position).getCategory());
-                parentFragment.tv_season.setText(clothesList.get(position).getSeason());
-                parentFragment.tv_brand.setText(clothesList.get(position).getBrand());
-                parentFragment.tv_size.setText(clothesList.get(position).getCloSize());
-                parentFragment.tv_date.setText(clothesList.get(position).getDate());
+                parentFragment.tv_name.setText(clothes.getName());
+                parentFragment.tv_category.setText(clothes.getClosetName());
+                parentFragment.tv_detailcategory.setText(clothes.getCategory());
+                parentFragment.tv_season.setText(clothes.getSeason());
+                parentFragment.tv_brand.setText(clothes.getBrand());
+                parentFragment.tv_size.setText(clothes.getCloSize());
+                parentFragment.tv_date.setText(clothes.getDate());
 
 
-                parentFragment.tv_cloNo.setText(Integer.toString(clothesList.get(position).getNo()));
+                parentFragment.tv_cloNo.setText(Integer.toString(clothes.getNo()));
                 parentFragment.tv_cloPosition.setText(Integer.toString(position));
 
-                if("yes".equals(clothesList.get(position).getLike())){
+                if("yes".equals(clothes.getLike())){
                     iv_heart.setImageResource(R.drawable.favorite_color);
                     tv_cloFavorite.setText("yes");
                 }
@@ -148,7 +148,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                 }
 
                 System.out.println(position+"번 선택됨.");
-                System.out.println(clothesList.get(position).getLike());
+                System.out.println(clothes.getLike());
 
             }
         });
@@ -258,7 +258,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                     clothesList.add(e);
                     Log.e("item", e.getFilePath());
                 }
-                clothesListAdapter.notifyDataSetChanged();
+                clothesListAdapter.updateList(clothesList);
             }
         }
     }
@@ -347,6 +347,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                     if("ok".equals(res)){
                         int position = Integer.parseInt(tv_cloPosition.getText().toString());
                         ClothesVO clo = clothesList.get(position);
+
                         if(reverted_favorite){
                             Toast.makeText(parentFragment.getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.favorite_color);
@@ -354,22 +355,19 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                             System.out.println(position+"번이 즐겨찾기 등록됨");
                             System.out.println(clo.getLike());
 
-
-
                         }else{
                             Toast.makeText(parentFragment.getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.favorite_empty);
-                            clothesList.get(position).setLike("no");
+                            clo.setLike("no");
                             System.out.println(position+"번이 즐겨찾기 해제됨");
-                            System.out.println(clothesList.get(position).getLike());
+                            System.out.println(clo.getLike());
                         }
                         //parentFragment.pagerAdapter.notifyDataSetChanged();
-                        clothesListAdapter.notifyDataSetChanged();
+                        clothesListAdapter.updateList(clothesList);
 
-                        System.out.println(clothesList.get(position).getLike());
-                        //clothesListAdapter.notifyItemChanged(position);
+                        //System.out.println(clothesList.get(position).getLike());
+
                         ((activity_home2)parentFragment.getActivity()).refresh_home();
-                        //rv_clothes.setAdapter(clothesListAdapter);
                     }
                     else
                         Toast.makeText(parentFragment.getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
@@ -418,6 +416,8 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
     }
+
+
 
 
 }

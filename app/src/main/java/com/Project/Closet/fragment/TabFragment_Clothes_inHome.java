@@ -110,11 +110,11 @@ public class TabFragment_Clothes_inHome extends Fragment {
         }
 
         //리사이클러뷰 어댑터 초기화
-        clothesListAdapter = new ClothesListAdapter(getActivity(),ImageUrlList, R.layout.fragment_recyclerview, size);
+        clothesListAdapter = new ClothesListAdapter(getActivity(),clothesList, R.layout.fragment_recyclerview, size);
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, int position,ClothesVO clothesVO, ImageView iv_Clothes) {
 
 
 
