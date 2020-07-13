@@ -1,4 +1,4 @@
-package com.Project.Closet.HTTP.preference;
+package com.Project.Closet.HTTP.Session.preference;
 
 import android.app.Activity;
 import android.content.Context;

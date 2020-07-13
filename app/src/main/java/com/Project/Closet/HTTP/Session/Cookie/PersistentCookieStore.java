@@ -1,4 +1,4 @@
-package com.Project.Closet.HTTP.Cookie;
+package com.Project.Closet.HTTP.Session.Cookie;
 
 import android.content.Context;
 import android.content.SharedPreferences;

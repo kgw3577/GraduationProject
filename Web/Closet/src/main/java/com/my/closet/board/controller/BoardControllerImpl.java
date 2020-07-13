@@ -64,7 +64,7 @@ public class BoardControllerImpl implements BoardController {
 	}
 	//모든 옷 게시글 조회
 	@Override
-	@RequestMapping(value = "/all_clothes", method = RequestMethod.GET)
+	@RequestMapping(value = "/all/clothes", method = RequestMethod.GET)
 	public ResponseEntity<List<BoardVO>> AllBoard_Clothes(@RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<BoardVO> boardList;
 		try{
@@ -77,7 +77,7 @@ public class BoardControllerImpl implements BoardController {
 	}
 	//모든 코디 게시글 조회
 	@Override
-	@RequestMapping(value = "/all_codi", method = RequestMethod.GET)
+	@RequestMapping(value = "/all/codi", method = RequestMethod.GET)
 	public ResponseEntity<List<BoardVO>> AllBoard_Codi(@RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<BoardVO> boardList;
 		try{

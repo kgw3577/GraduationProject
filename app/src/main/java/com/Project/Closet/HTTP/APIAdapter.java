@@ -3,8 +3,8 @@ package com.Project.Closet.HTTP;
 import android.content.Context;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.interceptor.AddCookiesInterceptor;
-import com.Project.Closet.HTTP.interceptor.ReceivedCookiesInterceptor;
+import com.Project.Closet.HTTP.Session.interceptor.AddCookiesInterceptor;
+import com.Project.Closet.HTTP.Session.interceptor.ReceivedCookiesInterceptor;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

@@ -1,8 +1,8 @@
-package com.Project.Closet.HTTP.interceptor;
+package com.Project.Closet.HTTP.Session.interceptor;
 
 import android.content.Context;
 
-import com.Project.Closet.HTTP.preference.CookieSharedPreferences;
+import com.Project.Closet.HTTP.Session.preference.CookieSharedPreferences;
 
 import java.io.IOException;
 import java.util.HashSet;
