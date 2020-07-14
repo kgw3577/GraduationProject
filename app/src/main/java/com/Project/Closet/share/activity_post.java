@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.share;
 
 import android.os.Bundle;
 
@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.Project.Closet.PostCommentAdapter;
+import com.Project.Closet.R;
+import com.Project.Closet.post_comment;
 
 import java.util.ArrayList;
 

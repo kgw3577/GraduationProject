@@ -1,4 +1,4 @@
-package com.Project.Closet.board;
+package com.Project.Closet.share;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

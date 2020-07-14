@@ -15,9 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".board.SelectCodi" />
-        <activity android:name=".board.SelectClothes" />
-        <activity android:name=".board.activity_share" />
+        <activity android:name=".share.activity_post" />
+        <activity android:name=".share.SelectCodi" />
+        <activity android:name=".share.SelectClothes" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
         <activity android:name=".old.activity_closet" />

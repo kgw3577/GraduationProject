@@ -75,12 +75,12 @@
 				and addedDate = #{addedDate}
 			</if>		
 			<if test="userID != '' and userID != null">
-				and userID = #{userID} ORDER BY addedDate DESC
-			</if>
-			<if test="pageStart != -1 and pageSize != -1">
-				LIMIT #{pageStart}, #{pageSize}
+				and userID = #{userID}
 			</if>
 		</where>
+		<if test="pageStart != -1 and pageSize != -1">
+			ORDER BY addedDate DESC LIMIT #{pageStart}, #{pageSize}
+		</if>
 	</select>
 	
 	

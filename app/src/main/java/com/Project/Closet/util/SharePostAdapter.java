@@ -29,7 +29,10 @@ public class SharePostAdapter extends RecyclerView.Adapter<SharePostAdapter.View
     // 아이템 뷰를 저장하는 뷰홀더 클래스.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_subject;
+        TextView tv_nickname;
         ImageView iv_image;
+        ImageView iv_profileImage;
+
         ViewHolder(View itemView) {
             super(itemView) ;
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +50,9 @@ public class SharePostAdapter extends RecyclerView.Adapter<SharePostAdapter.View
             });
             // 뷰 객체에 대한 참조. (hold strong reference)
             tv_subject = itemView.findViewById(R.id.sharepost_subject);
+            tv_nickname = itemView.findViewById(R.id.sharepost_nickname);
             iv_image = itemView.findViewById(R.id.sharepost_image);
+            iv_profileImage = itemView.findViewById(R.id.sharepost_profile);
         }
     }
 

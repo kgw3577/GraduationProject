@@ -29,7 +29,7 @@
 
 
             <fragment
-                android:name="com.Project.Closet.home.fragment_home"
+                android:name="com.Project.Closet.fragment.Fragment_post"
                 android:id="@+id/fragment_place"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -67,10 +67,10 @@
 			<if test="numHeart != '' and numHeart != null">
 				and numHeart = #{numHeart}
 			</if>
-			<if test="pageStart != -1 and pageSize != -1">
-				 ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
-			</if>
 		</where>
+		<if test="pageStart != -1 and pageSize != -1">
+			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+		</if>
 	</select>
 	
 	<!-- 추가 쿼리. 칼럼 하나도 빼먹지 말 것. -->

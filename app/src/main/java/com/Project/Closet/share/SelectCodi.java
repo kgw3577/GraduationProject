@@ -1,4 +1,4 @@
-package com.Project.Closet.board;
+package com.Project.Closet.share;
 
 import androidx.appcompat.app.AppCompatActivity;
 
