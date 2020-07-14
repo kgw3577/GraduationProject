@@ -12,17 +12,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.Project.Closet.R;
 import com.Project.Closet.activity_profile;
-import com.Project.Closet.activity_share;
+import com.Project.Closet.board.activity_share;
+import com.Project.Closet.board.fragment_share;
 import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.codi.fragment_codi;
-import com.Project.Closet.old.activity_home3;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.ssomai.android.scalablelayout.ScalableLayout;
 
 public class activity_home extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
-    Fragment f_closet, f_codi, f_home;
+    Fragment f_closet, f_codi, f_home, f_share;
 
     OnBackPressedListener listener;
 
@@ -33,7 +33,7 @@ public class activity_home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_home2);
+        setContentView(R.layout.layout_home);
 
 
         fragmentManager = getSupportFragmentManager();
@@ -54,6 +54,7 @@ public class activity_home extends AppCompatActivity {
                 if(f_closet != null) fragmentManager.beginTransaction().show(f_closet).commit();
                 if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
                 if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
+                if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                 setOnBackPressedListener((fragment_closet)f_closet);
             }
         });
@@ -71,6 +72,7 @@ public class activity_home extends AppCompatActivity {
                 if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
                 if(f_codi != null) fragmentManager.beginTransaction().show(f_codi).commit();
                 if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
+                if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                 setOnBackPressedListener((fragment_codi)f_codi);
             }
         });
@@ -94,6 +96,7 @@ public class activity_home extends AppCompatActivity {
                     if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
                     if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
                     if(f_home != null) fragmentManager.beginTransaction().show(f_home).commit();
+                    if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                     setOnBackPressedListener((fragment_home)f_home);
                 }
             }
@@ -104,8 +107,16 @@ public class activity_home extends AppCompatActivity {
         Share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity_home.this, activity_share.class);
-                startActivity(intent);
+                if(f_share == null) {
+                    f_share = new fragment_share();
+                    fragmentManager.beginTransaction().add(R.id.fragment_place, f_share,"share").commit();
+                }
+
+                if(f_closet != null) fragmentManager.beginTransaction().hide(f_closet).commit();
+                if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
+                if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
+                if(f_share != null) fragmentManager.beginTransaction().show(f_share).commit();
+                setOnBackPressedListener((fragment_share)f_share);
             }
         });
 

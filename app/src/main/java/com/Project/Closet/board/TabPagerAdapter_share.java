@@ -6,14 +6,14 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.Project.Closet.fragment.TabFragment_Clothes_inCloset;
 
-public class TabPagerAdapter_board extends FragmentStatePagerAdapter {
+public class TabPagerAdapter_share extends FragmentStatePagerAdapter {
 
     Fragment fragment;
 
     // Count number of tabs
     private int tabCount;
 
-    public TabPagerAdapter_board(FragmentManager fm, int tabCount) {
+    public TabPagerAdapter_share(FragmentManager fm, int tabCount) {
         super(fm);
         this.tabCount = tabCount;
     }
@@ -42,6 +42,11 @@ public class TabPagerAdapter_board extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override

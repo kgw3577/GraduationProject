@@ -1,17 +1,16 @@
-package com.Project.Closet;
+package com.Project.Closet.board;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.Project.Closet.home.activity_home;
+import com.Project.Closet.R;
+import com.Project.Closet.activity_post;
+import com.Project.Closet.util.SharePostAdapter;
 
 import java.util.ArrayList;
 

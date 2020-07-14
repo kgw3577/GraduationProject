@@ -17,10 +17,9 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".board.SelectCodi" />
         <activity android:name=".board.SelectClothes" />
-        <activity android:name=".activity_share" />
+        <activity android:name=".board.activity_share" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
-        <activity android:name=".codi.addCodi.activity_sendCodi" />
         <activity android:name=".old.activity_closet" />
         <activity android:name=".codi.activity_codi_main" />
         <activity android:name=".closet.activity_addClothes" />
@@ -35,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".old.activity_home3" />
         <activity android:name=".home.activity_home" />
     </application>
 

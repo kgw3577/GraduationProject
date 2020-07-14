@@ -32,7 +32,6 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.home.activity_home;
-import com.Project.Closet.home.fragment_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -95,7 +94,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag,container,false);
+        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
         return viewGroup;
     }

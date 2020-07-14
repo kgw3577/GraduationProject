@@ -93,7 +93,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag,container,false);
+        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
         return viewGroup;
     }

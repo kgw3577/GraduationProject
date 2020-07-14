@@ -1,16 +1,15 @@
-package com.Project.Closet;
+package com.Project.Closet.util;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.Project.Closet.R;
 
 import java.util.ArrayList;
 
@@ -53,7 +52,7 @@ public class SharePostAdapter extends RecyclerView.Adapter<SharePostAdapter.View
     }
 
     // 생성자에서 데이터 리스트 객체를 전달받음.
-    SharePostAdapter(ArrayList<String> list) {
+    public SharePostAdapter(ArrayList<String> list) {
         mData = list ;
     }
 
