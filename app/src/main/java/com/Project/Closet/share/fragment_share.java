@@ -124,8 +124,6 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
     //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
     @Override
     public void onBackPressed() {
-
-        Toast.makeText(getContext(), "share", Toast.LENGTH_SHORT).show();
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
@@ -148,7 +146,7 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
 
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
-                    Intent intent = new Intent(getContext(), activity_addClothes.class);
+                    Intent intent = new Intent(getContext(), activity_addBoard.class);
                     startActivityForResult(intent,ADD_BOARD);
                     break;
             }
@@ -159,7 +157,7 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_BOARD && resultCode == RESULT_OK)
-            ((activity_home)activity).refresh_clothes(fragment_share.this);
+            ((activity_home)activity).refresh_share();
     }
 
     //커스텀 함수

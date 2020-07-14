@@ -17,18 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.BoardService;
-import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.R;
 import com.Project.Closet.share.activity_post;
 import com.Project.Closet.share.fragment_share;
-import com.Project.Closet.util.PostAdapter;
-import com.Project.Closet.util.SharePostAdapter;
+import com.Project.Closet.util.BoardListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
@@ -45,7 +42,7 @@ public class Fragment_post extends Fragment {
     String size;
 
     int gridsize=2;
-    String pagesize="7";
+    String pagesize="8";
 
     int page=0;
     RecyclerView rv_post;
@@ -53,7 +50,7 @@ public class Fragment_post extends Fragment {
     ArrayList<BoardVO> boardList = new ArrayList<BoardVO>();
     
     //리사이클러뷰 어댑터
-    PostAdapter boardListAdapter;
+    BoardListAdapter boardListAdapter;
     Call<List<BoardVO>> boardListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
     public static Fragment_post newInstance(String identifier, String size) {
@@ -83,24 +80,24 @@ public class Fragment_post extends Fragment {
             switch (size){
                 case "small":
                     gridsize = 4; //스몰 그리드 4x5
-                    pagesize="25"; //스몰 페이지 사이즈 25
+                    pagesize="26"; //스몰 페이지 사이즈 25
                     break;
                 case "medium":
                     gridsize = 3; //미디엄 그리드 3x4
-                    pagesize="17"; //미디엄 페이지 사이즈 17
+                    pagesize="18"; //미디엄 페이지 사이즈 17
                     break;
                 case "large":
                     gridsize = 2; //라지 그리드 2x3
-                    pagesize="7"; //라지 페이지 사이즈 7
+                    pagesize="8"; //라지 페이지 사이즈 7
                     break;
             }
         }
 
 
         //리사이클러뷰 어댑터 초기화
-        boardListAdapter = new PostAdapter(boardList); //추후 수정
+        boardListAdapter = new BoardListAdapter(boardList); //추후 수정
 
-        boardListAdapter.setOnItemClickListener(new PostAdapter.OnItemClickListener() {
+        boardListAdapter.setOnItemClickListener(new BoardListAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(View v, int pos) {

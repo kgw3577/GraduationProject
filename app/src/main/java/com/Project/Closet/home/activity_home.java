@@ -248,6 +248,16 @@ public class activity_home extends AppCompatActivity {
         }
     }
 
+    public void refresh_share(){
+        if(f_share != null){
+            FragmentTransaction transaction;
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_share);
+            f_share = new fragment_share();
+            transaction.add(R.id.fragment_place,f_share,"share").commit();
+        }
+    }
+
     public void notify_home_changed(){
         is_home_changed=true;
     }

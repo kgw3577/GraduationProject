@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
 //뷰 홀더 : 아이템 뷰를 저장하는 객체
 //아이템 뷰 : 각각의 카드뷰 한 개
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
+public class BoardListAdapter extends RecyclerView.Adapter<BoardListAdapter.ViewHolder> {
 
     ArrayList<BoardVO> BoardList; //이미지 url 리스트
 
@@ -39,26 +38,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public PostAdapter(ArrayList<BoardVO> items) {
+    public BoardListAdapter(ArrayList<BoardVO> items) {
         this.BoardList=items;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
-    public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BoardListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext() ;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
         View view = inflater.inflate(R.layout.item_cardview_share, parent, false) ;
-        PostAdapter.ViewHolder vh = new PostAdapter.ViewHolder(view);
+        BoardListAdapter.ViewHolder vh = new BoardListAdapter.ViewHolder(view);
 
         return vh;
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(PostAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(BoardListAdapter.ViewHolder holder, int position) {
         final BoardVO boardVO=BoardList.get(position);
 
         holder.tv_subject.setText(boardVO.getSubject());

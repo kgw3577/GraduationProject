@@ -24,6 +24,10 @@
         <item>"스페셜"</item>
     </string-array>
 
+    <string-array name="Board_Category">
+        <item>"옷"</item>
+        <item>"코디"</item>
+    </string-array>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

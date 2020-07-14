@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".share.activity_post" />
+        <activity android:name=".share.activity_addBoard" />
         <activity android:name=".share.SelectCodi" />
         <activity android:name=".share.SelectClothes" />
         <activity android:name=".activity_profile" />
