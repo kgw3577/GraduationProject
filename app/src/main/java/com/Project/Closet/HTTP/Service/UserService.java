@@ -37,16 +37,16 @@ public class UserService extends APIAdapter {
         //1. 회원 정보 조회
         //Get방식, 주소가 고정되지 않는 상황에서는 @Path를 통해 주소를 다이나믹하게 넣을 수 있습니다.
         //Json형식에 맞게 Bean 객체를 만들어 두면 설정한 Parser가 자동으로 컨버팅해 돌려 줍니다.
-        @GET("user/myInfo/{id}")
-        Call<UserVO> myInfo(@Path("id") String id);
+        @GET("user/myInfo/{userID}")
+        Call<UserVO> myInfo(@Path("userID") String userID);
 
 
         /**
          * 회원가입 메소드
          *
          * @param email
-         * @param pw
-         * @param name
+         * @param pwd
+         * @param nickname
          * @return
          */
         //@FormUrlEncoded
@@ -56,8 +56,8 @@ public class UserService extends APIAdapter {
         @POST("user/join")
         Call<UserVO> up(
                 @Field("email") String email,
-                @Field("pw") String pw,
-                @Field("name") String name
+                @Field("pwd") String pwd,
+                @Field("name") String nickname
         );
 
 

@@ -44,7 +44,7 @@
 				boardNo = #{boardNo}
 			</if>
 			<if test="boardType != '' and boardType != null">
-				boardType = #{boardType}
+				and boardType = #{boardType}
 			</if>
 			<if test="userID != '' and userID != null">
 				and userID = #{userID}

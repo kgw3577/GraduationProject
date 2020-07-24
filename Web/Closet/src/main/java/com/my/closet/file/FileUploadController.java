@@ -40,74 +40,16 @@ public class FileUploadController {
 		return "awsUploadForm";
 	}
 
-	@RequestMapping(value = "/upload/{object}", method = RequestMethod.POST)
-	public ModelAndView upload(@PathVariable("object") String obj, MultipartHttpServletRequest multipartRequest,
-			HttpServletResponse response) throws Exception {
-		String userID="";
-		
-		if (obj.equals("clothes"))
-			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
-		else if (obj.equals("codi"))
-			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else if(obj.equals("windows"))
-			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
-		multipartRequest.setCharacterEncoding("utf-8");
-		Map<String, Object> map = new HashMap<String, Object>();
-		Enumeration<?> enu = multipartRequest.getParameterNames();
-		while (enu.hasMoreElements()) {
-			String name = (String) enu.nextElement();
-			String value = multipartRequest.getParameter(name);
-			System.out.println(name + ", " + value);
-			map.put(name, value);
-		}
-
-
-		//세션으로부터 유저아이디 받아오기
-		HttpSession httpSession = multipartRequest.getSession(false);
-		if(httpSession ==null) {
-			System.out.println("세션 정보 없음");
-			userID = "a";
-		}
-		else {
-			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
-			userID = loginVO.getId();
-			System.out.println("userID : "+userID);
-		}
-		map.put("userID",userID);
-		
-		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
-		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
-		
-		
-		map.put("userID",userID);
-		map.put("fileList", fileList);
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("map", map);
-		mav.setViewName("windowsUploadResult");
-		if(obj.equals("clothes")||obj.equals("clothes"))
-			mav.setViewName("awsUploadResult");
-		return mav;
-	}
-	
 	
 	//service 클래스 내부에서 쓸 함수.
 	public Map<String, Object> upload(String obj, MultipartHttpServletRequest multipartRequest) throws Exception {
 
 		String userID;
-		
-		if (obj.equals("clothes"))
-			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
-		else if (obj.equals("codi"))
-			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else if (obj.equals("board"))
-			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/board_image/";
-		else if(obj.equals("windows"))
-			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
 
+		//해쉬맵으로 저장하기
 		multipartRequest.setCharacterEncoding("utf-8");
 		Map<String, Object> map = new HashMap<String, Object>();
-		
 		Enumeration<?> enu = multipartRequest.getParameterNames();
 		while (enu.hasMoreElements()) {
 			String name = (String) enu.nextElement();
@@ -116,33 +58,51 @@ public class FileUploadController {
 			map.put(name, value);
 		}
 
-		//세션으로부터 유저아이디 받아오기
-		HttpSession httpSession = multipartRequest.getSession(false);
-		if(httpSession ==null) {
-			System.out.println("세션 정보 없음");
-			userID = "a";
+		if(map.get("userID")==null) {
+			//세션으로부터 유저아이디 받아오기
+			HttpSession httpSession = multipartRequest.getSession(false);
+			if(httpSession ==null) {
+				System.out.println("세션 정보 없음");
+				userID = "a";
+			}
+			else {
+				LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
+				userID = loginVO.getUserID();
+				System.out.println("세션 userID : "+userID);
+				
+			}
 		}
 		else {
-			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
-			userID = loginVO.getId();
-			System.out.println("userID : "+userID);
-			
+			userID = map.get("userID").toString();
 		}
 		
 		
 		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
-		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
-		
 		String filePath=null;
 		
-		if(obj.equals("clothes"))
+		switch(obj) {
+		case "clothes":
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
 			filePath = "/download/clothes?imageFileName="+new_name;
-		if(obj.equals("codi"))
+			break;
+		case "codi":
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
 			filePath = "/download/codi?imageFileName="+new_name;
-		if(obj.equals("board"))
+			break;
+		case "board":
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/board_image/";
 			filePath = "/download/board?imageFileName="+new_name;
-		else if(obj.equals("windows"))
+			break;
+		case "profile":
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/profile_image/";
+			filePath = "/download/profile?imageFileName="+new_name;
+		case "windows":
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용
 			filePath = "/download/windows?imageFileName="+new_name;
+			break;
+		}
+		
+		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
 
 		map.put("userID",userID);
 		map.put("fileName", new_name);
@@ -187,6 +147,60 @@ public class FileUploadController {
 		}
 		return originalFileName;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/upload/{object}", method = RequestMethod.POST)
+	public ModelAndView upload(@PathVariable("object") String obj, MultipartHttpServletRequest multipartRequest,
+			HttpServletResponse response) throws Exception {
+		String userID="";
+		
+		if (obj.equals("clothes"))
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
+		else if (obj.equals("codi"))
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
+		else if(obj.equals("windows"))
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+
+		multipartRequest.setCharacterEncoding("utf-8");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Enumeration<?> enu = multipartRequest.getParameterNames();
+		while (enu.hasMoreElements()) {
+			String name = (String) enu.nextElement();
+			String value = multipartRequest.getParameter(name);
+			System.out.println(name + ", " + value);
+			map.put(name, value);
+		}
+
+
+		//세션으로부터 유저아이디 받아오기
+		HttpSession httpSession = multipartRequest.getSession(false);
+		if(httpSession ==null) {
+			System.out.println("세션 정보 없음");
+			userID = "a";
+		}
+		else {
+			LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
+			userID = loginVO.getUserID();
+			System.out.println("userID : "+userID);
+		}
+		map.put("userID",userID);
+		
+		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
+		List<?> fileList = fileProcess(new_name, multipartRequest); //파일 저장, 원본파일 이름 리스트 받아옴. String.
+		
+		
+		map.put("userID",userID);
+		map.put("fileList", fileList);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("map", map);
+		mav.setViewName("windowsUploadResult");
+		if(obj.equals("clothes")||obj.equals("clothes"))
+			mav.setViewName("awsUploadResult");
+		return mav;
+	}
+	
 	
 	
 }

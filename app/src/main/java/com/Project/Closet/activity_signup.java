@@ -59,12 +59,12 @@ public class activity_signup extends AppCompatActivity {
                 OutputStream os = conn.getOutputStream();
                 // build jsonObject
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("id", strings[0]);
+                jsonObject.accumulate("userID", strings[0]);
                 jsonObject.accumulate("pwd", strings[1]);
                 // convert JSONObject to JSON to String
                 String json = jsonObject.toString();
 
-                //sendMsg = "id=" + strings[0] + "&pwd=" + strings[1] + "&type=" + strings[2];
+                //sendMsg = "userID=" + strings[0] + "&pwd=" + strings[1] + "&type=" + strings[2];
                 os.write(json.getBytes("UTF-8"));
                 os.flush();
                 if (conn.getResponseCode() == conn.HTTP_OK) {
@@ -112,6 +112,10 @@ public class activity_signup extends AppCompatActivity {
                             userId.setText("");
                             userPwd.setText("");
                         } else if(result.equals("email")) {
+                            Toast.makeText(activity_signup.this, "이미 존재하는 이메일입니다.", Toast.LENGTH_SHORT).show();
+                            userId.setText("");
+                            userPwd.setText("");
+                        }else if(result.equals("wrong email")) {
                             Toast.makeText(activity_signup.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                             userId.setText("");
                             userPwd.setText("");

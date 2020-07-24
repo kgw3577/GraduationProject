@@ -30,12 +30,18 @@
 	<table align="center" border="1">
 		<tr align='center' bgcolor='lightgreen'>
 			<td width="7%"><b>아이디</b></td>
-			<td width="7%"><b>비밀번호</b></td>
-			<td width="7%"><b>이름</b></td>
-			<td width="7%"><b>성별</b></td>
-			<td width="7%"><b>나이</b></td>
+			<td width="7%"><b>닉네임</b></td>
 			<td width="7%"><b>이메일</b></td>
+			<td width="7%"><b>비밀번호</b></td>
+			<td width="7%"><b>성별</b></td>
+			<td width="7%"><b>생년월일</b></td>
+			<td width="7%"><b>이메일체크</b></td>
+			<td width="7%"><b>프로필 사진</b></td>
+			<td width="7%"><b>프사 파일명</b></td>
+			<td width="7%"><b>프사 파일경로</b></td>
+			<td width="7%"><b>자기 소개</b></td>
 			<td width="7%"><b>내 정보</b></td>
+			<td width="7%"><b>수정하기</b></td>
 			<td width="7%"><b>삭제하기</b></td>
 		</tr>
 
@@ -48,15 +54,21 @@
 			<c:when test="${userList!=null}">
 				<c:forEach var="user" items="${userList}"> <!-- 컨트롤러에서 바인딩한 usersList에 바로 접근 -->
 					<tr align='center'>
-						<td>${user.id}</td>
+						<td>${user.userID}</td>
+						<td>${user.nickname}</td>
+						<td>${user.email}</td>
 						<td>${user.pwd}</td>
-						<td>${user.name}</td>
 						<td>${user.gender}</td>
-						<td>${user.age}</td>
-						<td>${user.mail}</td>
-						<td><a href="${contextPath}/user/myInfo/${user.id}">내 정보 보기</a></td>
+						<td>${user.birth}</td>
+						<td>${user.emailChecked}</td>
+						<td><img src="${contextPath}${user.pfImagePath}" style="width:150px"></td>
+						<td>${user.pfImageName}</td>
+						<td>${user.pfImagePath}</td>		
+						<td>${user.pfContents}</td>
+						<td><a href="${contextPath}/user/myInfo/${user.userID}">내 정보 보기</a></td>
+						<td><a href="${contextPath}/user/updateForm">내 정보 수정</a></td>
 						<td>
-						<form method="post" action="/user/delete/${user.id}">
+						<form method="post" action="/user/delete/${user.userID}">
    						<input type="hidden" name="_method" value="delete"/>
    						<input type="submit" value="삭제" >
 						</form>

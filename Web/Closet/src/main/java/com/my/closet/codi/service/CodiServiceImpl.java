@@ -40,13 +40,13 @@ public class CodiServiceImpl implements CodiService {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
 		//페이지 정보만 담긴 VO에 세션으로부터 받아온 유저아이디 정보 묶음
-		codiFilter.setUserID(loginVO.getId());
+		codiFilter.setUserID(loginVO.getUserID());
 
 		return codiDAO.selectCodi(codiFilter);
 	}
@@ -63,12 +63,12 @@ public class CodiServiceImpl implements CodiService {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
-		codiFilter.setUserID(loginVO.getId());
+		codiFilter.setUserID(loginVO.getUserID());
 
 		return codiDAO.selectCodi(codiFilter);
 	}

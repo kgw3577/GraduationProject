@@ -11,10 +11,10 @@
 <script>
   $(function() {
       $("#checkJson").click(function() {
-      	var article = {id:"red", 
+      	var article = {userID:"red", 
 	               pwd:"3333",
-	               name:"이다혜", 
-	               gender:"여성"
+	               nickname:"레드", 
+	               gender:"여자"
 	              };
   
   	$.ajax({

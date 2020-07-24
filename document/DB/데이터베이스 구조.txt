@@ -5,21 +5,26 @@ CREATE DATABASE CLOSET;
 USE CLOSET;
 
 -- USER Table Create SQL
-CREATE TABLE USER
-(
-    `userID`        VARCHAR(45)    NOT NULL    COMMENT '유저아이디', 
-    `userName`      VARCHAR(45)    NULL        COMMENT '유저이름', 
-    `userMail`      VARCHAR(70)    NULL        COMMENT '유저메일', 
-    `userPassword`  VARCHAR(45)    NULL        COMMENT '유저패스워드', 
-    `userGender`    VARCHAR(10)    NULL        COMMENT '유저성별', 
-    `userAge`       VARCHAR(10)    NULL        COMMENT '유저나이', 
-    `emailChecked`  VARCHAR(45)    NULL        COMMENT '유저메일체크', 
-    PRIMARY KEY (userID)
-);
+
+CREATE TABLE `USER` (
+  `userID` varchar(45) NOT NULL COMMENT '유저아이디',
+  `nickname` varchar(50) DEFAULT NULL,
+  `email` varchar(70) DEFAULT NULL,
+  `pwd` varchar(45) DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `birth` date DEFAULT NULL,
+  `emailChecked` varchar(45) DEFAULT NULL COMMENT '유저메일체크',
+  `pfImageName` varchar(50) DEFAULT NULL COMMENT '프로필 이미지 이름',
+  `pfImagePath` varchar(80) DEFAULT NULL COMMENT '프로필 이미지 경로',
+  `pfContents` varchar(300) DEFAULT NULL COMMENT '프로필 소개글',
+  PRIMARY KEY (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='유저'
+
+
 
 ALTER TABLE USER COMMENT '유저';
 
--> 닉네임, 프로필 이미지, 옷 개수, 코디 개수, 총 좋아요 개수 등 추가
+-> 옷 개수, 코디 개수, 총 좋아요 개수 등 추가
 
 
 

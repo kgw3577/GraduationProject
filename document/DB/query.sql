@@ -3,6 +3,7 @@ use CLOSET;
 show tables;
 ALTER DATABASE CLOSET COLLATE 'utf8_general_ci';
 
+DESC CLOTHES;
 
 
 UPDATE CODI SET favorite='yes' WHERE codiNo=29;
@@ -59,7 +60,7 @@ ALTER TABLE BOARD_CLO
         REFERENCES CLOTHES (cloNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 desc BOARD;
-insert into BOARD values (null, 'codi', 'a', null, null, '제목' ,'안녕하세요? 게시글 내용입니다.', null, 0);
+insert into BOARD values (null, 'codi', 'a', null, null, '코디10' ,'안녕하세요? 게시글 내용입니다.', null, 0);
 SET foreign_key_checks = 1;
 DELETE FROM BOARD WHERE boardNo=8;
 select * from BOARD;

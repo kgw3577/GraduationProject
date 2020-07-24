@@ -93,14 +93,14 @@ public class BoardServiceImpl implements BoardService {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
 		//내 아이디로 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		boardFilter.setUserID(loginVO.getId());
+		boardFilter.setUserID(loginVO.getUserID());
 		//페이지 필터 적용
 		if(!page.isEmpty()&&!pageSize.isEmpty()) {
 			int pageInt = Integer.parseInt(page);

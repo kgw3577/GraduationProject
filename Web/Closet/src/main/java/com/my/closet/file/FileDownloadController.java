@@ -23,15 +23,27 @@ public class FileDownloadController {
 	@RequestMapping("/download/{object}")
 	protected void download(@PathVariable("object") String obj, @RequestParam("imageFileName") String imageFileName,
 			HttpServletResponse response) throws Exception {
-
-		if (obj.equals("clothes"))
+		
+		
+		switch(obj) {
+		case "clothes":
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/clothes_image/";
-		else if (obj.equals("codi"))
+			break;
+		case "codi":
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/codi_image/";
-		else if (obj.equals("board"))
+			break;
+		case "board":
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/board_image/";
-		else if(obj.equals("windows"))
-			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용 (옷)
+			break;
+		case "profile":
+			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/profile_image/";
+			break;
+		case "windows":
+			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용
+			break;
+		}
+		
+		
 
 		OutputStream out = response.getOutputStream();
 		String downFile = CURR_IMAGE_REPO_PATH + imageFileName; // "\\" +

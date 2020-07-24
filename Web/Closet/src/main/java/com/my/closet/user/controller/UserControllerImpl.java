@@ -1,5 +1,6 @@
 package com.my.closet.user.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.board.vo.BoardVO;
+import com.my.closet.user.dao.UserDAO;
 import com.my.closet.user.service.UserService;
 import com.my.closet.user.vo.LoginVO;
 import com.my.closet.user.vo.UserVO;
@@ -32,6 +39,8 @@ public class UserControllerImpl implements UserController {
 	@Autowired
 	private UserService userService;
 	@Autowired
+	private UserDAO userDAO;
+	@Autowired
 	UserVO userVO;
 	
 	//회원 리스트 보기(웹)
@@ -45,15 +54,15 @@ public class UserControllerImpl implements UserController {
 		mav.addObject("userList", userList);
 		return mav;
 	}
-
+	
 	//내 정보 확인
 	@Override
-	@RequestMapping(value = "/myInfo/{id}", method = RequestMethod.GET)
-	public ResponseEntity<UserVO> myInfo(@PathVariable("id") String id) throws Exception {
+	@RequestMapping(value = "/myInfo/{userID}", method = RequestMethod.GET)
+	public ResponseEntity<UserVO> myInfo(@PathVariable("userID") String userID) throws Exception {
 
 		UserVO userInfo = null;
 		try {
-			userInfo = userService.infoUser(id);
+			userInfo = userService.infoUser(userID);
 		} catch (Exception e) {
 			return new ResponseEntity<UserVO>(userInfo, HttpStatus.SERVICE_UNAVAILABLE);
 		}
@@ -61,19 +70,46 @@ public class UserControllerImpl implements UserController {
 		//자동으로 JSON으로 변환해서 보내줌.
 	}
 
+	//특정 조건의 사용자 리스트 조회
+	@Override
+	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	public ResponseEntity<List<UserVO>> searchUser(UserVO userFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception{
+		List<UserVO> searched_userList;
+		try{
+			searched_userList = userService.searchUser(userFilter, page, pageSize);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<UserVO>>(Collections.<UserVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<UserVO>>(searched_userList, HttpStatus.OK);
+	}
+	
+	
 	//회원 가입
 	@Override
-	@RequestMapping(value = "/join", method = RequestMethod.POST)
-	public ResponseEntity<String> join(@RequestBody UserVO user) throws Exception {
-		// @RequestBody : 전송된 파라미터를 userVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+	@RequestMapping(value = "/join", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
+	public ResponseEntity<String> join(MultipartHttpServletRequest multipartRequest,
+			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
+
+		
+		//ID, 닉네임, 이메일 중복 여부 체크
+		String userID = multipartRequest.getParameter("userID");
+		String nickname = multipartRequest.getParameter("nickname");
+		String email  = multipartRequest.getParameter("email");
+		UserVO userInfo = new UserVO(userID, nickname, email);
+		String checkResult = userDAO.checkExistUser(userInfo);
+		if(!"ok".equals(checkResult)) {
+			//중복시 id, nickname, email 순으로 응답 보냄
+			return new ResponseEntity<String>(checkResult, HttpStatus.OK);
+		}
+		
 		String answer = null;
 		try {
-			answer = userService.join(user);
+			answer = userService.join(multipartRequest);
 
-			logger.info("info 레벨 - ID : " + user.getId()); //로그 메시지 레벨을 info로 설정
-			logger.info("info 레벨 - Password : " + user.getPwd());
-			logger.info("info 레벨 - 이름 : " + user.getName());
-			logger.info("info 레벨 - 성별 : " + user.getGender());
+			logger.info("info 레벨 - ID : " + userID); //로그 메시지 레벨을 info로 설정
+			logger.info("info 레벨 - 닉네임 : " + nickname);
+			logger.info("info 레벨 - 이메일 : " + email);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
@@ -85,15 +121,16 @@ public class UserControllerImpl implements UserController {
 	@Override
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ResponseEntity<String> login(@RequestBody LoginVO loginVO, HttpSession session) throws Exception {
+		// @RequestBody : 전송된 파라미터를 VO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
 		
 		try {
 			LoginVO loVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loVO.getId());
+			System.out.println("세션에 저장된 userID : "+loVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션 정보 없음");
 		}
 		
-		logger.info("ID : " + loginVO.getId());
+		logger.info("ID : " + loginVO.getUserID());
 		logger.info("Password : " + loginVO.getPwd());
 		String answer = null;
 		try {
@@ -114,10 +151,10 @@ public class UserControllerImpl implements UserController {
 	//회원정보 수정
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)
-	public ResponseEntity<String> modifyUser(@RequestBody UserVO user) throws Exception {
+	public ResponseEntity<String> modifyUser(@RequestBody UserVO userInfo) throws Exception {
 		String answer = null;
 		try {
-			answer = userService.modifyUser(user);
+			answer = userService.modifyUser(userInfo);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}
@@ -126,11 +163,11 @@ public class UserControllerImpl implements UserController {
 
 	//회원 삭제
 	@Override
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteAccount(@PathVariable("id") String id) throws Exception {
+	@RequestMapping(value = "/delete/{userID}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteAccount(@PathVariable("userID") String userID) throws Exception {
 		String answer = null;
 		try {
-			answer = userService.deleteAccount(id);
+			answer = userService.deleteAccount(userID);
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 		}

@@ -40,12 +40,12 @@ public class ClothesServiceImpl implements ClothesService {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
-		clothesVO.setUserID(loginVO.getId());
+		clothesVO.setUserID(loginVO.getUserID());
 
 		return clothesDAO.selectClothes(clothesVO);
 	}
@@ -62,12 +62,12 @@ public class ClothesServiceImpl implements ClothesService {
 		LoginVO loginVO;
 		try {
 			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getId());
+			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
 		}catch(Exception e) {
 			System.out.println("세션을 찾을 수 없음.");
 			return null;
 		}
-		clothesVO.setUserID(loginVO.getId());
+		clothesVO.setUserID(loginVO.getUserID());
 
 		return clothesDAO.selectClothes(clothesVO);
 	}
