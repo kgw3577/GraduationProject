@@ -1,4 +1,4 @@
-package com.Project.Closet.share;
+package com.Project.Closet.social;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.BoardService;
-import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -57,7 +55,6 @@ public class activity_addBoard extends AppCompatActivity {
     static final String TAG = "lynnfield";
     Uri uri = Uri.parse("content");
     String path;
-    String likeArray[] = {"yes","no"};
 
 
     @Override

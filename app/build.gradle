@@ -55,4 +55,7 @@ dependencies {
     //이미지 로더
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
+    //동그란 이미지뷰
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
+
 }

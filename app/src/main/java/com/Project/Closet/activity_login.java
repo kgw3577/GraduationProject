@@ -46,7 +46,7 @@ public class activity_login extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.bt_login);
         btnLogin.setOnClickListener(onClickListener);
 
-        userId = (EditText) findViewById(R.id.et_Email);
+        userId = (EditText) findViewById(R.id.et_ID);
         userPwd = (EditText) findViewById(R.id.et_Password);
         loginBtn = (Button) findViewById(R.id.bt_login);
         joinBtn = (Button) findViewById(R.id.bt_join);

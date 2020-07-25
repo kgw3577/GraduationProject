@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.Project.Closet.R;
 import com.Project.Closet.activity_profile;
-import com.Project.Closet.share.fragment_share;
+import com.Project.Closet.social.fragment_share;
 import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.codi.fragment_codi;
 import com.Project.Closet.util.OnBackPressedListener;

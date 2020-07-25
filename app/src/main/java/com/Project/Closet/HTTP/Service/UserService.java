@@ -6,6 +6,11 @@ import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.UserVO;
 import com.google.gson.JsonObject;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -13,7 +18,11 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -53,13 +62,17 @@ public class UserService extends APIAdapter {
         //URL encoding하여 보냅니다. --- application/x-www-form-urlencoded
         //POST 방식, 파라메터는 @Field("파라메터명") 으로 보낼 수 있습니다.
         @FormUrlEncoded
-        @POST("user/join")
         Call<UserVO> up(
                 @Field("email") String email,
                 @Field("pwd") String pwd,
-                @Field("name") String nickname
+                @Field("nickname") String nickname
         );
 
+
+        //회원 가입
+        @Headers("Content-Type: application/json")
+        @POST("user/join")
+        Call<String> join(@Body UserVO userVO);
 
         //3. 로그인
         //POST 방식, 파라메터는 @Field("파라메터명") 으로 보낼 수 있습니다.
@@ -72,8 +85,18 @@ public class UserService extends APIAdapter {
         //Call<User> updateUser(@Part("photo") RequestBody photo, @Part("description") RequestBody description);
 
 
+        //회원 정보 수정
+        @Headers("Content-Type: application/json")
+        @PUT("user/modify")
+        Call<String> modify(@Body UserVO userVO);
 
-        //5. 회원 정보 삭제
+        //프로필 사진 변경
+        @Multipart
+        @POST("user/modify/profile_image")
+        Call<String> modifyProfileImage(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
+
+
+        //회원 정보 삭제
         //id를 파라미터로 받아 API URL을 완성해서 DELETE 방식으로 요청
         @DELETE("user/delete/{id}")
         Call<String> delete(@Path("id") String id);

@@ -13,9 +13,6 @@ public class CodiVO {
     private String addedDate; //등록일, DEFAULT CURRENT_TIMESTAMP
     private String userID; // FOREIGN KEY(CLOSET). not null
 
-    //임시
-    private int pageStart =-1;
-    private int pageSize =-1;
 
 
     //생성자
@@ -129,21 +126,7 @@ public class CodiVO {
         this.userID = userID;
     }
 
-    public int getPageStart() {
-        return pageStart;
-    }
 
-    public void setPageStart(int pageStart) {
-        this.pageStart = pageStart;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 
 
 

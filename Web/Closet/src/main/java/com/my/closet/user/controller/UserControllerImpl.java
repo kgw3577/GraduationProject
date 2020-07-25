@@ -84,32 +84,24 @@ public class UserControllerImpl implements UserController {
 		return new ResponseEntity<List<UserVO>>(searched_userList, HttpStatus.OK);
 	}
 	
-	
 	//회원 가입
 	@Override
-	@RequestMapping(value = "/join", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
-	public ResponseEntity<String> join(MultipartHttpServletRequest multipartRequest,
-			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public ResponseEntity<String> join(@RequestBody UserVO userInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 UserVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
 
-		
-		//ID, 닉네임, 이메일 중복 여부 체크
-		String userID = multipartRequest.getParameter("userID");
-		String nickname = multipartRequest.getParameter("nickname");
-		String email  = multipartRequest.getParameter("email");
-		UserVO userInfo = new UserVO(userID, nickname, email);
+		//ID, 이메일 중복 여부 체크
 		String checkResult = userDAO.checkExistUser(userInfo);
 		if(!"ok".equals(checkResult)) {
-			//중복시 id, nickname, email 순으로 응답 보냄
+			//중복시 id, email 순으로 응답 보냄
 			return new ResponseEntity<String>(checkResult, HttpStatus.OK);
 		}
 		
 		String answer = null;
 		try {
-			answer = userService.join(multipartRequest);
+			answer = userService.join(userInfo);
 
-			logger.info("info 레벨 - ID : " + userID); //로그 메시지 레벨을 info로 설정
-			logger.info("info 레벨 - 닉네임 : " + nickname);
-			logger.info("info 레벨 - 이메일 : " + email);
+			logger.info("info 레벨 - ID : " + userInfo.getUserID()); //로그 메시지 레벨을 info로 설정
 			
 		} catch (Exception e) {
 			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
@@ -161,6 +153,23 @@ public class UserControllerImpl implements UserController {
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
+	//프로필 사진 변경
+	@Override
+	@RequestMapping(value = "/modify/profile_image", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
+	public ResponseEntity<String> modifyProfileImage(MultipartHttpServletRequest multipartRequest,
+			@RequestPart(value = "file", required = false) MultipartFile multipartFile) throws Exception {
+		
+		String answer = null;
+		try {
+			answer = userService.modifyProfileImage(multipartRequest); //win
+			
+		} catch (Exception e) {
+			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(answer, HttpStatus.OK);
+	}	
+	
+	
 	//회원 삭제
 	@Override
 	@RequestMapping(value = "/delete/{userID}", method = RequestMethod.DELETE)

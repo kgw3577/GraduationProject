@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".share.activity_post" />
-        <activity android:name=".share.activity_addBoard" />
-        <activity android:name=".share.SelectCodi" />
-        <activity android:name=".share.SelectClothes" />
+        <activity android:name=".social.activity_post" />
+        <activity android:name=".social.activity_addBoard" />
+        <activity android:name=".social.SelectCodi" />
+        <activity android:name=".social.SelectClothes" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
         <activity android:name=".old.activity_closet" />
@@ -28,6 +28,8 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity android:name=".activity_signup" />
+        <activity android:name=".activity_signup_next" />
+        <activity android:name=".activity_signup_next_next" />
         <activity android:name=".activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.Project.Closet.share;
+package com.Project.Closet.social;
 
 import android.os.Bundle;
 

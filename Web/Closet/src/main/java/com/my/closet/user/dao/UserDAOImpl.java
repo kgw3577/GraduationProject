@@ -37,10 +37,10 @@ public class UserDAOImpl implements UserDAO {
 	
 	//사용자 추가
 	@Override
-	public String addUser(Map<String, Object> userMap) throws DataAccessException {
+	public String addUser(UserVO userInfo) throws DataAccessException {
 
 		System.out.println("insert 쿼리 실행 전");
-		int result = sqlSession.insert("mapper.user.insertUser", userMap);
+		int result = sqlSession.insert("mapper.user.insertUser", userInfo);
 		System.out.println("insert 쿼리 실행");
 		
 		if (result == 1) {
@@ -80,40 +80,27 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public String checkExistUser(UserVO userInfo) throws DataAccessException{
 		String userID = userInfo.getUserID();
-		String nickname = userInfo.getNickname();
 		String email = userInfo.getEmail();
 		
-		// 해당 ID를 가진 사용자가 있는지 검색
-		UserVO selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", new UserVO(userID));
-		// 검색 결과가 있고 중복된 ID가 있으면 "id" 반환
-		if (selectedUser != null) {
-			if (selectedUser.getUserID().equals(userID))
-				return "id";
+		if(userID != null) {
+			// 해당 ID를 가진 사용자가 있는지 검색
+			UserVO selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", new UserVO(userID));
+			// 검색 결과가 있고 중복된 ID가 있으면 "id" 반환
+			if (selectedUser != null) {
+				if (selectedUser.getUserID().equals(userID))
+					return "id";
+			}
+		} else if(email != null) {
+			// 해당 이메일을 가진 사용자가 있는지 검색
+			UserVO userFilter = new UserVO();
+			userFilter.setEmail(email);
+			UserVO selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", userFilter);
+			// 검색 결과가 있고 중복된 이메일이 있으면 "email" 반환
+			if (selectedUser != null) {
+				if (selectedUser.getEmail().equals(email))
+					return "email";
+			}		
 		}
-		selectedUser = null;
-		
-		// 해당 닉네임을 가진 사용자가 있는지 검색
-		UserVO userFilter = new UserVO();
-		userFilter.setNickname(nickname);
-		selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", userFilter);
-		// 검색 결과가 있고 중복된 닉네임이 있으면 "nickname" 반환
-		if (selectedUser != null) {
-			if (selectedUser.getNickname().equals(nickname))
-				return "nickname";
-		}
-		selectedUser = null;
-		
-		// 해당 이메일을 가진 사용자가 있는지 검색
-		userFilter = new UserVO();
-		userFilter.setEmail(email);
-		selectedUser = (UserVO) sqlSession.selectOne("mapper.user.searchUser", userFilter);
-		// 검색 결과가 있고 중복된 이메일이 있으면 "email" 반환
-		if (selectedUser != null) {
-			if (selectedUser.getEmail().equals(email))
-				return "email";
-		}		
-		selectedUser = null;
-		
 		// 어느 조건에도 해당 안 될 시 "ok" 반환
 		return "ok";
 	}

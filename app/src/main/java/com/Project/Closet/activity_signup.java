@@ -5,11 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.Project.Closet.HTTP.Service.UserService;
+import com.Project.Closet.HTTP.VO.UserVO;
+import com.Project.Closet.home.activity_home;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,14 +27,15 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import retrofit2.Call;
+
 public class activity_signup extends AppCompatActivity {
 
-    EditText userId, userPwd;
+    EditText et_userID, et_pwd, et_pwdConfirm;
     Button joinBtn;
 
     @Override
@@ -36,98 +46,164 @@ public class activity_signup extends AppCompatActivity {
         Button btnSignup = findViewById(R.id.bt_join);
         btnSignup.setOnClickListener(onClickListener);
 
-        userId = (EditText) findViewById(R.id.et_Email);
-        userPwd = (EditText) findViewById(R.id.et_Password);
+
+        final TextInputLayout input_userID = (TextInputLayout) findViewById(R.id.input_ID);
+        input_userID.setCounterEnabled(true);
+        input_userID.setCounterMaxLength(45);
+        input_userID.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (text.length() == 0) {
+                    input_userID.setError("아이디를 입력해야 합니다.");
+                    input_userID.setErrorEnabled(true);
+                } else {
+                    input_userID.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        final TextInputLayout input_pwd = (TextInputLayout) findViewById(R.id.input_pwd);
+        input_pwd.setCounterEnabled(true);
+        input_pwd.setCounterMaxLength(45);
+        input_pwd.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (text.length() == 0) {
+                    input_pwd.setError("비밀번호를 입력해야 합니다.");
+                    input_pwd.setErrorEnabled(true);
+                } else {
+                    input_pwd.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        final TextInputLayout input_pwd_confirm = (TextInputLayout) findViewById(R.id.input_pwd_confirm);
+        input_pwd_confirm.setCounterEnabled(true);
+        input_pwd_confirm.setCounterMaxLength(45);
+        input_pwd_confirm.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence text, int start, int before, int count) {
+                if (text.length() == 0) {
+                    input_pwd_confirm.setError("비밀번호를 다시 한 번 입력해주세요.");
+                    input_pwd_confirm.setErrorEnabled(true);
+                } else {
+                    input_pwd_confirm.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+
+        et_userID = (EditText) findViewById(R.id.et_ID);
+        et_pwd = (EditText) findViewById(R.id.et_Password);
+        et_pwdConfirm = (EditText) findViewById(R.id.et_ConfirmPassword);
+
+
+
+
+
         joinBtn = (Button) findViewById(R.id.bt_join);
     }
-    // 병합 테스트
-    // 병합 테스트2
-    class SignupTask extends AsyncTask<String, Void, String> {
-        String sendMsg, receiveMsg;
 
+
+
+    public class SignupTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String... strings) {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... params) {
+
+            UserVO userVO = new UserVO(params[0], params[1]);//userID, pwd
+            Call<String> stringCall = UserService.getRetrofit(getApplicationContext()).join(userVO);
             try {
-                String str;
-
-                String rootURL = Global.baseURL;
-                URL url = new URL(rootURL+"/user/join");
-
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestMethod("POST");
-                OutputStream os = conn.getOutputStream();
-                // build jsonObject
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("userID", strings[0]);
-                jsonObject.accumulate("pwd", strings[1]);
-                // convert JSONObject to JSON to String
-                String json = jsonObject.toString();
-
-                //sendMsg = "userID=" + strings[0] + "&pwd=" + strings[1] + "&type=" + strings[2];
-                os.write(json.getBytes("UTF-8"));
-                os.flush();
-                if (conn.getResponseCode() == conn.HTTP_OK) {
-                    InputStreamReader tmp = new InputStreamReader(conn.getInputStream(), "UTF-8");
-                    BufferedReader reader = new BufferedReader(tmp);
-                    StringBuffer buffer = new StringBuffer();
-                    while ((str = reader.readLine()) != null) {
-                        buffer.append(str);
-                    }
-                    receiveMsg = buffer.toString();
-
-                } else {
-                    Log.i("통신 결과", conn.getResponseCode() + "에러");
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+                return stringCall.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
+                return null;
             }
-            return receiveMsg;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
+
+
+
+
+
+
 
 
     class BtnOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                /*
-                    case R.id.loginBtn :
-                    Intent intent = new Intent(getApplicationContext(), activity_home.class);
-                    startActivity(intent);
-                    break;
-                 */
                 case R.id.bt_join: // 회원가입 버튼 눌렀을 경우
-                    String joinid = userId.getText().toString();
-                    String joinpwd = userPwd.getText().toString();
-                    try {
-                        String result  = new activity_signup.SignupTask().execute(joinid, joinpwd, "join").get();
-                        if(result.equals("id")) {
-                            Toast.makeText(activity_signup.this,"이미 존재하는 아이디입니다.",Toast.LENGTH_SHORT).show();
-                            userId.setText("");
-                            userPwd.setText("");
-                        } else if(result.equals("email")) {
-                            Toast.makeText(activity_signup.this, "이미 존재하는 이메일입니다.", Toast.LENGTH_SHORT).show();
-                            userId.setText("");
-                            userPwd.setText("");
-                        }else if(result.equals("wrong email")) {
-                            Toast.makeText(activity_signup.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
-                            userId.setText("");
-                            userPwd.setText("");
-                        }else if(result.equals("ok")) {
-                            userId.setText("");
-                            userPwd.setText("");
-                            Toast.makeText(activity_signup.this,"회원가입을 축하합니다.",Toast.LENGTH_SHORT).show();
-                        }
-                    }catch (Exception e) {}
-                    break;
+                    String userID = et_userID.getText().toString();
+                    String pwd = et_pwd.getText().toString();
+                    String pwdConfirm = et_pwdConfirm.getText().toString();
 
-                // 뒤로 돌아가는 버튼 추가하기S
+                    if (userID.length() == 0 || pwd.length() == 0){
+                        Toast.makeText(activity_signup.this,"필요한 항목이 모두 입력되지 않았습니다.",Toast.LENGTH_SHORT).show();
+                    } else if(!pwd.equals(pwdConfirm)){
+                        Toast.makeText(activity_signup.this,"비밀번호가 서로 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
+                    } else{
+
+                        try {
+                            String result  = new activity_signup.SignupTask().execute(userID, pwd).get();
+                            if(result.equals("id")) {
+                                Toast.makeText(activity_signup.this,"이미 존재하는 아이디입니다.",Toast.LENGTH_SHORT).show();
+                                et_userID.setText("");
+                            } else if(result.equals("email")) {
+                                Toast.makeText(activity_signup.this, "이미 존재하는 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                et_userID.setText("");
+                            }else if(result.equals("wrong email")) {
+                                Toast.makeText(activity_signup.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
+                                et_userID.setText("");
+                            }else if(result.equals("ok")) {
+                                Intent intent = new Intent(getApplicationContext(), activity_signup_next.class);
+                                intent.putExtra("userID", userID);
+                                startActivity(intent);
+                            }else{
+                                Toast.makeText(activity_signup.this, result, Toast.LENGTH_SHORT).show();
+                            }
+                        }catch (Exception e) {}
+                    }
+                    break;
             }
         }
     }

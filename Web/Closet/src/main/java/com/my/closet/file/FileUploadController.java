@@ -96,6 +96,7 @@ public class FileUploadController {
 		case "profile":
 			CURR_IMAGE_REPO_PATH = "/home/ubuntu/repo/profile_image/";
 			filePath = "/download/profile?imageFileName="+new_name;
+			break;
 		case "windows":
 			CURR_IMAGE_REPO_PATH = "C:\\repo\\clothes_image\\"; // 윈도우 테스트용
 			filePath = "/download/windows?imageFileName="+new_name;
@@ -112,6 +113,7 @@ public class FileUploadController {
 	}
 
 	private List<String> fileProcess(String new_name, MultipartHttpServletRequest multipartRequest) throws Exception {
+		System.out.println("파일 프로세스 들어옴");
 		List<String> fileList = new ArrayList<String>();
 		Iterator<String> fileNames = multipartRequest.getFileNames();
 		while (fileNames.hasNext()) {
@@ -120,6 +122,7 @@ public class FileUploadController {
 			String originalFileName = mFile.getOriginalFilename();
 			fileList.add(originalFileName);
 			File file = new File(CURR_IMAGE_REPO_PATH + new_name);
+			System.out.println("파일 생성됨");
 			if (mFile.getSize() != 0) { // File Null Check
 				if (!file.exists()) { // 경로에 파일이 없으면
 					if (file.getParentFile().mkdirs()) { // 그 경로에 해당하는 디렉터리를 만든 후
@@ -127,6 +130,7 @@ public class FileUploadController {
 					}
 				}
 				mFile.transferTo(new File(CURR_IMAGE_REPO_PATH + new_name)); // 임시로 저장된 multipartFile을 실제 파일로 전송
+				System.out.println("파일 전송됨");
 			}
 		}
 		return fileList;

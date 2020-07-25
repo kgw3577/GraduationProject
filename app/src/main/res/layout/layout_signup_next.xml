@@ -7,8 +7,6 @@
     android:focusableInTouchMode="true"
     tools:context=".activity_login">
 
-
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -84,7 +82,7 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_ID"
+            android:id="@+id/input_nickname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000"
@@ -92,13 +90,13 @@
             >
 
             <EditText
-                android:id="@+id/et_ID"
+                android:id="@+id/et_nickname"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/black"
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/calibri"
-                android:hint="ID"
+                android:hint="이름"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
@@ -106,7 +104,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_pwd"
+            android:id="@+id/input_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -115,23 +113,22 @@
             app:passwordToggleEnabled="true">
 
             <EditText
-                android:id="@+id/et_Password"
+                android:id="@+id/et_gender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/black"
                 android:backgroundTintMode="multiply"
-                android:drawableRight="@drawable/ic_lock_white_24dp"
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/calibri"
-                android:hint="비밀번호"
-                android:inputType="textPassword"
+                android:hint="성별"
+                android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_pwd_confirm"
+            android:id="@+id/input_birth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000"
@@ -139,16 +136,15 @@
             app:errorEnabled="true">
 
             <EditText
-                android:id="@+id/et_ConfirmPassword"
+                android:id="@+id/et_birth"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/black"
                 android:backgroundTintMode="multiply"
-                android:drawableRight="@drawable/ic_lock_white_24dp"
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/calibri"
-                android:hint="비밀번호 재확인"
-                android:inputType="textPassword"
+                android:hint="생일 (0000-00-00)"
+                android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
@@ -169,7 +165,7 @@
                 android:layout_marginRight="0dp"
                 android:background="@drawable/buttonstyle"
                 android:fontFamily="@font/calibri"
-                android:text="가입"
+                android:text="다음"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"

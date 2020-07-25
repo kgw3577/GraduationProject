@@ -1,4 +1,4 @@
-package com.Project.Closet.share;
+package com.Project.Closet.social;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_addClothes;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.google.android.material.navigation.NavigationView;

@@ -12,10 +12,6 @@ public class UserVO {
     private String pfImagePath; //프로필 이미지 파일 경로 (80)
     private String pfContents; //프로필 소개글 (300)
 
-    //임시
-    private int pageStart =-1;
-    private int pageSize =-1;
-
     //생성자
     public UserVO() {
         System.out.println("UserVO 생성자 호출");
@@ -131,19 +127,5 @@ public class UserVO {
         this.pfContents = pfContents;
     }
 
-    public int getPageStart() {
-        return pageStart;
-    }
 
-    public void setPageStart(int pageStart) {
-        this.pageStart = pageStart;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
 }

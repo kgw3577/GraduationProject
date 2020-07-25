@@ -79,7 +79,7 @@
 	</select>
 
 	<!-- 사용자 추가 쿼리 -->
-	<insert id="insertUser" parameterType="java.util.HashMap">
+	<insert id="insertUser" parameterType="userVO">
 	<![CDATA[
 		insert into USER
 		values(#{userID},#{nickname},#{email},#{pwd},#{gender},#{birth},

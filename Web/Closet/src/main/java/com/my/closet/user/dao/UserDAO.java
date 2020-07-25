@@ -14,7 +14,7 @@ public interface UserDAO {
 	public UserVO selectThisUser(String userID) throws DataAccessException; //id로 사용자 하나 선택
 	public List<UserVO> selectUser(UserVO userFilter) throws DataAccessException; //조건으로 사용자 선택
 	
-	public String addUser(Map<String, Object> userMap) throws DataAccessException; //사용자 추가
+	public String addUser(UserVO userInfo) throws DataAccessException; //사용자 추가
 	//아이디 찾기
 	//비밀번호 찾기
 	public String updateUser(UserVO userInfo) throws DataAccessException; //사용자 정보 수정

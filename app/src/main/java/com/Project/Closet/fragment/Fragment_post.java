@@ -19,8 +19,8 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.BoardService;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.R;
-import com.Project.Closet.share.activity_post;
-import com.Project.Closet.share.fragment_share;
+import com.Project.Closet.social.activity_post;
+import com.Project.Closet.social.fragment_share;
 import com.Project.Closet.util.BoardListAdapter;
 
 import java.io.IOException;
