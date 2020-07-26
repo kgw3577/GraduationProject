@@ -3,37 +3,18 @@ use CLOSET;
 show tables;
 ALTER DATABASE CLOSET COLLATE 'utf8_general_ci';
 
-DESC CLOTHES;
-
-
-UPDATE CODI SET favorite='yes' WHERE codiNo=29;
-
-UPDATE CODI SET season='winter' WHERE codiNo=30;
-UPDATE CODI SET place='daily' WHERE codiNo=2;
-
-UPDATE CODI SET season='fall' WHERE codiNo=34;
-UPDATE CODI SET place='special' WHERE codiNo=26;
-
-UPDATE CODI SET season='summer' WHERE codiNo=29;
-UPDATE CODI SET place='formal' WHERE codiNo=35;
-
 ALTER TABLE CODI
    ALTER favorite SET DEFAULT 'miuhn' ;
-   
-desc CODI;
-
 ALTER TABLE CODI
    modify favorite varchar(45) null;
-   
-insert into CODI values (null, null, null, null ,null, null, null,null,null,null,'a');
-insert into CODI values (null, null, null, null ,null, null, null,null,null,null,'a');
-
-insert into CODI values (null, '한글 제발', null, null ,null, null, null,null,null,null,'a');
-
 
 desc USER;
 desc CLOTHES;
 desc CODI;
+desc BOARD;
+desc `COMMENT`;
+desc GOOD;
+
 
 
 -- USER Table Create SQL
@@ -83,194 +64,99 @@ ALTER TABLE BOARD CHANGE cloBoardNo boardNo  INT  NOT NULL    AUTO_INCREMENT;
 -- 중복 테이블 삭제
 ALTER TABLE BOARD_CODI DROP FOREIGN KEY  BOARD_CODI_USER;
 ALTER TABLE BOARD_CODI DROP `userID`;
-SET foreign_key_checks = 0;
-DROP TABLE BOARD_CODI;
+SET foreign_key_checks = 1;
+DROP TABLE HEARTED_CODI_USER;
 
 
-
-
-
--- USER Table Create SQL
-CREATE TABLE COMMENT_BOARD_CLO
-(
-    `commentNo`           INT             NOT NULL    COMMENT '댓글 고유번호'	AUTO_INCREMENT, 
-    `boardNo`           INT             NOT NULL    COMMENT '게시글 고유번호-옷 게시판 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키',
-    `contents`      TEXT    NULL    COMMENT '댓글 내용',
-    `regDate`      TIMESTAMP     NOT NULL	DEFAULT CURRENT_TIMESTAMP        COMMENT '등록일', 
-    `numGood`      INT     NULL	DEFAULT 0        COMMENT '좋아요 개수', 
-    PRIMARY KEY (commentNo)
-);
-
-ALTER TABLE COMMENT_BOARD_CLO COMMENT '옷 게시판 댓글';
-
-ALTER TABLE COMMENT_BOARD_CLO
-    ADD CONSTRAINT COMMENT_BOARD_CLO_BOARD FOREIGN KEY (boardNo)
-        REFERENCES BOARD_CLO (boardNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE COMMENT_BOARD_CLO
-    ADD CONSTRAINT COMMENT_BOARD_CLO_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
-desc COMMENT_BOARD_CLO;
-insert into COMMENT_BOARD_CLO values (null, 3, 'a', '안녕하세요? 댓글 내용입니다.', null, null);
-insert into COMMENT_BOARD_CLO values (null, 5, 'a', '안녕하세요? 댓글 내용입니다.', null, null);
-select * from COMMENT_BOARD_CLO;
-
-ALTER TABLE COMMENT_BOARD_CLO CHANGE commentNo cloCommentNo INT  NOT NULL    AUTO_INCREMENT;
-
-
+ALTER TABLE `BOARD` DROP `boardType`;
+ALTER TABLE `BOARD` DROP `numHeart`;
+ALTER TABLE `BOARD` DROP `subject`;
 
 
 
 -- USER Table Create SQL
-CREATE TABLE COMMENT_BOARD_CODI
-(
-    `commentNo`           INT             NOT NULL    COMMENT '댓글 고유번호'	AUTO_INCREMENT, 
-    `boardNo`           INT             NOT NULL    COMMENT '게시글 고유번호-코디 게시판 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키',
-    `contents`      TEXT    NULL    COMMENT '댓글 내용',
-    `regDate`      TIMESTAMP     NOT NULL	DEFAULT CURRENT_TIMESTAMP        COMMENT '등록일', 
-    `numGood`      INT     NULL	DEFAULT 0        COMMENT '좋아요 개수', 
-    PRIMARY KEY (commentNo)
-);
+CREATE TABLE `COMMENT` (
+  `commentNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '댓글 고유번호',
+  `boardNo` int(11) NOT NULL COMMENT '게시글 고유번호-옷 게시판 외래키',
+  `writerID` varchar(45) NOT NULL COMMENT '작성자 아이디-유저 외래키',
+  `contents` text COMMENT '댓글 내용',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`commentNo`),
+  KEY `COMMENT_BOARD` (`boardNo`),
+  KEY `COMMENT_USER` (`writerID`),
+  CONSTRAINT `COMMENT_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`),
+  CONSTRAINT `COMMENT_USER` FOREIGN KEY (`writerID`) REFERENCES `USER` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷 게시판 댓글';
 
-ALTER TABLE COMMENT_BOARD_CODI COMMENT '코디 게시판 댓글';
+desc `COMMENT`;
+select * from `COMMENT`;
+insert into COMMENT values (null, 38, 'a', '시계 댓글', null);
 
-ALTER TABLE COMMENT_BOARD_CODI
-    ADD CONSTRAINT COMMENT_BOARD_CODI_BOARD FOREIGN KEY (boardNo)
-        REFERENCES BOARD_CODI (boardNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE COMMENT_BOARD_CODI
-    ADD CONSTRAINT COMMENT_BOARD_CODI_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
-desc COMMENT_BOARD_CODI;
-insert into COMMENT_BOARD_CODI values (null, 3, 'a', '안녕하세요? 댓글 내용입니다.', null, null);
-insert into COMMENT_BOARD_CODI values (null, 7, 'a', '안녕하세요? 댓글 내용입니다.', null, null);
-select * from COMMENT_BOARD_CODI;
+-- 중복 테이블 삭제
+SET foreign_key_checks = 1;
+DROP TABLE COMMENT_BOARD_CODI;
 
 
-ALTER TABLE COMMENT_BOARD_CODI CHANGE commentNo codiCommentNo INT  NOT NULL    AUTO_INCREMENT;
+CREATE TABLE `HEART` (
+  `boardNo` int(11) NOT NULL COMMENT '게시글 고유번호-게시판 외래키',
+  `hearterID` varchar(45) NOT NULL COMMENT '하트한 유저 아이디-유저 외래키',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`boardNo`,`hearterID`),
+  KEY `HEART_BOARD` (`boardNo`),
+  KEY `HEART_USER` (`hearterID`),
+  CONSTRAINT `HEART_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`),
+  CONSTRAINT `HEART_USER` FOREIGN KEY (`hearterID`) REFERENCES `USER` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시글 하트';
 
+show create table `HEART`;
+desc `HEART`;
+select * from `HEART`;
+insert into HEART values (37, 'a', null);
 
-
-drop table HEARTED_CLO_USER;
-
-
-
--- USER Table Create SQL
-CREATE TABLE HEARTED_CLO_USER
-(
-    `cloHeartedNo`           INT             NOT NULL    COMMENT '옷 하트-유저 여부 고유번호'	AUTO_INCREMENT, 
-    `cloBoardNo`           INT             NOT NULL    COMMENT '게시글 고유번호-옷 게시판 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키',
-    PRIMARY KEY (cloHeartedNo)
-);
-
-ALTER TABLE HEARTED_CLO_USER COMMENT '옷 게시판 하트된 유저(추가 삭제)';
-
-ALTER TABLE HEARTED_CLO_USER
-    ADD CONSTRAINT HEARTED_CLO_USER_BOARD FOREIGN KEY (cloBoardNo)
-        REFERENCES BOARD_CLO (cloBoardNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE HEARTED_CLO_USER
-    ADD CONSTRAINT HEARTED_CLO_USER_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-desc HEARTED_CLO_USER;
-insert into HEARTED_CLO_USER values (null, 6, 'a');
-delete from HEARTED_CLO_USER where cloHeartedNo=2;
-select * from HEARTED_CLO_USER;
+alter table HEART drop heartNo;
+alter table HEART add PRIMARY KEY(boardNo, hearterID);
 
 
 
 
-
--- USER Table Create SQL
-CREATE TABLE HEARTED_CODI_USER
-(
-    `codiHeartedNo`           INT             NOT NULL    COMMENT '코디 하트-유저 여부 고유번호'	AUTO_INCREMENT, 
-    `codiBoardNo`           INT             NOT NULL    COMMENT '게시글 고유번호-코디 게시판 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '작성자 아이디-유저 외래키',
-    PRIMARY KEY (codiHeartedNo)
-);
-
-ALTER TABLE HEARTED_CODI_USER COMMENT '코디 게시판 하트된 유저(추가 삭제)';
-
-ALTER TABLE HEARTED_CODI_USER
-    ADD CONSTRAINT HEARTED_CODI_USER_BOARD FOREIGN KEY (codiBoardNo)
-        REFERENCES BOARD_CODI (codiBoardNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE HEARTED_CODI_USER
-    ADD CONSTRAINT HEARTED_CODI_USER_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-desc HEARTED_CODI_USER;
-insert into HEARTED_CODI_USER values (null, 7, 'a');
-delete from HEARTED_CODI_USER where cloHeartedNo=2;
-select * from HEARTED_CODI_USER;
+CREATE TABLE `GOOD` (
+  `commentNo` int(11) NOT NULL COMMENT '댓글 고유번호- 댓글 외래키',
+  `gooderID` varchar(45) NOT NULL COMMENT '댓글 좋아요한 유저 아이디-유저 외래키',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '댓글 좋아요 등록일',
+  PRIMARY KEY (`commentNo`,`gooderID`),
+  KEY `GOOD_COMMENT` (`commentNo`),
+  KEY `GOOD_USER` (`gooderID`),
+  CONSTRAINT `GOOD_COMMENT` FOREIGN KEY (`commentNo`) REFERENCES `COMMENT` (`commentNo`),
+  CONSTRAINT `GOOD_USER` FOREIGN KEY (`gooderID`) REFERENCES `USER` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='댓글 좋아요';
 
 
 
+alter table GOOD drop goodNo;
+alter table GOOD add PRIMARY KEY(commentNo, gooderID);
+show create table `GOOD`;
+
+desc `GOOD`;
+select * from `GOOD`;
+insert into GOOD values (3, 'bcde', null);
 
 
+-- 메인 피드 쿼리 만들기 (최신글)
+ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
+ FROM `USER` U, `BOARD` B
+ WHERE U.userID = B.userID
+ ORDER BY regDate DESC;
 
-
-
--- USER Table Create SQL
-CREATE TABLE GOOD_CLOCOMMENT_USER
-(
-    `cloCommentGoodNo`           INT             NOT NULL    COMMENT ' 좋아요 옷코멘트-유저 여부 고유번호'	AUTO_INCREMENT, 
-    `cloCommentNo`           INT             NOT NULL    COMMENT '옷 댓글 고유번호-옷 댓글 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '유저아이디-유저 외래키',
-    PRIMARY KEY (cloCommentGoodNo)
-);
-
-ALTER TABLE GOOD_CLOCOMMENT_USER COMMENT '옷코멘트 좋아요한 유저(추가 삭제)';
-
-ALTER TABLE GOOD_CLOCOMMENT_USER
-    ADD CONSTRAINT GOOD_CLOCOMMENT_USER_COMMENT FOREIGN KEY (cloCommentNo)
-        REFERENCES COMMENT_BOARD_CLO (cloCommentNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE GOOD_CLOCOMMENT_USER
-    ADD CONSTRAINT GOOD_CLOCOMMENT_USER_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-desc GOOD_CLOCOMMENT_USER;
-insert into GOOD_CLOCOMMENT_USER values (null, 5, 'a');
-delete from GOOD_CLOCOMMENT_USER where cloHeartedNo=2;
-select * from GOOD_CLOCOMMENT_USER;
-
-
-
-
-
--- USER Table Create SQL
-CREATE TABLE GOOD_CODICOMMENT_USER
-(
-    `codiCommentGoodNo`           INT             NOT NULL    COMMENT ' 좋아요 코디코멘트-유저 여부 고유번호'	AUTO_INCREMENT, 
-    `codiCommentNo`           INT             NOT NULL    COMMENT '코디 댓글 고유번호-코디 댓글 외래키', 
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '유저아이디-유저 외래키',
-    PRIMARY KEY (codiCommentGoodNo)
-);
-
-ALTER TABLE GOOD_CODICOMMENT_USER COMMENT '코디코멘트 좋아요한 유저(추가 삭제)';
-
-ALTER TABLE GOOD_CODICOMMENT_USER
-    ADD CONSTRAINT GOOD_CODICOMMENT_USER_COMMENT FOREIGN KEY (codiCommentNo)
-        REFERENCES COMMENT_BOARD_CODI (codiCommentNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE GOOD_CODICOMMENT_USER
-    ADD CONSTRAINT GOOD_CODICOMMENT_USER_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-desc GOOD_CODICOMMENT_USER;
-insert into GOOD_CODICOMMENT_USER values (null, 5, 'b');
-delete from GOOD_CODICOMMENT_USER where cloHeartedNo=2;
-select * from GOOD_CODICOMMENT_USER;
+-- 해당 게시글의 - 댓글 상세 쿼리 만들기
+SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath PfImagePath,
+              (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = C.commentNo) numGood,
+              C.commentNo commentNo, C.contents contents, C.regDate regDate
+ FROM `USER` U, `COMMENT` C
+ WHERE C.boardNo = '36' AND U.userID = C.writerID
+ ORDER BY regDate DESC;
 
 
 
@@ -303,3 +189,12 @@ select * from RELATION_CLO_CODI;
 
 DESC RELATION;
 SHOW CREATE TABLE `RELATION`;
+
+
+
+DESC USER;
+ALTER TABLE USER CHANGE userName nickname  VARCHAR(50)  NULL;
+ALTER TABLE USER CHANGE age birth  DATE  NULL;
+
+ALTER TABLE USER ADD pfImageName VARCHAR(50) NULL        COMMENT '프로필 이미지 이름'; 
+SHOW CREATE TABLE `USER`;

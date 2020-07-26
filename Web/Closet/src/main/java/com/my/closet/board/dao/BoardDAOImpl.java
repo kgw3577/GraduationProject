@@ -1,5 +1,6 @@
 package com.my.closet.board.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,26 +30,7 @@ public class BoardDAOImpl implements BoardDAO {
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		return boardlist;
 	}
-	@Override
-	public List<BoardVO> selectAllBoard_Clothes(BoardVO boardFilter) throws DataAccessException {
-		//게시판 타입 '옷' 필터 적용
-		boardFilter.setBoardType("clothes");
-		//필터로 서치
-		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
-		return boardlist;
-	}
 
-	@Override
-	public List<BoardVO> selectAllBoard_Codi(BoardVO boardFilter) throws DataAccessException {
-		//게시판 타입 '코디' 필터 적용
-		boardFilter.setBoardType("codi");
-		//필터로 서치
-		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
-		return boardlist;
-	}
-
-	
-	
 	
 	
 	@Override
@@ -104,6 +86,17 @@ public class BoardDAOImpl implements BoardDAO {
 		else
 			return "fail";
 	}
-
+	
+	@Override
+	public List<HashMap<String, Object>> showAllFeed(BoardVO boardFilter) throws DataAccessException {
+		List<HashMap<String, Object>> feedList = sqlSession.selectList("mapper.board.showFeed",boardFilter);
+		return feedList;
+	}
+	
+	@Override
+	public List<HashMap<String, Object>> showCommentInBoard(BoardVO boardFilter) throws DataAccessException {
+		List<HashMap<String, Object>> commentList = sqlSession.selectList("mapper.board.showCommentInBoard",boardFilter);
+		return commentList;
+	}
 
 }

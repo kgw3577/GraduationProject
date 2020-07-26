@@ -1,5 +1,6 @@
 package com.my.closet.board.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,9 +21,7 @@ public interface BoardController {
 	
 	
 	public ResponseEntity<List<BoardVO>> AllBoard(String page, String pageSize) throws Exception; //모든 게시글 리스트 조회
-	public ResponseEntity<List<BoardVO>> AllBoard_Clothes(String page, String pageSize) throws Exception; //모든 옷 게시글 조회
-	public ResponseEntity<List<BoardVO>> AllBoard_Codi(String page, String pageSize) throws Exception; //모든 코디 게시글 조회
-	
+
 	public ResponseEntity<List<BoardVO>> myAllBoard(HttpSession session, String page, String pageSize) throws Exception; //내 게시글 전부 조회
 	public ResponseEntity<List<BoardVO>> usersAllBoard(String userID, String page, String pageSize) throws Exception; //특정 유저 게시글 전부 조회
 	

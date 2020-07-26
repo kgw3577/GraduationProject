@@ -1,6 +1,7 @@
 package com.my.closet.board.controller;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.board.dao.BoardDAO;
 import com.my.closet.board.service.BoardService;
 import com.my.closet.board.vo.BoardVO;
 
@@ -36,6 +38,8 @@ public class BoardControllerImpl implements BoardController {
 		
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private BoardDAO boardDAO;
 	@Autowired
 	BoardVO boardVO;
 
@@ -62,37 +66,11 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
 	}
-	//모든 옷 게시글 조회
-	@Override
-	@RequestMapping(value = "/all/clothes", method = RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> AllBoard_Clothes(@RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<BoardVO> boardList;
-		try{
-			boardList = boardService.listAllBoard_Clothes(page, pageSize);
-		}catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
-		}
-		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
-	}
-	//모든 코디 게시글 조회
-	@Override
-	@RequestMapping(value = "/all/codi", method = RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> AllBoard_Codi(@RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<BoardVO> boardList;
-		try{
-			boardList = boardService.listAllBoard_Codi(page, pageSize);
-		}catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
-		}
-		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
-	}
-	
+
 	
 	//내 게시글 전부 조회
 	@Override
-	@RequestMapping(value = "/space/my", method = RequestMethod.GET)
+	@RequestMapping(value = "/my", method = RequestMethod.GET)
 	public ResponseEntity<List<BoardVO>> myAllBoard(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
 		List<BoardVO> myBoardList;
 		try{			
@@ -105,7 +83,7 @@ public class BoardControllerImpl implements BoardController {
 	}
 	//특정 유저 게시글 전부 조회
 	@Override
-	@RequestMapping(value = "/space/{userID}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{userID}", method = RequestMethod.GET)
 	public ResponseEntity<List<BoardVO>> usersAllBoard(@PathVariable("userID") String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<BoardVO> myBoardList;
 		try{			
@@ -120,7 +98,7 @@ public class BoardControllerImpl implements BoardController {
 	
 	//특정 게시글 조회
 	@Override
-	@RequestMapping(value = "/info/{boardNo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{boardNo}/info", method = RequestMethod.GET)
 	public ResponseEntity<BoardVO> infoBoard(@PathVariable("boardNo") String boardNo) throws Exception {
 		BoardVO boardInfo;
 		try {
@@ -144,7 +122,7 @@ public class BoardControllerImpl implements BoardController {
 		}
 		return new ResponseEntity<List<BoardVO>>(searched_boardList, HttpStatus.OK);
 	}
-
+	
 	//게시글 추가
 	@Override
 	@RequestMapping(value = "/add", method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
@@ -169,7 +147,7 @@ public class BoardControllerImpl implements BoardController {
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)
 	public ResponseEntity<String> modifyBoard(@RequestBody BoardVO boardInfo) throws Exception {
-		System.out.println("받아온 코디 정보 : "+boardInfo.getSubject()+boardInfo.getFileName());
+		System.out.println("받아온 정보 : "+boardInfo.getContents()+boardInfo.getFileName());
 				
 		String answer = null;
 		try {
@@ -226,6 +204,18 @@ public class BoardControllerImpl implements BoardController {
 			viewName = viewName.substring(viewName.lastIndexOf("/", 1), viewName.length());
 		}
 		return viewName;
+	}
+	
+	public BoardVO genPageFilter(String page, String pageSize) {
+		//페이지 필터 생성
+		BoardVO boardFilter = new BoardVO();
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
+		return boardFilter;
 	}
 	
 }

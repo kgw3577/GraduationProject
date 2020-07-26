@@ -56,35 +56,7 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardVO> boardList = boardDAO.selectAllBoard(boardFilter);
 		return boardList;
 	}
-	//모든 옷 게시글 조회
-	@Override
-	public List<BoardVO> listAllBoard_Clothes(String page, String pageSize) throws DataAccessException {
-		//페이지 필터 생성
-		BoardVO boardFilter = new BoardVO();
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
-			int pageInt = Integer.parseInt(page);
-			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
-			boardFilter.setPageSize(pageSizeInt);
-		}
-		List<BoardVO> boardList = boardDAO.selectAllBoard_Clothes(boardFilter);
-		return boardList;		
-	}
-	//모든 코디 게시글 조회
-	@Override
-	public List<BoardVO> listAllBoard_Codi(String page, String pageSize) throws DataAccessException {
-		//페이지 필터 생성
-		BoardVO boardFilter = new BoardVO();
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
-			int pageInt = Integer.parseInt(page);
-			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
-			boardFilter.setPageSize(pageSizeInt);
-		}
-		List<BoardVO> boardList = boardDAO.selectAllBoard_Codi(boardFilter);
-		return boardList;
-	}
-	
+
 	
 	//내 게시글 전부 조회
 	@Override
