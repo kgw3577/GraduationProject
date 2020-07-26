@@ -107,31 +107,6 @@
 	]]>
 	</delete>
 	
-	<!-- 피드 타입 조회 쿼리 -->
-	<select id="showFeed" resultType="java.util.HashMap" parameterType="boardVO">
-	<![CDATA[
-		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
-              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
-              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
-              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
- 		FROM `USER` U, `BOARD` B
-		WHERE U.userID = B.userID
- 		ORDER BY regDate DESC;
-	]]>
-	</select>
-	
-	<!-- 댓글 조회 쿼리 -->
-	<select id="showCommentInBoard" resultType="java.util.HashMap" parameterType="boardVO">
-	<![CDATA[
-		SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath PfImagePath,
-              (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = C.commentNo) numGood,
-              C.commentNo commentNo, C.contents contents, C.regDate regDate
- 		FROM `USER` U, `COMMENT` C
- 		WHERE C.boardNo = #{boardNo} AND U.userID = C.writerID
- 		ORDER BY regDate DESC;
-	]]>
-	</select>
-	
 	
 </mapper>
 

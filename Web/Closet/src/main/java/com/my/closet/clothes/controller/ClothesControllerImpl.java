@@ -67,7 +67,7 @@ public class ClothesControllerImpl implements ClothesController {
 	
 	//내 옷 전부 조회
 	@Override
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/share", method = RequestMethod.GET)
 	public ResponseEntity<List<ClothesVO>> myAllClothes(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
 		List<ClothesVO> myclolist;
 		try{

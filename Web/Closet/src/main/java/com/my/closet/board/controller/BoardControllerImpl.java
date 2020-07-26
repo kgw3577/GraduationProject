@@ -55,7 +55,7 @@ public class BoardControllerImpl implements BoardController {
 	
 	//모든 게시글 리스트 조회
 	@Override
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/share", method = RequestMethod.GET)
 	public ResponseEntity<List<BoardVO>> AllBoard(@RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<BoardVO> boardList;
 		try{
@@ -209,10 +209,10 @@ public class BoardControllerImpl implements BoardController {
 	public BoardVO genPageFilter(String page, String pageSize) {
 		//페이지 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}
 		return boardFilter;

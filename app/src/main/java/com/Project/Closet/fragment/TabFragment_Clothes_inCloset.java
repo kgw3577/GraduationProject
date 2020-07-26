@@ -165,7 +165,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
 
             switch(identifier){
-                case "all" : //모든 옷 조회
+                case "share" : //모든 옷 조회
                     cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], pagesize);
                     break;
                 case "top" : //카테고리 top 조회

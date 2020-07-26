@@ -17,14 +17,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.BoardService;
+import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.BoardVO;
+import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.activity_post;
 import com.Project.Closet.social.fragment_share;
-import com.Project.Closet.util.BoardListAdapter;
+import com.Project.Closet.util.FeedListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,7 +37,7 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class Fragment_post extends Fragment {
+public class Fragment_Feed extends Fragment {
 
     fragment_share parentFragment;
 
@@ -47,19 +50,19 @@ public class Fragment_post extends Fragment {
     int page=0;
     RecyclerView rv_post;
     ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ArrayList<BoardVO> boardList = new ArrayList<BoardVO>();
+    ArrayList<FeedVO> feedList = new ArrayList();
     
     //리사이클러뷰 어댑터
-    BoardListAdapter boardListAdapter;
-    Call<List<BoardVO>> boardListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
+    FeedListAdapter feedListAdapter;
+    Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
-    public static Fragment_post newInstance(String identifier, String size) {
+    public static Fragment_Feed newInstance(String identifier, String size) {
 
         Bundle args = new Bundle();
         args.putString("identifier", identifier);  // 키값, 데이터
         args.putString("size", size);
 
-        Fragment_post fragment = new Fragment_post();
+        Fragment_Feed fragment = new Fragment_Feed();
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,14 +93,18 @@ public class Fragment_post extends Fragment {
                     gridsize = 2; //라지 그리드 2x3
                     pagesize="8"; //라지 페이지 사이즈 7
                     break;
+                case "xLarge":
+                    gridsize = 1; //X라지 그리드 1x2
+                    pagesize="5"; //X라지 페이지 사이즈 5
+                    break;
             }
         }
 
 
         //리사이클러뷰 어댑터 초기화
-        boardListAdapter = new BoardListAdapter(boardList); //추후 수정
+        feedListAdapter = new FeedListAdapter(feedList); //추후 수정
 
-        boardListAdapter.setOnItemClickListener(new BoardListAdapter.OnItemClickListener() {
+        feedListAdapter.setOnItemClickListener(new FeedListAdapter.OnItemClickListener() {
 
             @Override
             public void onItemClick(View v, int pos) {
@@ -132,7 +139,7 @@ public class Fragment_post extends Fragment {
         View view = inflater.inflate(R.layout.layout_share, container, false);
         rv_post = (RecyclerView) view.findViewById(R.id.post_list);
         rv_post.setLayoutManager(new GridLayoutManager(getContext(), gridsize)); //그리드 사이즈 설정
-        rv_post.setAdapter(boardListAdapter);
+        rv_post.setAdapter(feedListAdapter);
         rv_post.setNestedScrollingEnabled(true);
 
 
@@ -162,7 +169,7 @@ public class Fragment_post extends Fragment {
 
 
 
-    public class networkTask extends AsyncTask<String, Void, List<BoardVO>> {
+    public class networkTask extends AsyncTask<String, Void, List<FeedVO>> {
 
         @Override
         protected void onPreExecute() {
@@ -172,33 +179,30 @@ public class Fragment_post extends Fragment {
 
 
         @Override
-        protected List<BoardVO> doInBackground(String... params) {
+        protected List<FeedVO> doInBackground(String... params) {
 
             if(identifier==null)
-                boardListCall = BoardService.getRetrofit(getActivity()).allBoard(params[0], pagesize);
+                feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
             else{
                 switch(identifier){
-                    case "all" : //모든 게시글 조회
-                        boardListCall = BoardService.getRetrofit(getActivity()).allBoard(params[0], pagesize);
+                    case "best" : //인기 피드
+                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
                         break;
-                    case "clothes" : //옷 게시글 조회
-                        boardListCall = BoardService.getRetrofit(getActivity()).allBoard_Clothes(params[0], pagesize);
+                    case "following" : //팔로잉 피드
+                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
                         break;
-                    case "codi" : //코디 게시글 조회
-                        boardListCall = BoardService.getRetrofit(getActivity()).allBoard_Codi(params[0], pagesize);
-                        break;
-                    case "my" : //내 게시글 조회
-                        boardListCall = BoardService.getRetrofit(getActivity()).myAllBoard(params[0], pagesize);
+                    case "newest" : //최신 피드
+                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
                         break;
                     default : //해당 유저 게시글 조회 -> 해당하는 case가 없을 경우 identifier가 userID임.
-                        boardListCall = BoardService.getRetrofit(getActivity()).usersAllBoard(identifier, params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
                         break;
                 }
             }
             //인자 params[0]은 page.
 
             try {
-                return boardListCall.execute().body();
+                return feedListCall.execute().body();
 
                 // Do something with the response.
             } catch (IOException e) {
@@ -208,16 +212,15 @@ public class Fragment_post extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<BoardVO> boardlist) {
-            super.onPostExecute(boardlist);
-            if(boardlist!=null) {
-                for(BoardVO e:boardlist) {
+        protected void onPostExecute(List<FeedVO> feeds) {
+            super.onPostExecute(feeds);
+            if(feeds!=null) {
+                for(FeedVO e:feeds) {
                     //게시글 데이터를 받아온 후 이미지 url 리스트를 갱신
-                    ImageUrlList.add(new String(Global.baseURL+e.getFilePath()));
-                    boardList.add(e);
-                    Log.e("item", e.getSubject());
+                    ImageUrlList.add(new String(Global.baseURL+e.getImagePath()));
+                    feedList.add(e);
                 }
-                boardListAdapter.notifyDataSetChanged();
+                feedListAdapter.notifyDataSetChanged();
             }
         }
     }

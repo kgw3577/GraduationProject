@@ -26,59 +26,63 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.closet.board.dao.BoardDAO;
 import com.my.closet.board.service.BoardService;
 import com.my.closet.board.vo.BoardVO;
-
+import com.my.closet.social.vo.FeedVO;
 
 @RestController("socialController")
 @RequestMapping("/social")
 public class SocialControllerImpl implements SocialController {
 
-	//Logger 클래스 객체 가져오기
+	// Logger 클래스 객체 가져오기
 	private static final Logger logger = LoggerFactory.getLogger(SocialControllerImpl.class);
-		
-	@Autowired
-	private BoardService boardService;
+
 	@Autowired
 	private BoardDAO boardDAO;
-	
-	//모든 게시글 리스트 조회. 웹 관리용.
+
+	// 모든 게시글 리스트 조회. 웹 관리용.
 	@Override
 	@RequestMapping(value = "/feedlist", method = RequestMethod.GET)
 	public ModelAndView feedlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<HashMap<String,Object>> feedList = boardDAO.showAllFeed(new BoardVO());
+		List<FeedVO> feedList = boardDAO.showAllFeed(new BoardVO());
 		mav.addObject("feedList", feedList);
 		return mav;
 	}
-	
-	//피드 가져오기
+
+	// 피드 가져오기
 	@Override
-	@RequestMapping(value = "/feed/all", method = RequestMethod.GET)
-	public ResponseEntity<List<HashMap<String,Object>>> showAllFeed(@RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<HashMap<String,Object>> feedList;
-		try{
+	@RequestMapping(value = "/feed/share", method = RequestMethod.GET)
+	public ResponseEntity<List<FeedVO>> showAllFeed(
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
+		List<FeedVO> feedList;
+		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			feedList = boardDAO.showAllFeed(boardFilter);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<HashMap<String,Object>>>(Collections.<HashMap<String,Object>>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<HashMap<String,Object>>>(feedList, HttpStatus.OK);
+		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
-	
-	//해당 게시물 코멘트 가져오기
+
+	// 해당 게시물 코멘트 가져오기
 	@Override
 	@RequestMapping(value = "/comment/{boardNo}", method = RequestMethod.GET)
-	public ResponseEntity<List<HashMap<String,Object>>> showCommentInBoard(@PathVariable("boardNo") String boardNo, @RequestParam String page, @RequestParam String pageSize) throws Exception {
-		List<HashMap<String,Object>> commentList;
-		try{
+	public ResponseEntity<List<FeedVO>> showCommentInBoard(@PathVariable("boardNo") String boardNo,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
+		List<FeedVO> commentList;
+		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
 			commentList = boardDAO.showCommentInBoard(boardFilter);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<HashMap<String,Object>>>(Collections.<HashMap<String,Object>>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<HashMap<String,Object>>>(commentList, HttpStatus.OK);
+		return new ResponseEntity<List<FeedVO>>(commentList, HttpStatus.OK);
 	}
 
 	private String getViewName(HttpServletRequest request) throws Exception {
@@ -113,14 +117,25 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return viewName;
 	}
-	
+
 	public BoardVO genPageFilter(String page, String pageSize) {
-		//페이지 필터 생성
+		// 페이지 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
+			boardFilter.setPageSize(pageSizeInt);
+		}
+		return boardFilter;
+	}
+	
+	public BoardVO setPageFilter(BoardVO boardFilter, String page, String pageSize) {
+		// 페이지 필터 생성
+		if (page != null && pageSize != null) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}
 		return boardFilter;

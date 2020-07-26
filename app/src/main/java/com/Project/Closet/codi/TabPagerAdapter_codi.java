@@ -22,7 +22,7 @@ public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return TabFragment_Codi_large.newInstance("all");
+                return TabFragment_Codi_large.newInstance("share");
             case 1:
                 return TabFragment_Codi_large.newInstance("spring");
             case 2:

@@ -11,6 +11,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:id="@+id/header"
                 android:layout_width="wrap_content"
@@ -27,15 +28,54 @@
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
-
-            <fragment
-                android:name="com.Project.Closet.fragment.Fragment_post"
-                android:id="@+id/fragment_place"
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/home_coordinator"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/header"
+                android:layout_marginTop="18sp"
                 android:background="@android:color/white">
-            </fragment>
+
+                <com.google.android.material.appbar.AppBarLayout
+                    android:id="@+id/appbarLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white">
+
+                    <com.google.android.material.appbar.CollapsingToolbarLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:contentScrim="@android:color/white"
+                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+
+                    </com.google.android.material.appbar.CollapsingToolbarLayout>
+                </com.google.android.material.appbar.AppBarLayout>
+
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="blocksDescendants">
+
+                        <com.google.android.material.tabs.TabLayout
+                            android:id="@+id/tabLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/tab_Pager"
+                            android:layout_width="match_parent"
+                            android:layout_height="600dp"
+                            android:layout_below="@+id/tabLayout" />
+                    </RelativeLayout>
+                </androidx.core.widget.NestedScrollView>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
         </RelativeLayout>
 

@@ -122,11 +122,11 @@ public class TabFragment_Codi_inCodiMain extends Fragment {
 
                 ((activity_codi_main)getActivity()).tv_cloNo.setText(Integer.toString(clothesList.get(position).getNo()));
                 if("yes".equals(clothesList.get(position).getLike())){
-                    iv_heart.setImageResource(R.drawable.favorite_color);
+                    iv_heart.setImageResource(R.drawable.heart_color);
                     tv_cloFavorite.setText("yes");
                 }
                 else{
-                    iv_heart.setImageResource(R.drawable.favorite_empty);
+                    iv_heart.setImageResource(R.drawable.heart_empty);
                     tv_cloFavorite.setText("no");
                 }
 
@@ -192,7 +192,7 @@ public class TabFragment_Codi_inCodiMain extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
 
             switch(identifier){
-                case "all" : //모든 옷 조회
+                case "share" : //모든 옷 조회
                     cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], pagesize);
                     break;
                 case "top" : //카테고리 top 조회
@@ -326,11 +326,11 @@ public class TabFragment_Codi_inCodiMain extends Fragment {
                         if(reverted_favorite){
                             Toast.makeText(((activity_codi_main)getActivity()).getApplicationContext(), "즐겨찾기에 추가했습니다.", Toast.LENGTH_SHORT).show();
                             tv_cloFavorite.setText("yes");
-                            iv_heart.setImageResource(R.drawable.favorite_color);
+                            iv_heart.setImageResource(R.drawable.heart_color);
                         }else{
                             Toast.makeText(((activity_codi_main)getActivity()).getApplicationContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             tv_cloFavorite.setText("no");
-                            iv_heart.setImageResource(R.drawable.favorite_empty);
+                            iv_heart.setImageResource(R.drawable.heart_empty);
                         }
                     }
                     else

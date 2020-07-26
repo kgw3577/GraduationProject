@@ -47,10 +47,10 @@ public class BoardServiceImpl implements BoardService {
 		
 		//페이지 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}
 		List<BoardVO> boardList = boardDAO.selectAllBoard(boardFilter);
@@ -74,10 +74,10 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setUserID(loginVO.getUserID());
 		//페이지 필터 적용
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}
 		//해당 필터로 검색
@@ -91,10 +91,10 @@ public class BoardServiceImpl implements BoardService {
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setUserID(userID);
 		//페이지 필터 적용
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}		
 		//해당 필터로 검색
@@ -110,10 +110,10 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> searchBoard(BoardVO boardFilter, String page, String pageSize) throws DataAccessException {
 		//페이지 필터 적용
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if (page != null && pageSize != null) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
-			boardFilter.setPageStart(pageInt*pageSizeInt);
+			boardFilter.setPageStart(pageInt * pageSizeInt);
 			boardFilter.setPageSize(pageSizeInt);
 		}	
 		return boardDAO.selectBoard(boardFilter);

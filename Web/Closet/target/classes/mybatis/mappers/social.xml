@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.social">
+	
+	<!--반환 레코드를 config에서 지정한 boardVO 빈에 저장 -->
+	<resultMap id="feedResult" type="feedVO">
+		<result property="writerID" column="writerID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="writerName" column="writerName" />
+		<result property="pfImagePath" column="pfImagePath" />
+		<result property="numHeart" column="numHeart" />
+		<result property="numComment" column="numComment" />
+		<result property="boardNo" column="boardNo" />
+		<result property="imagePath" column="imagePath" />
+		<result property="contents" column="contents" />
+		<result property="regDate" column="regDate" />
+	</resultMap>
+	
+	<!-- SQL문. 반환 레코드를 Result에 저장 -->
+	
+	<!-- 피드 타입 조회 쿼리 -->
+	<select id="showFeed" resultMap="feedResult" parameterType="boardVO">
+	<![CDATA[
+		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
+ 		FROM `USER` U, `BOARD` B
+		WHERE U.userID = B.userID
+ 		ORDER BY regDate DESC
+	]]>
+		<if test="pageStart != -1 and pageSize != -1">
+			LIMIT #{pageStart}, #{pageSize}
+		</if>
+	</select>
+	
+	<!-- 댓글 조회 쿼리 -->
+	<select id="showCommentInBoard" resultMap="feedResult" parameterType="boardVO">
+	<![CDATA[
+		SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath PfImagePath,
+              (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = C.commentNo) numGood,
+              C.commentNo commentNo, C.contents contents, C.regDate regDate
+ 		FROM `USER` U, `COMMENT` C
+ 		WHERE C.boardNo = #{boardNo} AND U.userID = C.writerID
+ 		ORDER BY regDate DESC;
+	]]>
+		<if test="pageStart != -1 and pageSize != -1">
+			LIMIT #{pageStart}, #{pageSize}
+		</if>
+	
+	</select>
+	
+	
+</mapper>
+

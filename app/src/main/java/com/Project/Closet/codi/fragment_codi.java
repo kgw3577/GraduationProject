@@ -492,11 +492,11 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                     if("ok".equals(res)){
                         if(reverted_favorite){
                             Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.favorite_color);
+                            iv_heart.setImageResource(R.drawable.heart_color);
                             tv_cloFavorite.setText("yes");
                         }else{
                             Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.favorite_empty);
+                            iv_heart.setImageResource(R.drawable.heart_empty);
                             tv_cloFavorite.setText("no");
                         }
                         ((activity_home)activity).notify_home_changed();
@@ -558,11 +558,11 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         tv_cloNo.setText(Integer.toString(cloInfo.getNo()));
 
         if("yes".equals(cloInfo.getLike())){
-            iv_heart.setImageResource(R.drawable.favorite_color);
+            iv_heart.setImageResource(R.drawable.heart_color);
             tv_cloFavorite.setText("yes");
         }
         else{
-            iv_heart.setImageResource(R.drawable.favorite_empty);
+            iv_heart.setImageResource(R.drawable.heart_empty);
             tv_cloFavorite.setText("no");
         }*/
     }

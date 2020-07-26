@@ -17,12 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.codi.TabPagerAdapter_codi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,6 +39,10 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
 
 
     Activity activity;
+
+    private TabLayout tabLayout;
+    public TabPagerAdapter_share pagerAdapter;
+    private ViewPager finalPager;
 
     RelativeLayout filterButton;
     RelativeLayout addButton;
@@ -111,6 +118,36 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
             }
         });
 
+        if(tabLayout == null){
+            //탭 목록 설정
+            tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("인기"));
+            tabLayout.addTab(tabLayout.newTab().setText("팔로잉"));
+            tabLayout.addTab(tabLayout.newTab().setText("최신"));
+
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
+            finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
+            pagerAdapter = new TabPagerAdapter_share(getChildFragmentManager(), tabLayout.getTabCount());
+            finalPager.setAdapter(pagerAdapter);
+            finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    finalPager.setCurrentItem(tab.getPosition());
+                }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+        }
     }
 
 

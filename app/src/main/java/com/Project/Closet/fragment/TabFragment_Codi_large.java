@@ -117,7 +117,7 @@ public class TabFragment_Codi_large extends Fragment {
 
 
             switch (identifier){
-                case "all" : //모든 코디 조회
+                case "share" : //모든 코디 조회
                     codiListCall = CodiService.getRetrofit(getActivity()).myAllCodi(params[0], "7");
                     break;
                 case "spring" : //봄 코디 조회

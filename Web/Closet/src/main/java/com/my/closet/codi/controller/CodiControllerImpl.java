@@ -58,7 +58,7 @@ public class CodiControllerImpl implements CodiController {
 	
 	//내 코디 전부 조회
 	@Override
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/share", method = RequestMethod.GET)
 	public ResponseEntity<List<CodiVO>> myAllCodi(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
 		List<CodiVO> myCodiList;
 		try{

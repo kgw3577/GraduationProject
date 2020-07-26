@@ -28,7 +28,7 @@ public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return TabFragment_Clothes_inCloset.newInstance("all","small");
+                return TabFragment_Clothes_inCloset.newInstance("share","small");
             case 1:
                 return TabFragment_Clothes_inCloset.newInstance("top","small");
             case 2:

@@ -70,7 +70,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/sample"
+                    android:src="@drawable/sample_logo"
                     app:scale_height="100"
                     app:scale_left="340"
                     app:scale_left_baseposition="center"

@@ -43,7 +43,7 @@ public class CodiService extends APIAdapter {
         //모든 코디 정보 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("codi/all")
+        @GET("codi/share")
         Call<List<CodiVO>> myAllCodi(@Query("page") String page, @Query("pageSize") String pageSize);
 
         //계절별 코디 목록 가져오기

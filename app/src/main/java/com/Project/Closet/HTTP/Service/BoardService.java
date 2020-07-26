@@ -49,37 +49,20 @@ public class BoardService extends APIAdapter {
         //모든 게시글 리스트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("board/all")
+        @GET("board/share")
         Call<List<BoardVO>> allBoard(@Query("page") String page, @Query("pageSize") String pageSize);
-
-        //모든 게시글 게시글 리스트 받아오기
-        // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
-        // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("board/all/clothes")
-        Call<List<BoardVO>> allBoard_Clothes(@Query("page") String page, @Query("pageSize") String pageSize);
-
-        //모든 코디 게시글 리스트 받아오기
-        // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
-        // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("board/all/codi")
-        Call<List<BoardVO>> allBoard_Codi(@Query("page") String page, @Query("pageSize") String pageSize);
 
         //내 게시글 리스트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("board/space/my")
+        @GET("board/my")
         Call<List<BoardVO>> myAllBoard(@Query("page") String page, @Query("pageSize") String pageSize);
 
         //유저 게시글 리스트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("board/space/{userID}")
+        @GET("board/{userID}")
         Call<List<BoardVO>> usersAllBoard(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
-
-
-        //제목으로 게시글 검색
-        @GET("board/search")
-        Call<List<BoardVO>> searchBoardBySubject(@Query("subject") String subject, @Query("page") String page, @Query("pageSize") String pageSize);
 
         //내용으로 게시글 검색
         @GET("board/search")
@@ -87,7 +70,7 @@ public class BoardService extends APIAdapter {
 
         //게시글 정보 받아오기
         //boardNo를 파라미터로 받아 API URL을 완성해서 GET 방식으로 요청
-        @GET("board/info/{boardNo}")
+        @GET("board/{boardNo}/info")
         Call<BoardVO> infoBoard(@Path("boardNo") String boardNo);
 
         //게시글 수정하기
