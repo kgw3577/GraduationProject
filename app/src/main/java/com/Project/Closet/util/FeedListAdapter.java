@@ -11,16 +11,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
@@ -65,24 +61,19 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     public void onBindViewHolder(FeedListAdapter.ViewHolder holder, int position) {
         final FeedVO feedMap = feedList.get(position);
 
+        //작성 시간 포매팅
         long ts = Timestamp.valueOf(feedMap.getRegDate()).getTime();
-        TimeFormat.formatTimeString(ts);
+        String regDate = NumFormat.formatTimeString(ts);
+        //수 포매팅
+        String numHeart = NumFormat.formatNumString(feedMap.getNumHeart());
+        String numComment  = NumFormat.formatNumString(feedMap.getNumComment());
+
 
         holder.tv_writerName.setText(feedMap.getWriterName());
-        holder.tv_numHeart.setText(feedMap.getNumHeart()+""); //223.7만
-        holder.tv_numComment.setText(feedMap.getNumComment()+""); //223.7만
+        holder.tv_numHeart.setText(numHeart); //형식 : 223.7만
+        holder.tv_numComment.setText(numComment); //형식 : 223.7만
         holder.tv_contents.setText(feedMap.getContents());
-        holder.tv_regDate.setText(TimeFormat.formatTimeString(ts)); //6시간 전
-
-
-
-
-        //System.out.println("ts : " + ts);
-        //SimpleDateFormat sdfCurrent = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //String tsStr = sdfCurrent.format( new Timestamp(ts) );
-        //System.out.println("tsStr : " + tsStr);
-
-
+        holder.tv_regDate.setText(regDate); //형식 : 6시간 전
 
         Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedMap.getPfImagePath()).into(holder.iv_profileImage);
         Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedMap.getImagePath()).into(holder.iv_image);
@@ -93,7 +84,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        Log.e("BoardListAdapter","아이템 개수 반환"+this.feedList.size());
         return this.feedList.size();
     }
 

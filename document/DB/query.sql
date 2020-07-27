@@ -88,12 +88,21 @@ CREATE TABLE `COMMENT` (
   CONSTRAINT `COMMENT_USER` FOREIGN KEY (`writerID`) REFERENCES `USER` (`userID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷 게시판 댓글';
 
+select * from BOARD;
+UPDATE
+
 desc `COMMENT`;
 select * from `COMMENT`;
-insert into COMMENT values (null, 38, 'a', '시계 댓글', null);
+insert into COMMENT values 
+(null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null)
+,(null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null), (null, 43, 'a', '댓글', null)
+;
+
 
 -- 중복 테이블 삭제
-SET foreign_key_checks = 1;
+SET foreign_key_checks = 0;
+DELETE FROM USER WHERE userID='';
+
 DROP TABLE COMMENT_BOARD_CODI;
 
 
@@ -117,7 +126,8 @@ alter table HEART drop heartNo;
 alter table HEART add PRIMARY KEY(boardNo, hearterID);
 
 
-
+select * from BOARD;
+DELETE from BOARD where boardNo='55';
 
 CREATE TABLE `GOOD` (
   `commentNo` int(11) NOT NULL COMMENT '댓글 고유번호- 댓글 외래키',

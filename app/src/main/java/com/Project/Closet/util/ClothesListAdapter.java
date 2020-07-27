@@ -80,7 +80,6 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     //아이템 개수 반환
     @Override
     public int getItemCount() {
-        Log.e("ClothesListAdapter","아이템 개수 반환"+this.ClothesList.size());
         return this.ClothesList.size();
     }
 
