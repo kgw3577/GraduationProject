@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.my.closet.board.vo.BoardVO;
+import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 
 @Repository("boardDAO")
@@ -95,8 +96,14 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public List<FeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException {
-		List<FeedVO> commentList = sqlSession.selectList("mapper.social.showCommentInBoard",boardFilter);
+	public FeedVO showOneFeed(BoardVO boardFilter) throws DataAccessException {
+		FeedVO feed = sqlSession.selectOne("mapper.social.showOneFeed",boardFilter);
+		return feed;
+	}
+	
+	@Override
+	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException {
+		List<CommentFeedVO> commentList = sqlSession.selectList("mapper.social.showCommentInBoard",boardFilter);
 		return commentList;
 	}
 

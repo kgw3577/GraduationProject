@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.dao.DataAccessException;
 
 import com.my.closet.board.vo.BoardVO;
+import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 
 public interface BoardDAO {
@@ -22,5 +23,6 @@ public interface BoardDAO {
 	public String deleteBoard(String boardNo) throws DataAccessException; //코디 삭제 (1,2,3,4,5로 여러 개 가능) --주의
 
 	public List<FeedVO> showAllFeed(BoardVO boardFilter) throws DataAccessException; //피드 가져오기
-	public List<FeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException; //해당 게시글 댓글 가져오기
+	public FeedVO showOneFeed(BoardVO boardFilter) throws DataAccessException;
+	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException; //해당 게시글 댓글 가져오기
 }

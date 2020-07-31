@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.BoardService;
+import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.BoardVO;
+import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.activity_post;
@@ -29,6 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
@@ -102,31 +106,38 @@ public class Fragment_Feed extends Fragment {
 
 
         //리사이클러뷰 어댑터 초기화
-        feedListAdapter = new FeedListAdapter(feedList); //추후 수정
+        feedListAdapter = new FeedListAdapter(feedList);
 
         feedListAdapter.setOnItemClickListener(new FeedListAdapter.OnItemClickListener() {
 
-            @Override
-            public void onItemClick(View v, int pos) {
-                Intent intent = new Intent(getContext(), activity_post.class);
-                startActivity(intent);
+        @Override
+        public void onItemClick(View v, int pos) {
 
-                /*
-                BoardVO boardInfo = null;
-                try {
-                    boardInfo = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(boardList.get(position).getNo())).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                parentFragment.setInfo(boardInfo);
-                */
-
+            FeedVO feed = null;
+            try {
+                feed = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(feedList.get(pos).getBoardNo())).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            Intent intent = new Intent(getContext(), activity_post.class);
 
-        });
-    }
+            assert feed != null;
+            intent.putExtra("writerID", feed.getWriterID());
+            intent.putExtra("writerName", feed.getWriterName());
+            intent.putExtra("pfImagePath", feed.getPfImagePath());
+            intent.putExtra("contents", feed.getContents());
+            intent.putExtra("regDate", feed.getRegDate());
+            intent.putExtra("numHeart", feed.getNumHeart());
+            intent.putExtra("numComment", feed.getNumComment());
+            intent.putExtra("boardNo", feed.getBoardNo());
+
+            startActivity(intent);
+        }
+
+    });
+}
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -225,18 +236,18 @@ public class Fragment_Feed extends Fragment {
         }
     }
 
-/*
-    public class InfoTask extends AsyncTask<String, Void, BoardVO> {
+
+    public class InfoTask extends AsyncTask<String, Void, FeedVO> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected BoardVO doInBackground(String... boardNo) {
+        protected FeedVO doInBackground(String... boardNo) {
 
-            Call<BoardVO> boardVOCall = ClothesService.getRetrofit(getContext()).infoClothes(boardNo[0]);
+            Call<FeedVO> feedVOCall = SocialService.getRetrofit(getContext()).selectOneFeed(boardNo[0]);
             try {
-                return boardVOCall.execute().body();
+                return feedVOCall.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -244,11 +255,11 @@ public class Fragment_Feed extends Fragment {
 
         }
         @Override
-        protected void onPostExecute(BoardVO c) {
+        protected void onPostExecute(FeedVO c) {
             super.onPostExecute(c);
         }
     }
-*/
+
 
 
 

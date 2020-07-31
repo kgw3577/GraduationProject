@@ -5,6 +5,7 @@ import android.content.Context;
 import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
+import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 
 import java.util.HashMap;
@@ -47,11 +48,15 @@ public class SocialService extends APIAdapter {
         @GET("social/feed/share")
         Call<List<FeedVO>> showAllFeed(@Query("page") String page, @Query("pageSize") String pageSize);
 
+        // 피드 한 개 받아오기
+        @GET("social/feed/{boardNo}")
+        Call<FeedVO> selectOneFeed(@Path("boardNo") String boardNo);
+
         //내 게시글 리스트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("social/comment/{boardNo}")
-        Call<List<FeedVO>> showCommentInBoard(@Path("boardNo") String boardNo, @Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<CommentFeedVO>> showCommentInBoard(@Path("boardNo") String boardNo, @Query("page") String page, @Query("pageSize") String pageSize);
 
     }
 }

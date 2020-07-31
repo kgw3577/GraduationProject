@@ -196,8 +196,5 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
             ((activity_home)activity).refresh_share();
     }
 
-    //커스텀 함수
-    public void setInfo(ClothesVO cloInfo){
 
-    }
 }

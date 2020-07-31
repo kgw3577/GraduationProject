@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.closet.board.dao.BoardDAO;
 import com.my.closet.board.service.BoardService;
 import com.my.closet.board.vo.BoardVO;
+import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 
 @RestController("socialController")
@@ -65,24 +66,44 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
+	
+	// 피드 하나 가져오기
+	@Override
+	@RequestMapping(value = "/feed/{boardNo}", method = RequestMethod.GET)
+	public ResponseEntity<FeedVO> showOneFeed(@PathVariable("boardNo") String boardNo,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
+		FeedVO feed;
+		try {
+			BoardVO boardFilter = genPageFilter(page, pageSize);
+			boardFilter.setBoardNo(Integer.parseInt(boardNo));
+			feed = boardDAO.showOneFeed(boardFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<FeedVO>(new FeedVO(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<FeedVO>(feed, HttpStatus.OK);
+	}	
+	
 
 	// 해당 게시물 코멘트 가져오기
 	@Override
 	@RequestMapping(value = "/comment/{boardNo}", method = RequestMethod.GET)
-	public ResponseEntity<List<FeedVO>> showCommentInBoard(@PathVariable("boardNo") String boardNo,
+	public ResponseEntity<List<CommentFeedVO>> showCommentInBoard(@PathVariable("boardNo") String boardNo,
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
-		List<FeedVO> commentList;
+		List<CommentFeedVO> commentList;
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
 			commentList = boardDAO.showCommentInBoard(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+			return new ResponseEntity<List<CommentFeedVO>>(Collections.<CommentFeedVO>emptyList(),
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<FeedVO>>(commentList, HttpStatus.OK);
+		return new ResponseEntity<List<CommentFeedVO>>(commentList, HttpStatus.OK);
 	}
 
 	private String getViewName(HttpServletRequest request) throws Exception {
