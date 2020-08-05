@@ -1,14 +1,12 @@
-package com.Project.Closet;
+package com.Project.Closet.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,20 +14,10 @@ import android.widget.Toast;
 
 import com.Project.Closet.HTTP.Service.UserService;
 import com.Project.Closet.HTTP.VO.UserVO;
-import com.Project.Closet.home.activity_home;
-import com.google.android.material.textfield.TextInputEditText;
+import com.Project.Closet.R;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import retrofit2.Call;
 

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.Project.Closet.R;
 import com.Project.Closet.activity_profile;
-import com.Project.Closet.social.fragment_share;
+import com.Project.Closet.social.fragment_social;
 import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.codi.fragment_codi;
 import com.Project.Closet.util.OnBackPressedListener;
@@ -107,7 +107,7 @@ public class activity_home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(f_share == null) {
-                    f_share = new fragment_share();
+                    f_share = new fragment_social();
                     fragmentManager.beginTransaction().add(R.id.fragment_place, f_share,"share").commit();
                 }
 
@@ -115,7 +115,7 @@ public class activity_home extends AppCompatActivity {
                 if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
                 if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
                 if(f_share != null) fragmentManager.beginTransaction().show(f_share).commit();
-                setOnBackPressedListener((fragment_share)f_share);
+                setOnBackPressedListener((fragment_social)f_share);
             }
         });
 
@@ -253,7 +253,7 @@ public class activity_home extends AppCompatActivity {
             FragmentTransaction transaction;
             transaction = fragmentManager.beginTransaction();
             transaction.remove(f_share);
-            f_share = new fragment_share();
+            f_share = new fragment_social();
             transaction.add(R.id.fragment_place,f_share,"share").commit();
         }
     }

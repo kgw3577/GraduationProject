@@ -1,4 +1,4 @@
-package com.Project.Closet;
+package com.Project.Closet.signup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Project.Closet.HTTP.Service.UserService;
 import com.Project.Closet.HTTP.VO.UserVO;
+import com.Project.Closet.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
@@ -178,7 +179,7 @@ public class activity_signup_next extends AppCompatActivity {
                         try {
                             String result  = new activity_signup_next.UpdateTask().execute(userID, nickname, gender, birth).get();
                             if(result.equals("ok")) {
-                                Intent intent = new Intent(getApplicationContext(), activity_signup_next_next.class);
+                                Intent intent = new Intent(getApplicationContext(), activity_signup_profile_img.class);
                                 intent.putExtra("userID", userID);
                                 startActivity(intent);
                             }else{

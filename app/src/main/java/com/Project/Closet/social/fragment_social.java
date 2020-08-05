@@ -9,7 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SlidingDrawer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,9 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.codi.TabPagerAdapter_codi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.google.android.material.navigation.NavigationView;
@@ -29,7 +30,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import static android.app.Activity.RESULT_OK;
 
-public class fragment_share extends Fragment implements OnBackPressedListener {
+public class fragment_social extends Fragment implements OnBackPressedListener {
 
     ViewGroup viewGroup;
     Toast toast;
@@ -48,6 +49,12 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
     RelativeLayout addButton;
 
     DrawerLayout drawer;
+    SlidingDrawer slidingDrawer;
+    LinearLayout drawer_content;
+
+    TextView tv_add_image;
+    TextView tv_from_closet;
+    TextView tv_from_codi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,11 +83,22 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
         filterButton = getView().findViewById(R.id.header_search);
 
         drawer = getView().findViewById(R.id.final_drawer_layout);
+        slidingDrawer = getView().findViewById(R.id.sliding_drawer);
+        drawer_content = getView().findViewById(R.id.drawer_content);
+
+        tv_add_image = getView().findViewById(R.id.tv_add_image);
+        tv_from_closet= getView().findViewById(R.id.tv_from_closet);
+        tv_from_codi= getView().findViewById(R.id.tv_from_codi);
 
 
 
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         addButton.setOnClickListener(onClickListener);
+        tv_add_image.setOnClickListener(onClickListener);
+        tv_from_closet.setOnClickListener(onClickListener);
+        tv_from_codi.setOnClickListener(onClickListener);
+        drawer_content.setOnClickListener(onClickListener);
+
 
 
         NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
@@ -162,7 +180,10 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+        } else if (slidingDrawer.isOpened()) {
+            slidingDrawer.close();
+        }
+        else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
             backKeyPressedTime = System.currentTimeMillis();
             toast.show();
             return;
@@ -179,11 +200,20 @@ public class fragment_share extends Fragment implements OnBackPressedListener {
 
         @Override
         public void onClick(View view) {
-
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
+                    slidingDrawer.open();
+                    break;
+                case R.id.tv_add_image :
                     Intent intent = new Intent(getContext(), activity_addBoard.class);
                     startActivityForResult(intent,ADD_BOARD);
+                    break;
+                case R.id.tv_from_closet :
+                    break;
+                case R.id.tv_from_codi :
+                    break;
+                case R.id.drawer_content :
+                    slidingDrawer.close();
                     break;
             }
         }

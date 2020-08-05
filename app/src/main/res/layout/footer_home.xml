@@ -98,7 +98,7 @@
                     app:scale_width="216"
                     app:scale_height="43"
                     app:scale_textsize="23"
-                    android:text="코디"
+                    android:text="코디북"
                     android:gravity="center_horizontal"
                     android:includeFontPadding="false"
                     android:textColor="@android:color/black"

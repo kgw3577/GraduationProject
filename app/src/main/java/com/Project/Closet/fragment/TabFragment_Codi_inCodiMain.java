@@ -23,7 +23,6 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.codi.activity_codi_main;
 import com.Project.Closet.util.ClothesListAdapter;
 import com.bumptech.glide.Glide;
 

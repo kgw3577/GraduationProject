@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,20 +16,15 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.Service.BoardService;
-import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Service.SocialService;
-import com.Project.Closet.HTTP.VO.BoardVO;
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.activity_post;
-import com.Project.Closet.social.fragment_share;
+import com.Project.Closet.social.fragment_social;
 import com.Project.Closet.util.FeedListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -43,7 +37,7 @@ import retrofit2.Call;
 
 public class Fragment_Feed extends Fragment {
 
-    fragment_share parentFragment;
+    fragment_social parentFragment;
 
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
@@ -75,7 +69,7 @@ public class Fragment_Feed extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parentFragment = ((fragment_share)getParentFragment());
+        parentFragment = ((fragment_social)getParentFragment());
 
 
         Bundle args = getArguments(); // 데이터 받기

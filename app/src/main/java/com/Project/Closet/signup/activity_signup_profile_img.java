@@ -1,9 +1,7 @@
-package com.Project.Closet;
+package com.Project.Closet.signup;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,24 +11,19 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.Project.Closet.HTTP.Service.BoardService;
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.UserService;
-import com.Project.Closet.HTTP.VO.UserVO;
-import com.Project.Closet.social.activity_addBoard;
-import com.google.android.material.textfield.TextInputLayout;
+import com.Project.Closet.R;
+import com.Project.Closet.activity_login;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -41,15 +34,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
-public class activity_signup_next_next extends AppCompatActivity {
+public class activity_signup_profile_img extends AppCompatActivity {
 
     String userID;
     ImageView iv_add_profile, iv_profileImage;
@@ -82,7 +73,7 @@ public class activity_signup_next_next extends AppCompatActivity {
                 Log.d(TAG, "권한 설정 완료");
             } else {
                 Log.d(TAG, "권한 설정 요청");
-                ActivityCompat.requestPermissions(activity_signup_next_next.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(activity_signup_profile_img.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
         }
     }
@@ -172,7 +163,7 @@ public class activity_signup_next_next extends AppCompatActivity {
                         public void onClick(View v) {
                             CropImage.activity()
                                     .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(activity_signup_next_next.this);
+                                    .start(activity_signup_profile_img.this);
                         }
                     });
 
@@ -181,14 +172,14 @@ public class activity_signup_next_next extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             try {
-                                String result  = new activity_signup_next_next.UploadTask().execute().get();
+                                String result  = new activity_signup_profile_img.UploadTask().execute().get();
                                 if(result.equals("ok")) {
-                                    Toast.makeText(activity_signup_next_next.this,"회원가입이 완료되었습니다!",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity_signup_profile_img.this,"회원가입이 완료되었습니다!",Toast.LENGTH_SHORT).show();
                                     finishAffinity();
                                     Intent intent = new Intent(getApplicationContext(), activity_login.class);
                                     startActivity(intent);
                                 }else{
-                                    Toast.makeText(activity_signup_next_next.this, result, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity_signup_profile_img.this, result, Toast.LENGTH_SHORT).show();
                                 }
                             }catch (Exception e) {}
                         }
@@ -216,7 +207,7 @@ public class activity_signup_next_next extends AppCompatActivity {
                 case R.id.iv_add_profile : // 프로필 이미지 추가 버튼 눌렀을 경우
                     CropImage.activity()
                             .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(activity_signup_next_next.this);
+                            .start(activity_signup_profile_img.this);
                     break;
             }
         }
