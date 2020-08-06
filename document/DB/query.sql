@@ -89,7 +89,7 @@ CREATE TABLE `COMMENT` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷 게시판 댓글';
 
 select * from BOARD;
-UPDATE
+UPDATE BOARD SET contents = "돈까스 돈까스 돈까스 돈까스 돈까스 \n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스돈까스 돈까스 돈까스돈까스\n돈까스 돈까스 돈까스 돈까스" WHERE boardNo = '59';
 
 desc `COMMENT`;
 select * from `COMMENT`;
@@ -100,7 +100,7 @@ insert into COMMENT values
 
 
 -- 중복 테이블 삭제
-SET foreign_key_checks = 0;
+SET foreign_key_checks = 1;
 DELETE FROM USER WHERE userID='';
 
 DROP TABLE COMMENT_BOARD_CODI;
@@ -127,7 +127,7 @@ alter table HEART add PRIMARY KEY(boardNo, hearterID);
 
 
 select * from BOARD;
-DELETE from BOARD where boardNo='55';
+DELETE from BOARD where boardNo='39';
 
 CREATE TABLE `GOOD` (
   `commentNo` int(11) NOT NULL COMMENT '댓글 고유번호- 댓글 외래키',
@@ -161,12 +161,42 @@ insert into GOOD values (3, 'bcde', null);
  ORDER BY regDate DESC;
 
 -- 해당 게시글의 - 댓글 상세 쿼리 만들기
-SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath PfImagePath,
+SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = C.commentNo) numGood,
               C.commentNo commentNo, C.contents contents, C.regDate regDate
  FROM `USER` U, `COMMENT` C
  WHERE C.boardNo = '36' AND U.userID = C.writerID
  ORDER BY regDate DESC;
+
+
+
+
+CREATE TABLE `FOLLOW` (
+  `followerID` varchar(45) NOT NULL COMMENT '팔로워 아이디 - 유저 외래키',
+  `followedID` varchar(45) NOT NULL COMMENT '팔로우된 유저 아이디-유저 외래키',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`followerID`,`followedID`),
+  KEY `FOLLOWER_USER` (`followerID`),
+  KEY `FOLLOWED_USER` (`followedID`),
+  CONSTRAINT `FOLLOWER_USER` FOREIGN KEY (`followerID`) REFERENCES `USER` (`userID`),
+  CONSTRAINT `FOLLOWED_USER` FOREIGN KEY (`followedID`) REFERENCES `USER` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='팔로우';
+
+insert into FOLLOW values ('a','captain',null);
+insert into FOLLOW values ('a','bcde',null);
+insert into FOLLOW values ('a','q',null);
+
+select * from FOLLOW;
+
+-- 팔로우 피드 쿼리 만들기
+ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
+ FROM `USER` U, `BOARD` B
+ WHERE U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = 'a') AND B.userID = U.userID
+ ORDER BY regDate DESC;
+
 
 
 

@@ -33,7 +33,7 @@
 	
 	<!-- SQL문. 반환 레코드를 Result에 저장 -->
 	
-	<!-- 피드 타입 조회 쿼리 -->
+	<!-- 최신순 피드 타입 조회 쿼리 -->
 	<select id="showFeed" resultMap="feedResult" parameterType="boardVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
@@ -49,7 +49,24 @@
 		</if>
 	</select>
 	
-	<!-- 피드 타입 조회 쿼리 -->
+	<!-- 팔로우 피드 타입 조회 쿼리 -->
+	<select id="showFollowFeed" resultMap="feedResult" parameterType="boardVO">
+	<![CDATA[
+		 SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
+ 		FROM `USER` U, `BOARD` B
+ 		WHERE U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{userID}) 
+				AND B.userID = U.userID
+ 		ORDER BY regDate DESC
+	]]>
+		<if test="pageStart != -1 and pageSize != -1">
+			LIMIT #{pageStart}, #{pageSize}
+		</if>
+	</select>
+
+	<!-- 피드 한 개 조회 쿼리 -->
 	<select id="showOneFeed" resultMap="feedResult" parameterType="boardVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
@@ -76,6 +93,12 @@
 		</if>
 	
 	</select>
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>

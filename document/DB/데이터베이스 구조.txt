@@ -152,6 +152,17 @@ CREATE TABLE `GOOD` (
 
 
 
+CREATE TABLE `FOLLOW` (
+  `followerID` varchar(45) NOT NULL COMMENT '팔로워 아이디 - 유저 외래키',
+  `followedID` varchar(45) NOT NULL COMMENT '팔로우된 유저 아이디-유저 외래키',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`followerID`,`followedID`),
+  KEY `FOLLOWER_USER` (`followerID`),
+  KEY `FOLLOWED_USER` (`followedID`),
+  CONSTRAINT `FOLLOWER_USER` FOREIGN KEY (`followerID`) REFERENCES `USER` (`userID`),
+  CONSTRAINT `FOLLOWED_USER` FOREIGN KEY (`followedID`) REFERENCES `USER` (`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='팔로우';
+
 
 
 -- USER Table Create SQL

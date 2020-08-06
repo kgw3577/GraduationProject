@@ -26,8 +26,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.closet.board.dao.BoardDAO;
 import com.my.closet.board.service.BoardService;
 import com.my.closet.board.vo.BoardVO;
+import com.my.closet.social.dao.CrudDAO;
+import com.my.closet.social.dao.FeedDAO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
+import com.my.closet.social.vo.FollowVO;
+import com.my.closet.user.vo.UserVO;
 
 @RestController("socialController")
 @RequestMapping("/social")
@@ -37,28 +41,30 @@ public class SocialControllerImpl implements SocialController {
 	private static final Logger logger = LoggerFactory.getLogger(SocialControllerImpl.class);
 
 	@Autowired
-	private BoardDAO boardDAO;
+	private FeedDAO feedDAO;
+	@Autowired
+	private CrudDAO crudDAO;
 
-	// 모든 게시글 리스트 조회. 웹 관리용.
+	/* 피드 */
+	// 모든 피드 리스트 조회. 웹 관리용.
 	@Override
 	@RequestMapping(value = "/feedlist", method = RequestMethod.GET)
 	public ModelAndView feedlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<FeedVO> feedList = boardDAO.showAllFeed(new BoardVO());
+		List<FeedVO> feedList = feedDAO.showAllFeed(new BoardVO());
 		mav.addObject("feedList", feedList);
 		return mav;
 	}
-
 	// 피드 가져오기
 	@Override
-	@RequestMapping(value = "/feed/share", method = RequestMethod.GET)
+	@RequestMapping(value = "/feed/newest", method = RequestMethod.GET)
 	public ResponseEntity<List<FeedVO>> showAllFeed(
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<FeedVO> feedList;
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
-			feedList = boardDAO.showAllFeed(boardFilter);
+			feedList = feedDAO.showAllFeed(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
@@ -66,7 +72,24 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
-	
+	// 팔로우 피드 가져오기
+	@Override
+	@RequestMapping(value = "/feed/following/{userID}", method = RequestMethod.GET)
+	public ResponseEntity<List<FeedVO>> showFollowFeed(@PathVariable("userID") String userID,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
+		List<FeedVO> feedList;
+		try {
+			BoardVO boardFilter = genPageFilter(page, pageSize);
+			boardFilter.setUserID(userID);
+			feedList = feedDAO.showFollowFeed(boardFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
+	}
 	// 피드 하나 가져오기
 	@Override
 	@RequestMapping(value = "/feed/{boardNo}", method = RequestMethod.GET)
@@ -77,7 +100,7 @@ public class SocialControllerImpl implements SocialController {
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
-			feed = boardDAO.showOneFeed(boardFilter);
+			feed = feedDAO.showOneFeed(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<FeedVO>(new FeedVO(),
@@ -85,6 +108,7 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<FeedVO>(feed, HttpStatus.OK);
 	}	
+
 	
 
 	// 해당 게시물 코멘트 가져오기
@@ -97,7 +121,7 @@ public class SocialControllerImpl implements SocialController {
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
-			commentList = boardDAO.showCommentInBoard(boardFilter);
+			commentList = feedDAO.showCommentInBoard(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<CommentFeedVO>>(Collections.<CommentFeedVO>emptyList(),
@@ -106,6 +130,67 @@ public class SocialControllerImpl implements SocialController {
 		return new ResponseEntity<List<CommentFeedVO>>(commentList, HttpStatus.OK);
 	}
 
+	
+	/* 팔로우 */
+	// 모든 팔로우 리스트 조회. 웹 관리용.
+	@Override
+	@RequestMapping(value = "/followlist", method = RequestMethod.GET)
+	public ModelAndView followlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView(getViewName(request));
+		List<FollowVO> followList = crudDAO.selectFollow(new FollowVO());
+		mav.addObject("followList", followList);
+		return mav;
+	}
+	//팔로우 검색
+	@Override
+	@RequestMapping(value = "/follow/search", method = RequestMethod.GET)
+	public ResponseEntity<List<FollowVO>> searchFollow(@RequestBody FollowVO followFilter) throws Exception {
+		List<FollowVO> followList;
+		try {
+			followList = crudDAO.selectFollow(followFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<FollowVO>>(Collections.<FollowVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<FollowVO>>(followList, HttpStatus.OK);
+	}
+	
+	//팔로우 상태 변경
+	@Override
+	@RequestMapping(value = "/follow/execute", method = RequestMethod.POST)
+	public ResponseEntity<String> revertFollow(@RequestBody FollowVO followInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 FollowVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+
+		String answer = null;
+		
+		//팔로우 여부 체크
+		List<FollowVO> existFollow = crudDAO.selectFollow(followInfo);
+		
+		if(existFollow.size() == 0) { //팔로우 되어 있지 않으면
+			try {
+				answer = crudDAO.addFollow(followInfo); //팔로우 추가
+			} catch (Exception e) {
+				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+			if("ok".equals(answer)) { //성공시
+				return new ResponseEntity<String>("following", HttpStatus.OK); //팔로우중 상태 메시지 보냄
+			}
+		}
+		else { //팔로우된 상태면
+			try {
+				answer = crudDAO.deleteFollow(followInfo); //팔로우 삭제
+			} catch (Exception e) {
+				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+			if("ok".equals(answer)) { //성공시
+				return new ResponseEntity<String>("not_following", HttpStatus.OK); //팔로우하고있지않음 상태 메시지 보냄
+			}
+		}
+		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
 	private String getViewName(HttpServletRequest request) throws Exception {
 		// 요청명 구하는 함수. 첫번째 요청명까지 포함. /user/join.do면 -> user/join만 추출
 

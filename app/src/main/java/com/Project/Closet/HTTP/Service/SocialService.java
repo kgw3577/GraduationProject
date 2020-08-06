@@ -45,7 +45,7 @@ public class SocialService extends APIAdapter {
         // 최신순 피드 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("social/feed/share")
+        @GET("social/feed/newest")
         Call<List<FeedVO>> showAllFeed(@Query("page") String page, @Query("pageSize") String pageSize);
 
         // 피드 한 개 받아오기
