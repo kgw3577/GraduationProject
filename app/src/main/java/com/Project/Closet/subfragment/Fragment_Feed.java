@@ -1,4 +1,4 @@
-package com.Project.Closet.fragment;
+package com.Project.Closet.subfragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -53,6 +53,8 @@ public class Fragment_Feed extends Fragment {
     //리사이클러뷰 어댑터
     FeedListAdapter feedListAdapter;
     Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
+
+    String userID = "a"; //수정해야 함
 
     public static Fragment_Feed newInstance(String identifier, String size) {
 
@@ -187,20 +189,20 @@ public class Fragment_Feed extends Fragment {
         protected List<FeedVO> doInBackground(String... params) {
 
             if(identifier==null)
-                feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
+                feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
             else{
                 switch(identifier){
-                    case "best" : //인기 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
-                        break;
                     case "following" : //팔로잉 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showFollowingFeed(userID, params[0], pagesize);
+                        break;
+                    case "best" : //인기 피드
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
                         break;
                     case "newest" : //최신 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
                         break;
                     default : //해당 유저 게시글 조회 -> 해당하는 case가 없을 경우 identifier가 userID임.
-                        feedListCall = SocialService.getRetrofit(getActivity()).showAllFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
                         break;
                 }
             }

@@ -1,38 +1,6 @@
-package com.Project.Closet.fragment;
+package com.Project.Closet.subfragment;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.VO.ClothesVO;
-import com.Project.Closet.R;
-import com.Project.Closet.util.ClothesListAdapter;
-import com.bumptech.glide.Glide;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ExecutionException;
-
-import retrofit2.Call;
 
 //수정해야 함. cardview_codi_info 포함해서 codi_main 액티비티에 선언된 모든 변수들
 //layout_codi에서 카드뷰 코디로 바꿔야 함

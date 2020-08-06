@@ -188,18 +188,53 @@ insert into FOLLOW values ('a','q',null);
 
 select * from FOLLOW;
 
--- 팔로우 피드 쿼리 만들기
- SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+-- 팔로우 피드 쿼리 만들기 (내 게시글 포함)
+SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
- FROM `USER` U, `BOARD` B
- WHERE U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = 'a') AND B.userID = U.userID
- ORDER BY regDate DESC;
+ 		FROM `USER` U, `BOARD` B
+ 		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = 'a') OR U.userID = 'a')
+				AND B.userID = U.userID
+ 		ORDER BY regDate DESC;
 
 
+-- 유저 스페이스 쿼리 만들기
+-- x의 스페이스를 a가 보는 상황.
+SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
+              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
+              IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 팔로잉 여부
+              (SELECT userID from `USER` where `USER`.userID = following_friends.followerID) followig_friendsID, -- x를 팔로우하는 친구의 ID
+              (SELECT nickname from `USER` where `USER`.userID = following_friends.followerID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = following_friends.followerID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
+ 		FROM `USER` U,
+        (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = "x" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a" ORDER BY FOLLOW.regDate DESC ) as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following_friends    -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+ 		WHERE U.userID = "x";
 
+ -- 내가 팔로우한 사람이면서 x를 팔로우한 사람
+SELECT followerID, regDate FROM FOLLOW 
+				  where FOLLOW.followedID = "x" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a" ORDER BY FOLLOW.regDate DESC) as tmp
+									)
+				)
+                ORDER BY regDate DESC;
 
+SELECT * from FOLLOW where followerID = 'a' ORDER BY regDate DESC;
 
 -- USER Table Create SQL
 CREATE TABLE RELATION_CLO_CODI

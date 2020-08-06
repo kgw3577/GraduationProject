@@ -1,14 +1,10 @@
 package com.Project.Closet.closet;
 
-import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.Project.Closet.R;
-import com.Project.Closet.fragment.TabFragment_Clothes_inCloset;
+import com.Project.Closet.subfragment.TabFragment_Clothes_inCloset;
 
 public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
 

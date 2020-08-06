@@ -28,6 +28,7 @@
 				and regDate = #{regDate}
 			</if>
 		</where>
+		ORDER BY followerID ASC, regDate DESC;
 	</select>
 	<!-- 팔로우 추가 쿼리 -->
 	<insert id="insertFollow" parameterType="followVO">

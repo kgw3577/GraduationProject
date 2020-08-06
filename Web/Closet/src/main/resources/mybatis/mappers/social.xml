@@ -28,6 +28,21 @@
 		<result property="contents" column="contents" />
 		<result property="regDate" column="regDate" />
 	</resultMap>
+	
+	<!--반환 레코드를 config에서 지정한 =VO 빈에 저장 -->
+	<resultMap id="userspaceResult" type="userspaceVO">
+		<result property="userID" column="userID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="nickname" column="nickname" />
+		<result property="pfImagePath" column="pfImagePath" />
+		<result property="pfContents" column="pfContents" />
+		<result property="numBoard" column="numBoard" />
+		<result property="numFollower" column="numFollower" />
+		<result property="numFollowing" column="numFollowing" />
+		<result property="if_following" column="if_following" />
+		<result property="followig_friendsID" column="followig_friendsID" />
+		<result property="followig_friendsName" column="followig_friendsName" />
+		<result property="followig_friendsImgPath" column="followig_friendsImgPath" />
+	</resultMap>
 
 	
 	
@@ -52,12 +67,12 @@
 	<!-- 팔로우 피드 타입 조회 쿼리 -->
 	<select id="showFollowFeed" resultMap="feedResult" parameterType="boardVO">
 	<![CDATA[
-		 SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
  		FROM `USER` U, `BOARD` B
- 		WHERE U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{userID}) 
+ 		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{userID}) OR U.userID = #{userID})
 				AND B.userID = U.userID
  		ORDER BY regDate DESC
 	]]>
@@ -94,10 +109,32 @@
 	
 	</select>
 	
-	
-	
-	
-	
+	<!--유저 스페이스 쿼리-->
+	<select id="showUserSpace" resultMap="userspaceResult" parameterType="followVO">
+	<![CDATA[
+		SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
+              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
+              IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = #{followerID} AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 팔로잉 여부
+              (SELECT userID from `USER` where `USER`.userID = following_friends.followerID) followig_friendsID, -- x를 팔로우하는 친구의 ID
+              (SELECT nickname from `USER` where `USER`.userID = following_friends.followerID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = following_friends.followerID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
+ 		FROM `USER` U,
+        (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = #{followedID} AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = #{followerID}) as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following_friends    -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+ 		WHERE U.userID = #{followedID};
+	]]>
+	</select>
 	
 	
 	

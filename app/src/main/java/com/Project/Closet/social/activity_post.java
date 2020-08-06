@@ -1,6 +1,5 @@
 package com.Project.Closet.social;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,13 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
-import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.PostCommentAdapter;
 import com.Project.Closet.R;
-import com.Project.Closet.fragment.Fragment_Feed;
-import com.Project.Closet.post_comment;
-import com.Project.Closet.util.CommentListAdapter;
-import com.Project.Closet.util.FeedListAdapter;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
 
@@ -32,7 +26,6 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 

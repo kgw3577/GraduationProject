@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
+import com.my.closet.social.vo.UserspaceVO;
 
 
 public interface SocialController {
@@ -33,6 +34,8 @@ public interface SocialController {
 	public ModelAndView followlist(HttpServletRequest request, HttpServletResponse response) throws Exception; // 모든 팔로우 리스트 조회. 웹 관리용.
 	public ResponseEntity<List<FollowVO>> searchFollow(@RequestBody FollowVO followFilter) throws Exception; //팔로우 검색
 	public ResponseEntity<String> revertFollow(@RequestBody FollowVO followInfo) throws Exception; //팔로우 상태 변경
-		
+	
+	/*유저스페이스*/
+	public ResponseEntity<UserspaceVO> showUserspace(String userID, String myID) throws Exception;
 		
 }

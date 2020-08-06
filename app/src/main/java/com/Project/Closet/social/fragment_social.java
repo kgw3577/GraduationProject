@@ -42,7 +42,7 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     Activity activity;
 
     private TabLayout tabLayout;
-    public TabPagerAdapter_share pagerAdapter;
+    public TabPagerAdapter_social pagerAdapter;
     private ViewPager finalPager;
 
     RelativeLayout filterButton;
@@ -139,15 +139,15 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
         if(tabLayout == null){
             //탭 목록 설정
             tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
-            tabLayout.addTab(tabLayout.newTab().setText("인기"));
             tabLayout.addTab(tabLayout.newTab().setText("팔로잉"));
+            tabLayout.addTab(tabLayout.newTab().setText("인기"));
             tabLayout.addTab(tabLayout.newTab().setText("최신"));
 
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
-            pagerAdapter = new TabPagerAdapter_share(getChildFragmentManager(), tabLayout.getTabCount());
+            pagerAdapter = new TabPagerAdapter_social(getChildFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

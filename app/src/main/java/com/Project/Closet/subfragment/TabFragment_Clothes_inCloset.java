@@ -1,4 +1,4 @@
-package com.Project.Closet.fragment;
+package com.Project.Closet.subfragment;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,12 +16,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Project.Closet.closet.fragment_closet;
+import com.Project.Closet.util.ClothesListAdapter;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.home.fragment_home;
-import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class TabFragment_Clothes_inHome extends Fragment {
+public class   TabFragment_Clothes_inCloset extends Fragment {
 
-    fragment_home parentFragment;
+    fragment_closet parentFragment;
 
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
@@ -56,13 +56,13 @@ public class TabFragment_Clothes_inHome extends Fragment {
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
 
 
-    public static TabFragment_Clothes_inHome newInstance(String identifier, String size) {
+    public static TabFragment_Clothes_inCloset newInstance(String identifier, String size) {
 
         Bundle args = new Bundle();
         args.putString("identifier", identifier);  // 키값, 데이터
         args.putString("size", size);
 
-        TabFragment_Clothes_inHome fragment = new TabFragment_Clothes_inHome();
+        TabFragment_Clothes_inCloset fragment = new TabFragment_Clothes_inCloset();
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +72,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parentFragment = ((fragment_home)getParentFragment());
+        parentFragment = ((fragment_closet)getParentFragment());
 
 
         Bundle args = getArguments(); // 데이터 받기

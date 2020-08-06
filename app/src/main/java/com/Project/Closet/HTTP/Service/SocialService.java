@@ -7,6 +7,9 @@ import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
+import com.Project.Closet.HTTP.VO.FollowVO;
+import com.Project.Closet.HTTP.VO.UserVO;
+import com.Project.Closet.HTTP.VO.UserspaceVO;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -42,21 +45,38 @@ public class SocialService extends APIAdapter {
     }
     public interface SocialAPI{
 
+        /*피드*/
         // 최신순 피드 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("social/feed/newest")
-        Call<List<FeedVO>> showAllFeed(@Query("page") String page, @Query("pageSize") String pageSize);
-
+        Call<List<FeedVO>> showNewestFeed(@Query("page") String page, @Query("pageSize") String pageSize);
+        // 팔로우 피드 받아오기
+        @GET("social/feed/following/{userID}")
+        Call<List<FeedVO>> showFollowingFeed(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
         // 피드 한 개 받아오기
         @GET("social/feed/{boardNo}")
         Call<FeedVO> selectOneFeed(@Path("boardNo") String boardNo);
 
-        //내 게시글 리스트 받아오기
+        //해당 게시물 코멘트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("social/comment/{boardNo}")
         Call<List<CommentFeedVO>> showCommentInBoard(@Path("boardNo") String boardNo, @Query("page") String page, @Query("pageSize") String pageSize);
+
+        /*팔로우*/
+        //팔로우 검색
+        @Headers("Content-Type: application/json")
+        @GET("social/follow/search")
+        Call<List<FollowVO>> searchFollow(@Body FollowVO followFilter);
+        //팔로우 실행(revert)
+        @Headers("Content-Type: application/json")
+        @POST("social/follow/execute")
+        Call<String> executeFollow(@Body FollowVO followInfo); //응답 : following, not_following (현재 상태), fail(실패)
+
+        /*유저스페이스*/
+        @GET("social/space/{userID}")
+        Call<UserspaceVO> showUserSpace(@Path("userID") String userID, @Query("myID") String myID);
 
     }
 }

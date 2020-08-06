@@ -30,16 +30,13 @@
 	<table align="center" border="1">
 		<tr align='center' bgcolor='lightgreen'>
 			<td width="7%"><b>번호</b></td>
-			<td width="7%"><b>타입</b></td>
 			<td width="7%"><b>작성자</b></td>
 			<td width="7%"><b>이미지</b></td>
 			<td width="7%"><b>파일이름</b></td>
 			<td width="7%"><b>파일경로</b></td>
-			<td width="7%"><b>제목</b></td>
 			<td width="7%"><b>내용</b></td>
 			<td width="7%"><b>작성 날짜</b></td>
-			<td width="7%"><b>하트 개수</b></td>
-			<td width="7%"><b>옷 정보</b></td>
+			<td width="7%"><b>게시글 정보</b></td>
 			<td width="7%"><b>삭제하기</b></td>
 		</tr>
 
@@ -53,15 +50,12 @@
 				<c:forEach var="board" items="${boardList}"> <!-- 컨트롤러에서 바인딩한 boardthesList에 바로 접근 -->
 					<tr align='center'>
 						<td>${board.boardNo}</td>
-						<td>${board.boardType}</td>
 						<td>${board.userID}</td>
 						<td><img src="${contextPath}${board.filePath}" style="width:150px"></td>
 						<td>${board.fileName}</td>
 						<td>${board.filePath}</td>
-						<td>${board.subject}</td>
 						<td>${board.contents}</td>
 						<td>${board.regDate}</td>
-						<td>${board.numHeart}</td>
 						<td><a href="${contextPath}/board/info/${board.boardNo}">게시글 정보 보기</a></td>
 						<td>
 						<form method="post" action="/board/delete/${board.boardNo}">

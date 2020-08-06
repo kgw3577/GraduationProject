@@ -27,10 +27,11 @@ import com.my.closet.board.dao.BoardDAO;
 import com.my.closet.board.service.BoardService;
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.dao.CrudDAO;
-import com.my.closet.social.dao.FeedDAO;
+import com.my.closet.social.dao.SocialDAO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
+import com.my.closet.social.vo.UserspaceVO;
 import com.my.closet.user.vo.UserVO;
 
 @RestController("socialController")
@@ -41,7 +42,7 @@ public class SocialControllerImpl implements SocialController {
 	private static final Logger logger = LoggerFactory.getLogger(SocialControllerImpl.class);
 
 	@Autowired
-	private FeedDAO feedDAO;
+	private SocialDAO socialDAO;
 	@Autowired
 	private CrudDAO crudDAO;
 
@@ -51,7 +52,7 @@ public class SocialControllerImpl implements SocialController {
 	@RequestMapping(value = "/feedlist", method = RequestMethod.GET)
 	public ModelAndView feedlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<FeedVO> feedList = feedDAO.showAllFeed(new BoardVO());
+		List<FeedVO> feedList = socialDAO.showAllFeed(new BoardVO());
 		mav.addObject("feedList", feedList);
 		return mav;
 	}
@@ -64,7 +65,7 @@ public class SocialControllerImpl implements SocialController {
 		List<FeedVO> feedList;
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
-			feedList = feedDAO.showAllFeed(boardFilter);
+			feedList = socialDAO.showAllFeed(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
@@ -82,7 +83,7 @@ public class SocialControllerImpl implements SocialController {
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setUserID(userID);
-			feedList = feedDAO.showFollowFeed(boardFilter);
+			feedList = socialDAO.showFollowFeed(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
@@ -100,7 +101,7 @@ public class SocialControllerImpl implements SocialController {
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
-			feed = feedDAO.showOneFeed(boardFilter);
+			feed = socialDAO.showOneFeed(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<FeedVO>(new FeedVO(),
@@ -121,7 +122,7 @@ public class SocialControllerImpl implements SocialController {
 		try {
 			BoardVO boardFilter = genPageFilter(page, pageSize);
 			boardFilter.setBoardNo(Integer.parseInt(boardNo));
-			commentList = feedDAO.showCommentInBoard(boardFilter);
+			commentList = socialDAO.showCommentInBoard(boardFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<CommentFeedVO>>(Collections.<CommentFeedVO>emptyList(),
@@ -189,6 +190,25 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 	}
+	
+	/*유저스페이스*/
+	@Override
+	@RequestMapping(value = "/space/{userID}", method = RequestMethod.GET)
+	public ResponseEntity<UserspaceVO> showUserspace(@PathVariable("userID") String userID, @RequestParam("myID") String myID) throws Exception {
+		UserspaceVO userspaceInfo;
+		try {
+			FollowVO interUserFilter = new FollowVO();
+			interUserFilter.setFollowerID(myID);
+			interUserFilter.setFollowedID(userID);
+			userspaceInfo = socialDAO.showUserSpace(interUserFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<UserspaceVO>(new UserspaceVO(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<UserspaceVO>(userspaceInfo, HttpStatus.OK);
+	}
+	
 	
 	
 	private String getViewName(HttpServletRequest request) throws Exception {

@@ -4,13 +4,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.Project.Closet.fragment.Fragment_Feed;
+import com.Project.Closet.subfragment.Fragment_Feed;
 
-public class TabPagerAdapter_share extends FragmentStatePagerAdapter {
+public class TabPagerAdapter_social extends FragmentStatePagerAdapter {
     // Count number of tabs
     private int tabCount;
 
-    public TabPagerAdapter_share(FragmentManager fm, int tabCount) {
+    public TabPagerAdapter_social(FragmentManager fm, int tabCount) {
         super(fm);
         this.tabCount = tabCount;
     }
@@ -22,11 +22,11 @@ public class TabPagerAdapter_share extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return Fragment_Feed.newInstance("share","xLarge");
+                return Fragment_Feed.newInstance("following","xLarge");
             case 1:
-                return Fragment_Feed.newInstance("share","xLarge");
+                return Fragment_Feed.newInstance("best","xLarge");
             case 2:
-                return Fragment_Feed.newInstance("share","xLarge");
+                return Fragment_Feed.newInstance("newest","xLarge");
             default:
                 return null;
         }

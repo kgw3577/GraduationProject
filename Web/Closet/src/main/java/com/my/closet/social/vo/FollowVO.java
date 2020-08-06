@@ -6,6 +6,11 @@ import org.springframework.stereotype.Component;
 public class FollowVO {
 
 	private String followerID, followedID, regDate;
+	
+	//생성자
+	public FollowVO() {
+		System.out.println("FollowVO 생성자 호출");
+	}	
 
 	public String getFollowerID() {
 		return followerID;

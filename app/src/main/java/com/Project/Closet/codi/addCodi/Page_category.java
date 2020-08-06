@@ -18,12 +18,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.fragment_closet;
-import com.Project.Closet.fragment.TabFragment_Clothes_inCloset;
 import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;

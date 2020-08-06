@@ -12,9 +12,11 @@ import org.springframework.stereotype.Repository;
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
+import com.my.closet.social.vo.FollowVO;
+import com.my.closet.social.vo.UserspaceVO;
 
-@Repository("feedDAO")
-public class FeedDAOImpl implements FeedDAO {
+@Repository("socialDAO")
+public class SocialDAOImpl implements SocialDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
@@ -41,6 +43,13 @@ public class FeedDAOImpl implements FeedDAO {
 	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException {
 		List<CommentFeedVO> commentList = sqlSession.selectList("mapper.social.showCommentInBoard",boardFilter);
 		return commentList;
+	}
+	
+	
+	@Override
+	public UserspaceVO showUserSpace(FollowVO followFilter) throws DataAccessException {
+		UserspaceVO userspaceInfo = sqlSession.selectOne("mapper.social.showUserSpace",followFilter);
+		return userspaceInfo;
 	}
 
 }
