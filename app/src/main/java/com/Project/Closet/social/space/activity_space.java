@@ -1,0 +1,215 @@
+package com.Project.Closet.social.space;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.SlidingDrawer;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.Project.Closet.R;
+import com.Project.Closet.home.activity_home;
+import com.Project.Closet.social.TabPagerAdapter_social;
+import com.Project.Closet.social.activity_addBoard;
+import com.Project.Closet.util.OnBackPressedListener;
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import static android.app.Activity.RESULT_OK;
+
+public class activity_space extends AppCompatActivity implements OnBackPressedListener {
+
+    ViewGroup viewGroup;
+    Toast toast;
+    long backKeyPressedTime;
+
+    int ADD_BOARD = 8080;
+
+
+    Activity activity;
+
+    private TabLayout tabLayout;
+    public TabPagerAdapter_social pagerAdapter;
+    private ViewPager finalPager;
+
+    RelativeLayout filterButton;
+    RelativeLayout addButton;
+
+    DrawerLayout drawer;
+    SlidingDrawer slidingDrawer;
+    LinearLayout drawer_content;
+
+    TextView tv_add_image;
+    TextView tv_from_closet;
+    TextView tv_from_codi;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.layout_space);
+        toast = Toast.makeText(getApplicationContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
+
+        drawer = findViewById(R.id.final_drawer_layout);
+        slidingDrawer = findViewById(R.id.sliding_drawer);
+        drawer_content = findViewById(R.id.drawer_content);
+
+        tv_add_image = findViewById(R.id.tv_add_image);
+        tv_from_closet= findViewById(R.id.tv_from_closet);
+        tv_from_codi= findViewById(R.id.tv_from_codi);
+
+
+
+        BtnOnClickListener onClickListener = new BtnOnClickListener();
+        addButton.setOnClickListener(onClickListener);
+        tv_add_image.setOnClickListener(onClickListener);
+        tv_from_closet.setOnClickListener(onClickListener);
+        tv_from_codi.setOnClickListener(onClickListener);
+        drawer_content.setOnClickListener(onClickListener);
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
+
+
+        //필터 버튼 클릭하면 드로워 열고 닫기
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(GravityCompat.START);
+                }
+            }
+        });
+
+        //필터(메뉴) 아이템 선택
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.menuitem1:
+                        Toast.makeText(activity_space.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
+                    case R.id.menuitem2:
+                        Toast.makeText(activity_space.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
+                    case R.id.menuitem3:
+                        Toast.makeText(activity_space.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
+                }
+
+                DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
+                //drawer.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        if(tabLayout == null){
+            //탭 목록 설정
+            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("팔로잉"));
+            tabLayout.addTab(tabLayout.newTab().setText("인기"));
+            tabLayout.addTab(tabLayout.newTab().setText("최신"));
+
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+            //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
+            finalPager = (ViewPager) findViewById(R.id.tab_Pager);
+            pagerAdapter = new TabPagerAdapter_social(getSupportFragmentManager(), tabLayout.getTabCount());
+            finalPager.setAdapter(pagerAdapter);
+            finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    finalPager.setCurrentItem(tab.getPosition());
+                }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //activity.setOnBackPressedListener(this);
+    }
+
+    //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (slidingDrawer.isOpened()) {
+            slidingDrawer.close();
+        }
+        else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            toast.show();
+            return;
+        } else if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
+            activity.finish();
+            toast.cancel();
+        }
+
+    }
+
+    //클릭 리스너
+    class BtnOnClickListener implements Button.OnClickListener {
+        String res="";
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.header_add : //헤더- 추가 버튼
+                    slidingDrawer.open();
+                    break;
+                case R.id.tv_add_image :
+                    Intent intent = new Intent(activity_space.this, activity_addBoard.class);
+                    startActivityForResult(intent,ADD_BOARD);
+                    break;
+                case R.id.tv_from_closet :
+                    break;
+                case R.id.tv_from_codi :
+                    break;
+                case R.id.drawer_content :
+                    slidingDrawer.close();
+                    break;
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == ADD_BOARD && resultCode == RESULT_OK)
+            ((activity_home)activity).refresh_share();
+    }
+
+
+}

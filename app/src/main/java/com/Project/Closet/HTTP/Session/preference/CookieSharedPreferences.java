@@ -19,6 +19,8 @@ public class CookieSharedPreferences {
      */
     public static final String COOKIE_SHARED_PREFERENCES_KEY = "com.project.closet.cookie";
 
+    public static final String KEY_USER_ID = "userID";
+
     // 싱글톤 모델로 객체 초기화
     private static CookieSharedPreferences cookieSharedPreferences = null;
 
@@ -68,4 +70,40 @@ public class CookieSharedPreferences {
             return cookie;
         }
     }
+
+
+
+
+    public void putString(String key, String value){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, value);
+        editor.commit();
+    }
+
+    /**
+     * SharedPreferences에서 값을 가져오는 메소드
+     *
+     * @param key
+     * @param default_value
+     * @return
+     */
+    public String getString(String key, String default_value){
+        try {
+            return sharedPreferences.getString(key, default_value);
+        } catch (Exception e) {
+            return default_value;
+        }
+    }
+
+
+    public void setUserID(String userID){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_USER_ID, userID);
+        editor.commit();
+    }
+
+    public String getUserID(){
+        return sharedPreferences.getString(KEY_USER_ID,"");
+    }
+
 }

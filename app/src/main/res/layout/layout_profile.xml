@@ -152,7 +152,27 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:text="010-1234-5678"/>
+
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="25dp"
+            android:orientation="horizontal"
+            android:paddingLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt_logout"
+                android:textStyle="bold"
+
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="로그아웃"/>
+
+        </LinearLayout>
+
 <!--        <LinearLayout
             android:layout_marginTop="25dp"
             android:orientation="horizontal"

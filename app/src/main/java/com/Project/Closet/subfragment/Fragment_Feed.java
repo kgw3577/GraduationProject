@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
+import com.Project.Closet.HTTP.Session.preference.CookieSharedPreferences;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.activity_post;
@@ -54,7 +56,8 @@ public class Fragment_Feed extends Fragment {
     FeedListAdapter feedListAdapter;
     Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
-    String userID = "a"; //수정해야 함
+    MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
+    String userID = pref.getUserID();
 
     public static Fragment_Feed newInstance(String identifier, String size) {
 
