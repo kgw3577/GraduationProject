@@ -1,18 +1,23 @@
-package com.Project.Closet.util;
+package com.Project.Closet.social.subfragment;
 
 import android.content.Context;
-import android.util.Log;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
+import com.Project.Closet.social.activity_post;
+import com.Project.Closet.social.space.activity_space;
+import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
 
 import java.sql.Timestamp;
@@ -22,7 +27,7 @@ import java.util.ArrayList;
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
 //뷰 홀더 : 아이템 뷰를 저장하는 객체
 //아이템 뷰 : 각각의 카드뷰 한 개
-public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHolder> {
+public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapter.ViewHolder> {
 
     ArrayList<FeedVO> feedList; // 피드 리스트
 
@@ -39,26 +44,26 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
     }
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public FeedListAdapter(ArrayList<FeedVO> items) {
+    public FeedRecyclerAdapter(ArrayList<FeedVO> items) {
         this.feedList=items;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
     @Override
-    public FeedListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FeedRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext() ;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
         View view = inflater.inflate(R.layout.item_cardview_share, parent, false) ;
-        FeedListAdapter.ViewHolder vh = new FeedListAdapter.ViewHolder(view);
+        FeedRecyclerAdapter.ViewHolder vh = new FeedRecyclerAdapter.ViewHolder(view);
 
         return vh;
     }
 
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
-    public void onBindViewHolder(FeedListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(FeedRecyclerAdapter.ViewHolder holder, int position) {
         final FeedVO feedMap = feedList.get(position);
 
         //작성 시간 포매팅
@@ -111,19 +116,55 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             iv_addToCloset = itemView.findViewById(R.id.iv_addToCloset);
 
             //아이템 클릭 이벤트 처리
-            itemView.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener onClickListener = new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition() ;
                     if (pos != RecyclerView.NO_POSITION) {
                         // TODO : use pos.
+                        Intent intent;
+                        Context context = v.getContext();
+                        FeedVO feed = feedList.get(pos);
+
+                        switch (v.getId()) {
+                            case R.id.profile_area :
+                                intent = new Intent(context, activity_space.class);
+                                assert feed != null;
+                                intent.putExtra("targetID", feed.getWriterID());
+                                context.startActivity(intent);
+                                break;
+                            default :
+
+                                intent = new Intent(context, activity_post.class);
+
+                                assert feed != null;
+                                intent.putExtra("writerID", feed.getWriterID());
+                                intent.putExtra("writerName", feed.getWriterName());
+                                intent.putExtra("pfImagePath", feed.getPfImagePath());
+                                intent.putExtra("contents", feed.getContents());
+                                intent.putExtra("regDate", feed.getRegDate());
+                                intent.putExtra("numHeart", feed.getNumHeart());
+                                intent.putExtra("numComment", feed.getNumComment());
+                                intent.putExtra("boardNo", feed.getBoardNo());
+
+                                context.startActivity(intent);
+                        }
+
+
                         if(mListener!=null) {
-                            mListener.onItemClick(v,pos);
+                            //mListener.onItemClick(v,pos);
                         }
                     }
                 }
-            });
+            };
+
+            CardView feed_card = itemView.findViewById(R.id.feed_card);
+            LinearLayout profile_area = itemView.findViewById(R.id.profile_area);
+
+            feed_card.setOnClickListener(onClickListener);
+            profile_area.setOnClickListener(onClickListener);
+
         }
     }
 }

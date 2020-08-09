@@ -73,6 +73,7 @@ public class activity_addBoard extends AppCompatActivity {
         final ImageView edit_iv = (ImageView) findViewById(R.id.add_image);
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
+                .setMaxCropResultSize()
                 .start(activity_addBoard.this);
     }
 

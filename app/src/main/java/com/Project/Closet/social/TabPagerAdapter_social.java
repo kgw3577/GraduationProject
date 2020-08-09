@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.Project.Closet.subfragment.Fragment_Feed;
+import com.Project.Closet.social.subfragment.Fragment_Feed;
 
 public class TabPagerAdapter_social extends FragmentStatePagerAdapter {
     // Count number of tabs

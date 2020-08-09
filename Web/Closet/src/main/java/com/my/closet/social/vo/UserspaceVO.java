@@ -4,9 +4,8 @@ import org.springframework.stereotype.Component;
 @Component("userspaceVO")
 public class UserspaceVO {
 
-	private String userID, nickname, pfImagePath, pfContents, if_following, followig_friendsID, followig_friendsName, followig_friendsImgPath;
+	private String userID, nickname, pfImagePath, pfContents, if_following, following_friendsID, following_friendsName, following_friendsImgPath;
 	private int numBoard, numFollower, numFollowing;
-	
 	
 	//생성자
 	public UserspaceVO() {
@@ -65,33 +64,35 @@ public class UserspaceVO {
 	}
 
 
-	public String getFollowig_friendsID() {
-		return followig_friendsID;
+
+
+	public String getFollowing_friendsID() {
+		return following_friendsID;
 	}
 
 
-	public void setFollowig_friendsID(String followig_friendsID) {
-		this.followig_friendsID = followig_friendsID;
+	public void setFollowing_friendsID(String following_friendsID) {
+		this.following_friendsID = following_friendsID;
 	}
 
 
-	public String getFollowig_friendsName() {
-		return followig_friendsName;
+	public String getFollowing_friendsName() {
+		return following_friendsName;
 	}
 
 
-	public void setFollowig_friendsName(String followig_friendsName) {
-		this.followig_friendsName = followig_friendsName;
+	public void setFollowing_friendsName(String following_friendsName) {
+		this.following_friendsName = following_friendsName;
 	}
 
 
-	public String getFollowig_friendsImgPath() {
-		return followig_friendsImgPath;
+	public String getFollowing_friendsImgPath() {
+		return following_friendsImgPath;
 	}
 
 
-	public void setFollowig_friendsImgPath(String followig_friendsImgPath) {
-		this.followig_friendsImgPath = followig_friendsImgPath;
+	public void setFollowing_friendsImgPath(String following_friendsImgPath) {
+		this.following_friendsImgPath = following_friendsImgPath;
 	}
 
 

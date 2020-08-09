@@ -16,4 +16,8 @@ public class Global {
         }
         return instance;
     }
+
+    public static String getOriginalPath(String imgPath){
+        return baseURL+imgPath;
+    }
 }

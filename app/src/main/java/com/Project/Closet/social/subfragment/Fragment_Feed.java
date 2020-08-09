@@ -1,6 +1,5 @@
-package com.Project.Closet.subfragment;
+package com.Project.Closet.social.subfragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,18 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
-import com.Project.Closet.HTTP.Session.preference.CookieSharedPreferences;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
-import com.Project.Closet.social.activity_post;
 import com.Project.Closet.social.fragment_social;
-import com.Project.Closet.util.FeedListAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
@@ -53,7 +48,7 @@ public class Fragment_Feed extends Fragment {
     ArrayList<FeedVO> feedList = new ArrayList();
     
     //리사이클러뷰 어댑터
-    FeedListAdapter feedListAdapter;
+    FeedRecyclerAdapter feedRecyclerAdapter;
     Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
     MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
@@ -105,35 +100,18 @@ public class Fragment_Feed extends Fragment {
 
 
         //리사이클러뷰 어댑터 초기화
-        feedListAdapter = new FeedListAdapter(feedList);
+        feedRecyclerAdapter = new FeedRecyclerAdapter(feedList);
 
-        feedListAdapter.setOnItemClickListener(new FeedListAdapter.OnItemClickListener() {
+        feedRecyclerAdapter.setOnItemClickListener(new FeedRecyclerAdapter.OnItemClickListener() {
 
         @Override
-        public void onItemClick(View v, int pos) {
-
-            FeedVO feed = null;
-            try {
-                feed = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(feedList.get(pos).getBoardNo())).get();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Intent intent = new Intent(getContext(), activity_post.class);
-
-            assert feed != null;
-            intent.putExtra("writerID", feed.getWriterID());
-            intent.putExtra("writerName", feed.getWriterName());
-            intent.putExtra("pfImagePath", feed.getPfImagePath());
-            intent.putExtra("contents", feed.getContents());
-            intent.putExtra("regDate", feed.getRegDate());
-            intent.putExtra("numHeart", feed.getNumHeart());
-            intent.putExtra("numComment", feed.getNumComment());
-            intent.putExtra("boardNo", feed.getBoardNo());
-
-            startActivity(intent);
+        public void onItemClick(View itemView, final int pos) {
+            //
         }
+
+
+
+
 
     });
 }
@@ -149,7 +127,7 @@ public class Fragment_Feed extends Fragment {
         View view = inflater.inflate(R.layout.layout_share, container, false);
         rv_post = (RecyclerView) view.findViewById(R.id.post_list);
         rv_post.setLayoutManager(new GridLayoutManager(getContext(), gridsize)); //그리드 사이즈 설정
-        rv_post.setAdapter(feedListAdapter);
+        rv_post.setAdapter(feedRecyclerAdapter);
         rv_post.setNestedScrollingEnabled(true);
 
 
@@ -230,7 +208,7 @@ public class Fragment_Feed extends Fragment {
                     ImageUrlList.add(new String(Global.baseURL+e.getImagePath()));
                     feedList.add(e);
                 }
-                feedListAdapter.notifyDataSetChanged();
+                feedRecyclerAdapter.notifyDataSetChanged();
             }
         }
     }

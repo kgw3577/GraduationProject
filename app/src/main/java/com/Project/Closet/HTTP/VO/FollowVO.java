@@ -3,6 +3,11 @@ package com.Project.Closet.HTTP.VO;
 public class FollowVO {
     private String followerID, followedID, regDate;
 
+    public FollowVO(String followerID, String followedID){
+        this.followerID = followerID;
+        this.followedID = followedID;
+    }
+
     public String getFollowerID() {
         return followerID;
     }
