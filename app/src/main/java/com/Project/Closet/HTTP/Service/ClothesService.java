@@ -50,15 +50,12 @@ public class ClothesService extends APIAdapter {
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("clothes/share")
-        Call<List<ClothesVO>> myAllClothes(@Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<ClothesVO>> myAllClothes(@Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
 
-        //특정 카테고리 목록 가져오기
-        @GET("clothes/search")
-        Call<List<ClothesVO>> chooseCategory(@Query("category") String category, @Query("page") String page, @Query("pageSize") String pageSize);
-
-        //즐겨찾기한 옷 목록 가져오기
-        @GET("clothes/search")
-        Call<List<ClothesVO>> favoriteClothes(@Query("like") String like, @Query("page") String page, @Query("pageSize") String pageSize);
+        //옷 찾기
+        @Headers("Content-Type: application/json")
+        @PUT("clothes/search")
+        Call<List<ClothesVO>> searchClothes(@Body ClothesVO clothesFilter, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
 
         //옷 정보 받아오기
         //cloNo를 파라미터로 받아 API URL을 완성해서 GET 방식으로 요청

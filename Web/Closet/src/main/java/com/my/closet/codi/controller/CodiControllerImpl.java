@@ -59,7 +59,7 @@ public class CodiControllerImpl implements CodiController {
 	//내 코디 전부 조회
 	@Override
 	@RequestMapping(value = "/share", method = RequestMethod.GET)
-	public ResponseEntity<List<CodiVO>> myAllCodi(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
+	public ResponseEntity<List<CodiVO>> myAllCodi(@RequestParam String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception{
 		List<CodiVO> myCodiList;
 		try{
 			CodiVO codiFilter = new CodiVO();
@@ -69,7 +69,7 @@ public class CodiControllerImpl implements CodiController {
 				codiFilter.setPageStart(pageInt*pageSizeInt);
 				codiFilter.setPageSize(pageSizeInt);
 			}
-			myCodiList = codiService.myAllCodi(session, codiFilter);
+			myCodiList = codiService.myAllCodi(userID, codiFilter);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<CodiVO>>(Collections.<CodiVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -93,8 +93,8 @@ public class CodiControllerImpl implements CodiController {
 
 	//코디 찾기
 	@Override
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<CodiVO>> searchCodi(HttpSession session, CodiVO codiFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+	@RequestMapping(value = "/search", method = RequestMethod.PUT)
+	public ResponseEntity<List<CodiVO>> searchCodi(@RequestParam String userID, CodiVO codiFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<CodiVO> searched_codiList;
 		try{
 			if(!page.isEmpty()&&!pageSize.isEmpty()) {
@@ -103,7 +103,7 @@ public class CodiControllerImpl implements CodiController {
 				codiFilter.setPageStart(pageInt*pageSizeInt);
 				codiFilter.setPageSize(pageSizeInt);
 			}
-			searched_codiList = codiService.searchCodi(session, codiFilter);
+			searched_codiList = codiService.searchCodi(userID, codiFilter);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<CodiVO>>(Collections.<CodiVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);

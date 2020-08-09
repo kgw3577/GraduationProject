@@ -68,7 +68,7 @@ public class ClothesControllerImpl implements ClothesController {
 	//내 옷 전부 조회
 	@Override
 	@RequestMapping(value = "/share", method = RequestMethod.GET)
-	public ResponseEntity<List<ClothesVO>> myAllClothes(HttpSession session, @RequestParam String page, @RequestParam String pageSize) throws Exception{
+	public ResponseEntity<List<ClothesVO>> myAllClothes(@RequestParam String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception{
 		List<ClothesVO> myclolist;
 		try{
 			ClothesVO cloVO = new ClothesVO();
@@ -78,7 +78,7 @@ public class ClothesControllerImpl implements ClothesController {
 				cloVO.setPageStart(pageInt*pageSizeInt);
 				cloVO.setPageSize(pageSizeInt);
 			}
-			myclolist = clothesService.myAllClothes(session, cloVO);
+			myclolist = clothesService.myAllClothes(userID, cloVO);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -102,8 +102,8 @@ public class ClothesControllerImpl implements ClothesController {
 
 	//옷 찾기
 	@Override
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public ResponseEntity<List<ClothesVO>> searchClothes(HttpSession session, ClothesVO clothesVO, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+	@RequestMapping(value = "/search", method = RequestMethod.PUT)
+	public ResponseEntity<List<ClothesVO>> searchClothes(@RequestBody ClothesVO clothesVO, @RequestParam String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<ClothesVO> searched_clolist;
 		try{
 			if(!page.isEmpty()&&!pageSize.isEmpty()) {
@@ -112,7 +112,7 @@ public class ClothesControllerImpl implements ClothesController {
 				clothesVO.setPageStart(pageInt*pageSizeInt);
 				clothesVO.setPageSize(pageSizeInt);
 			}
-			searched_clolist = clothesService.searchClothes(session, clothesVO);
+			searched_clolist = clothesService.searchClothes(userID, clothesVO);
 		}catch(Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
@@ -131,7 +131,7 @@ public class ClothesControllerImpl implements ClothesController {
 		
 		String answer = null;
 		try {
-			answer = clothesService.addClothes(multipartRequest);
+			answer = clothesService.winAddClothes(multipartRequest);
 			//윈도우 시험용 : winAddClothes
 		} catch (Exception e) {
 			e.printStackTrace();

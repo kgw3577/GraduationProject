@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.CodiService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.R;
 import com.Project.Closet.util.ClothesListAdapter_large;
@@ -115,24 +116,29 @@ public class TabFragment_Codi_large extends Fragment {
         protected List<CodiVO> doInBackground(String... params) {
 
 
+            String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
+            CodiVO codiFilter = new CodiVO();
 
             switch (identifier){
                 case "share" : //모든 코디 조회
-                    codiListCall = CodiService.getRetrofit(getActivity()).myAllCodi(params[0], "7");
+                    codiListCall = CodiService.getRetrofit(getActivity()).myAllCodi(userID,params[0], "7");
                     break;
                 case "spring" : //봄 코디 조회
                 case "summer" : //여름 코디 조회
                 case "fall" : //가을 코디 조회
                 case "winter" : //겨울 코디 조회
-                    codiListCall = CodiService.getRetrofit(getActivity()).chooseSeason(identifier, params[0], "7");
+                    codiFilter.setSeason(identifier);
+                    codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
                     break;
                 case "casual" : //일상 코디 조회
                 case "formal" : //포멀 코디 조회
                 case "special" : //특수 코디 조회
-                    codiListCall = CodiService.getRetrofit(getActivity()).choosePlace(identifier, params[0], "7");
+                    codiFilter.setPlace(identifier);
+                    codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
                     break;
                 case "favorite" : //즐겨찾기한 코디 조회
-                    codiListCall = CodiService.getRetrofit(getActivity()).favoriteCodi("yes", params[0], "7");
+                    codiFilter.setFavorite(identifier);
+                    codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
             }
 
 

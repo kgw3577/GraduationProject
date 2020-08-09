@@ -18,10 +18,10 @@ import com.my.closet.clothes.vo.ClothesVO;
 public interface ClothesController {
 	
 	public ModelAndView clotheslist(HttpServletRequest request, HttpServletResponse response) throws Exception; //모든 옷 리스트 조회
-	public ResponseEntity<List<ClothesVO>> myAllClothes(HttpSession session, String page, String pageSize) throws Exception; //내 옷 전부 조회
+	public ResponseEntity<List<ClothesVO>> myAllClothes(String userID, String page, String pageSize) throws Exception; //내 옷 전부 조회
 	
 	public ResponseEntity<ClothesVO> infoClothes(String no) throws Exception; //옷 정보 보기
-	public ResponseEntity<List<ClothesVO>> searchClothes(HttpSession session, ClothesVO clothesVO, String page, String pageSize) throws Exception; //옷 찾기
+	public ResponseEntity<List<ClothesVO>> searchClothes(ClothesVO clothesVO, String userID, String page, String pageSize) throws Exception; //옷 찾기
 	
 	public ResponseEntity<String> addClothes(MultipartHttpServletRequest multipartRequest,MultipartFile multipartFile) throws Exception; //옷 추가
 

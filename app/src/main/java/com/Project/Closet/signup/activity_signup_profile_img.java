@@ -24,6 +24,7 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.UserService;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_login;
+import com.Project.Closet.util.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -161,9 +162,7 @@ public class activity_signup_profile_img extends AppCompatActivity {
                     iv_profileImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            CropImage.activity()
-                                    .setGuidelines(CropImageView.Guidelines.ON)
-                                    .start(activity_signup_profile_img.this);
+                            Utils.CropImageSetting().start(activity_signup_profile_img.this);
                         }
                     });
 
@@ -205,9 +204,7 @@ public class activity_signup_profile_img extends AppCompatActivity {
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.iv_add_profile : // 프로필 이미지 추가 버튼 눌렀을 경우
-                    CropImage.activity()
-                            .setGuidelines(CropImageView.Guidelines.ON)
-                            .start(activity_signup_profile_img.this);
+                    Utils.CropImageSetting().start(activity_signup_profile_img.this);
                     break;
             }
         }

@@ -36,17 +36,17 @@ public class CodiServiceImpl implements CodiService {
 	
 	//내 코디 전부 조회
 	@Override
-	public List<CodiVO> myAllCodi(HttpSession session, CodiVO codiFilter) throws DataAccessException {
-		LoginVO loginVO;
-		try {
-			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
-		}catch(Exception e) {
-			System.out.println("세션을 찾을 수 없음.");
-			return null;
-		}
+	public List<CodiVO> myAllCodi(String userID, CodiVO codiFilter) throws DataAccessException {
+//		LoginVO loginVO;
+//		try {
+//			loginVO = (LoginVO) session.getAttribute("login");
+//			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
+//		}catch(Exception e) {
+//			System.out.println("세션을 찾을 수 없음.");
+//			return null;
+//		}
 		//페이지 정보만 담긴 VO에 세션으로부터 받아온 유저아이디 정보 묶음
-		codiFilter.setUserID(loginVO.getUserID());
+		codiFilter.setUserID(userID);
 
 		return codiDAO.selectCodi(codiFilter);
 	}
@@ -59,16 +59,16 @@ public class CodiServiceImpl implements CodiService {
 
 	//코디 찾기
 	@Override
-	public List<CodiVO> searchCodi(HttpSession session, CodiVO codiFilter) throws DataAccessException {
-		LoginVO loginVO;
-		try {
-			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
-		}catch(Exception e) {
-			System.out.println("세션을 찾을 수 없음.");
-			return null;
-		}
-		codiFilter.setUserID(loginVO.getUserID());
+	public List<CodiVO> searchCodi(String userID, CodiVO codiFilter) throws DataAccessException {
+//		LoginVO loginVO;
+//		try {
+//			loginVO = (LoginVO) session.getAttribute("login");
+//			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
+//		}catch(Exception e) {
+//			System.out.println("세션을 찾을 수 없음.");
+//			return null;
+//		}
+		codiFilter.setUserID(userID);
 
 		return codiDAO.selectCodi(codiFilter);
 	}

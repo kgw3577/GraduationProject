@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.home.fragment_home;
@@ -164,9 +165,11 @@ public class TabFragment_Clothes_inHome extends Fragment {
         @Override
         protected List<ClothesVO> doInBackground(String... params) {
 
+            String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
+            ClothesVO clothesFilter = new ClothesVO();
             switch(identifier){
                 case "share" : //모든 옷 조회
-                    cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(params[0], pagesize);
+                    cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(userID, params[0], pagesize);
                     break;
                 case "top" : //카테고리 top 조회
                 case "bottom" : //카테고리 bottom 조회
@@ -175,10 +178,12 @@ public class TabFragment_Clothes_inHome extends Fragment {
                 case "shoes" : //카테고리 shoes 조회
                 case "bag" : //카테고리 bag 조회
                 case "accessory" : //카테고리 accessory 조회
-                    cloListCall = ClothesService.getRetrofit(getActivity()).chooseCategory(identifier, params[0], pagesize);
+                    clothesFilter.setCategory(identifier);
+                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
                 case "favorite" : //즐겨찾기 여부가 "yes"인 옷 가져오기
-                    cloListCall = ClothesService.getRetrofit(getActivity()).favoriteClothes("yes", params[0], pagesize);
+                    clothesFilter.setLike("yes");
+                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
             }
             //인자 param[0]은 page.

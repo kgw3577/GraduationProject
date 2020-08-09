@@ -1,10 +1,11 @@
 package com.Project.Closet;
 
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+
 public class Global {
     //public static final String baseURL = "http://192.168.0.3:8080/";     //로컬 주소
     //public static final String baseURL = "http://192.168.219.121:8080/"; //카페
     public static final String baseURL = "http://13.209.3.5:8080/"; //AWS 주소
-
 
     public static double bitmapWidth = 500;
 
@@ -20,4 +21,5 @@ public class Global {
     public static String getOriginalPath(String imgPath){
         return baseURL+imgPath;
     }
+
 }

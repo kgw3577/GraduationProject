@@ -11,9 +11,12 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
@@ -44,18 +47,12 @@ public class CodiService extends APIAdapter {
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("codi/share")
-        Call<List<CodiVO>> myAllCodi(@Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<CodiVO>> myAllCodi(@Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
 
-        //계절별 코디 목록 가져오기
-        @GET("codi/search")
-        Call<List<CodiVO>> chooseSeason(@Query("season") String season, @Query("page") String page, @Query("pageSize") String pageSize);
-        //상황별 코디 목록 가져오기
-        @GET("codi/search")
-        Call<List<CodiVO>> choosePlace(@Query("place") String place, @Query("page") String page, @Query("pageSize") String pageSize);
+        @Headers("Content-Type: application/json")
+        @PUT("codi/search")
+        Call<List<CodiVO>> searchCodi(@Body CodiVO codiFilter, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
 
-        //즐겨찾기한 코디 목록 가져오기
-        @GET("codi/search")
-        Call<List<CodiVO>> favoriteCodi(@Query("favorite") String favorite, @Query("page") String page, @Query("pageSize") String pageSize);
 
     }
 }

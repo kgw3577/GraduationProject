@@ -14,10 +14,10 @@ import com.my.closet.clothes.vo.ClothesVO;
 public interface ClothesService {
 	
 	public List<ClothesVO> listAllClothes() throws DataAccessException; //모든 옷의 옷 정보 리스트 조회
-	public List<ClothesVO> myAllClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException; //내 옷 전부 조회
+	public List<ClothesVO> myAllClothes(String userID, ClothesVO clothesVO) throws DataAccessException; //내 옷 전부 조회
 	
 	public ClothesVO infoClothes(String no) throws DataAccessException; //특정 옷의 옷 정보 조회 -- int? String?
-	public List<ClothesVO> searchClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException; //특정 조건의 옷 정보 리스트 조회
+	public List<ClothesVO> searchClothes(String userID, ClothesVO clothesVO) throws DataAccessException; //특정 조건의 옷 정보 리스트 조회
 	
 	public String winAddClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException;
 	public String addClothes(MultipartHttpServletRequest multipartRequest) throws DataAccessException; //옷 추가

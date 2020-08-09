@@ -18,10 +18,10 @@ import com.my.closet.codi.vo.CodiVO;
 public interface CodiController {
 	
 	public ModelAndView codilist(HttpServletRequest request, HttpServletResponse response) throws Exception; //모든 코디 리스트 조회
-	public ResponseEntity<List<CodiVO>> myAllCodi(HttpSession session, String page, String pageSize) throws Exception; //내 코디 전부 조회
+	public ResponseEntity<List<CodiVO>> myAllCodi(String userID, String page, String pageSize) throws Exception; //내 코디 전부 조회
 	
 	public ResponseEntity<CodiVO> infoCodi(String codiNo) throws Exception; //코디 정보 보기
-	public ResponseEntity<List<CodiVO>> searchCodi(HttpSession session, CodiVO codiFilter, String page, String pageSize) throws Exception; //코디 찾기
+	public ResponseEntity<List<CodiVO>> searchCodi(String userID, CodiVO codiFilter, String page, String pageSize) throws Exception; //코디 찾기
 	
 	public ResponseEntity<String> addCodi(MultipartHttpServletRequest multipartRequest, MultipartFile multipartFile) throws Exception; //코디 추가
 

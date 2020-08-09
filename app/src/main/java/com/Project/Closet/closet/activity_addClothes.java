@@ -25,7 +25,9 @@ import android.widget.Toast;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.R;
+import com.Project.Closet.util.Utils;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -72,9 +74,7 @@ public class activity_addClothes extends AppCompatActivity {
             }
         }
         final ImageView edit_iv = (ImageView) findViewById(R.id.add_image);
-        CropImage.activity()
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(activity_addClothes.this);
+        Utils.CropImageSetting().start(activity_addClothes.this);
     }
 
     public class UploadTask extends AsyncTask<String, Void, String> {
@@ -93,6 +93,7 @@ public class activity_addClothes extends AppCompatActivity {
             List<Part> arrBody = new ArrayList<>();
 
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            mapRequestBody.put("userID", RequestBody.create(MediaType.parse("text/plain"), MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID()));
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));

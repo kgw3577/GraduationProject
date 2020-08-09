@@ -57,27 +57,10 @@ public class FileUploadController {
 			System.out.println(name + ", " + value);
 			map.put(name, value);
 		}
-
-		if(map.get("userID")==null) {
-			//세션으로부터 유저아이디 받아오기
-			HttpSession httpSession = multipartRequest.getSession(false);
-			if(httpSession ==null) {
-				System.out.println("세션 정보 없음");
-				userID = "a";
-			}
-			else {
-				LoginVO loginVO = (LoginVO) httpSession.getAttribute("login");
-				userID = loginVO.getUserID();
-				System.out.println("세션 userID : "+userID);
-				
-			}
-		}
-		else {
-			userID = map.get("userID").toString();
-		}
-		
+		userID = map.get("userID").toString();
 		
 		String new_name = userID+"_"+System.currentTimeMillis() + ".jpg"; //사용자명과 현재 시간으로 파일이름 만들기
+		System.out.println(new_name);
 		String filePath=null;
 		
 		switch(obj) {

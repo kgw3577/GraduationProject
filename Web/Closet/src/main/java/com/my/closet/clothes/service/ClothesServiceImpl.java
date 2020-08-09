@@ -36,16 +36,16 @@ public class ClothesServiceImpl implements ClothesService {
 	
 	//내 옷 전부 조회
 	@Override
-	public List<ClothesVO> myAllClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException {
-		LoginVO loginVO;
-		try {
-			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
-		}catch(Exception e) {
-			System.out.println("세션을 찾을 수 없음.");
-			return null;
-		}
-		clothesVO.setUserID(loginVO.getUserID());
+	public List<ClothesVO> myAllClothes(String userID, ClothesVO clothesVO) throws DataAccessException {
+//		LoginVO loginVO;
+//		try {
+//			loginVO = (LoginVO) session.getAttribute("login");
+//			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
+//		}catch(Exception e) {
+//			System.out.println("세션을 찾을 수 없음.");
+//			return null;
+//		}
+		clothesVO.setUserID(userID);
 
 		return clothesDAO.selectClothes(clothesVO);
 	}
@@ -58,16 +58,16 @@ public class ClothesServiceImpl implements ClothesService {
 
 	//옷 찾기
 	@Override
-	public List<ClothesVO> searchClothes(HttpSession session, ClothesVO clothesVO) throws DataAccessException {
-		LoginVO loginVO;
-		try {
-			loginVO = (LoginVO) session.getAttribute("login");
-			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
-		}catch(Exception e) {
-			System.out.println("세션을 찾을 수 없음.");
-			return null;
-		}
-		clothesVO.setUserID(loginVO.getUserID());
+	public List<ClothesVO> searchClothes(String userID, ClothesVO clothesVO) throws DataAccessException {
+//		LoginVO loginVO;
+//		try {
+//			loginVO = (LoginVO) session.getAttribute("login");
+//			System.out.println("세션에 저장된 userID : "+loginVO.getUserID());
+//		}catch(Exception e) {
+//			System.out.println("세션을 찾을 수 없음.");
+//			return null;
+//		}
+		clothesVO.setUserID(userID);
 
 		return clothesDAO.selectClothes(clothesVO);
 	}
