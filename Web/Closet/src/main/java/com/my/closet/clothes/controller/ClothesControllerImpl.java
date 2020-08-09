@@ -131,7 +131,7 @@ public class ClothesControllerImpl implements ClothesController {
 		
 		String answer = null;
 		try {
-			answer = clothesService.winAddClothes(multipartRequest);
+			answer = clothesService.addClothes(multipartRequest);
 			//윈도우 시험용 : winAddClothes
 		} catch (Exception e) {
 			e.printStackTrace();
