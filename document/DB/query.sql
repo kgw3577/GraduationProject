@@ -155,6 +155,10 @@ insert into GOOD values (3, 'bcde', null);
  SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              IF(
+              (SELECT COUNT(*) FROM HEART where hearterID = "b" AND boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 게시물 하트 여부
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
  FROM `USER` U, `BOARD` B
  WHERE U.userID = B.userID

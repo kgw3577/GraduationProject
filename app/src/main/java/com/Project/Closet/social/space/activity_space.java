@@ -65,14 +65,14 @@ public class activity_space extends AppCompatActivity {
     //Activity activity;
 
     private TabLayout tabLayout;
-    public TabPagerAdapter_social pagerAdapter;
+    public TabPagerAdapter_space pagerAdapter;
     private ViewPager finalPager;
 
     LinearLayout drawer;
 
     Call<UserspaceVO> userspaceCall;
     UserspaceVO userspaceInfo;
-    String targetID;
+    public String targetID;
     String myID;
     Button bt_follow;
 
@@ -174,15 +174,14 @@ public class activity_space extends AppCompatActivity {
         if(tabLayout == null){
             //탭 목록 설정
             tabLayout = findViewById(R.id.tabLayout);
-            tabLayout.addTab(tabLayout.newTab().setText("팔로잉"));
-            tabLayout.addTab(tabLayout.newTab().setText("인기"));
-            tabLayout.addTab(tabLayout.newTab().setText("최신"));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.grid));
+            tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.heart_empty));
 
             tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = findViewById(R.id.tab_Pager);
-            pagerAdapter = new TabPagerAdapter_social(getSupportFragmentManager(), tabLayout.getTabCount());
+            pagerAdapter = new TabPagerAdapter_space(getSupportFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

@@ -6,6 +6,7 @@ import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
+import com.Project.Closet.HTTP.VO.ExpandedFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.HeartVO;
@@ -56,6 +57,7 @@ public class SocialService extends APIAdapter {
         @GET("social/feed/following/{userID}")
         Call<List<FeedVO>> showFollowingFeed(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
         // 피드 조건 검색
+        @Headers("Content-Type: application/json")
         @PUT("social/feed/search")
         Call<List<FeedVO>> searchFeed(@Body FeedVO feedFilter, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
         // 해당 사용자가 좋아요한 피드
