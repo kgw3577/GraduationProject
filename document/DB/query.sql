@@ -197,6 +197,21 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
  		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = 'a') OR U.userID = 'a')
 				AND B.userID = U.userID
  		ORDER BY regDate DESC;
+        
+        
+-- 해당 사용자가 좋아요한 피드 쿼리
+SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
+ 		FROM `USER` U, `BOARD` B
+		WHERE U.userID = B.userID
+			AND B.boardNo in 
+            (select boardNo FROM HEART where hearterID = 'm')
+ 		ORDER BY regDate DESC;
+
+select * from HEART;
+
 
 
 -- 유저 스페이스 쿼리 만들기
@@ -209,30 +224,93 @@ SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfCont
               (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
               ,"following","not_following"
               ) if_following,       -- 팔로잉 여부
-              (SELECT userID from `USER` where `USER`.userID = following_friends.followerID) followig_friendsID, -- x를 팔로우하는 친구의 ID
-              (SELECT nickname from `USER` where `USER`.userID = following_friends.followerID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
-              (SELECT pfImagePath from `USER` where `USER`.userID = following_friends.followerID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
- 		FROM `USER` U,
-        (SELECT followerID FROM FOLLOW 
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
 				  where FOLLOW.followedID = "x" AND 
 				  FOLLOW.followerID in 
 				  (
 					select * from (
-						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a" ORDER BY FOLLOW.regDate DESC ) as tmp)
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
 					) ORDER BY RAND() DESC LIMIT 1
-				) following_friends    -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+				) following_friendsID,     -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
+ 		FROM `USER` U 
  		WHERE U.userID = "x";
+
+
+
+
+
+-- 유저 스페이스 쿼리 만들기
+-- x의 스페이스를 a가 보는 상황.
+SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
+              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
+              IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 팔로잉 여부
+              (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = "captain" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT ifnull(followedID,"") FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following
+              -- (SELECT userID from `USER` where `USER`.userID = following_friends.followerID) followig_friendsID, -- x를 팔로우하는 친구의 ID
+              -- (SELECT nickname from `USER` where `USER`.userID = following_friends.followerID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              -- (SELECT pfImagePath from `USER` where `USER`.userID = following_friends.followerID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
+ 		FROM `USER` U
+
+ 		WHERE U.userID = "captain";
+
+SELECT 
+	CASE
+		WHEN !isnull((SELECT followedID FROM FOLLOW where FOLLOW.followerID = "11" LIMIT 1)  )
+		THEN (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = "11" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT ifnull(followedID,"") FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				)
+		ELSE null
+	END AS hero_type
+FROM FOLLOW LIMIT 1;
+
 
  -- 내가 팔로우한 사람이면서 x를 팔로우한 사람
 SELECT followerID, regDate FROM FOLLOW 
-				  where FOLLOW.followedID = "x" AND 
+				  where FOLLOW.followedID = "captain" AND 
 				  FOLLOW.followerID in 
 				  (
 					select * from (
-						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a" ORDER BY FOLLOW.regDate DESC) as tmp
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp
 									)
 				)
                 ORDER BY regDate DESC;
+                
+SELECT ifnull(followedID,"a") followedID FROM FOLLOW 
+				  where FOLLOW.followedID = "captain" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT ifnull(followedID,"") followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					);             
+                
+                
+                SELECT COALESCE(followedID,"f") as f FROM FOLLOW where FOLLOW.followerID = "11";
+case (조건 또는 값)
+          when 값1 then 표시값
+          when 값2 then 표시값
+        else 표시값
+        end
+					
+
 
 SELECT * from FOLLOW where followerID = 'a' ORDER BY regDate DESC;
 

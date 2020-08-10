@@ -1,4 +1,4 @@
-package com.my.closet.social;
+package com.my.closet.social.controller;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,10 +29,13 @@ import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.dao.CrudDAO;
 import com.my.closet.social.dao.SocialDAO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
+import com.my.closet.social.vo.HeartVO;
 import com.my.closet.social.vo.UserspaceVO;
 import com.my.closet.user.vo.UserVO;
+import com.my.closet.util.Util;
 
 @RestController("socialController")
 @RequestMapping("/social")
@@ -52,7 +55,7 @@ public class SocialControllerImpl implements SocialController {
 	@RequestMapping(value = "/feedlist", method = RequestMethod.GET)
 	public ModelAndView feedlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView(getViewName(request));
-		List<FeedVO> feedList = socialDAO.showAllFeed(new BoardVO());
+		List<FeedVO> feedList = socialDAO.showAllFeed(new FollowVO());
 		mav.addObject("feedList", feedList);
 		return mav;
 	}
@@ -60,12 +63,15 @@ public class SocialControllerImpl implements SocialController {
 	@Override
 	@RequestMapping(value = "/feed/newest", method = RequestMethod.GET)
 	public ResponseEntity<List<FeedVO>> showAllFeed(
+			@RequestParam(value = "myID", required = false) String myID,
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<FeedVO> feedList;
 		try {
-			BoardVO boardFilter = genPageFilter(page, pageSize);
-			feedList = socialDAO.showAllFeed(boardFilter);
+			FollowVO followFilter = new FollowVO();
+			followFilter.setFollowerID(myID);
+			followFilter = Util.setPageFilter(followFilter, page, pageSize);
+			feedList = socialDAO.showAllFeed(followFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
@@ -81,9 +87,10 @@ public class SocialControllerImpl implements SocialController {
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<FeedVO> feedList;
 		try {
-			BoardVO boardFilter = genPageFilter(page, pageSize);
-			boardFilter.setUserID(userID);
-			feedList = socialDAO.showFollowFeed(boardFilter);
+			FollowVO followFilter = new FollowVO();
+			followFilter.setFollowerID(userID);
+			followFilter = Util.setPageFilter(followFilter, page, pageSize);
+			feedList = socialDAO.showFollowFeed(followFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
@@ -91,25 +98,55 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
-	// 피드 하나 가져오기
+	// 피드 조건 검색
 	@Override
-	@RequestMapping(value = "/feed/{boardNo}", method = RequestMethod.GET)
-	public ResponseEntity<FeedVO> showOneFeed(@PathVariable("boardNo") String boardNo,
+	@RequestMapping(value = "/feed/search", method = RequestMethod.PUT)
+	public ResponseEntity<List<FeedVO>> searchFeed(
+			@RequestBody ExpandedFeedVO feedFilter,
+			@RequestParam(value = "myID", required = false) String myID,
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
-		FeedVO feed;
+		List<FeedVO> feedList;
 		try {
-			BoardVO boardFilter = genPageFilter(page, pageSize);
-			boardFilter.setBoardNo(Integer.parseInt(boardNo));
-			feed = socialDAO.showOneFeed(boardFilter);
+			feedFilter.setMyID(myID);
+			feedFilter = Util.setPageFilter(feedFilter, page, pageSize);
+			feedList = socialDAO.searchFeed(feedFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<FeedVO>(new FeedVO(),
+			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<FeedVO>(feed, HttpStatus.OK);
-	}	
-
+		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
+	}
+	// 해당 사용자가 좋아요한 피드
+	@Override
+	@RequestMapping(value = "/space/{userID}/heart", method = RequestMethod.GET)
+	public ResponseEntity<List<FeedVO>> showHeartFeed(@PathVariable("userID") String userID,
+			@RequestParam(value = "myID", required = false) String myID,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
+		List<FeedVO> feedList;
+		try {
+			FollowVO followFilter = new FollowVO();
+			followFilter.setFollowerID(myID);
+			followFilter.setFollowedID(userID);
+			followFilter = Util.setPageFilter(followFilter, page, pageSize);
+			feedList = socialDAO.showHeartFeed(followFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	// 해당 게시물 코멘트 가져오기
@@ -190,6 +227,70 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 	}
+	
+	/*하트*/
+	// 모든 하트 리스트 조회. 웹 관리용.
+	@Override
+	@RequestMapping(value = "/heartlist", method = RequestMethod.GET)
+	public ModelAndView heartlist(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView(getViewName(request));
+		List<HeartVO> heartList = crudDAO.selectHeart(new HeartVO());
+		mav.addObject("heartList", heartList);
+		return mav;
+	}
+	//하트 검색
+	@Override
+	@RequestMapping(value = "/heart/search", method = RequestMethod.GET)
+	public ResponseEntity<List<HeartVO>> searchHeart(@RequestBody HeartVO heartFilter) throws Exception {
+		List<HeartVO> heartList;
+		try {
+			heartList = crudDAO.selectHeart(heartFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<HeartVO>>(Collections.<HeartVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<HeartVO>>(heartList, HttpStatus.OK);
+	}
+	
+	//하트 상태 변경
+	@Override
+	@RequestMapping(value = "/heart/execute", method = RequestMethod.POST)
+	public ResponseEntity<String> revertHeart(@RequestBody HeartVO heartInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 HeartVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+
+		String answer = null;
+		
+		//팔로우 여부 체크
+		List<HeartVO> existHeart = crudDAO.selectHeart(heartInfo);
+		
+		if(existHeart.size() == 0) { //팔로우 되어 있지 않으면
+			try {
+				answer = crudDAO.addHeart(heartInfo); //팔로우 추가
+			} catch (Exception e) {
+				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+			if("ok".equals(answer)) { //성공시
+				return new ResponseEntity<String>("hearting", HttpStatus.OK); //팔로우중 상태 메시지 보냄
+			}
+		}
+		else { //팔로우된 상태면
+			try {
+				answer = crudDAO.deleteHeart(heartInfo); //팔로우 삭제
+			} catch (Exception e) {
+				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+			}
+			if("ok".equals(answer)) { //성공시
+				return new ResponseEntity<String>("not_hearting", HttpStatus.OK); //팔로우하고있지않음 상태 메시지 보냄
+			}
+		}
+		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+	}
+	
+	
+	
+	
+	
 	
 	/*유저스페이스*/
 	@Override

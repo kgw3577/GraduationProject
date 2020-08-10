@@ -18,8 +18,8 @@ public class Utils {
         return CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMaxCropResultSize(40000,99999)
-                .setMinCropResultSize(530,530)
-                .setMinCropWindowSize(540,500)
+                .setMinCropResultSize(200,40)
+                .setMinCropWindowSize(200,42)
                 .setOutputCompressQuality(60)
                 .setMaxZoom(3);
     }

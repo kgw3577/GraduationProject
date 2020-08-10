@@ -13,6 +13,7 @@ import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
+import com.my.closet.social.vo.HeartVO;
 import com.my.closet.user.vo.UserVO;
 
 @Repository("crudDAO")
@@ -56,4 +57,44 @@ public class CrudDAOImpl implements CrudDAO {
 			return "fail";
 	}
 
+	
+	
+	
+	/*하트*/
+	// 조건으로 팔로우 선택
+	@Override
+	public List<HeartVO> selectHeart(HeartVO heartFilter) throws DataAccessException {
+		List<HeartVO> heartList = sqlSession.selectList("mapper.social_crud.searchHeart", heartFilter);
+		return heartList;
+	}
+
+	// 팔로우 추가
+	@Override
+	public String addHeart(HeartVO heartFilter) throws DataAccessException {
+
+		System.out.println("insert 쿼리 실행 전");
+		int result = sqlSession.insert("mapper.social_crud.insertHeart", heartFilter);
+		System.out.println("insert 쿼리 실행");
+
+		if (result == 1) {
+			System.out.println("insert 성공");
+			return "ok"; // insert 성공
+		} else {
+			System.out.println("insert 실패");
+			return "fail"; // insert 실패
+		}
+	}
+
+	// 팔로우 삭제
+	@Override
+	public String deleteHeart(HeartVO heartFilter) throws DataAccessException {
+		int result = sqlSession.delete("mapper.social_crud.deleteHeart", heartFilter);
+
+		if (result == 1)
+			return "ok";
+		else
+			return "fail";
+	}	
+	
+	
 }

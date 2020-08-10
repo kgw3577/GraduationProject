@@ -1,17 +1,30 @@
 package com.Project.Closet.HTTP.VO;
 
-public class FeedVO {
-    private String writerID, writerName, pfImagePath, if_hearting, imagePath, contents, regDate;
+public class ExpandedFeedVO {
+    private String myID, writerID, writerName, pfImagePath, imagePath, contents, regDate;
     private int numHeart, numComment, boardNo;
 
 
     //생성자
-    public FeedVO() {
+    public ExpandedFeedVO() {
         System.out.println("FeedVO 생성자 호출");
     }
 
 
     //게터&세터
+
+
+
+    public String getMyID() {
+        return myID;
+    }
+
+
+    public void setMyID(String myID) {
+        this.myID = myID;
+    }
+
+
     public String getWriterID() {
         return writerID;
     }
@@ -39,18 +52,6 @@ public class FeedVO {
 
     public void setPfImagePath(String pfImagePath) {
         this.pfImagePath = pfImagePath;
-    }
-
-
-
-
-    public String getIf_hearting() {
-        return if_hearting;
-    }
-
-
-    public void setIf_hearting(String if_hearting) {
-        this.if_hearting = if_hearting;
     }
 
 
@@ -112,8 +113,6 @@ public class FeedVO {
     public void setBoardNo(int boardNo) {
         this.boardNo = boardNo;
     }
-
-
 
 
 }

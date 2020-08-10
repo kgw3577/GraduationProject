@@ -14,12 +14,13 @@
 		<typeAlias type="com.my.closet.board.vo.BoardVO"  alias="boardVO" />
 	
 		<typeAlias type="com.my.closet.social.vo.FeedVO"  alias="feedVO" />
+		<typeAlias type="com.my.closet.social.vo.ExpandedFeedVO"  alias="expandedFeedVO" />
 		<typeAlias type="com.my.closet.social.vo.CommentFeedVO"  alias="commentFeedVO" />
 
 		<typeAlias type="com.my.closet.social.vo.UserspaceVO"  alias="userspaceVO" />
 
 		<typeAlias type="com.my.closet.social.vo.FollowVO"  alias="followVO" />
-		
+		<typeAlias type="com.my.closet.social.vo.HeartVO"  alias="heartVO" />
 		
 		
 	</typeAliases>

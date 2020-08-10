@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
 import com.my.closet.social.vo.UserspaceVO;
@@ -22,22 +23,30 @@ public class SocialDAOImpl implements SocialDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<FeedVO> showAllFeed(BoardVO boardFilter) throws DataAccessException {
-		List<FeedVO> feedList = sqlSession.selectList("mapper.social.showFeed",boardFilter);
+	public List<FeedVO> showAllFeed(FollowVO followFilter) throws DataAccessException {
+		List<FeedVO> feedList = sqlSession.selectList("mapper.social.showFeed",followFilter);
 		return feedList;
 	}
 	
 	@Override
-	public List<FeedVO> showFollowFeed(BoardVO boardFilter) throws DataAccessException {
-		List<FeedVO> feedList = sqlSession.selectList("mapper.social.showFollowFeed",boardFilter);
+	public List<FeedVO> showFollowFeed(FollowVO followFilter) throws DataAccessException {
+		List<FeedVO> feedList = sqlSession.selectList("mapper.social.showFollowFeed",followFilter);
 		return feedList;
 	}
 	
 	@Override
-	public FeedVO showOneFeed(BoardVO boardFilter) throws DataAccessException {
-		FeedVO feed = sqlSession.selectOne("mapper.social.showOneFeed",boardFilter);
-		return feed;
+	public List<FeedVO> searchFeed(ExpandedFeedVO feedFilter) throws DataAccessException {
+		List<FeedVO> feedList = sqlSession.selectList("mapper.social.searchFeed",feedFilter);
+		return feedList;
 	}
+	
+	@Override
+	public List<FeedVO> showHeartFeed(FollowVO followFilter) throws DataAccessException {
+		List<FeedVO> feedList = sqlSession.selectList("mapper.social.showHeartFeed",followFilter);
+		return feedList;
+	}
+	
+	
 	
 	@Override
 	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException {

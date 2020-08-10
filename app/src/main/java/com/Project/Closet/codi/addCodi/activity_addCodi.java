@@ -360,7 +360,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
         try {
             tempFile = File.createTempFile(filename, null, context.getCacheDir());
             FileOutputStream out = new FileOutputStream(tempFile);
-            resizedImage.compress(Bitmap.CompressFormat.JPEG, 70 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+            resizedImage.compress(Bitmap.CompressFormat.JPEG, 100 , out);  // 넘겨 받은 bitmap을 jpeg(손실압축)으로 저장해줌
             out.close();
             path = tempFile.getAbsolutePath(); //임시 파일 경로
         } catch (IOException e) {

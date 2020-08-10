@@ -168,22 +168,22 @@ public class Fragment_Feed extends Fragment {
 
         @Override
         protected List<FeedVO> doInBackground(String... params) {
-
+            String myID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
             if(identifier==null)
-                feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
+                feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(myID, params[0], pagesize);
             else{
                 switch(identifier){
                     case "following" : //팔로잉 피드
                         feedListCall = SocialService.getRetrofit(getActivity()).showFollowingFeed(userID, params[0], pagesize);
                         break;
                     case "best" : //인기 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(myID, params[0], pagesize);
                         break;
                     case "newest" : //최신 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(myID, params[0], pagesize);
                         break;
                     default : //해당 유저 게시글 조회 -> 해당하는 case가 없을 경우 identifier가 userID임.
-                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(params[0], pagesize);
+                        feedListCall = SocialService.getRetrofit(getActivity()).showNewestFeed(myID, params[0], pagesize);
                         break;
                 }
             }
@@ -212,31 +212,6 @@ public class Fragment_Feed extends Fragment {
             }
         }
     }
-
-
-    public class InfoTask extends AsyncTask<String, Void, FeedVO> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-        @Override
-        protected FeedVO doInBackground(String... boardNo) {
-
-            Call<FeedVO> feedVOCall = SocialService.getRetrofit(getContext()).selectOneFeed(boardNo[0]);
-            try {
-                return feedVOCall.execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-        @Override
-        protected void onPostExecute(FeedVO c) {
-            super.onPostExecute(c);
-        }
-    }
-
 
 
 

@@ -9,15 +9,18 @@ import org.springframework.dao.DataAccessException;
 
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
 import com.my.closet.social.vo.UserspaceVO;
 
 public interface SocialDAO {
 
-	public List<FeedVO> showAllFeed(BoardVO boardFilter) throws DataAccessException; //피드 가져오기
-	public List<FeedVO> showFollowFeed(BoardVO boardFilter) throws DataAccessException; //팔로우 피드 가져오기
-	public FeedVO showOneFeed(BoardVO boardFilter) throws DataAccessException;
+	public List<FeedVO> showAllFeed(FollowVO followFilter) throws DataAccessException; //피드 가져오기
+	public List<FeedVO> showFollowFeed(FollowVO followFilter) throws DataAccessException; //팔로우 피드 가져오기
+	public List<FeedVO> searchFeed(ExpandedFeedVO feedFilter) throws DataAccessException; //피드 조건 검색
+	public List<FeedVO> showHeartFeed(FollowVO followFilter) throws DataAccessException; // 해당 사용자가 좋아요한 피드
+
 	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException; //해당 게시글 댓글 가져오기
 
 	public UserspaceVO showUserSpace(FollowVO followFilter) throws DataAccessException;

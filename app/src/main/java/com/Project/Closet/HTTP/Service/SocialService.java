@@ -8,6 +8,7 @@ import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
+import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.HTTP.VO.UserVO;
 import com.Project.Closet.HTTP.VO.UserspaceVO;
 
@@ -50,13 +51,17 @@ public class SocialService extends APIAdapter {
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
         @GET("social/feed/newest")
-        Call<List<FeedVO>> showNewestFeed(@Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<FeedVO>> showNewestFeed(@Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
         // 팔로우 피드 받아오기
         @GET("social/feed/following/{userID}")
         Call<List<FeedVO>> showFollowingFeed(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
-        // 피드 한 개 받아오기
-        @GET("social/feed/{boardNo}")
-        Call<FeedVO> selectOneFeed(@Path("boardNo") String boardNo);
+        // 피드 조건 검색
+        @PUT("social/feed/search")
+        Call<List<FeedVO>> searchFeed(@Body FeedVO feedFilter, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
+        // 해당 사용자가 좋아요한 피드
+        @GET("social/space/{userID}/heart")
+        Call<List<FeedVO>> showHeartFeed(@Path("userID") String userID, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
+
 
         //해당 게시물 코멘트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
@@ -73,6 +78,18 @@ public class SocialService extends APIAdapter {
         @Headers("Content-Type: application/json")
         @POST("social/follow/execute")
         Call<String> executeFollow(@Body FollowVO followInfo); //응답 : following, not_following (현재 상태), fail(실패)
+
+        /*하트*/
+        //하트 검색
+        @Headers("Content-Type: application/json")
+        @GET("social/heart/search")
+        Call<List<HeartVO>> searchHeart(@Body HeartVO heartFilter);
+        //하트 실행(revert)
+        @Headers("Content-Type: application/json")
+        @POST("social/heart/execute")
+        Call<String> executeHeart(@Body HeartVO heartInfo); //응답 : hearting, not_hearting (현재 상태), fail(실패)
+
+
 
         /*유저스페이스*/
         @GET("social/space/{userID}")

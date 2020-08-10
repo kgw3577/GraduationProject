@@ -47,6 +47,49 @@
 	</delete>
 	
 	
+	
+	<!--하트 -->
+	<!--반환 레코드를 config에서 지정한 heartVO 빈에 저장 -->
+	<resultMap id="heartResult" type="heartVO">
+		<result property="boardNo" column="boardNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="hearterID" column="hearterID" />
+		<result property="regDate" column="regDate" />
+	</resultMap>
+	<!-- 하트 조회 쿼리. heartVO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchHeart" resultMap="heartResult" parameterType="heartVO">
+	<![CDATA[
+		select * from HEART
+	]]>
+		<where>
+			<if test="boardNo != '' and boardNo != null">
+				boardNo = #{boardNo}
+			</if>
+			<if test="hearterID != '' and hearterID != null">
+				and hearterID = #{hearterID}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate}
+			</if>
+		</where>
+		ORDER BY hearterID ASC, regDate DESC;
+	</select>
+	<!-- 하트 추가 쿼리 -->
+	<insert id="insertHeart" parameterType="heartVO">
+	<![CDATA[
+		insert into HEART
+		values(#{boardNo},#{hearterID},#{regDate})
+	]]>
+	</insert>
+	<!-- 하트 삭제 쿼리 -->
+	<delete id="deleteHeart" parameterType="heartVO">
+	<![CDATA[
+		delete from HEART
+		where
+		boardNo = #{boardNo} AND hearterID = #{hearterID}
+	]]>
+	</delete>
+	
+	
 
 	
 </mapper>

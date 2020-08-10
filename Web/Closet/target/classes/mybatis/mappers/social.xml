@@ -49,12 +49,16 @@
 	<!-- SQL문. 반환 레코드를 Result에 저장 -->
 	
 	<!-- 최신순 피드 타입 조회 쿼리 -->
-	<select id="showFeed" resultMap="feedResult" parameterType="boardVO">
+	<select id="showFeed" resultMap="feedResult" parameterType="followVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
-              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
+              IF(
+              (SELECT COUNT(*) FROM HEART where hearterID = #{followerID} AND boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 게시물 하트 여부
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
  		FROM `USER` U, `BOARD` B
 		WHERE U.userID = B.userID
  		ORDER BY regDate DESC
@@ -65,14 +69,18 @@
 	</select>
 	
 	<!-- 팔로우 피드 타입 조회 쿼리 -->
-	<select id="showFollowFeed" resultMap="feedResult" parameterType="boardVO">
+	<select id="showFollowFeed" resultMap="feedResult" parameterType="followVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+			IF(
+              (SELECT COUNT(*) FROM HEART where hearterID = #{followerID} AND boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 게시물 하트 여부
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
  		FROM `USER` U, `BOARD` B
- 		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{userID}) OR U.userID = #{userID})
+ 		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{followerID}) OR U.userID = #{followerID})
 				AND B.userID = U.userID
  		ORDER BY regDate DESC
 	]]>
@@ -80,18 +88,75 @@
 			LIMIT #{pageStart}, #{pageSize}
 		</if>
 	</select>
-
-	<!-- 피드 한 개 조회 쿼리 -->
-	<select id="showOneFeed" resultMap="feedResult" parameterType="boardVO">
+	
+	<!-- 피드 조건 검색 -->
+	<select id="searchFeed" resultMap="feedResult" parameterType="expandedFeedVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+				IF(
+              (SELECT COUNT(*) FROM HEART where hearterID = #{myID} AND boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 게시물 하트 여부
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
  		FROM `USER` U, `BOARD` B
-		WHERE U.userID = B.userID AND B.boardNo = #{boardNo}
 	]]>
+		<where>
+			U.userID = B.userID
+			<if test="writerID != '' and writerID != null">
+				and U.userID = #{writerID}
+			</if>
+			<if test="writerName != '' and writerName != null">
+				and U.nickname = #{writerName}
+			</if>
+			<if test="pfImagePath != '' and pfImagePath != null">
+				and U.pfImagePath = #{pfImagePath}
+			</if>
+			<if test="boardNo != '' and boardNo != null">
+				and B.boardNo = #{boardNo}
+			</if>
+			<if test="imagePath != '' and imagePath != null">
+				and B.filePath = #{imagePath}
+			</if>
+			<if test="contents != '' and contents != null">
+				and B.contents = #{contents}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and B.regDate = #{regDate}
+			</if>
+		</where>
+		ORDER BY regDate DESC
+		<if test="pageStart != -1 and pageSize != -1">
+			LIMIT #{pageStart}, #{pageSize}
+		</if>
 	</select>
+	
+	<!-- 해당 사용자가 좋아요한 피드 -->
+	<select id="showHeartFeed" resultMap="feedResult" parameterType="followVO">
+	<![CDATA[
+		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+				IF(
+              (SELECT COUNT(*) FROM HEART where hearterID = #{followerID} AND boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 게시물 하트 여부	
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
+ 		FROM `USER` U, `BOARD` B
+		WHERE U.userID = B.userID
+			AND B.boardNo in 
+            (select boardNo FROM HEART where hearterID = #{followedID})
+ 		ORDER BY regDate DESC
+	]]>
+		<if test="pageStart != -1 and pageSize != -1">
+			LIMIT #{pageStart}, #{pageSize}
+		</if>
+	</select>
+	
+	
+	
+	
 	
 	<!-- 댓글 조회 쿼리 -->
 	<select id="showCommentInBoard" resultMap="commentFeedResult" parameterType="boardVO">

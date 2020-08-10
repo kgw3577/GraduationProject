@@ -119,25 +119,15 @@ public class activity_space extends AppCompatActivity {
             tv_pfContents.setText(userspaceInfo.getPfContents());
         }
 
-
-        // 내가 팔로워한 사용자 중 현재 페이지 사용자를 팔로우한 사용자가 있는지.
-        if(userspaceInfo.getFollowing_friendsID()==null){ //없음
-            LinearLayout ll_following_friends = findViewById(R.id.ll_following_friends);
-            ll_following_friends.setVisibility(View.GONE);
-        }else{ //있음
-            //친구 프사 설정
-            ImageView iv_following_friendsImg = findViewById(R.id.iv_following_friendsImg);
-            Glide.with(getApplicationContext()).load(Global.getOriginalPath(userspaceInfo.getFollowing_friendsImgPath())).into(iv_following_friendsImg);
-            //친구 닉네임 설정
-            TextView tv_following_friendsName = findViewById(R.id.tv_following_friendsName);
-            tv_following_friendsName.setText(userspaceInfo.getFollowing_friendsName());
-        }
+        LinearLayout ll_following_friends = findViewById(R.id.ll_following_friends);
 
         //팔로우 여부 설정
         bt_follow = findViewById(R.id.bt_follow);
         final String myID = MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID();
-        if(myID.equals(targetID))
+        if(myID.equals(targetID)){
             bt_follow.setVisibility(View.GONE);
+            ll_following_friends.setVisibility(View.GONE);
+        }
         else{
             bt_follow.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,8 +139,18 @@ public class activity_space extends AppCompatActivity {
                     }
                 }
             });
+            // 내가 팔로우한 사용자 중 현재 페이지 사용자를 팔로우한 사용자가 있는지.
+            if(userspaceInfo.getFollowing_friendsID()==null){ //없음
+                ll_following_friends.setVisibility(View.GONE);
+            }else{ //있음
+                //친구 프사 설정
+                ImageView iv_following_friendsImg = findViewById(R.id.iv_following_friendsImg);
+                Glide.with(getApplicationContext()).load(Global.getOriginalPath(userspaceInfo.getFollowing_friendsImgPath())).into(iv_following_friendsImg);
+                //친구 닉네임 설정
+                TextView tv_following_friendsName = findViewById(R.id.tv_following_friendsName);
+                tv_following_friendsName.setText(userspaceInfo.getFollowing_friendsName());
+            }
         }
-
 
 
 

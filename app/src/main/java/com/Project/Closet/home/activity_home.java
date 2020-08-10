@@ -40,6 +40,7 @@ public class activity_home extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.fragment_place, f_home,"home").commit();
 
 
+
         //옷장 아이콘 클릭
         ScalableLayout MyCloset = (ScalableLayout) findViewById(R.id.icon_footer_Closet);
         MyCloset.setOnClickListener(new View.OnClickListener() {
