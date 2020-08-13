@@ -86,13 +86,13 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
     TextView tvShoes;
     ImageView ivBag;    //가방 파트
     TextView tvBag;
-    ImageView ivAccessory1; //악세서리1 파트
+    ImageView ivAccessory1; //액세서리1 파트
     TextView tvAccessory1;
-    ImageView ivAccessory2; //악세서리2 파트
+    ImageView ivAccessory2; //액세서리2 파트
     TextView tvAccessory2;
-    ImageView ivAccessory3; //악세서리3 파트
+    ImageView ivAccessory3; //액세서리3 파트
     TextView tvAccessory3;
-    ImageView ivAccessory4; //악세서리4 파트
+    ImageView ivAccessory4; //액세서리4 파트
     TextView tvAccessory4;
 
     //미리보기 관련

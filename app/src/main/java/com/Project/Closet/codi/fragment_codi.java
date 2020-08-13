@@ -275,8 +275,8 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                             case "가방":
                                 tv_edit_category.setText("가방");
                                 break;
-                            case "악세서리":
-                                tv_edit_category.setText("악세서리");
+                            case "액세서리":
+                                tv_edit_category.setText("액세서리");
                                 break;
                         }
                     }
@@ -336,16 +336,16 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("특별"));
 
             // 탭메뉴 아이콘 설정
-//            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
-//            tabLayout.getTabAt(1).setIcon(R.drawable.spring); // 메뉴2
-//            tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
-//            tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
-//            tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
-//            tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
-//            tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
-//            tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
+            //tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
+            //tabLayout.getTabAt(1).setIcon(R.drawable.spring); // 메뉴2
+            //tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
+            //tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
+            //tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
+            //tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
+            //tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
+            //tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
 
-            //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);

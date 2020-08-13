@@ -233,7 +233,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="악세서리 추가"
+        android:text="액세서리 추가"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -260,7 +260,7 @@
         android:layout_marginBottom="3dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="악세서리 추가"
+        android:text="액세서리 추가"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -289,7 +289,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="악세서리 추가"
+        android:text="액세서리 추가"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -318,7 +318,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="악세서리 추가"
+        android:text="액세서리 추가"
         android:textColor="#000000"
         android:textSize="18sp" />
 

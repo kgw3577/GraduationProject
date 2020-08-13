@@ -177,7 +177,7 @@ public class activity_space extends AppCompatActivity {
             tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.grid));
             tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.heart_empty));
 
-            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = findViewById(R.id.tab_Pager);

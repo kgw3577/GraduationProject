@@ -77,6 +77,9 @@ public class activity_addClothes extends AppCompatActivity {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
+    ImageView warning;
+    ImageView warning2;
+
     String category="";
     String detail_category="";
     String color="";
@@ -93,6 +96,9 @@ public class activity_addClothes extends AppCompatActivity {
 
         Cloth_Info_edit = (LinearLayout) findViewById(R.id.cloth_info_edit);
         sl_ok = findViewById(R.id.sl_ok);
+
+        warning = findViewById(R.id.warning);
+        warning2 = findViewById(R.id.warning2);
 
         //카테고리 설정
         tv_edit_category = (TextView) findViewById(R.id.tv_edit_catergory);
@@ -141,11 +147,12 @@ public class activity_addClothes extends AppCompatActivity {
                             case "가방":
                                 tv_edit_category.setText("가방");
                                 break;
-                            case "악세서리":
-                                tv_edit_category.setText("악세서리");
+                            case "액세서리":
+                                tv_edit_category.setText("액세서리");
                                 break;
                         }
                         tv_edit_category.setTextColor(Color.parseColor("#000000"));
+                        warning.setVisibility(View.GONE);
                     }
                 });
 
@@ -206,6 +213,7 @@ public class activity_addClothes extends AppCompatActivity {
                                 break;
                         }
                         tv_edit_season.setTextColor(Color.parseColor("#000000"));
+
                     }
                 });
 
@@ -368,8 +376,16 @@ public class activity_addClothes extends AppCompatActivity {
                                     finish();
                                 }
                             }
-                            else
-                                Toast.makeText(activity_addClothes.this, "카테고리와 컬러는 필수 입력사항입니다.", Toast.LENGTH_LONG).show();
+                            else{
+                                if(category.equals("선택")){
+                                    warning.setVisibility(View.VISIBLE);
+                                }
+                                if(color.equals("선택")){
+                                    warning2.setVisibility(View.VISIBLE);
+                                }
+
+                            }
+
                         }
                     });
 
@@ -407,6 +423,7 @@ public class activity_addClothes extends AppCompatActivity {
                     public void onChooseColor(int position, int color) {
                         tv_edit_color.setText(Utils.getKey(colorUtil.mapColors,String.format("#%06X", 0xFFFFFF & color)));
                         tv_edit_color.setTextColor(Color.parseColor("#000000"));
+                        warning2.setVisibility(View.GONE);
                     }
 
                     @Override

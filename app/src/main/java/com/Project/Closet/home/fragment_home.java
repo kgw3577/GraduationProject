@@ -276,8 +276,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                             case "가방":
                                 tv_edit_category.setText("가방");
                                 break;
-                            case "악세서리":
-                                tv_edit_category.setText("악세서리");
+                            case "액세서리":
+                                tv_edit_category.setText("액세서리");
                                 break;
                         }
                     }
@@ -329,7 +329,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
             tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
             tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
-            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);

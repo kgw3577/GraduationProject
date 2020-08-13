@@ -34,8 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header"
-                android:layout_marginTop="0sp"
-                android:background="@android:color/white">
+                android:background="@android:color/white"
+                >
 
                 <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appbarLayout"
@@ -62,21 +62,39 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:descendantFocusability="blocksDescendants"
+                        android:background="#cccccc"
+
                         >
 
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/tabLayout"
+                        <HorizontalScrollView
+
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:tabGravity="fill"
-                            app:tabMode="scrollable"
-                            />
+                            android:layout_height="match_parent"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:id="@+id/tab_view"
+                            android:background="@color/화이트"
+                            android:scrollbars="none"
+                            >
+                            <com.google.android.material.tabs.TabLayout
+                                android:id="@+id/tabLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                app:tabMode="fixed"
+                                app:tabTextAppearance="@style/tab_text"
+                                />
+
+                        </HorizontalScrollView>
+
 
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/tab_Pager"
+                            android:layout_marginTop="0.1dp"
+                            android:padding="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="600dp"
-                            android:layout_below="@+id/tabLayout" >
+                            android:background="@color/closet"
+                            android:layout_below="@+id/tab_view" >
 
                             <include layout="@layout/cardview_cloth_info_edit" />
                         </androidx.viewpager.widget.ViewPager>
@@ -86,14 +104,16 @@
             <RelativeLayout
                 android:id="@+id/cloth_info"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible">
                 <include
                     layout="@layout/cardview_cloth_info"/>
             </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/cloth_info_edit"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:visibility="invisible">
 
             </RelativeLayout>
         </RelativeLayout>

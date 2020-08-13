@@ -70,8 +70,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:text="선택"
-                android:textSize="15dp"
-                android:textColor="@color/레드"/>
+                android:textSize="15dp"/>
+            <ImageView
+                android:id="@+id/warning"
+                android:layout_marginLeft="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/stat_notify_error"
+                android:tint="@color/레드"
+                android:visibility="gone">
+
+            </ImageView>
         </LinearLayout>
         <LinearLayout
             android:layout_margin="5dp"
@@ -108,8 +117,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:textSize="15dp"
-                android:textColor="@color/레드"
                 android:text="선택" />
+            <ImageView
+                android:id="@+id/warning2"
+                android:layout_marginLeft="5dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/stat_notify_error"
+                android:tint="@color/레드"
+                android:visibility="gone"/>
+
+
         </LinearLayout>
         <LinearLayout
             android:layout_margin="5dp"
@@ -168,12 +186,13 @@
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:text="구입 날짜"/>
-            <EditText
-                android:layout_width="150dp"
+            <TextView
+                android:layout_marginLeft="3dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text=""
+                android:textSize="15dp"
+                android:text="선택"
                 android:id="@+id/tv_edit_date"/>
         </LinearLayout>
 
