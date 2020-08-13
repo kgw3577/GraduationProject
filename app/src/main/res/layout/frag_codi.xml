@@ -96,7 +96,7 @@
                             android:background="@color/closet"
                             android:layout_below="@+id/tab_view" >
 
-                            <include layout="@layout/cardview_cloth_info_edit" />
+
                         </androidx.viewpager.widget.ViewPager>
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
@@ -114,7 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="invisible">
-
+                <include
+                    layout="@layout/cardview_cloth_info_edit" />
             </RelativeLayout>
         </RelativeLayout>
 
