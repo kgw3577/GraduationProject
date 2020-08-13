@@ -5,14 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="missingPrefix"
-    android:background="#FFFFFF">
+    android:background="#EEEEEE">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/status_bar"
         app:scale_base_width="1080"
-        app:scale_base_height="64"
+        app:scale_base_height="30"
         android:background="#FFFFFF">
     </com.ssomai.android.scalablelayout.ScalableLayout>
 
@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/status_bar"
         app:scale_base_width="1080"
-        app:scale_base_height="116">
+        app:scale_base_height="125"
+        android:background="#FFFFFF">
 
 
 
@@ -44,13 +45,13 @@
                     android:id="@+id/search_button"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
-                    android:src="@drawable/search2"
-                    app:scale_height="100"
+                    android:src="@drawable/icon_home_nav"
+                    app:scale_height="70"
                     app:scale_left="100"
                     app:scale_left_baseposition="center"
                     app:scale_top="58"
                     app:scale_top_baseposition="center"
-                    app:scale_width="90" />
+                    app:scale_width="70" />
 
 
 
@@ -81,7 +82,7 @@
                     app:scale_left="400"
                     app:scale_left_baseposition="center"
                     app:scale_top="11"
-                    app:scale_width="284" />
+                    app:scale_width="400" />
 
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
@@ -106,15 +107,15 @@
 
                 <ImageView
                     android:id="@+id/add"
-                    android:layout_width="20dp"
+                    android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/add2"
-                    app:scale_height="83"
-                    app:scale_left="170"
+                    android:src="@drawable/add_photo2"
+                    app:scale_height="70"
+                    app:scale_left="150"
                     app:scale_left_baseposition="center"
-                    app:scale_top="58"
+                    app:scale_top="55"
                     app:scale_top_baseposition="center"
-                    app:scale_width="83" />
+                    app:scale_width="90" />
 
 
 

@@ -193,6 +193,8 @@ public class activity_signup_profile_img extends AppCompatActivity {
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+            } else{
+                finish();
             }
         }
     }

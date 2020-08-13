@@ -139,7 +139,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_name);
+        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_color);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
@@ -336,16 +336,16 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("특별"));
 
             // 탭메뉴 아이콘 설정
-            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
-            tabLayout.getTabAt(1).setIcon(R.drawable.spring); // 메뉴2
-            tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
-            tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
-            tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
-            tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
-            tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
-            tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
+//            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
+//            tabLayout.getTabAt(1).setIcon(R.drawable.spring); // 메뉴2
+//            tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
+//            tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
+//            tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
+//            tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
+//            tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
+//            tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
 
-            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            //tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);

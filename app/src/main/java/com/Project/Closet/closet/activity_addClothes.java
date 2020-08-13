@@ -5,11 +5,13 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -20,7 +22,10 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.Project.Closet.Global;
@@ -28,8 +33,8 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.R;
 import com.Project.Closet.util.Utils;
+import com.ssomai.android.scalablelayout.ScalableLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -47,6 +52,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 
+import petrov.kristiyan.colorpicker.ColorPicker;
+
 //import okhttp3.internal.concurrent.Task;
 
 
@@ -59,11 +66,165 @@ public class activity_addClothes extends AppCompatActivity {
     String path;
     String likeArray[] = {"yes","no"};
 
+    public LinearLayout Cloth_Info_edit;
+    public ScalableLayout sl_ok;
+
+    public TextView tv_edit_category;
+    public TextView tv_edit_detailcategory;
+    public TextView tv_edit_season;
+    public TextView tv_edit_date;
+    public TextView tv_edit_color;
+    public TextView tv_edit_brand;
+    public TextView tv_edit_size;
+
+    String category="";
+    String detail_category="";
+    String color="";
+    String season="";
+    String brand="";
+    String size="";
+    String date="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_clothes);
+
+        Cloth_Info_edit = (LinearLayout) findViewById(R.id.cloth_info_edit);
+        sl_ok = findViewById(R.id.sl_ok);
+
+        //카테고리 설정
+        tv_edit_category = (TextView) findViewById(R.id.tv_edit_catergory);
+        final String[] Category = {""};
+        tv_edit_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
+                final String[] items = getResources().getStringArray(R.array.Category);
+                final ArrayList<String> selectedItem  = new ArrayList<String>();
+                selectedItem.add(items[0]);
+
+                builder.setTitle("카테고리 선택");
+
+                builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int pos)
+                    {
+                        selectedItem.clear();
+                        selectedItem.add(items[pos]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int pos)
+                    {
+                        Category[0] = selectedItem.get(0);
+
+                        switch(Category[0]){
+                            case "상의":
+                                tv_edit_category.setText("상의");
+                                break;
+                            case "하의":
+                                tv_edit_category.setText("하의");
+                                break;
+                            case "한벌옷":
+                                tv_edit_category.setText("한벌옷");
+                                break;
+                            case "외투":
+                                tv_edit_category.setText("외투");
+                                break;
+                            case "신발":
+                                tv_edit_category.setText("신발");
+                                break;
+                            case "가방":
+                                tv_edit_category.setText("가방");
+                                break;
+                            case "악세서리":
+                                tv_edit_category.setText("악세서리");
+                                break;
+                        }
+                        tv_edit_category.setTextColor(Color.parseColor("#000000"));
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        tv_edit_detailcategory = (TextView) findViewById(R.id.tv_edit_detailcategory);
+
+        tv_edit_color = (TextView) findViewById(R.id.tv_edit_color);
+        tv_edit_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openColorPicker();
+            }
+        });
+
+        tv_edit_season = (TextView) findViewById(R.id.tv_edit_season);
+        final String[] Season = {""};
+        tv_edit_season.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
+                final String[] items = getResources().getStringArray(R.array.Season);
+                final ArrayList<String> selectedItem  = new ArrayList<String>();
+                selectedItem.add(items[0]);
+
+                builder.setTitle("계절 선택");
+
+                builder.setSingleChoiceItems(R.array.Season, 0, new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int pos)
+                    {
+                        selectedItem.clear();
+                        selectedItem.add(items[pos]);
+                    }
+                });
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int pos)
+                    {
+                        Season[0] = selectedItem.get(0);
+
+                        switch(Season[0]){
+                            case "봄":
+                                tv_edit_season.setText("봄");
+                                break;
+                            case "여름":
+                                tv_edit_season.setText("여름");
+                                break;
+                            case "가을":
+                                tv_edit_season.setText("가을");
+                                break;
+                            case "겨울":
+                                tv_edit_season.setText("겨울");
+                                break;
+                        }
+                        tv_edit_season.setTextColor(Color.parseColor("#000000"));
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+        });
+
+        tv_edit_brand = (TextView) findViewById(R.id.tv_edit_brand);
+        tv_edit_size = (TextView) findViewById(R.id.tv_edit_size);
+        tv_edit_date = (TextView) findViewById(R.id.tv_edit_date);
+        tv_edit_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog dialog = new DatePickerDialog(activity_addClothes.this, listener, 2020, 6, 30);
+                dialog.show();
+            }
+        });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -92,12 +253,20 @@ public class activity_addClothes extends AppCompatActivity {
             LinkedHashMap<String, RequestBody> mapRequestBody = new LinkedHashMap<String, RequestBody>();
             List<Part> arrBody = new ArrayList<>();
 
+
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("userID", RequestBody.create(MediaType.parse("text/plain"), MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID()));
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
-            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), params[0]));
-            mapRequestBody.put("name", RequestBody.create(MediaType.parse("text/plain"), "한글 이름"));
+
+            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"),category));
+            mapRequestBody.put("detailCategory", RequestBody.create(MediaType.parse("text/plain"),detail_category));
+            mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"),color));
+            mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"),season));
+            mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"),brand));
+            mapRequestBody.put("size", RequestBody.create(MediaType.parse("text/plain"),size));
+            mapRequestBody.put("buyDate", RequestBody.create(MediaType.parse("text/plain"),date));
+
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 
@@ -149,7 +318,6 @@ public class activity_addClothes extends AppCompatActivity {
                     double width=bitmap.getWidth();
                     Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, (int) Global.bitmapWidth, (int)(height/(width/Global.bitmapWidth)), true);
 
-                    ////
                     //임시 파일로 저장하기
                     final Context context = getApplicationContext();
                     String filename = "myTemp";
@@ -159,75 +327,22 @@ public class activity_addClothes extends AppCompatActivity {
                     out.close();
                     path = tempFile.getAbsolutePath(); //임시 파일 경로
 
-                    final String[] Category = {""};
-                    Button select = (Button) findViewById(R.id.select_category);
-                    select.setOnClickListener(new View.OnClickListener() {
+                    ScalableLayout sl_ok = findViewById(R.id.sl_ok);
+                    sl_ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
-                            final String[] items = getResources().getStringArray(R.array.Category);
-                            final ArrayList<String> selectedItem  = new ArrayList<String>();
-                            selectedItem.add(items[0]);
+                            category = tv_edit_category.getText().toString();
+                            detail_category = tv_edit_detailcategory.getText().toString();
+                            color = tv_edit_color.getText().toString();
+                            if(!category.equals("선택") && !color.equals("선택")){
+                                season = tv_edit_season.getText().toString();
+                                brand = tv_edit_brand.getText().toString();
+                                size = tv_edit_size.getText().toString();
+                                date = tv_edit_date.getText().toString();
 
-                            builder.setTitle("카테고리 선택");
-
-                            builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialog, int pos)
-                                {
-                                    selectedItem.clear();
-                                    selectedItem.add(items[pos]);
-                                }
-                            });
-
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialog, int pos)
-                                {
-                                    Category[0] = selectedItem.get(0);
-                                    Toast toast = Toast.makeText(getApplicationContext(), "선택된 카테고리 : " + selectedItem.get(0), Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-
-                                    switch(Category[0]){
-                                        case "상의":
-                                            Category[0] = "top";
-                                            break;
-                                        case "하의":
-                                            Category[0] = "bottom";
-                                            break;
-                                        case "한벌옷":
-                                            Category[0] = "suit";
-                                            break;
-                                        case "외투":
-                                            Category[0] = "outer";
-                                            break;
-                                        case "신발":
-                                            Category[0] = "shoes";
-                                            break;
-                                        case "가방":
-                                            Category[0] = "bag";
-                                            break;
-                                        case "악세서리":
-                                            Category[0] = "accessory";
-                                            break;
-                                    }
-                                }
-                            });
-
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        }
-                    });
-
-                    Button btn_ok = (Button) findViewById(R.id.ok);
-                    btn_ok.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(!Category[0].isEmpty()){
                                 String res = null;
                                 try {
-                                    res = new UploadTask().execute(Category[0]).get();
+                                    res = new UploadTask().execute().get();
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
@@ -254,7 +369,7 @@ public class activity_addClothes extends AppCompatActivity {
                                 }
                             }
                             else
-                                Toast.makeText(activity_addClothes.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
+                                Toast.makeText(activity_addClothes.this, "카테고리와 컬러는 필수 입력사항입니다.", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -267,9 +382,47 @@ public class activity_addClothes extends AppCompatActivity {
                 }
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
+            } else{
+                finish();
             }
         }
     }
+
+    public void openColorPicker() {
+        final ColorPicker colorPicker = new ColorPicker(this);  // ColorPicker 객체 생성
+        ArrayList<String> colors = new ArrayList<>();  // Color 넣어줄 list
+
+        final Utils colorUtil = new Utils();
+        colorUtil.setColorUtil(getApplicationContext());
+
+        for(int i=0; i<colorUtil.color_name.length; i++){
+            colors.add(colorUtil.mapColors.get(colorUtil.color_name[i]));
+        }
+
+        colorPicker.setColors(colors)  // 만들어둔 list 적용
+                .setColumns(5)  // 5열로 설정
+                .setRoundColorButton(true)  // 원형 버튼으로 설정
+                .setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
+                    @Override
+                    public void onChooseColor(int position, int color) {
+                        tv_edit_color.setText(Utils.getKey(colorUtil.mapColors,String.format("#%06X", 0xFFFFFF & color)));
+                        tv_edit_color.setTextColor(Color.parseColor("#000000"));
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // Cancel 버튼 클릭 시 이벤트
+                    }
+                }).show();  // dialog 생성
+    }
+
+    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            tv_edit_date.setText(year + "년 " + monthOfYear + "월 " + dayOfMonth +"일");
+        }
+    };
+
 
 
 }

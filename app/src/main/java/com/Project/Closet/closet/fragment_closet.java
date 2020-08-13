@@ -86,7 +86,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_category;
     public TextView tv_edit_season;
     public TextView tv_edit_date;
-    public TextView tv_edit_name;
+    public TextView tv_edit_color;
     public TextView tv_edit_detailcategory;
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
@@ -143,7 +143,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_name);
+        tv_edit_color = (TextView) getView().findViewById(R.id.tv_edit_color);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
@@ -169,8 +169,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tv_edit_name.getText()!=null)
-                    tv_name.setText(tv_edit_name.getText());
+                if(tv_edit_color.getText()!=null)
+                    tv_name.setText(tv_edit_color.getText());
                 if(tv_edit_category.getText()!="카테고리를 선택해주세요.")
                     tv_category.setText(tv_edit_category.getText());
                 if(tv_edit_detailcategory.getText()!=null)

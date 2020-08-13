@@ -5,4 +5,24 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="black_overlay">#66000000</color>
+
+    <color name="블랙">#000000</color>
+    <color name="화이트">#ffffff</color>
+    <color name="그레이">#808080</color>
+    <color name="아이보리">#FFFFF0</color>
+    <color name="베이지">#F5F5DC</color>
+    <color name="핑크">#FFC0CB</color>
+    <color name="레드">#DC143C</color>
+    <color name="와인">#800000</color>
+    <color name="퍼플">#800080</color>
+    <color name="스카이블루">#87CEEB</color>
+    <color name="블루">#0000FF</color>
+    <color name="네이비">#000080</color>
+    <color name="그린">#008000</color>
+    <color name="올리브그린">#556B2F</color>
+    <color name="옐로우">#FFFF00</color>
+    <color name="오렌지">#FFA500</color>
+    <color name="브라운">#8B4513</color>
+    <color name="골드">#FFD700</color>
+    <color name="실버">#C0C0C0</color>
 </resources>

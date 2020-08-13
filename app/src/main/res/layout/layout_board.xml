@@ -17,7 +17,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:background="@android:color/black"
-                app:scale_base_height="180"
+                app:scale_base_height="155"
                 app:scale_base_width="1080">
 
                 <include
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/footer"
                 android:layout_below="@+id/header"
-                android:layout_marginTop="18sp"
+                android:layout_marginTop="0sp"
                 android:background="@android:color/white">
 
                 <com.google.android.material.appbar.AppBarLayout
@@ -82,7 +82,7 @@
                         <com.google.android.material.tabs.TabLayout
                             android:id="@+id/tabLayout"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"/>
 
                         <androidx.viewpager.widget.ViewPager
                             android:id="@+id/tab_Pager"
