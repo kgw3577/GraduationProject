@@ -124,7 +124,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         iv_image = (ImageView) getView().findViewById(R.id.iv_image);
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
-        tv_name = (TextView) getView().findViewById(R.id.tv_info_name);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
         tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
@@ -469,15 +468,15 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();
-                    clothesFilter.setNo(Integer.parseInt(tv_cloNo.getText().toString()));
+                    clothesFilter.setCloNo(Integer.parseInt(tv_cloNo.getText().toString()));
                     boolean reverted_favorite;
                     //즐겨찾기 여부 불러와서 반대값으로 설정
                     if("yes".equals(tv_cloFavorite.getText().toString())){
-                        clothesFilter.setLike("no");
+                        clothesFilter.setFavorite("no");
                         reverted_favorite = false;
                     }
                     else{
-                        clothesFilter.setLike("yes");
+                        clothesFilter.setFavorite("yes");
                         reverted_favorite = true;
                     }
 

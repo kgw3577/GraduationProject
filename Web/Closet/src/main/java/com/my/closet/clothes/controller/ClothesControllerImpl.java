@@ -145,7 +145,7 @@ public class ClothesControllerImpl implements ClothesController {
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)
 	public ResponseEntity<String> modifyClothes(@RequestBody ClothesVO clothesInfo) throws Exception {
-		System.out.println("받아온 옷 정보 : "+clothesInfo.getNo()+clothesInfo.getLike());
+		System.out.println("받아온 옷 정보 : "+clothesInfo.getCloNo()+clothesInfo.getFavorite());
 		
 		String answer = null;
 		try {

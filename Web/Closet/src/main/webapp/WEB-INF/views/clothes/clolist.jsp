@@ -30,19 +30,20 @@
 	<table align="center" border="1">
 		<tr align='center' bgcolor='lightgreen'>
 			<td width="7%"><b>번호</b></td>
-			<td width="7%"><b>이름</b></td>
 			<td width="7%"><b>카테고리</b></td>
-			<td width="7%"><b>브랜드</b></td>
+			<td width="7%"><b>세부 카테고리</b></td>
 			<td width="7%"><b>색상</b></td>
-			<td width="7%"><b>날짜</b></td>
 			<td width="7%"><b>계절</b></td>
+			<td width="7%"><b>브랜드</b></td>
 			<td width="7%"><b>사이즈</b></td>
+			<td width="7%"><b>구매일</b></td>
 			<td width="7%"><b>이미지</b></td>
 			<td width="7%"><b>파일이름</b></td>
 			<td width="7%"><b>파일경로</b></td>
 			<td width="7%"><b>즐겨찾기</b></td>
 			<td width="7%"><b>소유자</b></td>
 			<td width="7%"><b>옷장이름</b></td>
+			<td width="7%"><b>등록시간</b></td>
 			<td width="7%"><b>옷 정보</b></td>
 			<td width="7%"><b>삭제하기</b></td>
 		</tr>
@@ -56,24 +57,25 @@
 			<c:when test="${clothesList!=null}">
 				<c:forEach var="clo" items="${clothesList}"> <!-- 컨트롤러에서 바인딩한 clothesList에 바로 접근 -->
 					<tr align='center'>
-						<td>${clo.no}</td>
-						<td>${clo.name}</td>
+						<td>${clo.cloNo}</td>
 						<td>${clo.category}</td>
-						<td>${clo.brand}</td>
+						<td>${clo.detailCategory}</td>
 						<td>${clo.color}</td>
-						<td>${clo.date}</td>
 						<td>${clo.season}</td>
+						<td>${clo.brand}</td>
 						<td>${clo.cloSize}</td>
+						<td>${clo.buyDate}</td>
 						<td><img src="${contextPath}${clo.filePath}" style="width:150px"></td>
 						<td>${clo.fileName}</td>
 						<td>${clo.filePath}</td>
-						<td>${clo.like}</td>
+						<td>${clo.favorite}</td>
 						<td>${clo.userID}</td>
 						<td>${clo.closetName}</td>
+						<td>${clo.regDate}</td>
 
-						<td><a href="${contextPath}/clothes/info/${clo.no}">내 옷 정보 보기</a></td>
+						<td><a href="${contextPath}/clothes/info/${clo.cloNo}">내 옷 정보 보기</a></td>
 						<td>
-						<form method="post" action="/clothes/delete/${clo.no}">
+						<form method="post" action="/clothes/delete/${clo.cloNo}">
    						<input type="hidden" name="_method" value="delete"/>
    						<input type="submit" value="삭제" >
 						</form>

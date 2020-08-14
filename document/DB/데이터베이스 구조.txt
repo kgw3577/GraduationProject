@@ -24,35 +24,29 @@ CREATE TABLE `USER` (
 
 ALTER TABLE USER COMMENT '유저';
 
--> 옷 개수, 코디 개수, 총 좋아요 개수 등 추가
 
 
-
--- USER Table Create SQL
-CREATE TABLE CLOTHES
-(
-    `cloNo`           INT             NOT NULL    COMMENT '옷번호(대리키)' AUTO_INCREMENT, 
-    `cloName`         VARCHAR(45)     NULL        COMMENT '옷이름', 
-    `cloCategory`     VARCHAR(45)     NULL        COMMENT '옷카테고리', 
-    `cloBrand`        VARCHAR(45)     NULL        COMMENT '옷브랜드', 
-    `cloColor`        VARCHAR(45)     NULL        COMMENT '옷색상', 
-    `cloDate`         VARCHAR(45)     NULL        COMMENT '옷추가날짜', 
-    `cloSeason`       VARCHAR(45)     NULL        COMMENT '옷계절', 
-    `cloSize`         VARCHAR(45)     NULL        COMMENT '옷사이즈', 
-    `cloImg`          VARCHAR(45)     NULL        COMMENT '옷이미지', 
-    `fileName`        VARCHAR(45)     NULL        COMMENT '파일이름',
-    `filePath`        VARCHAR(100)    NULL        COMMENT '파일경로', 
-    `cloLike`         VARCHAR(45)     NULL        COMMENT '즐겨찾기', 
-    `userID`          VARCHAR(45)     NOT NULL    COMMENT '유저아이디', 
-    `closetName`      VARCHAR(45)     NOT NULL    COMMENT '옷장이름', 
-    PRIMARY KEY (cloNo)
-);
+CLOTHES	CREATE TABLE `CLOTHES` (
+  `cloNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '옷번호(대리키)',
+  `category` varchar(45) DEFAULT NULL,
+  `detailCategory` varchar(45) DEFAULT NULL,
+  `color` varchar(45) DEFAULT NULL,
+  `season` varchar(45) DEFAULT NULL,
+  `brand` varchar(45) DEFAULT NULL,
+  `cloSize` varchar(45) DEFAULT NULL,
+  `buyDate` date DEFAULT NULL,
+  `fileName` varchar(45) DEFAULT NULL COMMENT '파일이름',
+  `filePath` varchar(100) DEFAULT NULL COMMENT '파일경로',
+  `favorite` varchar(45) DEFAULT NULL,
+  `userID` varchar(45) NOT NULL COMMENT '유저아이디',
+  `closetName` varchar(45) NOT NULL COMMENT '옷장이름',
+  `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`cloNo`),
+  KEY `FK_CLOTHES_closetName_CLOSET_closetName` (`userID`,`closetName`),
+  CONSTRAINT `FK_CLOTHES_closetName_CLOSET_closetName` FOREIGN KEY (`userID`, `closetName`) REFERENCES `CLOSET` (`userID`, `closetName`)
+) ENGINE=InnoDB AUTO_INCREMENT=254 DEFAULT CHARSET=utf8 COMMENT='옷'
 
 ALTER TABLE CLOTHES COMMENT '옷';
-
-ALTER TABLE CLOTHES
-    ADD CONSTRAINT FK_CLOTHES_closetName_CLOSET_closetName FOREIGN KEY (userID, closetName)
-        REFERENCES CLOSET (userID, closetName) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- USER Table Create SQL

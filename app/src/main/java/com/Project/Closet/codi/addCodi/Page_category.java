@@ -187,7 +187,7 @@ public class Page_category extends Fragment {
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
                 case "favorite" : //즐겨찾기 여부가 "yes"인 옷 가져오기
-                    clothesFilter.setLike("yes");
+                    clothesFilter.setFavorite("yes");
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
             }

@@ -53,13 +53,13 @@
 
     <string-array name="Color_Code">
         <item>#000000</item>
-        <item>#ffffff</item>
+        <item>#FFFFFF</item>
         <item>#808080</item>
         <item>#FFFFF0</item>
         <item>#F5F5DC</item>
         <item>#FFC0CB</item>
         <item>#DC143C</item>
-        <item>#800000</item>
+        <item>#8B0000</item>
         <item>#800080</item>
         <item>#87CEEB</item>
         <item>#0000FF</item>

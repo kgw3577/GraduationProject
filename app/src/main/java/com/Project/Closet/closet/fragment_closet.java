@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,6 +33,7 @@ import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
+import com.Project.Closet.util.Utils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -70,7 +70,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
     public ImageView iv_edit_image;
-    public TextView tv_name;
     public TextView tv_category;
     public TextView tv_detailcategory;
     public TextView tv_season;
@@ -129,7 +128,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         iv_image = (ImageView) getView().findViewById(R.id.iv_image);
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
-        tv_name = (TextView) getView().findViewById(R.id.tv_info_name);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
         tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
@@ -170,8 +168,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tv_edit_color.getText()!=null)
-                    tv_name.setText(tv_edit_color.getText());
                 if(tv_edit_category.getText()!="카테고리를 선택해주세요.")
                     tv_category.setText(tv_edit_category.getText());
                 if(tv_edit_detailcategory.getText()!=null)
@@ -337,7 +333,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("외투"));
             tabLayout.addTab(tabLayout.newTab().setText("신발"));
             tabLayout.addTab(tabLayout.newTab().setText("가방"));
-            tabLayout.addTab(tabLayout.newTab().setText("기타"));
+            tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
             // 탭메뉴 아이콘 설정
 //            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
 //            tabLayout.getTabAt(1).setIcon(R.drawable.top); // 메뉴2
@@ -474,15 +470,15 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();
-                    clothesFilter.setNo(Integer.parseInt(tv_cloNo.getText().toString()));
+                    clothesFilter.setCloNo(Integer.parseInt(tv_cloNo.getText().toString()));
                     boolean reverted_favorite;
                     //즐겨찾기 여부 불러와서 반대값으로 설정
                     if("yes".equals(tv_cloFavorite.getText().toString())){
-                        clothesFilter.setLike("no");
+                        clothesFilter.setFavorite("no");
                         reverted_favorite = false;
                     }
                     else{
-                        clothesFilter.setLike("yes");
+                        clothesFilter.setFavorite("yes");
                         reverted_favorite = true;
                     }
 
@@ -553,16 +549,15 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_name.setText(cloInfo.getName());
-        tv_category.setText(cloInfo.getClosetName());
-        tv_detailcategory.setText(cloInfo.getCategory());
+        tv_category.setText(Utils.convertEng(cloInfo.getCategory()));
+        tv_detailcategory.setText(cloInfo.getDetailCategory());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());
-        tv_date.setText(cloInfo.getDate());
-        tv_cloNo.setText(Integer.toString(cloInfo.getNo()));
+        tv_date.setText(cloInfo.getBuyDate());
+        tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
-        if("yes".equals(cloInfo.getLike())){
+        if("yes".equals(cloInfo.getFavorite())){
             iv_heart.setImageResource(R.drawable.heart_color);
             tv_cloFavorite.setText("yes");
         }

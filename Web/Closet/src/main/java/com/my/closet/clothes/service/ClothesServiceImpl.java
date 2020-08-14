@@ -97,7 +97,6 @@ public class ClothesServiceImpl implements ClothesService {
 		}catch(NullPointerException e) {
 			e.printStackTrace();
 		}
-		clothesMap.put("category","outer");
 		//받아온 해쉬맵을 이용해 dao에 데이터베이스 추가를 요청한다.
 		return clothesDAO.addClothes(clothesMap);
 		
@@ -135,7 +134,7 @@ public class ClothesServiceImpl implements ClothesService {
 	@Override
 	public String modifyClothes(ClothesVO clothesInfo) throws DataAccessException {
 		//즐겨찾기 DAO만 완성.
-		return clothesDAO.updateFavorite(clothesInfo);
+		return clothesDAO.updateClothes(clothesInfo);
 	}
 
 	@Override

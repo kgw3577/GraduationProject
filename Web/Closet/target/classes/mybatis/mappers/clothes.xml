@@ -7,39 +7,39 @@
 	
 	<!--반환 레코드를 config에서 지정한 clothesVO 빈에 저장 -->
 	<resultMap id="clothesResult" type="clothesVO">
-		<result property="no" column="cloNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
-		<result property="name" column="cloName" />
-		<result property="category" column="cloCategory" />
-		<result property="brand" column="cloBrand" />
-		<result property="color" column="cloColor" />
-		<result property="season" column="cloSeason" />
+		<result property="cloNo" column="cloNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="category" column="category" />
+		<result property="detailCategory" column="detailCategory" />
+		<result property="color" column="color" />
+		<result property="season" column="season" />
+		<result property="brand" column="brand" />
 		<result property="cloSize" column="cloSize" />
-		<result property="img" column="cloImg" />
+		<result property="buyDate" column="buyDate" />
 		<result property="fileName" column="fileName" />
 		<result property="filePath" column="filePath" />
-		<result property="like" column="cloLike" />
+		<result property="favorite" column="favorite" />
 		<result property="userID" column="userID" />
 		<result property="closetName" column="closetName" />
-		<result property="date" column="cloDate" />
+		<result property="regDate" column="regDate" />
 		
 	</resultMap>
 
 	<!--반환 레코드를 해쉬맵에 저장 -->
 	<resultMap id="clothesResult_h" type="java.util.HashMap">
-		<result property="no" column="cloNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
-		<result property="name" column="cloName" />
-		<result property="category" column="cloCategory" />
-		<result property="brand" column="cloBrand" />
-		<result property="color" column="cloColor" />
-		<result property="season" column="cloSeason" />
+		<result property="cloNo" column="cloNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="category" column="category" />
+		<result property="detailCategory" column="detailCategory" />
+		<result property="color" column="color" />
+		<result property="season" column="season" />
+		<result property="brand" column="brand" />
 		<result property="cloSize" column="cloSize" />
-		<result property="img" column="cloImg" />
+		<result property="buyDate" column="buyDate" />
 		<result property="fileName" column="fileName" />
 		<result property="filePath" column="filePath" />
-		<result property="like" column="cloLike" />
+		<result property="favorite" column="favorite" />
 		<result property="userID" column="userID" />
 		<result property="closetName" column="closetName" />
-		<result property="date" column="cloDate" />	
+		<result property="regDate" column="regDate" />
 		
 	</resultMap>
 	
@@ -52,26 +52,29 @@
 		select * from CLOTHES
 	]]>
 		<where>
-			<if test="no != '' and no != null">
-				cloNo = #{no}
-			</if>
-			<if test="name != '' and name != null">
-				and cloName = #{name}
+			<if test="cloNo != '' and cloNo != null">
+				cloNo = #{cloNo}
 			</if>
 			<if test="category != '' and category != null">
-				and cloCategory = #{category}
+				and category = #{category}
 			</if>
-			<if test="brand != '' and brand != null">
-				and cloBrand = #{brand}
+			<if test="detailCategory != '' and detailCategory != null">
+				and detailCategory = #{detailCategory}
 			</if>
 			<if test="color != '' and color != null">
-				and cloColor = #{color}
-			</if>
-			<if test="date != '' and date != null">
-				and cloDate = #{date}
+				and color = #{color}
 			</if>
 			<if test="season != '' and season != null">
-				and cloSeason = #{season}
+				and season = #{season}
+			</if>
+			<if test="brand != '' and brand != null">
+				and brand = #{brand}
+			</if>
+			<if test="cloSize != '' and cloSize != null">
+				and cloSize = #{cloSize}
+			</if>
+			<if test="buyDate != '' and buyDate != null">
+				and buyDate = #{buyDate}
 			</if>
 			<if test="fileName != '' and fileName != null">
 				and fileName = #{fileName}
@@ -79,18 +82,21 @@
 			<if test="filePath != '' and filePath != null">
 				and filePath = #{filePath}
 			</if>
-			<if test="like != '' and like != null">
-				and cloLike = #{like}
-			</if>
-			<if test="closetName != '' and closetName != null">
-				and closetName = #{closetName} 
+			<if test="favorite != '' and favorite != null">
+				and favorite = #{favorite}
 			</if>
 			<if test="userID != '' and userID != null">
 				and userID = #{userID}
 			</if>
+			<if test="closetName != '' and closetName != null">
+				and closetName = #{closetName} 
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate} 
+			</if>
 		</where>
 		<if test="pageStart != -1 and pageSize != -1">
-			ORDER BY cloDate DESC LIMIT #{pageStart}, #{pageSize}
+			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
 		</if>
 	</select>
 	
@@ -99,28 +105,72 @@
 	<insert id="insertClothes" parameterType="java.util.HashMap">
 	<![CDATA[
 		insert into CLOTHES 
-		values(#{no},#{name},#{category},#{brand},#{color},#{season},
-		#{cloSize},#{img},#{fileName},#{filePath},#{like},#{userID},
-		#{closetName},#{date})
+		values(#{cloNo},#{category},#{detailCategory},#{color},#{season},
+		#{brand},#{cloSize},#{buyDate},#{fileName},#{filePath},#{favorite},#{userID},
+		#{closetName},#{regDate})
 	]]>
 	</insert>
 
 	<!-- 옷 정보(즐겨찾기) 수정 쿼리 -->
-	<update id="updateFavorite" parameterType="clothesVO">
+	<update id="updateClothes" parameterType="clothesVO">
 	<![CDATA[
 		update CLOTHES
-		set cloLike=#{like}
-		where
-		cloNo = #{no}
 	]]>
-	</update>
+		<set>
+			<if test="cloNo != '' and cloNo != null">
+				cloNo = #{cloNo},
+			</if>
+			<if test="category != '' and category != null">
+				and category = #{category},
+			</if>
+			<if test="detailCategory != '' and detailCategory != null">
+				and detailCategory = #{detailCategory},
+			</if>
+			<if test="color != '' and color != null">
+				and color = #{color},
+			</if>
+			<if test="season != '' and season != null">
+				and season = #{season},
+			</if>
+			<if test="brand != '' and brand != null">
+				and brand = #{brand},
+			</if>
+			<if test="cloSize != '' and cloSize != null">
+				and cloSize = #{cloSize},
+			</if>
+			<if test="buyDate != '' and buyDate != null">
+				and buyDate = #{buyDate},
+			</if>
+			<if test="fileName != '' and fileName != null">
+				and fileName = #{fileName},
+			</if>
+			<if test="filePath != '' and filePath != null">
+				and filePath = #{filePath},
+			</if>
+			<if test="favorite != '' and favorite != null">
+				and favorite = #{favorite},
+			</if>
+			<if test="userID != '' and userID != null">
+				and userID = #{userID},
+			</if>
+			<if test="closetName != '' and closetName != null">
+				and closetName = #{closetName},
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate} 
+			</if>
+		</set>
+		where
+		cloNo = #{cloNo}
+	</update>	
+		
 
 	<!-- 옷 삭제 쿼리 -->
 	<delete id="deleteClothes" parameterType="clothesVO">
 	<![CDATA[
 		delete from CLOTHES
 		where
-		cloNo = #{no}
+		cloNo = #{cloNo}
 	]]>
 	</delete>
 

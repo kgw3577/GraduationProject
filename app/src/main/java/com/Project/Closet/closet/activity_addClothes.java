@@ -19,9 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -72,7 +71,7 @@ public class activity_addClothes extends AppCompatActivity {
     public TextView tv_edit_category;
     public TextView tv_edit_detailcategory;
     public TextView tv_edit_season;
-    public TextView tv_edit_date;
+    public TextView tv_edit_buyDate;
     public TextView tv_edit_color;
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
@@ -85,8 +84,8 @@ public class activity_addClothes extends AppCompatActivity {
     String color="";
     String season="";
     String brand="";
-    String size="";
-    String date="";
+    String cloSize ="";
+    String buyDate ="";
 
 
     @Override
@@ -100,7 +99,7 @@ public class activity_addClothes extends AppCompatActivity {
         warning = findViewById(R.id.warning);
         warning2 = findViewById(R.id.warning2);
 
-        //카테고리 설정
+        //카테고리 선택 설정
         tv_edit_category = (TextView) findViewById(R.id.tv_edit_catergory);
         final String[] Category = {""};
         tv_edit_category.setOnClickListener(new View.OnClickListener() {
@@ -127,31 +126,9 @@ public class activity_addClothes extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int pos)
                     {
                         Category[0] = selectedItem.get(0);
-
-                        switch(Category[0]){
-                            case "상의":
-                                tv_edit_category.setText("상의");
-                                break;
-                            case "하의":
-                                tv_edit_category.setText("하의");
-                                break;
-                            case "한벌옷":
-                                tv_edit_category.setText("한벌옷");
-                                break;
-                            case "외투":
-                                tv_edit_category.setText("외투");
-                                break;
-                            case "신발":
-                                tv_edit_category.setText("신발");
-                                break;
-                            case "가방":
-                                tv_edit_category.setText("가방");
-                                break;
-                            case "액세서리":
-                                tv_edit_category.setText("액세서리");
-                                break;
-                        }
+                        tv_edit_category.setText(Category[0]);
                         tv_edit_category.setTextColor(Color.parseColor("#000000"));
+                        category = Utils.convertKor(Category[0]);
                         warning.setVisibility(View.GONE);
                     }
                 });
@@ -163,6 +140,7 @@ public class activity_addClothes extends AppCompatActivity {
 
         tv_edit_detailcategory = (TextView) findViewById(R.id.tv_edit_detailcategory);
 
+        //컬러 선택 설정 - 컬러피커
         tv_edit_color = (TextView) findViewById(R.id.tv_edit_color);
         tv_edit_color.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +149,7 @@ public class activity_addClothes extends AppCompatActivity {
             }
         });
 
+        //계절 선택 설정
         tv_edit_season = (TextView) findViewById(R.id.tv_edit_season);
         final String[] Season = {""};
         tv_edit_season.setOnClickListener(new View.OnClickListener() {
@@ -197,23 +176,9 @@ public class activity_addClothes extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int pos)
                     {
                         Season[0] = selectedItem.get(0);
-
-                        switch(Season[0]){
-                            case "봄":
-                                tv_edit_season.setText("봄");
-                                break;
-                            case "여름":
-                                tv_edit_season.setText("여름");
-                                break;
-                            case "가을":
-                                tv_edit_season.setText("가을");
-                                break;
-                            case "겨울":
-                                tv_edit_season.setText("겨울");
-                                break;
-                        }
+                        tv_edit_season.setText(Season[0]);
+                        season= Season[0];
                         tv_edit_season.setTextColor(Color.parseColor("#000000"));
-
                     }
                 });
 
@@ -224,11 +189,19 @@ public class activity_addClothes extends AppCompatActivity {
 
         tv_edit_brand = (TextView) findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) findViewById(R.id.tv_edit_size);
-        tv_edit_date = (TextView) findViewById(R.id.tv_edit_date);
-        tv_edit_date.setOnClickListener(new View.OnClickListener() {
+
+        //구입일 선택 설정 - 데이트 피커
+        tv_edit_buyDate = (TextView) findViewById(R.id.tv_edit_date);
+        tv_edit_buyDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(activity_addClothes.this, listener, 2020, 6, 30);
+                Calendar cal = Calendar.getInstance();
+                //현재 년도, 월, 일
+                int year = cal.get (Calendar.YEAR);
+                int month = cal.get (Calendar.MONTH);
+                int date = cal.get (Calendar.DATE) ;
+
+                DatePickerDialog dialog = new DatePickerDialog(activity_addClothes.this, listener, year, month, date);
                 dialog.show();
             }
         });
@@ -270,10 +243,12 @@ public class activity_addClothes extends AppCompatActivity {
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"),category));
             mapRequestBody.put("detailCategory", RequestBody.create(MediaType.parse("text/plain"),detail_category));
             mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"),color));
-            mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"),season));
+            if(!season.isEmpty())
+                mapRequestBody.put("season", RequestBody.create(MediaType.parse("text/plain"),season));
             mapRequestBody.put("brand", RequestBody.create(MediaType.parse("text/plain"),brand));
-            mapRequestBody.put("size", RequestBody.create(MediaType.parse("text/plain"),size));
-            mapRequestBody.put("buyDate", RequestBody.create(MediaType.parse("text/plain"),date));
+            mapRequestBody.put("cloSize", RequestBody.create(MediaType.parse("text/plain"), cloSize));
+            if(!buyDate.isEmpty())
+                mapRequestBody.put("buyDate", RequestBody.create(MediaType.parse("text/plain"), buyDate));
 
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
@@ -339,14 +314,10 @@ public class activity_addClothes extends AppCompatActivity {
                     sl_ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            category = tv_edit_category.getText().toString();
-                            detail_category = tv_edit_detailcategory.getText().toString();
-                            color = tv_edit_color.getText().toString();
-                            if(!category.equals("선택") && !color.equals("선택")){
-                                season = tv_edit_season.getText().toString();
+                            if(!category.isEmpty() && !color.isEmpty()){
+                                detail_category = tv_edit_detailcategory.getText().toString();
                                 brand = tv_edit_brand.getText().toString();
-                                size = tv_edit_size.getText().toString();
-                                date = tv_edit_date.getText().toString();
+                                cloSize = tv_edit_size.getText().toString();
 
                                 String res = null;
                                 try {
@@ -420,8 +391,12 @@ public class activity_addClothes extends AppCompatActivity {
                 .setRoundColorButton(true)  // 원형 버튼으로 설정
                 .setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
-                    public void onChooseColor(int position, int color) {
-                        tv_edit_color.setText(Utils.getKey(colorUtil.mapColors,String.format("#%06X", 0xFFFFFF & color)));
+                    public void onChooseColor(int position, int colorInt) {
+
+
+
+                        color = Utils.getKey(colorUtil.mapColors,String.format("#%06X", 0xFFFFFF & colorInt));
+                        tv_edit_color.setText(color);
                         tv_edit_color.setTextColor(Color.parseColor("#000000"));
                         warning2.setVisibility(View.GONE);
                     }
@@ -436,7 +411,8 @@ public class activity_addClothes extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            tv_edit_date.setText(year + "년 " + monthOfYear + "월 " + dayOfMonth +"일");
+            buyDate = String.format("%d-%02d-%02d",year,monthOfYear+1,dayOfMonth);
+            tv_edit_buyDate.setText(buyDate);
         }
     };
 

@@ -33,6 +33,7 @@ import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_addClothes;
 import com.Project.Closet.util.OnBackPressedListener;
+import com.Project.Closet.util.Utils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -68,13 +69,12 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
     public ImageView iv_edit_image;
-    public TextView tv_name;
     public TextView tv_category;
     public TextView tv_detailcategory;
     public TextView tv_season;
     public TextView tv_brand;
     public TextView tv_size;
-    public TextView tv_date;
+    public TextView tv_buyDate;
 
     public ImageView iv_heart;
     public ImageView iv_modify;
@@ -125,13 +125,12 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         iv_image = (ImageView) getView().findViewById(R.id.iv_image);
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
-        tv_name = (TextView) getView().findViewById(R.id.tv_info_name);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
         tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
         tv_brand = (TextView) getView().findViewById(R.id.tv_info_brand);
         tv_size = (TextView) getView().findViewById(R.id.tv_info_size);
-        tv_date = (TextView) getView().findViewById(R.id.tv_info_date);
+        tv_buyDate = (TextView) getView().findViewById(R.id.tv_info_date);
 
         iv_heart = (ImageView) getView().findViewById(R.id.iv_heart);
         iv_modify = (ImageView) getView().findViewById(R.id.iv_modify);
@@ -166,8 +165,6 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tv_edit_name.getText()!=null)
-                    tv_name.setText(tv_edit_name.getText());
                 if(tv_edit_category.getText()!="카테고리를 선택해주세요.")
                     tv_category.setText(tv_edit_category.getText());
                 if(tv_edit_detailcategory.getText()!=null)
@@ -179,7 +176,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 if(tv_edit_size.getText()!=null)
                     tv_size.setText(tv_edit_size.getText());
                 if(tv_edit_date.getText()!=null)
-                    tv_date.setText(tv_edit_date.getText());
+                    tv_buyDate.setText(tv_edit_date.getText());
 
                 Cloth_Info_edit.setVisibility(View.GONE);
             }
@@ -454,15 +451,15 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();
-                    clothesFilter.setNo(Integer.parseInt(tv_cloNo.getText().toString()));
+                    clothesFilter.setCloNo(Integer.parseInt(tv_cloNo.getText().toString()));
                     boolean reverted_favorite;
                     //즐겨찾기 여부 불러와서 반대값으로 설정
                     if("yes".equals(tv_cloFavorite.getText().toString())){
-                        clothesFilter.setLike("no");
+                        clothesFilter.setFavorite("no");
                         reverted_favorite = false;
                     }
                     else{
-                        clothesFilter.setLike("yes");
+                        clothesFilter.setFavorite("yes");
                         reverted_favorite = true;
                     }
 
@@ -492,7 +489,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);
                     Cloth_Info_edit.setVisibility(View.VISIBLE);
-                    tv_edit_date.setText(tv_date.getText());
+                    tv_edit_date.setText(tv_buyDate.getText());
                     break;
                 case R.id.iv_delete : //삭제 버튼
                     //확인 Alert 다이얼로그
@@ -533,16 +530,15 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_name.setText(cloInfo.getName());
-        tv_category.setText(cloInfo.getClosetName());
-        tv_detailcategory.setText(cloInfo.getCategory());
+        tv_category.setText(Utils.convertEng(cloInfo.getCategory()));
+        tv_detailcategory.setText(cloInfo.getDetailCategory());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());
-        tv_date.setText(cloInfo.getDate());
-        tv_cloNo.setText(Integer.toString(cloInfo.getNo()));
+        tv_buyDate.setText(cloInfo.getBuyDate());
+        tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
-        if("yes".equals(cloInfo.getLike())){
+        if("yes".equals(cloInfo.getFavorite())){
             iv_heart.setImageResource(R.drawable.heart_color);
             tv_cloFavorite.setText("yes");
         }

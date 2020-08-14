@@ -27,7 +27,7 @@ public class ClothesDAOImpl implements ClothesDAO {
 	public ClothesVO selectThisClothes(String no) throws DataAccessException {
 		
 		ClothesVO cloVO = new ClothesVO();
-		cloVO.setNo(Integer.parseInt(no));
+		cloVO.setCloNo(Integer.parseInt(no));
 		
 		ClothesVO clothes = sqlSession.selectOne("mapper.clothes.searchClothes",cloVO);
 		return clothes;
@@ -59,8 +59,8 @@ public class ClothesDAOImpl implements ClothesDAO {
 	}
 
 	@Override
-	public String updateFavorite(ClothesVO clothesInfo) throws DataAccessException {
-		int result = sqlSession.update("mapper.clothes.updateFavorite",clothesInfo);
+	public String updateClothes(ClothesVO clothesInfo) throws DataAccessException {
+		int result = sqlSession.update("mapper.clothes.updateClothes",clothesInfo);
 		System.out.println(result);
 		
 		if (result==1)

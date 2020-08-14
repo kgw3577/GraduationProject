@@ -1,25 +1,36 @@
 package com.Project.Closet.HTTP.VO;
 
 public class ClothesVO {
-    private int no; // PRIMARY KEY. AUTO INCREMENT
-    private String name;
-    private String category; //not null
-    private String brand;
+    private int cloNo; // PRIMARY KEY. AUTO INCREMENT
+    private String category; // not null
+    private String detailCategory; // not null
     private String color;
-    private String date;
     private String season;
+    private String brand;
     private String cloSize;
-    private String img;
+    private String buyDate;
     private String fileName;
     private String filePath;
-    private String like;
-    private String userID; // FOREIGN KEY(CLOSET). not null
+    private String favorite;
+    private String userID; // FOREIGN KEY(USER). not null
     private String closetName; // FOREIGN KEY(CLOSET). not null
+    private String regDate;
+
 
 
     //생성자
     public ClothesVO() {
         System.out.println("ClothesVO 생성자 호출");
+    }
+
+    public ClothesVO(int no) {
+        System.out.println("ClothesVO 생성자 호출");
+        this.cloNo = no;
+    }
+
+    public ClothesVO(String userID) {
+        System.out.println("ClothesVO 생성자 호출");
+        this.userID = userID;
     }
 
     public ClothesVO(String userID, String closetName, String fileName) {
@@ -29,21 +40,14 @@ public class ClothesVO {
         this.fileName = fileName;
     }
 
+
     //getter & setter
-    public int getNo() {
-        return no;
+    public int getCloNo() {
+        return cloNo;
     }
 
-    public void setNo(int no) {
-        this.no = no;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setCloNo(int cloNo) {
+        this.cloNo = cloNo;
     }
 
     public String getCategory() {
@@ -54,12 +58,12 @@ public class ClothesVO {
         this.category = category;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getDetailCategory() {
+        return detailCategory;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setDetailCategory(String detailCategory) {
+        this.detailCategory = detailCategory;
     }
 
     public String getColor() {
@@ -70,20 +74,20 @@ public class ClothesVO {
         this.color = color;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public String getSeason() {
         return season;
     }
 
     public void setSeason(String season) {
         this.season = season;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     public String getCloSize() {
@@ -94,12 +98,12 @@ public class ClothesVO {
         this.cloSize = cloSize;
     }
 
-    public String getImg() {
-        return img;
+    public String getBuyDate() {
+        return buyDate;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setBuyDate(String buyDate) {
+        this.buyDate = buyDate;
     }
 
     public String getFileName() {
@@ -118,12 +122,12 @@ public class ClothesVO {
         this.filePath = filePath;
     }
 
-    public String getLike() {
-        return like;
+    public String getFavorite() {
+        return favorite;
     }
 
-    public void setLike(String like) {
-        this.like = like;
+    public void setFavorite(String favorite) {
+        this.favorite = favorite;
     }
 
     public String getUserID() {
@@ -141,4 +145,15 @@ public class ClothesVO {
     public void setClosetName(String closetName) {
         this.closetName = closetName;
     }
+
+    public String getRegDate() {
+        return regDate;
+    }
+
+    public void setRegDate(String regDate) {
+        this.regDate = regDate;
+    }
+
+
+
 }
