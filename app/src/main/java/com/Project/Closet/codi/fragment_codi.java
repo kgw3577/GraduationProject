@@ -6,6 +6,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -33,6 +37,8 @@ import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.activity_addCodi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
+import com.github.clans.fab.FloatingActionMenu;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -50,7 +56,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     Toast toast;
     long backKeyPressedTime;
 
-    int ADD_CODI = 120;
+    int MAKE_CODI = 120;
 
     Activity activity;
 
@@ -88,6 +94,12 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_detailcategory;
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
+
+    private Boolean isFabOpen = false;
+
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabEdit, fabDelete, fabAdd;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -330,9 +342,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("여름"));
             tabLayout.addTab(tabLayout.newTab().setText("가을"));
             tabLayout.addTab(tabLayout.newTab().setText("겨울"));
-            tabLayout.addTab(tabLayout.newTab().setText("일상"));
+            tabLayout.addTab(tabLayout.newTab().setText("캐주얼"));
             tabLayout.addTab(tabLayout.newTab().setText("포멀"));
-            tabLayout.addTab(tabLayout.newTab().setText("특별"));
+            tabLayout.addTab(tabLayout.newTab().setText("특수"));
 
             // 탭메뉴 아이콘 설정
             //tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
@@ -368,6 +380,43 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             });
         }
 
+
+        //플로팅 액션 버튼 설정
+
+        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab2);
+        fabDelete = (FloatingActionButton) getView().findViewById(R.id.fab3);
+        fabEdit = (FloatingActionButton) getView().findViewById(R.id.fab1);
+        fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
+
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    //Toast.makeText(getContext(), "Menu is opened", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Toast.makeText(getContext(), "Menu is closed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //handling each floating action button clicked
+        fabDelete.setOnClickListener(onClickListener);
+        fabEdit.setOnClickListener(onClickListener);
+        fabAdd.setOnClickListener(onClickListener);
+
+        fam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (fam.isOpened()) {
+                    fam.close(true);
+                }
+            }
+        });
+        fam.setIconAnimated(false);
+        fam.setAlpha(1.0f);
+
+
     }
 
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
@@ -388,8 +437,11 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
     @Override
     public void onBackPressed() {
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if(fam.isOpened()){
+            fam.close(true);
         } else if (Cloth_Info_edit.getVisibility() == View.VISIBLE) {
             Cloth_Info_edit.setVisibility(View.GONE);
         } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
@@ -462,8 +514,17 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
+                    // 사진으로 코디 추가
+                    break;
+                case R.id.fab1:
                     Intent intent = new Intent(getContext(), activity_addCodi.class);
-                    startActivityForResult(intent,ADD_CODI);
+                    startActivityForResult(intent, MAKE_CODI);
+                    break;
+                case R.id.fab2:
+                    Toast.makeText(getContext(), "Button2", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.fab3:
+                    Toast.makeText(getContext(), "Button3", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
@@ -535,7 +596,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == ADD_CODI && resultCode == RESULT_OK)
+        if(requestCode == MAKE_CODI && resultCode == RESULT_OK)
             ((activity_home)activity).refresh_codi(fragment_codi.this);
     }
 
