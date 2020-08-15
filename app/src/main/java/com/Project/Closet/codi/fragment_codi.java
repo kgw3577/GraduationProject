@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,8 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.CycleInterpolator;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -343,18 +341,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("가을"));
             tabLayout.addTab(tabLayout.newTab().setText("겨울"));
             tabLayout.addTab(tabLayout.newTab().setText("캐주얼"));
+            tabLayout.addTab(tabLayout.newTab().setText("비지니스"));
             tabLayout.addTab(tabLayout.newTab().setText("포멀"));
             tabLayout.addTab(tabLayout.newTab().setText("특수"));
-
-            // 탭메뉴 아이콘 설정
-            //tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
-            //tabLayout.getTabAt(1).setIcon(R.drawable.spring); // 메뉴2
-            //tabLayout.getTabAt(2).setIcon(R.drawable.summer); // 메뉴3
-            //tabLayout.getTabAt(3).setIcon(R.drawable.fall2); // 메뉴4
-            //tabLayout.getTabAt(4).setIcon(R.drawable.winter4); // 메뉴5
-            //tabLayout.getTabAt(5).setIcon(R.drawable.daily); // 메뉴6
-            //tabLayout.getTabAt(6).setIcon(R.drawable.formal); // 메뉴7
-            //tabLayout.getTabAt(7).setIcon(R.drawable.special4); // 메뉴7
 
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
@@ -383,9 +372,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         //플로팅 액션 버튼 설정
 
-        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab2);
-        fabDelete = (FloatingActionButton) getView().findViewById(R.id.fab3);
-        fabEdit = (FloatingActionButton) getView().findViewById(R.id.fab1);
+        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_color_codi);
+        fabDelete = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
+        fabEdit = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
         fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
@@ -405,17 +394,22 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         fabEdit.setOnClickListener(onClickListener);
         fabAdd.setOnClickListener(onClickListener);
 
-        fam.setOnClickListener(new View.OnClickListener() {
+        fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (fam.isOpened()) {
+            public void onClick(View v) {
+                if(fam.isOpened()){
                     fam.close(true);
+                }
+                else{
+                    fam.open(true);
                 }
             }
         });
-        fam.setIconAnimated(false);
-        fam.setAlpha(1.0f);
 
+        fam.setIconAnimationOpenInterpolator(new CycleInterpolator(-0.5f));
+        fam.setIconAnimationCloseInterpolator(new CycleInterpolator(-0.8f));
+        fam.setClosedOnTouchOutside(true);
+        fam.getMenuIconView().setColorFilter(Color.parseColor("#000000"));
 
     }
 
@@ -454,7 +448,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             activity.finish();
             toast.cancel();
         }
-
     }
 
 
@@ -516,14 +509,14 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                 case R.id.header_add : //헤더- 추가 버튼
                     // 사진으로 코디 추가
                     break;
-                case R.id.fab1:
+                case R.id.fab_make_codi:
                     Intent intent = new Intent(getContext(), activity_addCodi.class);
                     startActivityForResult(intent, MAKE_CODI);
                     break;
-                case R.id.fab2:
+                case R.id.fab_color_codi:
                     Toast.makeText(getContext(), "Button2", Toast.LENGTH_SHORT).show();
                     break;
-                case R.id.fab3:
+                case R.id.fab_weather_codi:
                     Toast.makeText(getContext(), "Button3", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_heart : //즐겨찾기

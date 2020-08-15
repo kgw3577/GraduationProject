@@ -33,8 +33,10 @@ public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
             case 5:
                 return TabFragment_Codi_large.newInstance("casual");
             case 6:
-                return TabFragment_Codi_large.newInstance("formal");
+                return TabFragment_Codi_large.newInstance("business");
             case 7:
+                return TabFragment_Codi_large.newInstance("formal");
+            case 8:
                 return TabFragment_Codi_large.newInstance("special");
             default:
                 return null;

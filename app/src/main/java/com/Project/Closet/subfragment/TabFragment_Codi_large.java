@@ -130,7 +130,8 @@ public class TabFragment_Codi_large extends Fragment {
                     codiFilter.setSeason(identifier);
                     codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
                     break;
-                case "casual" : //일상 코디 조회
+                case "casual" : //캐주얼 코디 조회
+                case "business" : //비지니스 코디 조회
                 case "formal" : //포멀 코디 조회
                 case "special" : //특수 코디 조회
                     codiFilter.setPlace(identifier);

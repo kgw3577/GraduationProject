@@ -101,63 +101,10 @@
 
                     </RelativeLayout>
                 </androidx.core.widget.NestedScrollView>
-                <com.github.clans.fab.FloatingActionMenu
 
-                    xmlns:fab="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/fab_menu"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:paddingBottom="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    fab:menu_backgroundColor="#ccffffff"
-                    fab:menu_icon="@drawable/make_codi"
-
-                    fab:fab_colorNormal="@color/오렌지"
-                    fab:fab_colorPressed="#E75043"
-                    fab:fab_colorRipple="#99FFFFFF"
-                    fab:fab_showShadow="true"
-                    fab:menu_labels_colorNormal="#333333"
-                    fab:menu_labels_colorPressed="#444444"
-                    fab:menu_labels_colorRipple="#66FFFFFF"
-                    fab:menu_labels_showShadow="true"
-                    fab:menu_labels_maxLines="-1"
-                    fab:menu_labels_position="left"
-                    fab:menu_openDirection="up"
-                    fab:fab_shadowColor="#66000000"
-                    fab:menu_labels_ellipsize="end"
-                    fab:menu_labels_singleLine="true"
-                    >
-
-                    <com.github.clans.fab.FloatingActionButton
-                        android:id="@+id/fab1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_make"
-                        android:tint="@color/화이트"
-                        fab:fab_label="코디 만들기"
-                        fab:fab_size="mini" />
-
-                    <com.github.clans.fab.FloatingActionButton
-                        android:id="@+id/fab2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_color"
-                        fab:fab_label="색깔 기반 코디 추천"
-                        fab:fab_size="mini" />
-
-                    <com.github.clans.fab.FloatingActionButton
-                        android:id="@+id/fab3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/icon_weather"
-                        fab:fab_label="날씨 기반 코디 추천"
-                        fab:fab_size="mini"
-                        />
-
-                </com.github.clans.fab.FloatingActionMenu>
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
             <RelativeLayout
                 android:id="@+id/cloth_info"
                 android:layout_width="match_parent"
@@ -190,4 +137,74 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
         app:menu="@menu/drawerlayout"/>
+
+    <com.github.clans.fab.FloatingActionMenu
+
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        fab:menu_backgroundColor="#ccffffff"
+        fab:menu_icon="@drawable/make_codi"
+
+        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorPressed="#F2AB00"
+        fab:menu_colorRipple="#99FFFFFF"
+        fab:fab_shadowColor="#444"
+
+
+        fab:fab_showShadow="true"
+        fab:menu_labels_colorNormal="#333333"
+        fab:menu_labels_colorPressed="#444444"
+        fab:menu_labels_colorRipple="#66FFFFFF"
+        fab:menu_labels_showShadow="true"
+        fab:menu_labels_maxLines="-1"
+        fab:menu_labels_position="left"
+        fab:menu_openDirection="up"
+
+        fab:menu_labels_ellipsize="end"
+        fab:menu_labels_singleLine="true"
+        >
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_make_codi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_make"
+            app:fab_colorNormal="#000000"
+            app:fab_colorPressed="#F2AB00"
+            app:fab_colorRipple="#99FFFFFF"
+            fab:fab_label="코디 만들기"
+            fab:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_color_codi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_color"
+            app:fab_colorNormal="#000000"
+            app:fab_colorPressed="#F2AB00"
+            app:fab_colorRipple="#99FFFFFF"
+            fab:fab_label="색깔 기반 코디 추천"
+            fab:fab_size="normal" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_weather_codi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_weather"
+            app:fab_colorNormal="#000000"
+            app:fab_colorPressed="#F2AB00"
+            app:fab_colorRipple="#99FFFFFF"
+            fab:fab_label="날씨 기반 코디 추천"
+            fab:fab_size="normal"
+            />
+
+    </com.github.clans.fab.FloatingActionMenu>
+
+
 </androidx.drawerlayout.widget.DrawerLayout>
