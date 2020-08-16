@@ -30,9 +30,12 @@
 	<table align="center" border="1">
 		<tr align='center' bgcolor='lightgreen'>
 			<td width="7%"><b>번호</b></td>
+			<td width="7%"><b>소속</b></td>
+			<td width="7%"><b>대분류</b></td>
 			<td width="7%"><b>카테고리</b></td>
 			<td width="7%"><b>세부 카테고리</b></td>
 			<td width="7%"><b>색상</b></td>
+			<td width="7%"><b>식별자</b></td>
 			<td width="7%"><b>계절</b></td>
 			<td width="7%"><b>브랜드</b></td>
 			<td width="7%"><b>사이즈</b></td>
@@ -58,9 +61,12 @@
 				<c:forEach var="clo" items="${clothesList}"> <!-- 컨트롤러에서 바인딩한 clothesList에 바로 접근 -->
 					<tr align='center'>
 						<td>${clo.cloNo}</td>
+						<td>${clo.location}</td>
+						<td>${clo.kind}</td>
 						<td>${clo.category}</td>
 						<td>${clo.detailCategory}</td>
 						<td>${clo.color}</td>
+						<td>${clo.identifier}</td>
 						<td>${clo.season}</td>
 						<td>${clo.brand}</td>
 						<td>${clo.cloSize}</td>

@@ -84,6 +84,22 @@
                     app:scale_top="11"
                     app:scale_width="400" />
 
+                <Button
+                    android:id="@+id/share_closet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:scale_top="11"
+                    app:scale_left="630"
+                    app:scale_width="155"
+                    app:scale_height="110"
+                    android:gravity="center"
+                    android:text="공유"
+                    app:scale_textsize="40"
+                    android:visibility="invisible"
+                    />
+
+
+
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
         </RelativeLayout>
@@ -93,17 +109,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/header_add"
-            app:scale_left="830"
+            app:scale_left="880"
             app:scale_top="0"
-            app:scale_width="250"
+            app:scale_width="200"
             app:scale_height="116">
+
+
+
 
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:id="@+id/sl_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:scale_base_width="250"
+                app:scale_base_width="200"
                 app:scale_base_height="116">
+
+
 
                 <ImageView
                     android:id="@+id/add"
@@ -111,7 +132,7 @@
                     android:layout_height="24dp"
                     android:src="@drawable/add_photo2"
                     app:scale_height="70"
-                    app:scale_left="150"
+                    app:scale_left="100"
                     app:scale_left_baseposition="center"
                     app:scale_top="55"
                     app:scale_top_baseposition="center"

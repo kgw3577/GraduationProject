@@ -1,4 +1,4 @@
-package com.Project.Closet.subfragment;
+package com.Project.Closet.closet.closet_activities;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +21,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.home.fragment_home;
+import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;
@@ -36,10 +36,11 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class TabFragment_Clothes_inHome extends Fragment {
+public class TabFragment_Clothes_inClosetShare extends Fragment {
 
-    fragment_home parentFragment;
+    activity_closet_share parent;
 
+    String location;
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
 
@@ -57,13 +58,14 @@ public class TabFragment_Clothes_inHome extends Fragment {
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
 
 
-    public static TabFragment_Clothes_inHome newInstance(String identifier, String size) {
+    public static TabFragment_Clothes_inClosetShare newInstance(String location, String identifier, String size) {
 
         Bundle args = new Bundle();
+        args.putString("location", location);
         args.putString("identifier", identifier);  // 키값, 데이터
         args.putString("size", size);
 
-        TabFragment_Clothes_inHome fragment = new TabFragment_Clothes_inHome();
+        TabFragment_Clothes_inClosetShare fragment = new TabFragment_Clothes_inClosetShare();
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,12 +75,13 @@ public class TabFragment_Clothes_inHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parentFragment = ((fragment_home)getParentFragment());
 
+        parent= (activity_closet_share) getActivity();
 
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
         {
+            location = args.getString("location");
             identifier = args.getString("identifier");
             size = args.getString("size");
         }
@@ -114,7 +117,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                parentFragment.setInfo(cloInfo);
+                parent.setInfo(cloInfo);
             }
         });
     }
@@ -164,13 +167,12 @@ public class TabFragment_Clothes_inHome extends Fragment {
 
         @Override
         protected List<ClothesVO> doInBackground(String... params) {
-
             String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
             ClothesVO clothesFilter = new ClothesVO();
-            clothesFilter.setLocation("private");
+            clothesFilter.setLocation(location);
             switch(identifier){
                 case "share" : //모든 옷 조회
-                    cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(userID, params[0], pagesize);
+                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter, userID,params[0], pagesize);
                     break;
                 case "상의" : //카테고리 top 조회
                 case "하의" : //카테고리 bottom 조회

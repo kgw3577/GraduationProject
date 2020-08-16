@@ -172,18 +172,19 @@ public class Page_category extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
             String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
             ClothesVO clothesFilter = new ClothesVO();
+            clothesFilter.setLocation("private");
             switch(identifier){
                 case "share" : //모든 옷 조회
                     cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(userID, params[0], pagesize);
                     break;
-                case "top" : //카테고리 top 조회
-                case "bottom" : //카테고리 bottom 조회
-                case "suit" : //카테고리 suit 조회
-                case "outer" : //카테고리 outer 조회
-                case "shoes" : //카테고리 shoes 조회
-                case "bag" : //카테고리 bag 조회
-                case "accessory" : //카테고리 accessory 조회
-                    clothesFilter.setCategory(identifier);
+                case "상의" : //카테고리 top 조회
+                case "하의" : //카테고리 bottom 조회
+                case "한벌옷" : //카테고리 suit 조회
+                case "외투" : //카테고리 outer 조회
+                case "신발" : //카테고리 shoes 조회
+                case "가방" : //카테고리 bag 조회
+                case "액세서리" : //카테고리 accessory 조회
+                    clothesFilter.setKind(identifier);
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
                 case "favorite" : //즐겨찾기 여부가 "yes"인 옷 가져오기

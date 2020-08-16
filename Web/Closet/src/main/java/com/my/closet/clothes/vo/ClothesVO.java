@@ -5,9 +5,12 @@ import org.springframework.stereotype.Component;
 @Component("clothesVO")
 public class ClothesVO {
 	private int cloNo; // PRIMARY KEY. AUTO INCREMENT
+	private String location;
+	private String kind;
 	private String category; // not null
 	private String detailCategory; // not null
 	private String color;
+	private String identifier;
 	private String season;
 	private String brand;
 	private String cloSize;
@@ -65,14 +68,29 @@ public class ClothesVO {
 		this.fileName = fileName;
 	}
 
-	
-	//getter & setter
+	//get set
 	public int getCloNo() {
 		return cloNo;
 	}
 
 	public void setCloNo(int cloNo) {
 		this.cloNo = cloNo;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getKind() {
+		return kind;
+	}
+
+	public void setKind(String kind) {
+		this.kind = kind;
 	}
 
 	public String getCategory() {
@@ -97,6 +115,14 @@ public class ClothesVO {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public String getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
 	}
 
 	public String getSeason() {
@@ -179,12 +205,6 @@ public class ClothesVO {
 		this.regDate = regDate;
 	}
 
-	
-
-	
-	
-	
-	
 	
 	
 	

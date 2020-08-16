@@ -77,17 +77,19 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@android:drawable/stat_notify_error"
-                android:tint="@color/레드"
-                android:visibility="gone">
+                android:visibility="gone"
+                app:tint="@color/레드">
 
             </ImageView>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/ll_detailcategory"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="gone"
+            >
 
             <TextView
                 android:layout_width="100dp"
@@ -124,8 +126,8 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@android:drawable/stat_notify_error"
-                android:tint="@color/레드"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:tint="@color/레드" />
 
 
         </LinearLayout>

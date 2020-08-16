@@ -31,9 +31,9 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.closet_activities.activity_closet_share;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
-import com.Project.Closet.util.Utils;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -61,6 +61,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TabPagerAdapter_closet pagerAdapter;
     private ViewPager finalPager;
 
+    Button shareButton;
     RelativeLayout filterButton;
     RelativeLayout addButton;
 
@@ -118,6 +119,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         addButton = getView().findViewById(R.id.header_add);
         filterButton = getView().findViewById(R.id.header_search);
+        shareButton = getView().findViewById(R.id.share_closet);
+        shareButton.setVisibility(View.VISIBLE);
 
         drawer = getView().findViewById(R.id.final_drawer_layout);
 
@@ -163,6 +166,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
         addButton.setOnClickListener(onClickListener);
+        shareButton.setOnClickListener(onClickListener);
 
 
         iv_save.setOnClickListener(new View.OnClickListener() {
@@ -236,13 +240,13 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                final String[] items = getResources().getStringArray(R.array.Category);
+                final String[] items = getResources().getStringArray(R.array.Kind);
                 final ArrayList<String> selectedItem  = new ArrayList<String>();
                 selectedItem.add(items[0]);
 
                 builder.setTitle("카테고리 선택");
 
-                builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
+                builder.setSingleChoiceItems(R.array.Kind, 0, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int pos)
                     {
@@ -334,15 +338,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("신발"));
             tabLayout.addTab(tabLayout.newTab().setText("가방"));
             tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
-            // 탭메뉴 아이콘 설정
-//            tabLayout.getTabAt(0).setIcon(R.drawable.all2); // 메뉴1
-//            tabLayout.getTabAt(1).setIcon(R.drawable.top); // 메뉴2
-//            tabLayout.getTabAt(2).setIcon(R.drawable.bottom); // 메뉴3
-//            tabLayout.getTabAt(3).setIcon(R.drawable.suit2); // 메뉴4
-//            tabLayout.getTabAt(4).setIcon(R.drawable.outer); // 메뉴5
-//            tabLayout.getTabAt(5).setIcon(R.drawable.shoes); // 메뉴6
-//            tabLayout.getTabAt(6).setIcon(R.drawable.bag); // 메뉴7
-//            tabLayout.getTabAt(7).setIcon(R.drawable.hat); // 메뉴8
 
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
@@ -461,11 +456,16 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         @Override
         public void onClick(View view) {
-
+            Intent intent;
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
-                    Intent intent = new Intent(getContext(), activity_addClothes.class);
+                    intent = new Intent(getContext(), activity_addClothes.class);
+                    intent.putExtra("location","private");
                     startActivityForResult(intent,ADD_CLOTHES);
+                    break;
+                case R.id.share_closet : //공유 옷장 버튼
+                    intent = new Intent(getContext(), activity_closet_share.class);
+                    startActivity(intent);
                     break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
@@ -549,7 +549,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_category.setText(Utils.convertEng(cloInfo.getCategory()));
+        tv_category.setText(cloInfo.getCategory());
         tv_detailcategory.setText(cloInfo.getDetailCategory());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());

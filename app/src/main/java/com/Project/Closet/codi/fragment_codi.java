@@ -244,13 +244,13 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                final String[] items = getResources().getStringArray(R.array.Category);
+                final String[] items = getResources().getStringArray(R.array.Kind);
                 final ArrayList<String> selectedItem  = new ArrayList<String>();
                 selectedItem.add(items[0]);
 
                 builder.setTitle("카테고리 선택");
 
-                builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
+                builder.setSingleChoiceItems(R.array.Kind, 0, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int pos)
                     {

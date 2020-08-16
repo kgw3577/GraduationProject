@@ -18,13 +18,15 @@
                 android:layout_alignParentTop="true"
                 android:background="@android:color/black"
                 app:scale_base_height="155"
-                app:scale_base_width="1080">
+                app:scale_base_width="1080"
+                >
 
                 <include
 
                     layout="@layout/header_closets"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
             </com.ssomai.android.scalablelayout.ScalableLayout>
 
 

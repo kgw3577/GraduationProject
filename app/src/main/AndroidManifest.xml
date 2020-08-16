@@ -29,6 +29,8 @@
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
         <activity android:name=".closet.activity_addClothes" />
+
+        <activity android:name=".closet.closet_activities.activity_closet_share" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

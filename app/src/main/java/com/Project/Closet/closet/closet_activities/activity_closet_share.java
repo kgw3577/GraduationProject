@@ -1,15 +1,13 @@
-package com.Project.Closet.home;
+package com.Project.Closet.closet.closet_activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +20,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.Global;
@@ -32,6 +30,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_addClothes;
+import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -43,9 +42,7 @@ import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
-import static android.app.Activity.RESULT_OK;
-
-public class fragment_home extends Fragment implements OnBackPressedListener {
+public class activity_closet_share extends AppCompatActivity implements OnBackPressedListener {
 
     ViewGroup viewGroup;
     Toast toast;
@@ -53,12 +50,14 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
     int ADD_CLOTHES = 100;
 
+
     Activity activity;
 
     private TabLayout tabLayout;
-    public TabPagerAdapter_home pagerAdapter;
+    public TabPagerAdapter_closet_share pagerAdapter;
     private ViewPager finalPager;
 
+    Button shareButton;
     RelativeLayout filterButton;
     RelativeLayout addButton;
 
@@ -73,7 +72,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public TextView tv_season;
     public TextView tv_brand;
     public TextView tv_size;
-    public TextView tv_buyDate;
+    public TextView tv_date;
 
     public ImageView iv_heart;
     public ImageView iv_modify;
@@ -84,68 +83,56 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_category;
     public TextView tv_edit_season;
     public TextView tv_edit_date;
-    public TextView tv_edit_name;
+    public TextView tv_edit_color;
     public TextView tv_edit_detailcategory;
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
-        toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
-        return viewGroup;
-    }
+    public void onCreate(Bundle savedInstanceState) {
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.frag_closet);
+        toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
-        if (context instanceof Activity){
-            activity = (Activity) context;
-            ((activity_home)activity).setOnBackPressedListener(this);
-        }
-    }
+        activity = this;
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
+        addButton = findViewById(R.id.header_add);
+        filterButton = findViewById(R.id.header_search);
 
-        addButton = getView().findViewById(R.id.header_add);
-        filterButton = getView().findViewById(R.id.header_search);
 
-        drawer = getView().findViewById(R.id.final_drawer_layout);
+        drawer = findViewById(R.id.final_drawer_layout);
 
-        Cloth_Info = (RelativeLayout) getView().findViewById(R.id.cloth_info);
+        Cloth_Info = (RelativeLayout) findViewById(R.id.cloth_info);
         Cloth_Info.setVisibility(View.GONE);
-        Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
+        Cloth_Info_edit = (RelativeLayout) findViewById(R.id.cloth_info_edit);
         Cloth_Info_edit.setVisibility(View.GONE);
 
-        iv_image = (ImageView) getView().findViewById(R.id.iv_image);
-        iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
-        tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
-        tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
-        tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
-        tv_brand = (TextView) getView().findViewById(R.id.tv_info_brand);
-        tv_size = (TextView) getView().findViewById(R.id.tv_info_size);
-        tv_buyDate = (TextView) getView().findViewById(R.id.tv_info_date);
+        iv_image = (ImageView) findViewById(R.id.iv_image);
+        iv_edit_image = (ImageView) findViewById(R.id.iv_edit_image);
+        tv_category = (TextView) findViewById(R.id.tv_info_catergory);
+        tv_detailcategory = (TextView) findViewById(R.id.tv_info_detailcategory);
+        tv_season = (TextView) findViewById(R.id.tv_info_season);
+        tv_brand = (TextView) findViewById(R.id.tv_info_brand);
+        tv_size = (TextView) findViewById(R.id.tv_info_size);
+        tv_date = (TextView) findViewById(R.id.tv_info_date);
 
-        iv_heart = (ImageView) getView().findViewById(R.id.iv_heart);
-        iv_modify = (ImageView) getView().findViewById(R.id.iv_modify);
-        iv_delete = (ImageView) getView().findViewById(R.id.iv_delete);
-        iv_save = (ImageView) getView().findViewById(R.id.iv_save);
+        iv_heart = (ImageView) findViewById(R.id.iv_heart);
+        iv_modify = (ImageView) findViewById(R.id.iv_modify);
+        iv_delete = (ImageView) findViewById(R.id.iv_delete);
+        iv_save = (ImageView) findViewById(R.id.iv_save);
 
-        tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
-        tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_color);
-        tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
-        tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
-        tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
+        tv_cloNo = (TextView) findViewById(R.id.tv_clothes_no);
+        tv_cloFavorite = (TextView) findViewById(R.id.tv_clothes_favorite);
+        tv_edit_color = (TextView) findViewById(R.id.tv_edit_color);
+        tv_edit_detailcategory = (TextView) findViewById(R.id.tv_edit_detailcategory);
+        tv_edit_brand = (TextView) findViewById(R.id.tv_edit_brand);
+        tv_edit_size = (TextView) findViewById(R.id.tv_edit_size);
 
-        tv_edit_category = (TextView) getView().findViewById(R.id.tv_edit_catergory);
-        tv_edit_season = (TextView) getView().findViewById(R.id.tv_edit_season);
-        tv_edit_date = (TextView) getView().findViewById(R.id.tv_edit_date);
+        tv_edit_category = (TextView) findViewById(R.id.tv_edit_catergory);
+        tv_edit_season = (TextView) findViewById(R.id.tv_edit_season);
+        tv_edit_date = (TextView) findViewById(R.id.tv_edit_date);
         tv_edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +146,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
         addButton.setOnClickListener(onClickListener);
+
 
 
         iv_save.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +163,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 if(tv_edit_size.getText()!=null)
                     tv_size.setText(tv_edit_size.getText());
                 if(tv_edit_date.getText()!=null)
-                    tv_buyDate.setText(tv_edit_date.getText());
+                    tv_date.setText(tv_edit_date.getText());
 
                 Cloth_Info_edit.setVisibility(View.GONE);
             }
@@ -284,11 +272,10 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             }
         });
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
+        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
 
         //필터 버튼 클릭하면 드로워 열고 닫기
-
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,14 +294,14 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 switch (menuItem.getItemId())
                 {
                     case R.id.menuitem1:
-                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
                     case R.id.menuitem2:
-                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
                     case R.id.menuitem3:
-                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
                 }
 
-                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
+                DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
                 //drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -322,14 +309,22 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         if(tabLayout == null){
             //탭 목록 설정
-            tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
-            tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
-            tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
+            tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("모두"));
+            tabLayout.addTab(tabLayout.newTab().setText("상의"));
+            tabLayout.addTab(tabLayout.newTab().setText("하의"));
+            tabLayout.addTab(tabLayout.newTab().setText("한벌"));
+            tabLayout.addTab(tabLayout.newTab().setText("외투"));
+            tabLayout.addTab(tabLayout.newTab().setText("신발"));
+            tabLayout.addTab(tabLayout.newTab().setText("가방"));
+            tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
+
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
+
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-            finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
-            pagerAdapter = new TabPagerAdapter_home(getChildFragmentManager(), tabLayout.getTabCount());
+            finalPager = (ViewPager) findViewById(R.id.tab_Pager);
+            pagerAdapter = new TabPagerAdapter_closet_share(getSupportFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -355,7 +350,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             tv_edit_date.setText(year + "년" + monthOfYear + "월" + dayOfMonth +"일");
-            Toast.makeText(getContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity_closet_share.this, year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -376,13 +371,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             Cloth_Info_edit.setVisibility(View.GONE);
         } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
             Cloth_Info.setVisibility(View.GONE);
-        } else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
-            backKeyPressedTime = System.currentTimeMillis();
-            toast.show();
-            return;
-        } else if(System.currentTimeMillis() <= backKeyPressedTime + 2000){
-            activity.finish();
-            toast.cancel();
+        } else {
+            finish();
         }
 
     }
@@ -396,7 +386,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         @Override
         protected String doInBackground(ClothesVO... ClothesFilter) {
 
-            Call<String> stringCall = ClothesService.getRetrofit(getContext()).modifyClothes(ClothesFilter[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).modifyClothes(ClothesFilter[0]);
             try {
                 return stringCall.execute().body();
             } catch (IOException e) {
@@ -419,7 +409,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         @Override
         protected String doInBackground(String... cloNo) {
 
-            Call<String> stringCall = ClothesService.getRetrofit(getContext()).deleteClothes(cloNo[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).deleteClothes(cloNo[0]);
             try {
                 return stringCall.execute().body();
             } catch (IOException e) {
@@ -441,11 +431,16 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         @Override
         public void onClick(View view) {
-
+            Intent intent;
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
-                    Intent intent = new Intent(getContext(), activity_addClothes.class);
+                    intent = new Intent(activity_closet_share.this, activity_addClothes.class);
+                    intent.putExtra("location","public");
                     startActivityForResult(intent,ADD_CLOTHES);
+                    break;
+                case R.id.share_closet : //공유 옷장 버튼
+                    intent = new Intent(activity_closet_share.this, activity_closet_share.class);
+                    startActivity(intent);
                     break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
@@ -472,23 +467,23 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                     Log.e("tag",res);
                     if("ok".equals(res)){
                         if(reverted_favorite){
-                            Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_closet_share.this, "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_color);
                             tv_cloFavorite.setText("yes");
                         }else{
-                            Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_closet_share.this, "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_empty);
                             tv_cloFavorite.setText("no");
                         }
-                        ((activity_home)activity).refresh_home();
+                        ((activity_home)activity).notify_home_changed();
                     }
                     else
-                        Toast.makeText(getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);
                     Cloth_Info_edit.setVisibility(View.VISIBLE);
-                    tv_edit_date.setText(tv_buyDate.getText());
+                    tv_edit_date.setText(tv_date.getText());
                     break;
                 case R.id.iv_delete : //삭제 버튼
                     //확인 Alert 다이얼로그
@@ -501,13 +496,13 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                     }
 
                     if("ok".equals(res)){
-                        Toast.makeText(getContext(), "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
                         Cloth_Info.setVisibility(View.GONE);
                         //pagerAdapter.notifyDataSetChanged();
-                        ((activity_home)activity).refresh_clothes(fragment_home.this);
+                        Toast.makeText(activity_closet_share.this, "삭제 후 처리", Toast.LENGTH_SHORT).show();
 
                     }else{
-                        Toast.makeText(getContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_share.this, "삭제 실패", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -518,7 +513,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK)
-            ((activity_home)activity).refresh_clothes(fragment_home.this);
+            Toast.makeText(activity_closet_share.this, "등록 후 처리", Toast.LENGTH_SHORT).show();
+
     }
 
     //커스텀 함수
@@ -534,7 +530,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());
-        tv_buyDate.setText(cloInfo.getBuyDate());
+        tv_date.setText(cloInfo.getBuyDate());
         tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
         if("yes".equals(cloInfo.getFavorite())){

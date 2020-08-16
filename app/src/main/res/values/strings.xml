@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Smart Closet</string>
 
-    <string-array name="Category">
+    <string-array name="Kind">
         <item>"상의"</item>
         <item>"하의"</item>
         <item>"한벌옷"</item>
@@ -11,6 +11,162 @@
         <item>"액세서리"</item>
     </string-array>
 
+    <string-array name="상의">
+        <item>"반팔티셔츠"</item>
+        <item>"긴팔티셔츠"</item>
+        <item>"맨투맨"</item>
+        <item>"셔츠"</item>
+        <item>"니트"</item>
+        <item>"가디건"</item>
+        <item>"후디"</item>
+    </string-array>
+
+    <string-array name="반팔티셔츠">
+        <item>"라운드넥반팔티셔츠"</item>
+        <item>"브이넥반팔티셔츠"</item>
+        <item>"헨리넥반팔티셔츠"</item>
+        <item>"카라반팔티셔츠"</item>
+        <item>"민소매티셔츠"</item>
+        <item>"폴라넥반팔티셔츠"</item>
+    </string-array>
+
+    <string-array name="긴팔티셔츠">
+        <item>"라운드넥긴팔티셔츠"</item>
+        <item>"브이넥긴팔티셔츠"</item>
+        <item>"헨리넥긴팔티셔츠"</item>
+        <item>"카라긴팔티셔츠"</item>
+        <item>"폴라넥긴팔티셔츠"</item>
+    </string-array>
+
+    <string-array name="셔츠">
+        <item>"클래식/드레스셔츠"</item>
+        <item>"체크/패턴셔츠"</item>
+        <item>"캐주얼셔츠"</item>
+        <item>"헨리넥／차이나셔츠"</item>
+        <item>"반팔/7부셔츠"</item>
+        <item>"블라우스"</item>
+    </string-array>
+
+    <string-array name="니트">
+        <item>"라운드넥니트"</item>
+        <item>"브이넥니트"</item>
+        <item>"폴라넥니트"</item>
+        <item>"베스트니트"</item>
+    </string-array>
+
+    <string-array name="후디">
+        <item>"후드티셔츠"</item>
+        <item>"후드집업"</item>
+    </string-array>
+
+
+    <string-array name="하의">
+        <item>"청바지"</item>
+        <item>"면바지"</item>
+        <item>"슬랙스"</item>
+        <item>"트레이닝바지"</item>
+        <item>"반바지"</item>
+        <item>"핫팬츠"</item>
+        <item>"레깅스"</item>
+        <item>"스커트"</item>
+    </string-array>
+
+    <string-array name="스커트">
+        <item>"숏/미니 스커트"</item>
+        <item>"롱 스커트"</item>
+        <item>"미디엄 스커트"</item>
+    </string-array>
+
+    <string-array name="한벌옷">
+        <item>"원피스"</item>
+    </string-array>
+
+    <string-array name="원피스">
+        <item>"숏/미니 원피스"</item>
+        <item>"롱 원피스"</item>
+        <item>"미디엄 원피스"</item>
+    </string-array>
+
+    <string-array name="외투">
+        <item>"자켓"</item>
+        <item>"점퍼"</item>
+        <item>"코트"</item>
+        <item>"패딩"</item>
+    </string-array>
+
+    <string-array name="자켓">
+        <item>"블레이저"</item>
+        <item>"트러커자켓"</item>
+        <item>"가죽자켓"</item>
+        <item>"데님/청자켓"</item>
+        <item>"블루종"</item>
+        <item>"후리스"</item>
+    </string-array>
+
+    <string-array name="점퍼">
+        <item>"야구점퍼"</item>
+        <item>"항공점퍼"</item>
+        <item>"트랙점퍼"</item>
+        <item>"바람막이"</item>
+        <item>"야상점퍼"</item>
+    </string-array>
+
+    <string-array name="코트">
+        <item>"트렌치코트"</item>
+        <item>"맥코트"</item>
+        <item>"싱글코트"</item>
+        <item>"더블코트"</item>
+        <item>"더플코트"</item>
+        <item>"차이나카라코트"</item>
+        <item>"피코트"</item>
+        <item>"무스탕"</item>
+    </string-array>
+
+    <string-array name="패딩">
+        <item>"숏패딩"</item>
+        <item>"롱패딩"</item>
+        <item>"털파카"</item>
+        <item>"패딩코트"</item>
+    </string-array>
+
+
+    <string-array name="신발">
+        <item>"스니커즈"</item>
+        <item>"구두"</item>
+        <item>"워커/부츠"</item>
+        <item>"슬리퍼"</item>
+        <item>"운동화"</item>
+        <item>"샌들"</item>
+    </string-array>
+
+    <string-array name="액세서리">
+        <item>"모자"</item>
+        <item>"안경"</item>
+        <item>"가방"</item>
+        <item>"지갑"</item>
+        <item>"시계"</item>
+        <item>"벨트"</item>
+        <item>"팔찌"</item>
+        <item>"반지"</item>
+        <item>"귀걸이"</item>
+        <item>"목걸이"</item>
+        <item>"머플러"</item>
+        <item>"목도리"</item>
+        <item>"선글라스"</item>
+        <item>"넥타이"</item>
+        <item>"양말"</item>
+    </string-array>
+
+    <string-array name="모자">
+        <item>"캡모자"</item>
+        <item>"털모자"</item>
+        <item>"바캉스모자"</item>
+    </string-array>
+
+
+
+
+
     <string-array name="Season">
         <item>"봄"</item>
         <item>"여름"</item>
@@ -19,9 +175,12 @@
     </string-array>
 
     <string-array name="Place">
-        <item>"데일리"</item>
+        <item>"캐주얼"</item>
+        <item>"비지니스 캐주얼"</item>
+        <item>"비지니스"</item>
+        <item>"세미 포멀"</item>
         <item>"포멀"</item>
-        <item>"스페셜"</item>
+        <item>"특수"</item>
     </string-array>
 
     <string-array name="Board_Category">

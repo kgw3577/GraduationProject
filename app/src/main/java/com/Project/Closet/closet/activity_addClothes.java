@@ -65,6 +65,7 @@ public class activity_addClothes extends AppCompatActivity {
     String path;
     String likeArray[] = {"yes","no"};
 
+    public LinearLayout ll_detailcategory;
     public LinearLayout Cloth_Info_edit;
     public ScalableLayout sl_ok;
 
@@ -87,11 +88,15 @@ public class activity_addClothes extends AppCompatActivity {
     String cloSize ="";
     String buyDate ="";
 
+    String location;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_clothes);
+
+        location = getIntent().getExtras().getString("location");
 
         Cloth_Info_edit = (LinearLayout) findViewById(R.id.cloth_info_edit);
         sl_ok = findViewById(R.id.sl_ok);
@@ -106,13 +111,13 @@ public class activity_addClothes extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity_addClothes.this);
-                final String[] items = getResources().getStringArray(R.array.Category);
+                final String[] items = getResources().getStringArray(R.array.Kind);
                 final ArrayList<String> selectedItem  = new ArrayList<String>();
                 selectedItem.add(items[0]);
 
                 builder.setTitle("카테고리 선택");
 
-                builder.setSingleChoiceItems(R.array.Category, 0, new DialogInterface.OnClickListener(){
+                builder.setSingleChoiceItems(R.array.Kind, 0, new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int pos)
                     {
@@ -128,7 +133,7 @@ public class activity_addClothes extends AppCompatActivity {
                         Category[0] = selectedItem.get(0);
                         tv_edit_category.setText(Category[0]);
                         tv_edit_category.setTextColor(Color.parseColor("#000000"));
-                        category = Utils.convertKor(Category[0]);
+                        category = Category[0];
                         warning.setVisibility(View.GONE);
                     }
                 });
@@ -240,6 +245,7 @@ public class activity_addClothes extends AppCompatActivity {
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
 
+            mapRequestBody.put("location", RequestBody.create(MediaType.parse("text/plain"),location));
             mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"),category));
             mapRequestBody.put("detailCategory", RequestBody.create(MediaType.parse("text/plain"),detail_category));
             mapRequestBody.put("color", RequestBody.create(MediaType.parse("text/plain"),color));
@@ -392,8 +398,6 @@ public class activity_addClothes extends AppCompatActivity {
                 .setOnChooseColorListener(new ColorPicker.OnChooseColorListener() {
                     @Override
                     public void onChooseColor(int position, int colorInt) {
-
-
 
                         color = Utils.getKey(colorUtil.mapColors,String.format("#%06X", 0xFFFFFF & colorInt));
                         tv_edit_color.setText(color);

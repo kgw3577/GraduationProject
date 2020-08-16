@@ -24,21 +24,21 @@ public class TabPagerAdapter_closet extends FragmentStatePagerAdapter {
         // Returning the current tabs
         switch (position) {
             case 0:
-                return TabFragment_Clothes_inCloset.newInstance("share","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","share","small");
             case 1:
-                return TabFragment_Clothes_inCloset.newInstance("top","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","상의","small");
             case 2:
-                return TabFragment_Clothes_inCloset.newInstance("bottom","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","하의","small");
             case 3:
-                return TabFragment_Clothes_inCloset.newInstance("suit","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","한벌옷","small");
             case 4:
-                return TabFragment_Clothes_inCloset.newInstance("outer","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","외투","small");
             case 5:
-                return TabFragment_Clothes_inCloset.newInstance("shoes","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","신발","small");
             case 6:
-                return TabFragment_Clothes_inCloset.newInstance("bag","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","가방","small");
             case 7:
-                return TabFragment_Clothes_inCloset.newInstance("accessory","small");
+                return TabFragment_Clothes_inCloset.newInstance("private","액세서리","small");
             default:
                 return null;
         }

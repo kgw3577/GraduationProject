@@ -40,6 +40,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
 
     fragment_closet parentFragment;
 
+    String location;
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
 
@@ -57,9 +58,10 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
     Call<List<ClothesVO>> cloListCall; // 옷 VO 리스트를 응답으로 받는 http 요청
 
 
-    public static TabFragment_Clothes_inCloset newInstance(String identifier, String size) {
+    public static TabFragment_Clothes_inCloset newInstance(String location, String identifier, String size) {
 
         Bundle args = new Bundle();
+        args.putString("location", location);
         args.putString("identifier", identifier);  // 키값, 데이터
         args.putString("size", size);
 
@@ -79,6 +81,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
         {
+            location = args.getString("location");
             identifier = args.getString("identifier");
             size = args.getString("size");
         }
@@ -166,22 +169,22 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
             String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
             ClothesVO clothesFilter = new ClothesVO();
+            clothesFilter.setLocation(location);
             switch(identifier){
                 case "share" : //모든 옷 조회
-                    cloListCall = ClothesService.getRetrofit(getActivity()).myAllClothes(userID,params[0], pagesize);
+                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter, userID,params[0], pagesize);
                     break;
-                case "top" : //카테고리 top 조회
-                case "bottom" : //카테고리 bottom 조회
-                case "suit" : //카테고리 suit 조회
-                case "outer" : //카테고리 outer 조회
-                case "shoes" : //카테고리 shoes 조회
-                case "bag" : //카테고리 bag 조회
-                case "accessory" : //카테고리 accessory 조회
-                    clothesFilter.setCategory(identifier);
+                case "상의" : //카테고리 top 조회
+                case "하의" : //카테고리 bottom 조회
+                case "한벌옷" : //카테고리 suit 조회
+                case "외투" : //카테고리 outer 조회
+                case "신발" : //카테고리 shoes 조회
+                case "가방" : //카테고리 bag 조회
+                case "액세서리" : //카테고리 accessory 조회
+                    clothesFilter.setKind(identifier);
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;
                 case "favorite" : //즐겨찾기 여부가 "yes"인 옷 가져오기
-
                     clothesFilter.setFavorite("yes");
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID, params[0], pagesize);
                     break;

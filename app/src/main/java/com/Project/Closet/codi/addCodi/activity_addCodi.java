@@ -202,13 +202,13 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
         //뷰페이저에 프래그먼트 설정
         //pagerAdapter.addItem(new Page_allClothes());
-        pagerAdapter.addItem(Page_category.newInstance("top","small")); //0
-        pagerAdapter.addItem(Page_category.newInstance("bottom","small")); //1
-        pagerAdapter.addItem(Page_category.newInstance("suit","small"));
-        pagerAdapter.addItem(Page_category.newInstance("outer","small"));
-        pagerAdapter.addItem(Page_category.newInstance("shoes","small"));
-        pagerAdapter.addItem(Page_category.newInstance("bag","small"));
-        pagerAdapter.addItem(Page_category.newInstance("accessory","small"));
+        pagerAdapter.addItem(Page_category.newInstance("상의","small")); //0
+        pagerAdapter.addItem(Page_category.newInstance("하의","small")); //1
+        pagerAdapter.addItem(Page_category.newInstance("한벌옷","small"));
+        pagerAdapter.addItem(Page_category.newInstance("외투","small"));
+        pagerAdapter.addItem(Page_category.newInstance("신발","small"));
+        pagerAdapter.addItem(Page_category.newInstance("가방","small"));
+        pagerAdapter.addItem(Page_category.newInstance("액세서리","small"));
         viewPager.setAdapter(pagerAdapter);
 
         //상하의/한벌옷 모드 초기 설정
@@ -454,7 +454,6 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
             mapRequestBody.put("userID", RequestBody.create(MediaType.parse("text/plain"), MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID()));
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
             mapRequestBody.put("closetName", RequestBody.create(MediaType.parse("text/plain"), "default"));
-            mapRequestBody.put("category", RequestBody.create(MediaType.parse("text/plain"), "outer"));
             body = MultipartBody.Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 

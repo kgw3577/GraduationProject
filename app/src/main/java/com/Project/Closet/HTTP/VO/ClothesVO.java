@@ -2,9 +2,12 @@ package com.Project.Closet.HTTP.VO;
 
 public class ClothesVO {
     private int cloNo; // PRIMARY KEY. AUTO INCREMENT
+    private String location;
+    private String kind;
     private String category; // not null
     private String detailCategory; // not null
     private String color;
+    private String identifier;
     private String season;
     private String brand;
     private String cloSize;
@@ -15,6 +18,28 @@ public class ClothesVO {
     private String userID; // FOREIGN KEY(USER). not null
     private String closetName; // FOREIGN KEY(CLOSET). not null
     private String regDate;
+
+    //임시
+    private int pageStart =-1;
+    private int pageSize =-1;
+
+
+    public int getPageStart() {
+        return pageStart;
+    }
+
+    public void setPageStart(int pageStart) {
+        this.pageStart = pageStart;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
 
 
 
@@ -40,14 +65,29 @@ public class ClothesVO {
         this.fileName = fileName;
     }
 
-
-    //getter & setter
+    //get set
     public int getCloNo() {
         return cloNo;
     }
 
     public void setCloNo(int cloNo) {
         this.cloNo = cloNo;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     public String getCategory() {
@@ -72,6 +112,14 @@ public class ClothesVO {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getSeason() {
@@ -153,7 +201,5 @@ public class ClothesVO {
     public void setRegDate(String regDate) {
         this.regDate = regDate;
     }
-
-
 
 }
