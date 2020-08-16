@@ -151,6 +151,7 @@
         fab:menu_backgroundColor="#ccffffff"
         fab:menu_icon="@drawable/make_codi"
 
+
         fab:menu_colorNormal="#FFB805"
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#99FFFFFF"
@@ -189,7 +190,7 @@
             app:fab_colorNormal="#000000"
             app:fab_colorPressed="#F2AB00"
             app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="색깔 기반 코디 추천"
+            fab:fab_label="색상 기반 코디 추천"
             fab:fab_size="normal" />
 
         <com.github.clans.fab.FloatingActionButton

@@ -407,7 +407,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         });
 
         fam.setIconAnimationOpenInterpolator(new CycleInterpolator(-0.5f));
-        fam.setIconAnimationCloseInterpolator(new CycleInterpolator(-0.8f));
+        fam.setIconAnimationCloseInterpolator(new CycleInterpolator(-0.75f));
         fam.setClosedOnTouchOutside(true);
         fam.getMenuIconView().setColorFilter(Color.parseColor("#000000"));
 

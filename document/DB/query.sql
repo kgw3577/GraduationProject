@@ -15,6 +15,84 @@ desc BOARD;
 desc `COMMENT`;
 desc GOOD;
 
+select * from CLOTHES;
+DELETE FROM BOARD where boardNo='75';
+
+ALTER TABLE `CLOTHES` CHANGE `size` `cloSize` varchar(45);
+ALTER TABLE `CLOTHES` DROP `buyDate`;
+ALTER TABLE `CLOTHES` DROP `regDate`;
+
+ALTER TABLE `CLOTHES` ADD `type` varchar(45) AFTER `cloNo`;
+ALTER TABLE `CLOTHES` ADD `regDate` TIMESTAMP DEFAULT current_timestamp;
+
+SHOW CREATE TABLE CLOTHES;
+-- Truncate CLOTHES;
+-- Truncate BOARD;
+select * from BOARD;
+DELETE FROM BOARD WHERE userID='stark';
+
+ALTER TABLE `RELATION_CLO_CODI` DROP foreign key `RELATION_CLO_CODI_CLO`;
+DROP TABLE RELATION_CLO_CODI;
+select * from information_schema.table_constraints;
+
+
+insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","블랙","맨투맨_블랙","겨울","JIPSY","M","2019-05-05","맨투맨_블랙.jpg","/download/clothes?imageFileName=맨투맨_블랙.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","하의","청바지","청바지","블랙","청바지_블랙","가을",NULL,NULL,"2019-05-05","청바지_블랙.jpg","/download/clothes?imageFileName=청바지_블랙.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","하의","트레이닝바지","트레이닝바지","블랙","트레이닝바지_블랙","여름","나이키","M","2020-01-05","트레이닝바지_블랙.jpg","/download/clothes?imageFileName=트레이닝바지_블랙.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","화이트","맨투맨_화이트","겨울","JIPSY","M","2019-05-05","맨투맨_화이트.jpg","/download/clothes?imageFileName=맨투맨_화이트.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","블루","맨투맨_블루","겨울","JIPSY","M","2019-05-05","맨투맨_블루.jpg","/download/clothes?imageFileName=맨투맨_블루.jpg","yes","captain","default",null);
+insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","그레이","맨투맨_그레이","겨울","JIPSY","M","2019-05-05","맨투맨_그레이.jpg","/download/clothes?imageFileName=맨투맨_그레이.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","액세서리","모자","캡모자","블랙","캡모자_블랙","가을",NULL,NULL,"2019-07-05","캡모자_블랙.jpg","/download/clothes?imageFileName=캡모자_블랙.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","하의","청바지","청바지","블랙","청바지_스카이블루","가을",NULL,NULL,"2019-05-05","청바지_스카이블루.jpg","/download/clothes?imageFileName=청바지_스카이블루.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","그레이","맨투맨_오렌지","겨울","JIPSY","M","2019-05-05","맨투맨_오렌지.jpg","/download/clothes?imageFileName=맨투맨_오렌지.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","신발","스니커즈","스니커즈","블랙","스니커즈_블랙","겨울","반스","240","2019-05-05","스니커즈_블랙.jpg","/download/clothes?imageFileName=스니커즈_블랙.jpg","yes","a","default",null);
+insert into CLOTHES values(null,"public","상의","셔츠","클래식／드레스셔츠","화이트","클래식／드레스셔츠_화이트","겨울","JIPSY","M","2020-03-01","클래식／드레스셔츠_화이트.jpg","/download/clothes?imageFileName=클래식／드레스셔츠_화이트.jpg","yes","captain","default",null);
+insert into CLOTHES values(null,"public","하의","트레이닝바지","트레이닝바지","블랙","트레이닝바지_블랙","봄","JIPSY","s","2020-07-10","트레이닝바지_블랙2.jpg","/download/clothes?imageFileName=트레이닝바지_블랙2.jpg","no","a","default",null);
+
+insert into BOARD values (null, 'a', 'codi001.jpg', '/download/board?imageFileName=codi001.jpg', "\n #JIPSY #캐주얼",null);
+insert into BOARD values (null, 'a', 'codi002.jpg', '/download/board?imageFileName=codi002.jpg', "실키 레이어드 화이트 셔츠\n #JIPSY #클래식／드레스셔츠",null);
+insert into BOARD values (null, 'a', 'codi003.jpg', '/download/board?imageFileName=codi003.jpg', "\n #JIPSY #클래식／드레스셔츠",null);
+insert into BOARD values (null, 'a', 'codi004.jpg', '/download/board?imageFileName=codi004.jpg', "헤비스웨트 데일리 팬츠\n #JIPSY #캐주얼 #트레이닝바지",null);
+
+desc RELATION_BOARD_CLO;
+insert into RELATION_BOARD_CLO values (null, 76, 7);
+insert into RELATION_BOARD_CLO values (null, 76, 14);
+insert into RELATION_BOARD_CLO values (null, 77, 14);
+insert into RELATION_BOARD_CLO values (null, 78, 14);
+insert into RELATION_BOARD_CLO values (null, 79, 3);
+insert into RELATION_BOARD_CLO values (null, 79, 16);
+
+
+
+-- 특정 종류의 옷(identifier)들을 반드시 포함하는 게시물 찾기 
+
+-- 해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기
+select *
+     from BOARD
+    where boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ( select identifier
+                         from CLOTHES
+                         where userID='a'
+                     )
+           )
+           LIMIT 4
+;
+
+-- 특정 옷 종류들로 할 수 있는 코디(게시물) 찾기
+select *
+     from BOARD
+    where boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ("트레이닝바지_블랙","맨투맨_블랙") -- 여기에 배열로 입력
+           )
+;
+
+
 
 
 -- USER Table Create SQL
@@ -34,15 +112,16 @@ ALTER TABLE BOARD_CLO COMMENT '옷 공유 게시판';
 
 ALTER TABLE BOARD_CLO
     ADD CONSTRAINT BOARD_CLO_USER FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
+        REFERENCES USER (userID) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 ALTER TABLE BOARD_CLO
     ADD CONSTRAINT BOARD_CLO_CLOTHES FOREIGN KEY (cloNo)
         REFERENCES CLOTHES (cloNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 desc BOARD;
-insert into BOARD values (null, 'codi', 'a', null, null, '코디10' ,'안녕하세요? 게시글 내용입니다.', null, 0);
-SET foreign_key_checks = 1;
+
+insert into BOARD values (null, 'a', 'codi001.jpg', '/download/board?imageFileName=codi001.jpg', "\n #JIPSY #캐주얼",null);
+
 DELETE FROM BOARD WHERE boardNo=8;
 select * from BOARD;
 
@@ -75,6 +154,7 @@ ALTER TABLE `BOARD` DROP `subject`;
 
 
 -- USER Table Create SQL
+show CREATE TABLE `COMMENT`;
 CREATE TABLE `COMMENT` (
   `commentNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '댓글 고유번호',
   `boardNo` int(11) NOT NULL COMMENT '게시글 고유번호-옷 게시판 외래키',
@@ -84,9 +164,22 @@ CREATE TABLE `COMMENT` (
   PRIMARY KEY (`commentNo`),
   KEY `COMMENT_BOARD` (`boardNo`),
   KEY `COMMENT_USER` (`writerID`),
-  CONSTRAINT `COMMENT_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`),
-  CONSTRAINT `COMMENT_USER` FOREIGN KEY (`writerID`) REFERENCES `USER` (`userID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷 게시판 댓글';
+  CONSTRAINT `COMMENT_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `COMMENT_USER` FOREIGN KEY (`writerID`) REFERENCES `USER` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=281377 DEFAULT CHARSET=utf8 COMMENT='옷 게시판 댓글';
+
+ALTER TABLE `COMMENT` DROP foreign key `COMMENT_BOARD`;
+ALTER TABLE `COMMENT` DROP foreign key `COMMENT_USER`;
+ALTER TABLE `COMMENT`
+    ADD CONSTRAINT `COMMENT_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `COMMENT`
+    ADD CONSTRAINT `COMMENT_USER` FOREIGN KEY (`writerID`) REFERENCES `USER` (`userID`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+    
+select * FROM `COMMENT`;
+
+
 
 select * from BOARD;
 UPDATE BOARD SET contents = "돈까스 돈까스 돈까스 돈까스 돈까스 \n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스돈까스 돈까스 돈까스돈까스\n돈까스 돈까스 돈까스 돈까스" WHERE boardNo = '59';
@@ -113,9 +206,25 @@ CREATE TABLE `HEART` (
   PRIMARY KEY (`boardNo`,`hearterID`),
   KEY `HEART_BOARD` (`boardNo`),
   KEY `HEART_USER` (`hearterID`),
-  CONSTRAINT `HEART_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`),
-  CONSTRAINT `HEART_USER` FOREIGN KEY (`hearterID`) REFERENCES `USER` (`userID`)
+  CONSTRAINT `HEART_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `HEART_USER` FOREIGN KEY (`hearterID`) REFERENCES `USER` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시글 하트';
+
+
+TRUNCATE `HEART`;
+ALTER TABLE `HEART` DROP foreign key `HEART_BOARD`;
+ALTER TABLE `HEART` DROP foreign key `HEART_USER`;
+ALTER TABLE `HEART`
+    ADD CONSTRAINT `HEART_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `HEART`
+    ADD CONSTRAINT `HEART_USER` FOREIGN KEY (`hearterID`) REFERENCES `USER` (`userID`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+select * FROM `COMMENT`;
+
+
+
+
 
 show create table `HEART`;
 desc `HEART`;
@@ -129,6 +238,8 @@ alter table HEART add PRIMARY KEY(boardNo, hearterID);
 select * from BOARD;
 DELETE from BOARD where boardNo='39';
 
+SHOW CREATE TABLE `GOOD`;
+
 CREATE TABLE `GOOD` (
   `commentNo` int(11) NOT NULL COMMENT '댓글 고유번호- 댓글 외래키',
   `gooderID` varchar(45) NOT NULL COMMENT '댓글 좋아요한 유저 아이디-유저 외래키',
@@ -136,9 +247,23 @@ CREATE TABLE `GOOD` (
   PRIMARY KEY (`commentNo`,`gooderID`),
   KEY `GOOD_COMMENT` (`commentNo`),
   KEY `GOOD_USER` (`gooderID`),
-  CONSTRAINT `GOOD_COMMENT` FOREIGN KEY (`commentNo`) REFERENCES `COMMENT` (`commentNo`),
-  CONSTRAINT `GOOD_USER` FOREIGN KEY (`gooderID`) REFERENCES `USER` (`userID`)
+  CONSTRAINT `GOOD_COMMENT` FOREIGN KEY (`commentNo`) REFERENCES `COMMENT` (`commentNo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `GOOD_USER` FOREIGN KEY (`gooderID`) REFERENCES `USER` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='댓글 좋아요';
+
+
+TRUNCATE `GOOD`;
+ALTER TABLE `GOOD` DROP foreign key `GOOD_USER`;
+ALTER TABLE `GOOD` DROP foreign key `GOOD_COMMENT`;
+ALTER TABLE `GOOD`
+    ADD CONSTRAINT `GOOD_COMMENT` FOREIGN KEY (`commentNo`) REFERENCES `COMMENT` (`commentNo`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `GOOD`
+    ADD CONSTRAINT `GOOD_USER` FOREIGN KEY (`gooderID`) REFERENCES `USER` (`userID`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+    
+select * FROM `COMMENT`;
+
 
 
 
@@ -319,23 +444,18 @@ case (조건 또는 값)
 SELECT * from FOLLOW where followerID = 'a' ORDER BY regDate DESC;
 
 -- USER Table Create SQL
-CREATE TABLE RELATION_CLO_CODI
-(
-    `relationCloCodiNo`           INT             NOT NULL    COMMENT ' 옷-코디 관계 고유번호'	AUTO_INCREMENT, 
-    `cloNo`          INT    NOT NULL    COMMENT '옷 고유번호-옷 외래키',    
-    `codiNo`           INT             NOT NULL    COMMENT '코디 고유번호-코디 외래키', 
-    PRIMARY KEY (relationCloCodiNo)
-);
+show CREATE TABLE RELATION_BOARD_CLO;
+CREATE TABLE `RELATION_BOARD_CLO` (
+  `relNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '관계 고유번호',
+  `boardNo` int(11) NOT NULL COMMENT '게시물 고유번호-게시물 외래키',
+  `cloNo` int(11) NOT NULL COMMENT '옷 고유번호-옷 외래키',
+  PRIMARY KEY (`relNo`),
+  KEY `RELATION_TO_BOARD` (`boardNo`),
+  KEY `RELATION_TO_CLO` (`cloNo`),
+  CONSTRAINT `RELATION_TO_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `RELATION_TO_CLO` FOREIGN KEY (`cloNo`) REFERENCES `CLOTHES` (`cloNo`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시물-옷 관계';
 
-ALTER TABLE RELATION_CLO_CODI COMMENT '옷-코디 관계';
-
-ALTER TABLE RELATION_CLO_CODI
-    ADD CONSTRAINT RELATION_CLO_CODI_CLO FOREIGN KEY (cloNo)
-        REFERENCES CLOTHES (cloNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-ALTER TABLE RELATION_CLO_CODI
-    ADD CONSTRAINT RELATION_CLO_CODI_CODI FOREIGN KEY (codiNo)
-        REFERENCES CODI (codiNo) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 desc RELATION_CLO_CODI;
 insert into RELATION_CLO_CODI values (null, 76, 33);
