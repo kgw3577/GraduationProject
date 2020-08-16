@@ -139,10 +139,13 @@
         <item>"샌들"</item>
     </string-array>
 
+    <string-array name="가방">
+        <item>"가방"</item>
+    </string-array>
+
     <string-array name="액세서리">
         <item>"모자"</item>
         <item>"안경"</item>
-        <item>"가방"</item>
         <item>"지갑"</item>
         <item>"시계"</item>
         <item>"벨트"</item>

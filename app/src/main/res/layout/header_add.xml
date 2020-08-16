@@ -7,21 +7,12 @@
     tools:ignore="missingPrefix"
     android:background="#EEEEEE">
 
-    <com.ssomai.android.scalablelayout.ScalableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/status_bar"
-        app:scale_base_width="1080"
-        app:scale_base_height="30"
-        android:background="#EEEEEE">
-    </com.ssomai.android.scalablelayout.ScalableLayout>
 
     <com.ssomai.android.scalablelayout.ScalableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/status_bar"
         app:scale_base_width="1080"
-        app:scale_base_height="140"
+        app:scale_base_height="120"
         android:background="#EEEEEE">
 
 
@@ -33,7 +24,7 @@
 
             app:scale_top="0"
             app:scale_width="250"
-            app:scale_height="116">
+            app:scale_height="120">
 
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:layout_width="wrap_content"
@@ -68,7 +59,7 @@
             app:scale_left="200"
             app:scale_top="0"
             app:scale_width="730"
-            app:scale_height="116"/>
+            app:scale_height="120"/>
 
 
         <RelativeLayout
@@ -78,24 +69,24 @@
             app:scale_left="830"
             app:scale_top="0"
             app:scale_width="250"
-            app:scale_height="116">
+            app:scale_height="100">
 
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:id="@+id/sl_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:scale_base_width="250"
-                app:scale_base_height="116">
+                app:scale_base_height="100">
 
                 <ImageView
                     android:id="@+id/add"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/ok2"
                     app:scale_height="70"
                     app:scale_left="150"
                     app:scale_left_baseposition="center"
-                    app:scale_top="55"
+                    app:scale_top="60"
                     app:scale_top_baseposition="center"
                     app:scale_width="90" />
 

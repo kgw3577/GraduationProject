@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +30,7 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_addClothes;
-import com.Project.Closet.home.activity_home;
+import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -53,6 +53,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
     Activity activity;
 
+    LinearLayout ll_detail;
     private TabLayout tabLayout;
     public TabPagerAdapter_closet_share pagerAdapter;
     private ViewPager finalPager;
@@ -67,8 +68,10 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
     public ImageView iv_edit_image;
+
     public TextView tv_category;
     public TextView tv_detailcategory;
+    public TextView tv_color;
     public TextView tv_season;
     public TextView tv_brand;
     public TextView tv_size;
@@ -100,6 +103,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
         addButton = findViewById(R.id.header_add);
         filterButton = findViewById(R.id.header_search);
+        ll_detail = findViewById(R.id.ll_detail);
 
 
         drawer = findViewById(R.id.final_drawer_layout);
@@ -113,6 +117,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         iv_edit_image = (ImageView) findViewById(R.id.iv_edit_image);
         tv_category = (TextView) findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) findViewById(R.id.tv_info_detailcategory);
+        tv_color = (TextView) findViewById(R.id.tv_info_color);
         tv_season = (TextView) findViewById(R.id.tv_info_season);
         tv_brand = (TextView) findViewById(R.id.tv_info_brand);
         tv_size = (TextView) findViewById(R.id.tv_info_size);
@@ -125,7 +130,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
         tv_cloNo = (TextView) findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) findViewById(R.id.tv_clothes_favorite);
-        tv_edit_color = (TextView) findViewById(R.id.tv_edit_color);
+        tv_edit_color = (TextView) findViewById(R.id.tv_info_color);
         tv_edit_detailcategory = (TextView) findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) findViewById(R.id.tv_edit_size);
@@ -475,7 +480,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                             iv_heart.setImageResource(R.drawable.heart_empty);
                             tv_cloFavorite.setText("no");
                         }
-                        ((activity_home)activity).notify_home_changed();
+                        pagerAdapter.notifyDataSetChanged();
                     }
                     else
                         Toast.makeText(activity_closet_share.this, "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
@@ -498,8 +503,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                     if("ok".equals(res)){
                         Toast.makeText(activity_closet_share.this, "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
                         Cloth_Info.setVisibility(View.GONE);
-                        //pagerAdapter.notifyDataSetChanged();
-                        Toast.makeText(activity_closet_share.this, "삭제 후 처리", Toast.LENGTH_SHORT).show();
+                        pagerAdapter.notifyDataSetChanged();
 
                     }else{
                         Toast.makeText(activity_closet_share.this, "삭제 실패", Toast.LENGTH_SHORT).show();
@@ -513,7 +517,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK)
-            Toast.makeText(activity_closet_share.this, "등록 후 처리", Toast.LENGTH_SHORT).show();
+            pagerAdapter.notifyDataSetChanged();
 
     }
 
@@ -525,8 +529,17 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_category.setText(cloInfo.getCategory());
-        tv_detailcategory.setText(cloInfo.getDetailCategory());
+
+        String category = cloInfo.getCategory();
+        String detailCategory = cloInfo.getDetailCategory();
+        tv_category.setText(category);
+        if(category.equals(detailCategory))
+            ll_detail.setVisibility(View.GONE);
+        else{
+            ll_detail.setVisibility(View.VISIBLE);
+            tv_detailcategory.setText(detailCategory);
+        }
+        tv_color.setText(cloInfo.getColor());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());

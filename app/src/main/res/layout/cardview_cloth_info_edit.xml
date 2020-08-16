@@ -101,7 +101,7 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:text=""
-                    android:id="@+id/tv_edit_color"
+                    android:id="@+id/tv_info_color"
                     />
             </LinearLayout>
             <LinearLayout

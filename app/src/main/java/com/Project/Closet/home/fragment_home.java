@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.activity_addClothes;
+import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -64,12 +65,14 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
     DrawerLayout drawer;
 
+    LinearLayout ll_detail;
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
     public ImageView iv_edit_image;
     public TextView tv_category;
     public TextView tv_detailcategory;
+    public TextView tv_color;
     public TextView tv_season;
     public TextView tv_brand;
     public TextView tv_size;
@@ -114,6 +117,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         addButton = getView().findViewById(R.id.header_add);
         filterButton = getView().findViewById(R.id.header_search);
+        ll_detail = getView().findViewById(R.id.ll_detail);
 
         drawer = getView().findViewById(R.id.final_drawer_layout);
 
@@ -126,6 +130,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
+        tv_color = (TextView) getView().findViewById(R.id.tv_info_color);
         tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
         tv_brand = (TextView) getView().findViewById(R.id.tv_info_brand);
         tv_size = (TextView) getView().findViewById(R.id.tv_info_size);
@@ -138,7 +143,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_color);
+        tv_edit_name = (TextView) getView().findViewById(R.id.tv_info_color);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
@@ -445,6 +450,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가 버튼
                     Intent intent = new Intent(getContext(), activity_addClothes.class);
+                    intent.putExtra("location","private");
                     startActivityForResult(intent,ADD_CLOTHES);
                     break;
                 case R.id.iv_heart : //즐겨찾기
@@ -529,8 +535,17 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_category.setText(cloInfo.getCategory());
-        tv_detailcategory.setText(cloInfo.getDetailCategory());
+
+        String category = cloInfo.getCategory();
+        String detailCategory = cloInfo.getDetailCategory();
+        tv_category.setText(category);
+        if(category.equals(detailCategory))
+            ll_detail.setVisibility(View.GONE);
+        else{
+            ll_detail.setVisibility(View.VISIBLE);
+            tv_detailcategory.setText(detailCategory);
+        }
+        tv_color.setText(cloInfo.getColor());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());

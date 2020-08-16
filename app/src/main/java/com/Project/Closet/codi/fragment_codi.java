@@ -148,7 +148,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_name = (TextView) getView().findViewById(R.id.tv_edit_color);
+        tv_edit_name = (TextView) getView().findViewById(R.id.tv_info_color);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);

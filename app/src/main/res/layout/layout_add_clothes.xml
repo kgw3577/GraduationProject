@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:id="@+id/layout"
-    tools:context=".closet.activity_addClothes"
+    tools:context=".closet.addClothes.activity_addClothes"
     android:orientation="vertical">
 
     <com.ssomai.android.scalablelayout.ScalableLayout
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@android:color/black"
-        app:scale_base_height="155"
+        app:scale_base_height="120"
         app:scale_base_width="1080">
 
         <include
@@ -88,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone"
             >
 
             <TextView
@@ -97,10 +96,13 @@
                 android:text="세부 카테고리" />
 
             <TextView
+                android:layout_marginLeft="3dp"
                 android:id="@+id/tv_edit_detailcategory"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text=""/>
+                android:text=""
+                android:textSize="15dp"
+                />
 
         </LinearLayout>
         <LinearLayout
@@ -115,7 +117,7 @@
                 android:text="컬러"/>
             <TextView
                 android:layout_marginLeft="3dp"
-                android:id="@+id/tv_edit_color"
+                android:id="@+id/tv_info_color"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:textSize="15dp"

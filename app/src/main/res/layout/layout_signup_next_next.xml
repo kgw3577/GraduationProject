@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="180dp"
         android:paddingLeft="32dp"
         android:paddingRight="32dp">
 
@@ -104,7 +104,7 @@
             android:id="@+id/blank"
             android:layout_below="@id/iv_add_profile"
             android:layout_width="match_parent"
-            android:layout_height="120dp" />
+            android:layout_height="95dp" />
         <Button
             android:id="@+id/bt_join"
             android:layout_width="match_parent"

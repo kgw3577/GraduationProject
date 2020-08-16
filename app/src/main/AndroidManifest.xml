@@ -28,7 +28,7 @@
         <activity android:name=".social.SelectClothes" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
-        <activity android:name=".closet.activity_addClothes" />
+        <activity android:name=".closet.addClothes.activity_addClothes" />
 
         <activity android:name=".closet.closet_activities.activity_closet_share" />
         <activity

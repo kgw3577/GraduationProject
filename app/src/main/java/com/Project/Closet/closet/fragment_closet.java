@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.closet.closet_activities.activity_closet_share;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
@@ -67,12 +69,14 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
     DrawerLayout drawer;
 
+    LinearLayout ll_detail;
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
     public ImageView iv_edit_image;
     public TextView tv_category;
     public TextView tv_detailcategory;
+    public TextView tv_color;
     public TextView tv_season;
     public TextView tv_brand;
     public TextView tv_size;
@@ -122,6 +126,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         shareButton = getView().findViewById(R.id.share_closet);
         shareButton.setVisibility(View.VISIBLE);
 
+        ll_detail = getView().findViewById(R.id.ll_detail);
+
         drawer = getView().findViewById(R.id.final_drawer_layout);
 
         Cloth_Info = (RelativeLayout) getView().findViewById(R.id.cloth_info);
@@ -133,6 +139,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
+        tv_color = (TextView) getView().findViewById(R.id.tv_info_color);
         tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
         tv_brand = (TextView) getView().findViewById(R.id.tv_info_brand);
         tv_size = (TextView) getView().findViewById(R.id.tv_info_size);
@@ -145,7 +152,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_color = (TextView) getView().findViewById(R.id.tv_edit_color);
+        tv_edit_color = (TextView) getView().findViewById(R.id.tv_info_color);
         tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
@@ -549,8 +556,17 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
         Glide.with((iv_edit_image).getContext()).load(ImageUrl).into(iv_edit_image);
-        tv_category.setText(cloInfo.getCategory());
-        tv_detailcategory.setText(cloInfo.getDetailCategory());
+
+        String category = cloInfo.getCategory();
+        String detailCategory = cloInfo.getDetailCategory();
+        tv_category.setText(category);
+        if(category.equals(detailCategory))
+            ll_detail.setVisibility(View.GONE);
+        else{
+            ll_detail.setVisibility(View.VISIBLE);
+            tv_detailcategory.setText(detailCategory);
+        }
+        tv_color.setText(cloInfo.getColor());
         tv_season.setText(cloInfo.getSeason());
         tv_brand.setText(cloInfo.getBrand());
         tv_size.setText(cloInfo.getCloSize());

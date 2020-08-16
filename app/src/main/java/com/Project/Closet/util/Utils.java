@@ -26,6 +26,7 @@ public class Utils {
                 .setMinCropResultSize(200,40)
                 .setMinCropWindowSize(200,42)
                 .setOutputCompressQuality(60)
+                .setInitialCropWindowPaddingRatio(0)
                 .setMaxZoom(3);
     }
 
