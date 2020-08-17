@@ -1,78 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".closet.addClothes.activity_addClothes"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <ImageView
-        android:id="@+id/add_image"
-        android:layout_width="350dp"
-        android:layout_height="341dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginRight="20dp"
-        android:background="#FFFFFF" />
-
-    <LinearLayout
-        android:layout_margin="5dp"
+    <com.ssomai.android.scalablelayout.ScalableLayout
+        android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="제목"/>
-        <EditText
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text=""
-            android:id="@+id/tv_subject"
-            />
-    </LinearLayout>
+        android:layout_alignParentTop="true"
+        android:background="@android:color/black"
+        app:scale_base_height="120"
+        app:scale_base_width="1080">
 
-    <LinearLayout
-        android:layout_margin="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="내용"/>
-        <EditText
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:text=""
-            android:id="@+id/tv_contents"
-            />
-    </LinearLayout>
+        <include
 
-    <LinearLayout
+            layout="@layout/header_add"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.ssomai.android.scalablelayout.ScalableLayout>
+
+    <ScrollView
+        android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/select_category"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        >
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            android:text="카테고리 설정"/>
-        <Button
-            android:id="@+id/ok"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            android:text="추가하기"/>
-    </LinearLayout>
+            android:layout_height="match_parent">
 
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/add_image"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/sample3"/>
+
+            <LinearLayout
+                android:id="@+id/ll_contents"
+                android:layout_below="@id/add_image"
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="내용">
+                </TextView>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:focusable="true"
+                    android:text="ddddddd"
+                    android:minLines="2"
+                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:id="@+id/tv_contents"
+                    android:background="@drawable/radius"
+                    android:gravity="left"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_child_cloth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ll_contents"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="이 코디에 포함된 옷">
+                </TextView>
+
+                <HorizontalScrollView
+                    android:id="@+id/tab_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radius"
+                    android:padding="5dp"
+                    android:scrollbars="none"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/child1"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+
+                        <ImageView
+                            android:id="@+id/child2"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child3"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child4"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child5"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child6"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child7"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child8"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+
+                        <ImageView
+                            android:id="@+id/child9"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                        <ImageView
+                            android:id="@+id/child10"
+                            android:layout_margin="10dp"
+                            android:layout_width="@dimen/add_child"
+                            android:layout_height="@dimen/add_child"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/hanger_gray" />
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

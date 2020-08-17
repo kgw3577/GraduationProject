@@ -133,7 +133,11 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:text=""
-                    android:id="@+id/tv_edit_brand"/>
+                    android:id="@+id/tv_edit_brand"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_margin="5dp"
@@ -149,7 +153,10 @@
                     android:layout_width="150dp"
                     android:layout_height="40dp"
                     android:text=""
-                    android:id="@+id/tv_edit_size"/>
+                    android:id="@+id/tv_edit_size"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    />
             </LinearLayout>
             <LinearLayout
                 android:layout_margin="5dp"

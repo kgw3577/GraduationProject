@@ -172,7 +172,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
             clothesFilter.setLocation(location);
             switch(identifier){
                 case "share" : //모든 옷 조회
-                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter, userID,params[0], pagesize);
+                    cloListCall = ClothesService.getRetrofit(getActivity()).searchClothes(clothesFilter,userID,params[0], pagesize);
                     break;
                 case "상의" : //카테고리 top 조회
                 case "하의" : //카테고리 bottom 조회

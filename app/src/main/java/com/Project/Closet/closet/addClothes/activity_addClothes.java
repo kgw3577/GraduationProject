@@ -97,10 +97,16 @@ public class activity_addClothes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_clothes);
 
+
+        TextView header_title = findViewById(R.id.header_title);
+        header_title.setText("옷 등록");
+
         location = getIntent().getExtras().getString("location");
 
         Cloth_Info_edit = (LinearLayout) findViewById(R.id.cloth_info_edit);
         sl_ok = findViewById(R.id.sl_ok);
+
+
 
 
         ll_detailcategory = findViewById(R.id.ll_detailcategory);
@@ -396,6 +402,7 @@ public class activity_addClothes extends AppCompatActivity {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             buyDate = String.format("%d-%02d-%02d",year,monthOfYear+1,dayOfMonth);
             tv_edit_buyDate.setText(buyDate);
+            tv_edit_buyDate.setTextColor(Color.parseColor("#000000"));
         }
     };
 

@@ -111,54 +111,70 @@
             android:id="@+id/drawer_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="bottom"
+            android:gravity="center"
             android:focusable="true"
             android:clickable="true"
             android:background="#BB000000"
             android:orientation="vertical">
 
 
+
+            <LinearLayout
+                android:id="@+id/msgLo"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                >
+                <TextView
+                    android:layout_margin="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="피드 올리기"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+
+                    />
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#ffffff"
+
+                android:background="#bbbbbb"
                 >
 
                 <TextView
                     android:id="@+id/tv_add_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
                     android:onClick="onClickListener"
-                    android:text="새로운 사진 올리기"
-                    android:background="#000000"
-                    android:textColor="#ffffff"
+                    android:text="새로운 코디 올리기"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
 
-                <TextView
-                    android:id="@+id/tv_from_closet"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="0.05dp"
-                    android:layout_height="55dp"
-                    android:onClick="onClickListener"
-                    android:text="옷장에서 가져오기"
-                    android:background="#000000"
-                    android:textColor="#ffffff"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_from_codi"
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="0.05dp"
-                    android:layout_height="55dp"
+                    android:layout_marginTop="0.01dp"
                     android:onClick="onClickListener"
                     android:text="코디북에서 가져오기"
-                    android:background="#000000"
-                    android:textColor="#ffffff"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
             </LinearLayout>
         </LinearLayout>
     </SlidingDrawer>

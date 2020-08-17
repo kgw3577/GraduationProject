@@ -53,7 +53,6 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     LinearLayout drawer_content;
 
     TextView tv_add_image;
-    TextView tv_from_closet;
     TextView tv_from_codi;
 
     @Override
@@ -87,7 +86,6 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
         drawer_content = getView().findViewById(R.id.drawer_content);
 
         tv_add_image = getView().findViewById(R.id.tv_add_image);
-        tv_from_closet= getView().findViewById(R.id.tv_from_closet);
         tv_from_codi= getView().findViewById(R.id.tv_from_codi);
 
 
@@ -95,7 +93,6 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         addButton.setOnClickListener(onClickListener);
         tv_add_image.setOnClickListener(onClickListener);
-        tv_from_closet.setOnClickListener(onClickListener);
         tv_from_codi.setOnClickListener(onClickListener);
         drawer_content.setOnClickListener(onClickListener);
 
@@ -207,8 +204,6 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
                 case R.id.tv_add_image :
                     Intent intent = new Intent(getContext(), activity_addBoard.class);
                     startActivityForResult(intent,ADD_BOARD);
-                    break;
-                case R.id.tv_from_closet :
                     break;
                 case R.id.tv_from_codi :
                     break;

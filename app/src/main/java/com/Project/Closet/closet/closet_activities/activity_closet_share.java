@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,7 +100,6 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
         activity = this;
-
 
         addButton = findViewById(R.id.header_add);
         filterButton = findViewById(R.id.header_search);
@@ -329,6 +329,8 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) findViewById(R.id.tab_Pager);
+            finalPager.setBackgroundColor(Color.parseColor("#FFC0CB")); //공유 옷장만 구분 위해 핑크
+
             pagerAdapter = new TabPagerAdapter_closet_share(getSupportFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

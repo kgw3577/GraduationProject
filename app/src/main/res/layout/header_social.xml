@@ -109,13 +109,14 @@
                     android:id="@+id/add"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/add_board4"
-                    app:scale_height="70"
+                    android:src="@drawable/add_board3"
+                    app:scale_height="76"
                     app:scale_left="150"
                     app:scale_left_baseposition="center"
-                    app:scale_top="55"
+                    app:scale_top="56"
                     app:scale_top_baseposition="center"
-                    app:scale_width="90" />
+                    app:scale_width="95"
+                    app:tint="@color/fab" />
 
 
 

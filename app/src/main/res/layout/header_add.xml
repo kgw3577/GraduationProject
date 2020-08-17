@@ -17,49 +17,28 @@
 
 
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/header_search"
 
-            app:scale_top="0"
-            app:scale_width="250"
-            app:scale_height="120">
-
-            <com.ssomai.android.scalablelayout.ScalableLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:scale_base_width="250"
-                app:scale_base_height="116">
-
-                <ImageView
-                    android:id="@+id/search_button"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:src="@drawable/icon_home_nav"
-                    app:scale_height="70"
-                    app:scale_left="100"
-                    app:scale_left_baseposition="center"
-                    app:scale_top="58"
-                    app:scale_top_baseposition="center"
-                    app:scale_width="70"
-                    android:visibility="gone"
-                    />
-
-
-
-            </com.ssomai.android.scalablelayout.ScalableLayout>
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/header_ci"
-            app:scale_left="200"
+            app:scale_left="0"
             app:scale_top="0"
-            app:scale_width="730"
-            app:scale_height="120"/>
+            app:scale_width="800"
+            app:scale_height="120">
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="타이틀"
+                android:textColor="#000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                >
+            </TextView>
+        </RelativeLayout>
 
 
         <RelativeLayout
@@ -69,14 +48,14 @@
             app:scale_left="830"
             app:scale_top="0"
             app:scale_width="250"
-            app:scale_height="100">
+            app:scale_height="120">
 
             <com.ssomai.android.scalablelayout.ScalableLayout
                 android:id="@+id/sl_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:scale_base_width="250"
-                app:scale_base_height="100">
+                app:scale_base_height="120">
 
                 <ImageView
                     android:id="@+id/add"

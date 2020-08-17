@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ import com.Project.Closet.HTTP.Service.BoardService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.R;
 import com.Project.Closet.util.Utils;
+import com.ssomai.android.scalablelayout.ScalableLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -64,6 +66,10 @@ public class activity_addBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_add_board);
 
+        TextView header_title = findViewById(R.id.header_title);
+        header_title.setText("새 피드");
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.d(TAG, "권한 설정 완료");
@@ -95,9 +101,7 @@ public class activity_addBoard extends AppCompatActivity {
             requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             mapRequestBody.put("userID", RequestBody.create(MediaType.parse("text/plain"), MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID()));
             mapRequestBody.put("file\"; filename=\"" + file.getName(), requestBody);
-            mapRequestBody.put("boardType", RequestBody.create(MediaType.parse("text/plain"), params[0]));
-            mapRequestBody.put("subject", RequestBody.create(MediaType.parse("text/plain"), params[1]));
-            mapRequestBody.put("contents", RequestBody.create(MediaType.parse("text/plain"), params[2]));
+            mapRequestBody.put("contents", RequestBody.create(MediaType.parse("text/plain"), params[0]));
             body = Part.createFormData("fileName", file.getName(), requestBody);
             arrBody.add(body);
 
@@ -157,93 +161,41 @@ public class activity_addBoard extends AppCompatActivity {
                     out.close();
                     path = tempFile.getAbsolutePath(); //임시 파일 경로
 
-                    final String[] Category = {""};
-                    Button select = (Button) findViewById(R.id.select_category);
-                    select.setOnClickListener(new View.OnClickListener() {
+
+                    ScalableLayout sl_ok = findViewById(R.id.sl_ok);
+                    sl_ok.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(activity_addBoard.this);
-                            final String[] items = getResources().getStringArray(R.array.Board_Category);
-                            final ArrayList<String> selectedItem  = new ArrayList<String>();
-                            selectedItem.add(items[0]);
+                            EditText et_contents = (EditText) findViewById(R.id.tv_contents);
+                            String contents = et_contents.getText().toString();
 
-                            builder.setTitle("카테고리 선택");
+                            String res = null;
+                            try {
+                                res = new UploadTask().execute(contents).get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
-                            builder.setSingleChoiceItems(R.array.Board_Category, 0, new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialog, int pos)
-                                {
-                                    selectedItem.clear();
-                                    selectedItem.add(items[pos]);
-                                }
-                            });
+                            Intent intent = new Intent();
 
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
-                                @Override
-                                public void onClick(DialogInterface dialog, int pos)
-                                {
-                                    Category[0] = selectedItem.get(0);
-                                    Toast toast = Toast.makeText(getApplicationContext(), "선택된 카테고리 : " + selectedItem.get(0), Toast.LENGTH_LONG);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-
-                                    switch(Category[0]){
-                                        case "옷":
-                                            Category[0] = "clothes";
-                                            break;
-                                        case "코디":
-                                            Category[0] = "codi";
-                                            break;
-                                    }
-                                }
-                            });
-
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-                        }
-                    });
-
-                    Button btn_ok = (Button) findViewById(R.id.ok);
-                    btn_ok.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(!Category[0].isEmpty()){
-
-                                EditText et_subject = (EditText) findViewById(R.id.tv_subject);
-                                EditText et_contents = (EditText) findViewById(R.id.tv_contents);
-                                String subject = et_subject.getText().toString();
-                                String contents = et_contents.getText().toString();
-
-                                String res = null;
-                                try {
-                                    res = new UploadTask().execute(Category[0], subject, contents).get();
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-
-                                Intent intent = new Intent();
-
-                                try{
-                                    if (res.contains("ok")) {
-                                        Toast.makeText(activity_addBoard.this, "업로드 성공", Toast.LENGTH_SHORT).show();
-                                        setResult(RESULT_OK, intent);
-                                        finish();
-                                    } else if (res.contains("fail")) {
-                                        Toast.makeText(activity_addBoard.this, "업로드 실패", Toast.LENGTH_SHORT).show();
-                                        setResult(RESULT_CANCELED, intent);
-                                        finish();
-                                    }
-                                }  catch (NullPointerException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(activity_addBoard.this, "업로드 오류", Toast.LENGTH_SHORT).show();
+                            try{
+                                if (res.contains("ok")) {
+                                    Toast.makeText(activity_addBoard.this, "업로드 성공", Toast.LENGTH_SHORT).show();
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                } else if (res.contains("fail")) {
+                                    Toast.makeText(activity_addBoard.this, "업로드 실패", Toast.LENGTH_SHORT).show();
                                     setResult(RESULT_CANCELED, intent);
                                     finish();
                                 }
+                            }  catch (NullPointerException e) {
+                                e.printStackTrace();
+                                Toast.makeText(activity_addBoard.this, "업로드 오류", Toast.LENGTH_SHORT).show();
+                                setResult(RESULT_CANCELED, intent);
+                                finish();
                             }
-                            else
-                                Toast.makeText(activity_addBoard.this, "카테고리를 선택해야 합니다.", Toast.LENGTH_LONG).show();
                         }
                     });
 
