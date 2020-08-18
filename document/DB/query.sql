@@ -2,6 +2,7 @@
 use CLOSET;
 show tables;
 ALTER DATABASE CLOSET COLLATE 'utf8_general_ci';
+commit;
 
 ALTER TABLE CODI
    ALTER favorite SET DEFAULT 'miuhn' ;
@@ -35,6 +36,10 @@ ALTER TABLE `RELATION_CLO_CODI` DROP foreign key `RELATION_CLO_CODI_CLO`;
 DROP TABLE RELATION_CLO_CODI;
 select * from information_schema.table_constraints;
 
+select * from RELATION_BOARD_CLO;
+
+delete from `USER` where userID="cat";
+
 
 insert into CLOTHES values(null,"public","상의","맨투맨","맨투맨","블랙","맨투맨_블랙","겨울","JIPSY","M","2019-05-05","맨투맨_블랙.jpg","/download/clothes?imageFileName=맨투맨_블랙.jpg","yes","a","default",null);
 insert into CLOTHES values(null,"public","하의","청바지","청바지","블랙","청바지_블랙","가을",NULL,NULL,"2019-05-05","청바지_블랙.jpg","/download/clothes?imageFileName=청바지_블랙.jpg","yes","a","default",null);
@@ -55,14 +60,14 @@ insert into BOARD values (null, 'a', 'codi003.jpg', '/download/board?imageFileNa
 insert into BOARD values (null, 'a', 'codi004.jpg', '/download/board?imageFileName=codi004.jpg', "헤비스웨트 데일리 팬츠\n #JIPSY #캐주얼 #트레이닝바지",null);
 
 desc RELATION_BOARD_CLO;
-insert into RELATION_BOARD_CLO values (null, 76, 7);
+insert into RELATION_BOARD_CLO values (null, 76, 7);  
 insert into RELATION_BOARD_CLO values (null, 76, 14);
 insert into RELATION_BOARD_CLO values (null, 77, 14);
 insert into RELATION_BOARD_CLO values (null, 78, 14);
 insert into RELATION_BOARD_CLO values (null, 79, 3);
 insert into RELATION_BOARD_CLO values (null, 79, 16);
 
-
+UPDATE CLOTHES SET identifier="브라운_미디엄스커트",detailCategory="미디엄스커트" where identifier="브라운_미디엄 스커트";
 
 -- 특정 종류의 옷(identifier)들을 반드시 포함하는 게시물 찾기 
 
@@ -88,11 +93,13 @@ select *
            ( select R.boardNo
                from RELATION_BOARD_CLO R, CLOTHES C
               where R.cloNo = C.cloNo AND C.identifier not in
-                     ("트레이닝바지_블랙","맨투맨_블랙") -- 여기에 배열로 입력
+                     ("베이지_롱스커트","아이보리_스니커즈","베이지_털모자") -- 여기에 배열로 입력
            )
 ;
 
-
+ALTER TABLE `CLOTHES` CHANGE `class` `kind` varchar(45);
+desc `CLOTHES`;
+update CLOTHES set identifier="클래식/드레스셔츠_화이트" where identifier="클래식／드레스셔츠_화이트";
 
 
 -- USER Table Create SQL
@@ -120,7 +127,6 @@ ALTER TABLE BOARD_CLO
 
 desc BOARD;
 
-insert into BOARD values (null, 'a', 'codi001.jpg', '/download/board?imageFileName=codi001.jpg', "\n #JIPSY #캐주얼",null);
 
 DELETE FROM BOARD WHERE boardNo=8;
 select * from BOARD;
@@ -222,8 +228,8 @@ ALTER TABLE `HEART`
     ON DELETE CASCADE ON UPDATE CASCADE;
 select * FROM `COMMENT`;
 
-
-
+delete from `USER` where userID='cat';
+select * from `RELATION_BOARD_CLO`;
 
 
 show create table `HEART`;
@@ -252,7 +258,7 @@ CREATE TABLE `GOOD` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='댓글 좋아요';
 
 
-TRUNCATE `GOOD`;
+-- TRUNCATE `GOOD`;
 ALTER TABLE `GOOD` DROP foreign key `GOOD_USER`;
 ALTER TABLE `GOOD` DROP foreign key `GOOD_COMMENT`;
 ALTER TABLE `GOOD`
@@ -326,6 +332,7 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
  		WHERE (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = 'a') OR U.userID = 'a')
 				AND B.userID = U.userID
  		ORDER BY regDate DESC;
+        -- 하트 여부 포함해서 만들어야 함.
         
         
 -- 해당 사용자가 좋아요한 피드 쿼리
@@ -338,8 +345,6 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
 			AND B.boardNo in 
             (select boardNo FROM HEART where hearterID = 'm')
  		ORDER BY regDate DESC;
-
-select * from HEART;
 
 
 
@@ -369,6 +374,8 @@ SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfCont
 
 
 
+
+select * from HEART;
 
 
 -- 유저 스페이스 쿼리 만들기
@@ -457,9 +464,113 @@ CREATE TABLE `RELATION_BOARD_CLO` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시물-옷 관계';
 
 
-desc RELATION_CLO_CODI;
+
 insert into RELATION_CLO_CODI values (null, 76, 33);
 select * from RELATION_CLO_CODI;
+
+show tables;
+
+
+
+SHOW CREATE TABLE `CLOSET`;
+CREATE TABLE `CLOSET` (
+  `userID` varchar(45) NOT NULL COMMENT '유저아이디',
+  `closetName` varchar(45) NOT NULL COMMENT '옷장이름',
+  `closetLocation` varchar(45) DEFAULT NULL COMMENT '옷장위치',
+  `closetMemo` varchar(45) DEFAULT NULL COMMENT '옷장메모',
+  `closetOpen` varchar(45) DEFAULT NULL COMMENT '공개여부',
+  PRIMARY KEY (`userID`,`closetName`),
+  CONSTRAINT `FK_CLOSET_userID_USER_userID` FOREIGN KEY (`userID`) REFERENCES `USER` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷장';
+
+
+ALTER TABLE `CLOSET` DROP foreign key `FK_CLOSET_userID_USER_userID`;
+ALTER TABLE `CLOSET`
+    ADD CONSTRAINT `FK_CLOSET_userID_USER_userID` FOREIGN KEY (`userID`) REFERENCES `USER` (`userID`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+select * from CLOSET;
+delete from `CLOSET` where userID='w';
+
+
+-- 게시글 상세 조회 쿼리. 번호 123 게시물을 a가 보고 있는 상황.
+SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'captain' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 게시자 팔로잉 여부
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'captain' AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
+ 		FROM `USER` U, `BOARD` B
+ 		WHERE B.boardNo = "94"
+				AND B.userID = U.userID;
+                
+                
+
+        
+        insert into HEART values(94,"captain",null);
+        insert into `COMMENT` values(null,94,"stark","굳!",null);
+
+
+        select * from HEART;
+        select * from `COMMENT`;
+        
+
+        
+        
+        
+        -- 하트 여부 포함해서 만들어야 함.
+        FROM `USER` U 
+ 		WHERE U.userID = "x";
+        
+-- 해당 사용자가 좋아요한 피드 쿼리
+SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
+ 		FROM `USER` U, `BOARD` B
+		WHERE U.userID = B.userID
+			AND B.boardNo in 
+            (select boardNo FROM HEART where hearterID = 'm')
+ 		ORDER BY regDate DESC;
+
+
+
+-- 유저 스페이스 쿼리 만들기
+-- x의 스페이스를 a가 보는 상황.
+SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
+              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
+              IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 팔로잉 여부
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = "x" AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following_friendsID,     -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
+ 		FROM `USER` U 
+ 		WHERE U.userID = "x";
+
+
+
+
+
+
+
 
 
 

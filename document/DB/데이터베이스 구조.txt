@@ -216,22 +216,15 @@ select * from RELATION_CLO_CODI;
 
 
 -- USER Table Create SQL
-CREATE TABLE CLOSET
-(
-    `userID`          VARCHAR(45)    NOT NULL    COMMENT '유저아이디', 
-    `closetName`      VARCHAR(45)    NOT NULL    COMMENT '옷장이름', 
-    `closetLocation`  VARCHAR(45)    NULL        COMMENT '옷장위치', 
-    `closetMemo`      VARCHAR(45)    NULL        COMMENT '옷장메모', 
-    `closetOpen`      VARCHAR(45)    NULL        COMMENT '공개여부', 
-    PRIMARY KEY (userID, closetName)
-);
-
-ALTER TABLE CLOSET COMMENT '옷장';
-
-ALTER TABLE CLOSET
-    ADD CONSTRAINT FK_CLOSET_userID_USER_userID FOREIGN KEY (userID)
-        REFERENCES USER (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
+CREATE TABLE `CLOSET` (
+  `userID` varchar(45) NOT NULL COMMENT '유저아이디',
+  `closetName` varchar(45) NOT NULL COMMENT '옷장이름',
+  `closetLocation` varchar(45) DEFAULT NULL COMMENT '옷장위치',
+  `closetMemo` varchar(45) DEFAULT NULL COMMENT '옷장메모',
+  `closetOpen` varchar(45) DEFAULT NULL COMMENT '공개여부',
+  PRIMARY KEY (`userID`,`closetName`),
+  CONSTRAINT `FK_CLOSET_userID_USER_userID` FOREIGN KEY (`userID`) REFERENCES `USER` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='옷장';
 
 
 

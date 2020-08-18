@@ -67,7 +67,9 @@ public class ClothesServiceImpl implements ClothesService {
 //			System.out.println("세션을 찾을 수 없음.");
 //			return null;
 //		}
-		clothesVO.setUserID(userID);
+		if(!userID.equals("-1")) {
+			clothesVO.setUserID(userID);
+		}
 
 		return clothesDAO.selectClothes(clothesVO);
 	}
