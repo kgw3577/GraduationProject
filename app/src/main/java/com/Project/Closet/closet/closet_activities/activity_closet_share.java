@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,11 +34,14 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
+import com.Project.Closet.social.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.ssomai.android.scalablelayout.ScalableLayout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -64,6 +69,8 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
     RelativeLayout addButton;
 
     DrawerLayout drawer;
+
+    String mode;
 
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
@@ -97,6 +104,13 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.frag_closet);
+
+        try{
+            mode = getIntent().getExtras().getString("mode");
+        }catch(NullPointerException e){
+            mode = "show";
+        }
+
         toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
         activity = this;
@@ -351,6 +365,50 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
             });
         }
 
+
+        switch(mode){
+            case "select": //선택 모드일 때
+                //ScalableLayout header = findViewById(R.id.header);
+                //header.setVisibility(View.GONE);
+                //info에서 위의 도구를 숨김. select 버튼을 보이게 함.
+                LinearLayout ll_tools = findViewById(R.id.ll_tools);
+                ll_tools.setVisibility(View.GONE);
+                Button bt_select = findViewById(R.id.bt_select);
+                bt_select.setVisibility(View.VISIBLE);
+                bt_select.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String color = tv_color.getText().toString();
+                        String detailCategory = tv_detailcategory.getText().toString();
+
+                        //번호, 식별자 구함
+                        String cloNo = tv_cloNo.getText().toString();
+                        String identifier = color+"_"+detailCategory;
+
+                        //이미지 구함
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        Bitmap bitmap = ((BitmapDrawable)iv_image.getDrawable()).getBitmap();
+                        float scale = (float) (1024/(float)bitmap.getWidth());
+                        int image_w = (int) (bitmap.getWidth() * scale);
+                        int image_h = (int) (bitmap.getHeight() * scale);
+                        Bitmap resize = Bitmap.createScaledBitmap(bitmap, image_w, image_h, true);
+                        resize.compress(Bitmap.CompressFormat.JPEG, 30, stream);
+                        byte[] byteArray = stream.toByteArray();
+
+                        //intent로 정보 전달
+                        Intent intent = new Intent(activity_closet_share.this, activity_addBoard.class);
+                        intent.putExtra("cloNo", cloNo);
+                        intent.putExtra("identifier", identifier);
+                        intent.putExtra("image", byteArray);
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }
+                });
+                break;
+        }
+
+
     }
 
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
@@ -535,11 +593,11 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         String category = cloInfo.getCategory();
         String detailCategory = cloInfo.getDetailCategory();
         tv_category.setText(category);
+        tv_detailcategory.setText(detailCategory);
         if(category.equals(detailCategory))
             ll_detail.setVisibility(View.GONE);
         else{
             ll_detail.setVisibility(View.VISIBLE);
-            tv_detailcategory.setText(detailCategory);
         }
         tv_color.setText(cloInfo.getColor());
         tv_season.setText(cloInfo.getSeason());

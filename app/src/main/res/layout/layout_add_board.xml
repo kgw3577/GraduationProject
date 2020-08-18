@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -39,18 +40,21 @@
 
             <ImageView
                 android:id="@+id/add_image"
-                android:layout_width="280dp"
-                android:layout_height="280dp"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginRight="20dp"
-                android:src="@drawable/sample3"/>
+                android:src="@drawable/sample4"/>
 
             <LinearLayout
                 android:id="@+id/ll_contents"
                 android:layout_below="@id/add_image"
-                android:layout_margin="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -65,8 +69,7 @@
                     android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:focusable="true"
-                    android:text="ddddddd"
-                    android:minLines="2"
+                    android:text="\n"
                     android:inputType="textMultiLine|textNoSuggestions"
                     android:id="@+id/tv_contents"
                     android:background="@drawable/radius"
@@ -88,95 +91,158 @@
                     android:layout_marginBottom="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="이 코디에 포함된 옷">
+                    android:text="이 코디에 포함된 옷"
+                    >
                 </TextView>
 
                 <HorizontalScrollView
                     android:id="@+id/tab_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/radius"
-                    android:padding="5dp"
+                    android:overScrollMode="never"
                     android:scrollbars="none"
 
                     >
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/child1"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
 
-                        <ImageView
-                            android:id="@+id/child2"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child3"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child4"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child5"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child6"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child7"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child8"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
+                                <ImageView
+                                    android:id="@+id/child1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
 
-                        <ImageView
-                            android:id="@+id/child9"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
-                        <ImageView
-                            android:id="@+id/child10"
-                            android:layout_margin="10dp"
-                            android:layout_width="@dimen/add_child"
-                            android:layout_height="@dimen/add_child"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/hanger_gray" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child4"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child5"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child6"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child7"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child8"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child9"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="@dimen/child_card"
+                            android:layout_height="@dimen/child_card"
+                            android:layout_margin="3dp"
+                            app:cardBackgroundColor="@color/closet"
+                            card_view:cardCornerRadius="10dp">
+
+                            <ImageView
+                                android:id="@+id/child10"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/hanger_gray_small" />
+                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                 </HorizontalScrollView>
@@ -185,6 +251,119 @@
         </RelativeLayout>
     </ScrollView>
 
+    <SlidingDrawer
+        android:id="@+id/sliding_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:allowSingleTap="true"
+        android:animateOnClick="true"
+        android:bottomOffset="5dp"
+        android:content="@+id/drawer_content"
+        android:handle="@+id/handle"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/handle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#dddddd"
+            android:src="@drawable/ic_launcher_background"
+            android:text="끌어올려주세요" />
+
+        <LinearLayout
+            android:id="@+id/drawer_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="#BB000000"
+            android:orientation="vertical">
+
+
+
+            <LinearLayout
+                android:id="@+id/msgLo"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                >
+                <TextView
+                    android:layout_margin="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="옷 추가"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:background="#bbbbbb"
+                >
+
+                <TextView
+                    android:id="@+id/tv_add_image"
+                    android:text="새로운 옷 올리기"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tv_from_closet"
+                    android:layout_marginTop="0.01dp"
+                    android:text="옷장에서 가져오기"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_from_share"
+                    android:layout_marginTop="0.01dp"
+                    android:text="공유 옷장에서 가져오기"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_marginTop="0.01dp"
+                    android:text="취소"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </SlidingDrawer>
 
 
 

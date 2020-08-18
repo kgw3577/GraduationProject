@@ -72,9 +72,9 @@
     </string-array>
 
     <string-array name="스커트">
-        <item>"숏/미니 스커트"</item>
-        <item>"롱 스커트"</item>
-        <item>"미디엄 스커트"</item>
+        <item>"숏/미니스커트"</item>
+        <item>"미디엄스커트"</item>
+        <item>"롱스커트"</item>
     </string-array>
 
     <string-array name="한벌옷">
@@ -82,9 +82,9 @@
     </string-array>
 
     <string-array name="원피스">
-        <item>"숏/미니 원피스"</item>
-        <item>"롱 원피스"</item>
-        <item>"미디엄 원피스"</item>
+        <item>"민소매원피스"</item>
+        <item>"반팔원피스"</item>
+        <item>"긴팔원피스"</item>
     </string-array>
 
     <string-array name="외투">
@@ -168,9 +168,6 @@
     </string-array>
 
 
-
-
-
     <string-array name="Season">
         <item>"봄"</item>
         <item>"여름"</item>
@@ -180,9 +177,9 @@
 
     <string-array name="Place">
         <item>"캐주얼"</item>
-        <item>"비지니스 캐주얼"</item>
+        <item>"비지니스캐주얼"</item>
         <item>"비지니스"</item>
-        <item>"세미 포멀"</item>
+        <item>"세미포멀"</item>
         <item>"포멀"</item>
         <item>"특수"</item>
     </string-array>

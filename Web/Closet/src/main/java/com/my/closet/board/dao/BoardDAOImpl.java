@@ -56,8 +56,29 @@ public class BoardDAOImpl implements BoardDAO {
 	public String addBoard(Map<String, Object> boardMap) throws DataAccessException {
 
 		System.out.println("insert 쿼리 실행 전");
-		int result = sqlSession.insert("mapper.board.insertBoard", boardMap);
+		int result= sqlSession.insert("mapper.board.insertBoard", boardMap);
 		System.out.println("insert 쿼리 실행");
+		
+		int inserted_boardNo = (int) boardMap.get("inserted_boardNo");
+		
+		System.out.println("insert된 boardNo : "+inserted_boardNo);
+		
+		
+		HashMap<String, Object> relMap = new HashMap<String, Object>();
+		
+		
+		for(int i=0; i<10; i++) {
+			if( boardMap.containsKey("child"+i+"_cloNo") ) {
+				relMap.put("boardNo", inserted_boardNo);
+				relMap.put("cloNo", boardMap.get("child"+i+"_cloNo"));
+				result = sqlSession.insert("mapper.board.insertRelation", relMap);
+				if (result == 1) {
+					System.out.println(inserted_boardNo+"릴레이션 쿼리 성공"+boardMap.get("child"+i+"_cloNo"));
+				}
+				else
+					System.out.println("릴레이션 쿼리 실패");
+			}
+		}
 		
 		if (result == 1) {
 			System.out.println("쿼리 성공");

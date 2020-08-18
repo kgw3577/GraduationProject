@@ -28,6 +28,8 @@
 
     <color name="closet">#f9f9f9</color>
     <color name="fab">#FFB805</color>
-
+    <color name="follow">#aa0055af</color>
+    <color name="button">#aaFFB805</color>
+    <color name="button2">#aaFFA500</color>
 
 </resources>
