@@ -194,11 +194,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 slidingDrawer.close();
                 break;
             case R.id.tv_cancel :
-                //이미지 리셋
-                list_childClothes.get(selected_clo_index).setImageResource(R.drawable.hanger_gray_small);
-                //옷 번호 리셋
-                child_clothes_no[selected_clo_index] = 0;
-                slidingDrawer.close();
+                resetCurrentItem();
                 break;
         }
     }
@@ -354,19 +350,39 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
             //데이터 받아오기
             Bundle extras = intent.getExtras();
             String cloNo = extras.getString("cloNo");
-            String identifier = extras.getString("identifier");
-            byte[] byteArray = intent.getByteArrayExtra("image");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            //태그 추가
-            tv_contents.append(" #"+identifier);
-            tv_contents.setSelection(tv_contents.length());
-            //이미지 설정
-            list_childClothes.get(selected_clo_index).setImageBitmap(bitmap);
-            //옷 번호 저장
-            child_clothes_no[selected_clo_index] = Integer.parseInt(cloNo);
+            boolean isExist=false;
+
+            for (int i=0;i<10;i++){
+                if(i==selected_clo_index)
+                    continue;
+                if(Integer.parseInt(cloNo)==child_clothes_no[i]){
+                    isExist=true;
+                    Toast.makeText(this, "중복 아이템입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            if(!isExist){
+                String identifier = extras.getString("identifier");
+                byte[] byteArray = intent.getByteArrayExtra("image");
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                //태그 추가
+                tv_contents.append(" #"+identifier);
+                tv_contents.setSelection(tv_contents.length());
+                //이미지 설정
+                list_childClothes.get(selected_clo_index).setImageBitmap(bitmap);
+                //옷 번호 저장
+                child_clothes_no[selected_clo_index] = Integer.parseInt(cloNo);
+            }
         }
 
     }
 
+    void resetCurrentItem(){
+        //이미지 리셋
+        list_childClothes.get(selected_clo_index).setImageResource(R.drawable.hanger_gray_small);
+        //옷 번호 리셋
+        child_clothes_no[selected_clo_index] = 0;
+        slidingDrawer.close();
+    }
 
 }

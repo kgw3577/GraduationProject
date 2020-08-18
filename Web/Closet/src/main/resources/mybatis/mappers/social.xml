@@ -157,6 +157,28 @@
 	
 	
 	
+	<!-- 게시글 상세 조회 쿼리. 해당 번호 게시물을 hearterID가 보고 있는 상황. -->
+	<select id="detailFeed" resultMap="설정해야 함" parameterType="heartVO">
+	<![CDATA[
+		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = #{hearterID} AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 게시자 팔로잉 여부
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = #{hearterID} AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
+              C.cloNo cloNo, C.filePath imagePath, C.identifier identifier, C.brand brand
+ 		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+ 		WHERE B.boardNo = #{boardNo}
+				AND B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo;
+	]]>
+	</select>
 	
 	<!-- 댓글 조회 쿼리 -->
 	<select id="showCommentInBoard" resultMap="commentFeedResult" parameterType="boardVO">

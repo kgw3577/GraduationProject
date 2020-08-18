@@ -56,6 +56,15 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     TextView tv_add_image;
     TextView tv_from_codi;
 
+    public static fragment_social newInstance() {
+
+        Bundle args = new Bundle();
+
+        fragment_social fragment = new fragment_social();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -98,6 +98,14 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     private FloatingActionMenu fam;
     private FloatingActionButton fabEdit, fabDelete, fabAdd;
 
+    public static fragment_codi newInstance() {
+
+        Bundle args = new Bundle();
+
+        fragment_codi fragment = new fragment_codi();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

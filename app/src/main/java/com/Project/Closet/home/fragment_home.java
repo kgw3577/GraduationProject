@@ -92,6 +92,15 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
+    public static fragment_home newInstance() {
+
+        Bundle args = new Bundle();
+
+        fragment_home fragment = new fragment_home();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

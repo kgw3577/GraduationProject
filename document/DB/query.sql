@@ -1,5 +1,9 @@
 
 use CLOSET;
+
+INSERT INTO `BOARD` VALUES (76,'a','codi001.jpg','/download/board?imageFileName=codi001.jpg','\n #JIPSY #캐주얼','2020-08-16 07:29:03'),(77,'a','codi002.jpg','/download/board?imageFileName=codi002.jpg','실키 레이어드 화이트 셔츠\n #JIPSY #화이트_클래식/드레스셔츠','2020-08-16 07:43:39'),(78,'a','codi003.jpg','/download/board?imageFileName=codi003.jpg','\n #JIPSY #화이트_클래식/드레스셔츠','2020-08-16 07:46:38'),(79,'a','codi004.jpg','/download/board?imageFileName=codi004.jpg','헤비스웨트 데일리 팬츠\n #JIPSY #캐주얼 #블랙_트레이닝바지','2020-08-16 07:52:24');
+INSERT INTO `RELATION_BOARD_CLO` VALUES (1,76,7),(2,76,14),(5,77,14),(6,78,14),(7,79,3),(8,79,16);
+
 show tables;
 ALTER DATABASE CLOSET COLLATE 'utf8_general_ci';
 commit;
@@ -429,14 +433,17 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
               ) if_hearting,       -- 이 게시물 하트 여부
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
-              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate
- 		FROM `USER` U, `BOARD` B
- 		WHERE B.boardNo = "94"
-				AND B.userID = U.userID;
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
+              C.cloNo cloNo, C.filePath imagePath, C.identifier identifier, C.brand brand
+ 		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+ 		WHERE B.boardNo = "79"
+				AND B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo;
                 
-select C.cloNo cloNo, C.imagePath imagePath, C.identifier identifier, C.brand brand
-from RELATION_BOARD_CLO R, CLOTHES C
-where ;
+                
+DESC RELATION_BOARD_CLO;
+                
+
 
         DESC CLOTHES;
         insert into HEART values(94,"captain",null);

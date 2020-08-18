@@ -51,8 +51,8 @@ public class Fragment_Feed extends Fragment {
     FeedRecyclerAdapter feedRecyclerAdapter;
     Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
-    MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
-    String userID = pref.getUserID();
+    MySharedPreferences pref;
+    String userID;
 
     public static Fragment_Feed newInstance(String identifier, String size) {
 
@@ -69,6 +69,8 @@ public class Fragment_Feed extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pref = MySharedPreferences.getInstanceOf(getContext());
+        userID = pref.getUserID();
         parentFragment = ((fragment_social)getParentFragment());
 
 

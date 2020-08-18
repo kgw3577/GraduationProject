@@ -96,6 +96,14 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
+    public static fragment_closet newInstance() {
+
+        Bundle args = new Bundle();
+
+        fragment_closet fragment = new fragment_closet();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

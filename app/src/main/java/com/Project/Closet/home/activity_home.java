@@ -36,7 +36,7 @@ public class activity_home extends AppCompatActivity {
 
 
         fragmentManager = getSupportFragmentManager();
-        f_home = new fragment_home();
+        f_home = fragment_home.newInstance();
         fragmentManager.beginTransaction().replace(R.id.fragment_place, f_home,"home").commit();
 
 
@@ -47,7 +47,7 @@ public class activity_home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(f_closet == null) {
-                    f_closet = new fragment_closet();
+                    f_closet = fragment_closet.newInstance();
                     fragmentManager.beginTransaction().add(R.id.fragment_place, f_closet,"closet").commit();
                 }
 
@@ -65,7 +65,7 @@ public class activity_home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(f_codi == null) {
-                    f_codi = new fragment_codi();
+                    f_codi = fragment_codi.newInstance();
                     fragmentManager.beginTransaction().add(R.id.fragment_place, f_codi,"codi").commit();
                 }
 
@@ -89,7 +89,7 @@ public class activity_home extends AppCompatActivity {
                 }
                 else{
                     if(f_home == null) {
-                        f_home = new fragment_home();
+                        f_home = fragment_home.newInstance();
                         fragmentManager.beginTransaction().add(R.id.fragment_place, f_home,"home").commit();
                     }
 
@@ -108,7 +108,7 @@ public class activity_home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(f_share == null) {
-                    f_share = new fragment_social();
+                    f_share = fragment_social.newInstance();
                     fragmentManager.beginTransaction().add(R.id.fragment_place, f_share,"share").commit();
                 }
 
@@ -140,7 +140,7 @@ public class activity_home extends AppCompatActivity {
         if (requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
             transaction = fragmentManager.beginTransaction();
             transaction.remove(f_closet);
-            f_closet = new fragment_closet();
+            f_closet = fragment_closet.newInstance();
             transaction.add(R.id.fragment_place,f_closet,"closet").commit();
         }
     }
@@ -168,13 +168,13 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = new fragment_home();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
             if(f_closet != null){
                 System.out.println("closet초기화");
                 transaction.remove(f_closet);
-                f_closet = new fragment_closet();
+                f_closet = fragment_closet.newInstance();
                 transaction.add(R.id.fragment_place,f_closet,"closet");
             }
         }
@@ -182,13 +182,13 @@ public class activity_home extends AppCompatActivity {
             if(f_closet != null){
                 System.out.println("closet초기화");
                 transaction.remove(f_closet);
-                f_closet = new fragment_closet();
+                f_closet = fragment_closet.newInstance();
                 transaction.add(R.id.fragment_place,f_closet,"closet");
             }
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = new fragment_home();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
         }
@@ -204,13 +204,13 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = new fragment_home();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
             if(f_codi != null){
                 System.out.println("codi초기화");
                 transaction.remove(f_codi);
-                f_codi = new fragment_codi();
+                f_codi = fragment_codi.newInstance();
                 transaction.add(R.id.fragment_place,f_codi,"codi");
             }
         }
@@ -218,13 +218,13 @@ public class activity_home extends AppCompatActivity {
             if(f_codi != null){
                 System.out.println("codi초기화");
                 transaction.remove(f_codi);
-                f_codi = new fragment_codi();
+                f_codi = fragment_codi.newInstance();
                 transaction.add(R.id.fragment_place,f_codi,"codi");
             }
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = new fragment_home();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
         }
@@ -244,7 +244,7 @@ public class activity_home extends AppCompatActivity {
             FragmentTransaction transaction;
             transaction = fragmentManager.beginTransaction();
             transaction.remove(f_home);
-            f_home = new fragment_home();
+            f_home = fragment_home.newInstance();
             transaction.add(R.id.fragment_place,f_home,"home").commit();
         }
     }
@@ -254,7 +254,7 @@ public class activity_home extends AppCompatActivity {
             FragmentTransaction transaction;
             transaction = fragmentManager.beginTransaction();
             transaction.remove(f_share);
-            f_share = new fragment_social();
+            f_share = fragment_social.newInstance();
             transaction.add(R.id.fragment_place,f_share,"share").commit();
         }
     }

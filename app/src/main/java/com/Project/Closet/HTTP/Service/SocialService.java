@@ -66,8 +66,8 @@ public class SocialService extends APIAdapter {
 
         /*피드 상세 정보*/
         //해당 게시물 상세정보 받아오기
-        @Headers("Content-Type: application/json")
-        @PUT("social/feed/detail/{boardNo}")
+        //@Headers("Content-Type: application/json")
+        //@PUT("social/feed/detail/{boardNo}")
         //Call<List<FFFVO>> detailFeed(@Path("boardNo") String boardNo, @Query("myID") String myID);
         //해당 게시물 코멘트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
