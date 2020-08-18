@@ -374,81 +374,13 @@ SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfCont
 
 
 
-
-select * from HEART;
-
-
--- 유저 스페이스 쿼리 만들기
--- x의 스페이스를 a가 보는 상황.
-SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
-              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
-              IF(
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
-              ,"following","not_following"
-              ) if_following,       -- 팔로잉 여부
-              (SELECT followerID FROM FOLLOW 
-				  where FOLLOW.followedID = "captain" AND 
-				  FOLLOW.followerID in 
-				  (
-					select * from (
-						(SELECT ifnull(followedID,"") FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
-					) ORDER BY RAND() DESC LIMIT 1
-				) following
-              -- (SELECT userID from `USER` where `USER`.userID = following_friends.followerID) followig_friendsID, -- x를 팔로우하는 친구의 ID
-              -- (SELECT nickname from `USER` where `USER`.userID = following_friends.followerID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
-              -- (SELECT pfImagePath from `USER` where `USER`.userID = following_friends.followerID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
- 		FROM `USER` U
-
- 		WHERE U.userID = "captain";
-
-SELECT 
-	CASE
-		WHEN !isnull((SELECT followedID FROM FOLLOW where FOLLOW.followerID = "11" LIMIT 1)  )
-		THEN (SELECT followerID FROM FOLLOW 
-				  where FOLLOW.followedID = "11" AND 
-				  FOLLOW.followerID in 
-				  (
-					select * from (
-						(SELECT ifnull(followedID,"") FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
-					) ORDER BY RAND() DESC LIMIT 1
-				)
-		ELSE null
-	END AS hero_type
-FROM FOLLOW LIMIT 1;
-
-
- -- 내가 팔로우한 사람이면서 x를 팔로우한 사람
-SELECT followerID, regDate FROM FOLLOW 
-				  where FOLLOW.followedID = "captain" AND 
-				  FOLLOW.followerID in 
-				  (
-					select * from (
-						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp
-									)
-				)
-                ORDER BY regDate DESC;
-                
-SELECT ifnull(followedID,"a") followedID FROM FOLLOW 
-				  where FOLLOW.followedID = "captain" AND 
-				  FOLLOW.followerID in 
-				  (
-					select * from (
-						(SELECT ifnull(followedID,"") followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
-					);             
-                
-                
-                SELECT COALESCE(followedID,"f") as f FROM FOLLOW where FOLLOW.followerID = "11";
 case (조건 또는 값)
           when 값1 then 표시값
           when 값2 then 표시값
         else 표시값
         end
-					
-
-
-SELECT * from FOLLOW where followerID = 'a' ORDER BY regDate DESC;
+        
+        ;
 
 -- USER Table Create SQL
 show CREATE TABLE RELATION_BOARD_CLO;
@@ -462,14 +394,6 @@ CREATE TABLE `RELATION_BOARD_CLO` (
   CONSTRAINT `RELATION_TO_BOARD` FOREIGN KEY (`boardNo`) REFERENCES `BOARD` (`boardNo`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `RELATION_TO_CLO` FOREIGN KEY (`cloNo`) REFERENCES `CLOTHES` (`cloNo`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='게시물-옷 관계';
-
-
-
-insert into RELATION_CLO_CODI values (null, 76, 33);
-select * from RELATION_CLO_CODI;
-
-show tables;
-
 
 
 SHOW CREATE TABLE `CLOSET`;
@@ -510,9 +434,11 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
  		WHERE B.boardNo = "94"
 				AND B.userID = U.userID;
                 
-                
+select C.cloNo cloNo, C.imagePath imagePath, C.identifier identifier, C.brand brand
+from RELATION_BOARD_CLO R, CLOTHES C
+where ;
 
-        
+        DESC CLOTHES;
         insert into HEART values(94,"captain",null);
         insert into `COMMENT` values(null,94,"stark","굳!",null);
 
@@ -520,55 +446,9 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
         select * from HEART;
         select * from `COMMENT`;
         
-
-        
-        
-        
+        select * from `RELATION_BOARD_CLO`;
         -- 하트 여부 포함해서 만들어야 함.
-        FROM `USER` U 
- 		WHERE U.userID = "x";
         
--- 해당 사용자가 좋아요한 피드 쿼리
-SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
-              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
-              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
-              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
- 		FROM `USER` U, `BOARD` B
-		WHERE U.userID = B.userID
-			AND B.boardNo in 
-            (select boardNo FROM HEART where hearterID = 'm')
- 		ORDER BY regDate DESC;
-
-
-
--- 유저 스페이스 쿼리 만들기
--- x의 스페이스를 a가 보는 상황.
-SELECT U.userID userID, U.nickname nickname, U.pfImagePath pfImagePath, U.pfContents pfContents,
-              (SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
-              IF(
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
-              ,"following","not_following"
-              ) if_following,       -- 팔로잉 여부
-               @following_friendsID := 
-               (SELECT followerID FROM FOLLOW 
-				  where FOLLOW.followedID = "x" AND 
-				  FOLLOW.followerID in 
-				  (
-					select * from (
-						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
-					) ORDER BY RAND() DESC LIMIT 1
-				) following_friendsID,     -- 내(a)가 팔로우하는 사람 중, x를 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
-              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
-              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) followig_friendsImgPath   -- x를 팔로우하는 친구의 프사  
- 		FROM `USER` U 
- 		WHERE U.userID = "x";
-
-
-
-
-
 
 
 

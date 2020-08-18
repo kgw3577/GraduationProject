@@ -2,26 +2,37 @@ package com.Project.Closet.social.subfragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
+import com.Project.Closet.HTTP.Service.SocialService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.FeedVO;
+import com.Project.Closet.HTTP.VO.FollowVO;
+import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
-import com.Project.Closet.social.activity_post;
+import com.Project.Closet.social.activity_thisFeed;
 import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
 
 
 //어댑터 : 리사이클러뷰의 아이템 뷰를 생성하는 역할을 함
@@ -29,6 +40,7 @@ import java.util.ArrayList;
 //아이템 뷰 : 각각의 카드뷰 한 개
 public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapter.ViewHolder> {
 
+    Context context;
     ArrayList<FeedVO> feedList; // 피드 리스트
 
     public interface OnItemClickListener {
@@ -52,10 +64,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     @Override
     public FeedRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        Context context = parent.getContext() ;
+        context = parent.getContext() ;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
-        View view = inflater.inflate(R.layout.item_cardview_share, parent, false) ;
+        View view = inflater.inflate(R.layout.item_cardview_feed, parent, false) ;
         FeedRecyclerAdapter.ViewHolder vh = new FeedRecyclerAdapter.ViewHolder(view);
 
         return vh;
@@ -64,25 +76,33 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(FeedRecyclerAdapter.ViewHolder holder, int position) {
-        final FeedVO feedMap = feedList.get(position);
+        final FeedVO feedInfo = feedList.get(position);
 
         //작성 시간 포매팅
-        long ts = Timestamp.valueOf(feedMap.getRegDate()).getTime();
+        long ts = Timestamp.valueOf(feedInfo.getRegDate()).getTime();
         String regDate = NumFormat.formatTimeString(ts);
         //수 포매팅
-        String numHeart = NumFormat.formatNumString(feedMap.getNumHeart());
-        String numComment  = NumFormat.formatNumString(feedMap.getNumComment());
+        String numHeart = NumFormat.formatNumString(feedInfo.getNumHeart());
+        String numComment  = NumFormat.formatNumString(feedInfo.getNumComment());
 
 
-        holder.tv_writerName.setText(feedMap.getWriterName());
+        holder.tv_writerName.setText(feedInfo.getWriterName());
         holder.tv_numHeart.setText(numHeart); //형식 : 223.7만
         holder.tv_numComment.setText(numComment); //형식 : 223.7만
-        holder.tv_contents.setText(feedMap.getContents());
+        holder.tv_contents.setText(feedInfo.getContents());
         holder.tv_regDate.setText(regDate); //형식 : 6시간 전
 
-        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedMap.getPfImagePath()).into(holder.iv_profileImage);
-        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedMap.getImagePath()).into(holder.iv_image);
-        // 해당 유저의 하트 여부도 받아와야 함. iv_heart -> 하트 색칠 여부
+        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getPfImagePath()).into(holder.iv_profileImage);
+        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getImagePath()).into(holder.iv_image);
+
+        //하트 여부에 따라 아이콘 변경
+        String if_hearting = feedInfo.getIf_hearting();
+        if(if_hearting.equals("hearting")){
+            holder.iv_heart.setImageResource(R.drawable.heart_color);
+        }
+        else if(if_hearting.equals("not_hearting")){
+            holder.iv_heart.setImageResource(R.drawable.heart_empty);
+        }
 
     }
 
@@ -124,8 +144,13 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                     if (pos != RecyclerView.NO_POSITION) {
                         // TODO : use pos.
                         Intent intent;
-                        Context context = v.getContext();
+                        String result=null;
+                        context = v.getContext();
                         FeedVO feed = feedList.get(pos);
+
+                        MySharedPreferences pref = MySharedPreferences.getInstanceOf(context);
+                        String myID = pref.getUserID();
+
 
                         switch (v.getId()) {
                             case R.id.profile_area :
@@ -134,23 +159,53 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                                 intent.putExtra("targetID", feed.getWriterID());
                                 context.startActivity(intent);
                                 break;
-                            default :
+                            case R.id.ll_icon_heart :
+                                try {
+                                    result = new heartTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(feed.getBoardNo()) ,myID).get();
+                                } catch (ExecutionException | InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                if(result!=null) {
+                                    String resCut[];
+                                    String numHeart;
+                                    if("fail".equals(result)){
 
-                                intent = new Intent(context, activity_post.class);
+                                    }else{
+                                        if(result.contains("not_hearting")){
+                                            iv_heart.setImageResource(R.drawable.heart_empty);
+                                            resCut = result.split("_");
+                                            numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
+                                            tv_numHeart.setText(numHeart);
+                                        }else if(result.contains("hearting")) {
+                                            iv_heart.setImageResource(R.drawable.heart_color);
+                                            resCut = result.split("_");
+                                            numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
+                                            tv_numHeart.setText(numHeart);
+                                        }
+                                    }
+                                }
+
+                                break;
+                            default :
+                                ArrayList<FeedVO> selectedFeedList=new ArrayList<FeedVO>();
+                                try {
+                                    selectedFeedList = new detailInfoTask().execute(feed.getBoardNo()).get();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+
+                                FeedVO selectedFeed=selectedFeedList.get(0);
+
+                                intent = new Intent(context, activity_thisFeed.class);
+
 
                                 assert feed != null;
-                                intent.putExtra("writerID", feed.getWriterID());
-                                intent.putExtra("writerName", feed.getWriterName());
-                                intent.putExtra("pfImagePath", feed.getPfImagePath());
-                                intent.putExtra("contents", feed.getContents());
-                                intent.putExtra("regDate", feed.getRegDate());
-                                intent.putExtra("numHeart", feed.getNumHeart());
-                                intent.putExtra("numComment", feed.getNumComment());
-                                intent.putExtra("boardNo", feed.getBoardNo());
+                                intent.putParcelableArrayListExtra("selectedFeedList",selectedFeedList);
 
                                 context.startActivity(intent);
                         }
-
 
                         if(mListener!=null) {
                             //mListener.onItemClick(v,pos);
@@ -161,10 +216,86 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
             CardView feed_card = itemView.findViewById(R.id.feed_card);
             LinearLayout profile_area = itemView.findViewById(R.id.profile_area);
+            LinearLayout ll_icon_heart = itemView.findViewById(R.id.ll_icon_heart);
 
             feed_card.setOnClickListener(onClickListener);
             profile_area.setOnClickListener(onClickListener);
+            ll_icon_heart.setOnClickListener(onClickListener);
 
         }
     }
+
+    public class detailInfoTask extends AsyncTask<Integer, Void, ArrayList<FeedVO>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+        }
+
+
+        @Override
+        protected ArrayList<FeedVO> doInBackground(Integer... params) {
+            String myID = MySharedPreferences.getInstanceOf(context).getUserID();
+            FeedVO feedFilter = new FeedVO();
+            feedFilter.setBoardNo(params[0]);
+            //인자 params[0]은 클릭한 boardNo.
+
+            Call<List<FeedVO>> feedListCall = SocialService.getRetrofit(context).searchFeed(feedFilter,myID, "-1", "-1");
+
+            try {
+                return (ArrayList<FeedVO>) feedListCall.execute().body();
+
+                // Do something with the response.
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<FeedVO> feeds) {
+            super.onPostExecute(feeds);
+        }
+    }
+
+
+
+
+    public class heartTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            HeartVO heartInfo = new HeartVO(params[0],params[1]);
+            //params : 게시물 번호, 유저
+
+            Call<String> stringCall = SocialService.getRetrofit(context).executeHeart(heartInfo);
+
+            //인자 params[0]은 page.
+
+            try {
+                return stringCall.execute().body();
+
+                // Do something with the response.
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String res) {
+            super.onPostExecute(res);
+        }
+    }
+
+
+
 }

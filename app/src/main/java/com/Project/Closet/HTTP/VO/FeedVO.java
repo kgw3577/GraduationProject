@@ -1,6 +1,11 @@
 package com.Project.Closet.HTTP.VO;
 
-public class FeedVO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class FeedVO implements Parcelable {
     private String writerID, writerName, pfImagePath, if_hearting, imagePath, contents, regDate;
     private int numHeart, numComment, boardNo;
 
@@ -10,6 +15,31 @@ public class FeedVO {
         System.out.println("FeedVO 생성자 호출");
     }
 
+
+    protected FeedVO(Parcel in) {
+        writerID = in.readString();
+        writerName = in.readString();
+        pfImagePath = in.readString();
+        if_hearting = in.readString();
+        imagePath = in.readString();
+        contents = in.readString();
+        regDate = in.readString();
+        numHeart = in.readInt();
+        numComment = in.readInt();
+        boardNo = in.readInt();
+    }
+
+    public static final Creator<FeedVO> CREATOR = new Creator<FeedVO>() {
+        @Override
+        public FeedVO createFromParcel(Parcel in) {
+            return new FeedVO(in);
+        }
+
+        @Override
+        public FeedVO[] newArray(int size) {
+            return new FeedVO[size];
+        }
+    };
 
     //게터&세터
     public String getWriterID() {
@@ -114,6 +144,22 @@ public class FeedVO {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
-
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(writerID);
+        dest.writeString(writerName);
+        dest.writeString(pfImagePath);
+        dest.writeString(if_hearting);
+        dest.writeString(imagePath);
+        dest.writeString(contents);
+        dest.writeString(regDate);
+        dest.writeInt(numHeart);
+        dest.writeInt(numComment);
+        dest.writeInt(boardNo);
+    }
 }

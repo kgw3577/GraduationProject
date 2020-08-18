@@ -37,13 +37,18 @@ public class CrudDAOImpl implements CrudDAO {
 		int result = sqlSession.insert("mapper.social_crud.insertFollow", followInfo);
 		System.out.println("insert 쿼리 실행");
 
+		String numFollow = followInfo.getFollowedID();
+
 		if (result == 1) {
 			System.out.println("insert 성공");
-			return "ok"; // insert 성공
+			return numFollow; // insert 성공
 		} else {
 			System.out.println("insert 실패");
 			return "fail"; // insert 실패
 		}
+		
+		
+		
 	}
 
 	// 팔로우 삭제
@@ -51,10 +56,15 @@ public class CrudDAOImpl implements CrudDAO {
 	public String deleteFollow(FollowVO followInfo) throws DataAccessException {
 		int result = sqlSession.delete("mapper.social_crud.deleteFollow", followInfo);
 
-		if (result == 1)
-			return "ok";
-		else
-			return "fail";
+		if (result == 1) {
+			System.out.println("delete 성공");
+			int res = sqlSession.selectOne("mapper.social_crud.numFollow", followInfo);
+			return Integer.toString(res); // insert 성공
+		} else {
+			System.out.println("delete 실패");
+			return "fail"; // insert 실패
+		}
+		
 	}
 
 	
@@ -75,10 +85,12 @@ public class CrudDAOImpl implements CrudDAO {
 		System.out.println("insert 쿼리 실행 전");
 		int result = sqlSession.insert("mapper.social_crud.insertHeart", heartFilter);
 		System.out.println("insert 쿼리 실행");
+		
+		String numHeart = heartFilter.getBoardNo();
 
 		if (result == 1) {
 			System.out.println("insert 성공");
-			return "ok"; // insert 성공
+			return numHeart; // insert 성공
 		} else {
 			System.out.println("insert 실패");
 			return "fail"; // insert 실패
@@ -90,10 +102,15 @@ public class CrudDAOImpl implements CrudDAO {
 	public String deleteHeart(HeartVO heartFilter) throws DataAccessException {
 		int result = sqlSession.delete("mapper.social_crud.deleteHeart", heartFilter);
 
-		if (result == 1)
-			return "ok";
-		else
-			return "fail";
+
+		if (result == 1) {
+			System.out.println("delete 성공");
+			int res = sqlSession.selectOne("mapper.social_crud.numHeart", heartFilter);
+			return Integer.toString(res); // insert 성공
+		} else {
+			System.out.println("delete 실패");
+			return "fail"; // insert 실패
+		}
 	}	
 	
 	

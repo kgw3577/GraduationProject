@@ -36,6 +36,9 @@
 		insert into FOLLOW
 		values(#{followerID},#{followedID},#{regDate})
 	]]>
+		<selectKey resultType="String" keyProperty="followedID" order="AFTER">
+        SELECT COUNT(*) FROM FOLLOW where followedID = #{followedID}
+    	</selectKey>
 	</insert>
 	<!-- 팔로우 삭제 쿼리 -->
 	<delete id="deleteFollow" parameterType="followVO">
@@ -45,6 +48,12 @@
 		followerID = #{followerID} AND followedID = #{followedID}
 	]]>
 	</delete>
+	<!-- 팔로우 수 조회 쿼리. -->
+	<select id="numFollow" resultType="java.lang.Integer" parameterType="followVO">
+	<![CDATA[
+		SELECT COUNT(*) FROM FOLLOW where followedID = #{followedID}
+	]]>
+	</select>
 	
 	
 	
@@ -79,6 +88,10 @@
 		insert into HEART
 		values(#{boardNo},#{hearterID},#{regDate})
 	]]>
+		<selectKey resultType="String" keyProperty="boardNo" order="AFTER">
+        SELECT COUNT(*) FROM HEART where HEART.boardNo = #{boardNo}
+    	</selectKey>
+    	
 	</insert>
 	<!-- 하트 삭제 쿼리 -->
 	<delete id="deleteHeart" parameterType="heartVO">
@@ -89,7 +102,12 @@
 	]]>
 	</delete>
 	
-	
+	<!-- 하트 수 조회 쿼리. -->
+	<select id="numHeart" resultType="java.lang.Integer" parameterType="heartVO">
+	<![CDATA[
+		SELECT COUNT(*) FROM HEART where HEART.boardNo = #{boardNo}
+	]]>
+	</select>
 
 	
 </mapper>

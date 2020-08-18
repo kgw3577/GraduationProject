@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
-import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
@@ -50,7 +49,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
         Context context = parent.getContext() ;
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
 
-        View view = inflater.inflate(R.layout.item_cardview_share, parent, false) ;
+        View view = inflater.inflate(R.layout.item_cardview_feed, parent, false) ;
         CommentListAdapter.ViewHolder vh = new CommentListAdapter.ViewHolder(view);
 
         return vh;

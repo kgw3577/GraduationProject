@@ -24,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.R;
 import com.Project.Closet.home.activity_home;
+import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;

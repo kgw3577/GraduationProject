@@ -86,6 +86,35 @@ public class NumFormat {
         return msg;
     }
 
+    public static String formatNumString(int num, boolean isZeroHidden) {
+
+        double doubleNum = (double)num;
+        System.out.println(doubleNum);
+
+        DecimalFormat df = new DecimalFormat("0.#");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        String msg = null;
+        if(isZeroHidden){
+            if(doubleNum == 0.0){ //0일 경우 표시하지 않음
+                msg = "";
+                return msg;
+            }
+        }
+        if (doubleNum < NUM_UNIT.K) {
+            msg = num+"";
+        } else if (( doubleNum /= NUM_UNIT.K) < NUM_UNIT.K10/NUM_UNIT.K) {
+            msg =  df.format(doubleNum)+ "천"; //2.5천
+
+        } else {
+            doubleNum /= NUM_UNIT.K10/NUM_UNIT.K;
+            msg =  df.format(doubleNum)+ "만"; //125.1만
+        }
+
+        return msg;
+    }
+
+
     public static String formatNumStringZero(int num) {
 
         double doubleNum = (double)num;

@@ -6,7 +6,6 @@ import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
-import com.Project.Closet.HTTP.VO.ExpandedFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.HeartVO;
@@ -65,6 +64,11 @@ public class SocialService extends APIAdapter {
         Call<List<FeedVO>> showHeartFeed(@Path("userID") String userID, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
 
 
+        /*피드 상세 정보*/
+        //해당 게시물 상세정보 받아오기
+        @Headers("Content-Type: application/json")
+        @PUT("social/feed/detail/{boardNo}")
+        //Call<List<FFFVO>> detailFeed(@Path("boardNo") String boardNo, @Query("myID") String myID);
         //해당 게시물 코멘트 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.

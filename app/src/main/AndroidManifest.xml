@@ -22,8 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".social.activity_post" />
-        <activity android:name=".social.activity_addBoard" />
+        <activity android:name=".social.activity_thisFeed" />
+        <activity android:name=".social.addFeed.activity_addBoard" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
         <activity android:name=".closet.addClothes.activity_addClothes" />

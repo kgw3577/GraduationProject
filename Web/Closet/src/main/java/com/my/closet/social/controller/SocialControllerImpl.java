@@ -211,8 +211,9 @@ public class SocialControllerImpl implements SocialController {
 			} catch (Exception e) {
 				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 			}
-			if("ok".equals(answer)) { //성공시
-				return new ResponseEntity<String>("following", HttpStatus.OK); //팔로우중 상태 메시지 보냄
+			if(!"fail".equals(answer)) { //성공시
+				
+				return new ResponseEntity<String>(answer+"_following", HttpStatus.OK); //팔로우중 상태 메시지 보냄
 			}
 		}
 		else { //팔로우된 상태면
@@ -221,8 +222,9 @@ public class SocialControllerImpl implements SocialController {
 			} catch (Exception e) {
 				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 			}
-			if("ok".equals(answer)) { //성공시
-				return new ResponseEntity<String>("not_following", HttpStatus.OK); //팔로우하고있지않음 상태 메시지 보냄
+			if(!"fail".equals(answer)) { //성공시
+				
+				return new ResponseEntity<String>(answer+"_not_following", HttpStatus.OK); //팔로우중 상태 메시지 보냄
 			}
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
@@ -270,8 +272,9 @@ public class SocialControllerImpl implements SocialController {
 			} catch (Exception e) {
 				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 			}
-			if("ok".equals(answer)) { //성공시
-				return new ResponseEntity<String>("hearting", HttpStatus.OK); //팔로우중 상태 메시지 보냄
+			if(!"fail".equals(answer)) { //성공시
+				
+				return new ResponseEntity<String>(answer+"_hearting", HttpStatus.OK); //팔로우중 상태 메시지 보냄
 			}
 		}
 		else { //팔로우된 상태면
@@ -280,8 +283,9 @@ public class SocialControllerImpl implements SocialController {
 			} catch (Exception e) {
 				return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 			}
-			if("ok".equals(answer)) { //성공시
-				return new ResponseEntity<String>("not_hearting", HttpStatus.OK); //팔로우하고있지않음 상태 메시지 보냄
+			if(!"fail".equals(answer)) { //성공시
+				
+				return new ResponseEntity<String>(answer+"_not_hearting", HttpStatus.OK); //팔로우하고있지않음 상태 메시지 보냄
 			}
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);

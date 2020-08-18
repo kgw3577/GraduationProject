@@ -34,12 +34,11 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
-import com.Project.Closet.social.activity_addBoard;
+import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
-import com.ssomai.android.scalablelayout.ScalableLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

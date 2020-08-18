@@ -7,7 +7,11 @@ public class HeartVO {
     public HeartVO() {
         System.out.println("HeartVO 생성자 호출");
     }
-
+    public HeartVO(String boardNo, String hearterID) {
+        this.boardNo=boardNo;
+        this.hearterID=hearterID;
+        System.out.println("HeartVO 생성자 호출");
+    }
 
 
     public String getBoardNo() {

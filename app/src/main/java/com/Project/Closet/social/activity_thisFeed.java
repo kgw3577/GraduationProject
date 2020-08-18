@@ -3,6 +3,7 @@ package com.Project.Closet.social;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
+import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.PostCommentAdapter;
 import com.Project.Closet.R;
 import com.Project.Closet.util.NumFormat;
@@ -29,7 +31,7 @@ import java.util.List;
 
 import retrofit2.Call;
 
-public class activity_post extends AppCompatActivity {
+public class activity_thisFeed extends AppCompatActivity {
 
     String writerID, writerName, pfImagePath, contents, regDate;
     int numHeart, numComment, boardNo;
@@ -54,14 +56,19 @@ public class activity_post extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_post);
 
-        writerID = getIntent().getExtras().getString("writerID");
-        writerName = getIntent().getExtras().getString("writerName");
-        pfImagePath = getIntent().getExtras().getString("pfImagePath");
-        contents = getIntent().getExtras().getString("contents");
-        regDate = getIntent().getExtras().getString("regDate");
-        numHeart = getIntent().getExtras().getInt("numHeart");
-        numComment = getIntent().getExtras().getInt("numComment");
-        boardNo = getIntent().getExtras().getInt("boardNo");
+        ArrayList<FeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
+        FeedVO feed = selectedFeedList.get(0);
+
+        writerID = feed.getWriterID();
+        writerName = feed.getWriterName();
+        pfImagePath = feed.getPfImagePath();
+        contents = feed.getContents();
+        regDate = feed.getRegDate();
+        numHeart = feed.getNumHeart();
+        numComment = feed.getNumComment();
+        boardNo = feed.getBoardNo();
+
+
 
         iv_profileImage = findViewById(R.id.iv_profileImage);
         tv_writerName = findViewById(R.id.tv_writerName);

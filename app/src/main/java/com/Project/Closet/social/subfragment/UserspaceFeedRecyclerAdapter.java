@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,13 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
-import com.Project.Closet.social.activity_post;
-import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.social.space.activity_space_detail;
-import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 

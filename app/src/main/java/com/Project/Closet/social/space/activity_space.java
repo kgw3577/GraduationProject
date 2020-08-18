@@ -1,58 +1,37 @@
 package com.Project.Closet.social.space;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.ViewCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
-import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.UserspaceVO;
 import com.Project.Closet.R;
-import com.Project.Closet.home.activity_home;
-import com.Project.Closet.social.TabPagerAdapter_social;
-import com.Project.Closet.social.activity_addBoard;
-import com.Project.Closet.social.subfragment.Fragment_Feed;
-import com.Project.Closet.subfragment.TabFragment_Clothes_inHome;
-import com.Project.Closet.util.OnBackPressedListener;
+import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
-import static android.app.Activity.RESULT_OK;
-import static com.Project.Closet.util.NumFormat.formatNumString;
 import static com.Project.Closet.util.NumFormat.formatNumStringZero;
 
 public class activity_space extends AppCompatActivity {
@@ -75,6 +54,8 @@ public class activity_space extends AppCompatActivity {
     public String targetID;
     String myID;
     Button bt_follow;
+
+    TextView tv_numFollower;
 
 
 
@@ -106,7 +87,7 @@ public class activity_space extends AppCompatActivity {
         tv_nickname.setText(userspaceInfo.getNickname());
         //게시물, 팔로워, 팔로잉 수 설정
         TextView tv_numBoard = findViewById(R.id.tv_numBoard);
-        TextView tv_numFollower = findViewById(R.id.tv_numFollower);
+        tv_numFollower = findViewById(R.id.tv_numFollower);
         TextView tv_numFollowing = findViewById(R.id.tv_numFollowing);
         tv_numBoard.setText(formatNumStringZero(userspaceInfo.getNumBoard()));
         tv_numFollower.setText(formatNumStringZero(userspaceInfo.getNumFollower()));
@@ -154,11 +135,13 @@ public class activity_space extends AppCompatActivity {
 
 
 
-        if(userspaceInfo.getIf_following().equals("not_following")){
+        
+
+        if(userspaceInfo.getIf_following().contains("not_following")){
             ViewCompat.setBackgroundTintList(bt_follow, ColorStateList.valueOf(Color.parseColor("#aa0055af")));
             bt_follow.setTextColor(Color.parseColor("#ffffff"));
             bt_follow.setText("팔로우");
-        }else if(userspaceInfo.getIf_following().equals("following")){
+        }else if(userspaceInfo.getIf_following().contains("following")){
             ViewCompat.setBackgroundTintList(bt_follow, ColorStateList.valueOf(Color.parseColor("#ffffff")));
             bt_follow.setTextColor(Color.parseColor("#000000"));
             bt_follow.setText("팔로잉");
@@ -270,16 +253,26 @@ public class activity_space extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String res) {
-            super.onPostExecute(res);
-            if(res!=null) {
-                if(res.equals("following")){
-                    setFollowColor(true);
-                }else if(res.equals("not_following")){
-                    setFollowColor(false);
-                }
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
+
+            if(result!=null) {
+                String resCut[];
+                String numFollow;
+                if("fail".equals(result)){
+
+                }else{
+                    if(result.contains("not_following")){
+                        resCut = result.split("_");
+                        applyFollow(false,resCut[0]);
+                    }else if(result.contains("following")) {
+                        resCut = result.split("_");
+                        applyFollow(true,resCut[0]);
+                    }
+                }
             }
+            
         }
     }
 
@@ -317,7 +310,7 @@ public class activity_space extends AppCompatActivity {
 //            ((activity_home)activity).refresh_share();
     }
 
-    public void setFollowColor(boolean is_following){
+    public void applyFollow(boolean is_following, String numFollow){
         if(!is_following){
             ViewCompat.setBackgroundTintList(bt_follow, ColorStateList.valueOf(Color.parseColor("#aa0055af")));
             bt_follow.setTextColor(Color.parseColor("#ffffff"));
@@ -327,5 +320,8 @@ public class activity_space extends AppCompatActivity {
             bt_follow.setTextColor(Color.parseColor("#000000"));
             bt_follow.setText("팔로잉");
         }
+
+        numFollow = NumFormat.formatNumString(Integer.parseInt(numFollow),false); //수 포매팅
+        tv_numFollower.setText(numFollow);
     }
 }
