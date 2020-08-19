@@ -12,10 +12,31 @@
 		<result property="pfImagePath" column="pfImagePath" />
 		<result property="numHeart" column="numHeart" />
 		<result property="numComment" column="numComment" />
+		<result property="if_hearting" column="if_hearting" />
 		<result property="boardNo" column="boardNo" />
 		<result property="imagePath" column="imagePath" />
 		<result property="contents" column="contents" />
 		<result property="regDate" column="regDate" />
+	</resultMap>
+	
+	<!--반환 레코드를 config에서 지정한 =VO 빈에 저장 -->
+	<resultMap id="detailFeedResult" type="detailFeedVO">
+		<result property="writerID" column="writerID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="writerName" column="writerName" />
+		<result property="pfImagePath" column="pfImagePath" />
+		<result property="pfContents" column="pfContents" />
+		<result property="if_following" column="if_following" />
+		<result property="if_hearting" column="if_hearting" />
+		<result property="numHeart" column="numHeart" />
+		<result property="numComment" column="numComment" />
+		<result property="boardNo" column="boardNo" />
+		<result property="imagePath" column="imagePath" />
+		<result property="contents" column="contents" />
+		<result property="regDate" column="regDate" />
+		<result property="cloNo" column="cloNo" />
+		<result property="cloImagePath" column="cloImagePath" />
+		<result property="cloIdentifier" column="cloIdentifier" />
+		<result property="cloBrand" column="cloBrand" />
 	</resultMap>
 	
 	<!--반환 레코드를 config에서 지정한 =VO 빈에 저장 -->
@@ -158,7 +179,7 @@
 	
 	
 	<!-- 게시글 상세 조회 쿼리. 해당 번호 게시물을 hearterID가 보고 있는 상황. -->
-	<select id="detailFeed" resultMap="설정해야 함" parameterType="heartVO">
+	<select id="detailFeed" resultMap="detailFeedResult" parameterType="heartVO">
 	<![CDATA[
 		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
 			IF(
@@ -172,7 +193,7 @@
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
-              C.cloNo cloNo, C.filePath imagePath, C.identifier identifier, C.brand brand
+              C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
  		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
  		WHERE B.boardNo = #{boardNo}
 				AND B.userID = U.userID

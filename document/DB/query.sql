@@ -434,7 +434,7 @@ SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
-              C.cloNo cloNo, C.filePath imagePath, C.identifier identifier, C.brand brand
+              C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
  		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
  		WHERE B.boardNo = "79"
 				AND B.userID = U.userID

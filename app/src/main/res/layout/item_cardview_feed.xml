@@ -51,8 +51,6 @@
                 android:layout_height="380dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                android:maxHeight="400dp"
-                android:adjustViewBounds="true"
                 android:src="@drawable/sample" />
 
 

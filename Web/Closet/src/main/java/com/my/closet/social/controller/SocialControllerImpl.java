@@ -29,6 +29,7 @@ import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.dao.CrudDAO;
 import com.my.closet.social.dao.SocialDAO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.DetailFeedVO;
 import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
@@ -146,7 +147,24 @@ public class SocialControllerImpl implements SocialController {
 	
 	
 	
-	
+	// 해당 게시물 세부 내용 가져오기
+	@Override
+	@RequestMapping(value = "/feed/detail/{boardNo}", method = RequestMethod.GET)
+	public ResponseEntity<List<DetailFeedVO>> showDetailFeed(@PathVariable("boardNo") String boardNo,
+			@RequestParam("myID") String myID) throws Exception {
+		List<DetailFeedVO> feedAndChildList;
+		try {
+			HeartVO feedFilter = new HeartVO();
+			feedFilter.setBoardNo(boardNo);
+			feedFilter.setHearterID(myID);
+			feedAndChildList = socialDAO.showDetailFeed(feedFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<DetailFeedVO>>(Collections.<DetailFeedVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<DetailFeedVO>>(feedAndChildList, HttpStatus.OK);
+	}
 	
 
 	// 해당 게시물 코멘트 가져오기

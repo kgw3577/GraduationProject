@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,11 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.FeedVO;
-import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
-import com.Project.Closet.social.activity_thisFeed;
+import com.Project.Closet.social.detailFeed.activity_thisFeed;
 import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
@@ -187,22 +186,21 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
                                 break;
                             default :
-                                ArrayList<FeedVO> selectedFeedList=new ArrayList<FeedVO>();
+                                ArrayList<DetailFeedVO> selectedFeedList=new ArrayList<DetailFeedVO>();
                                 try {
-                                    selectedFeedList = new detailInfoTask().execute(feed.getBoardNo()).get();
+                                    selectedFeedList = new detailInfoTask().execute(Integer.toString(feed.getBoardNo())).get();
                                 } catch (ExecutionException e) {
                                     e.printStackTrace();
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
 
-                                FeedVO selectedFeed=selectedFeedList.get(0);
 
                                 intent = new Intent(context, activity_thisFeed.class);
 
 
                                 assert feed != null;
-                                intent.putParcelableArrayListExtra("selectedFeedList",selectedFeedList);
+                                intent.putParcelableArrayListExtra("selectedFeedList", selectedFeedList);
 
                                 context.startActivity(intent);
                         }
@@ -225,7 +223,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
         }
     }
 
-    public class detailInfoTask extends AsyncTask<Integer, Void, ArrayList<FeedVO>> {
+    public class detailInfoTask extends AsyncTask<String, Void, ArrayList<DetailFeedVO>> {
 
         @Override
         protected void onPreExecute() {
@@ -235,16 +233,15 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
 
         @Override
-        protected ArrayList<FeedVO> doInBackground(Integer... params) {
+        protected ArrayList<DetailFeedVO> doInBackground(String... params) {
             String myID = MySharedPreferences.getInstanceOf(context).getUserID();
-            FeedVO feedFilter = new FeedVO();
-            feedFilter.setBoardNo(params[0]);
+
+            Call<List<DetailFeedVO>> feedListCall = SocialService.getRetrofit(context).detailFeed(params[0],myID);
             //인자 params[0]은 클릭한 boardNo.
 
-            Call<List<FeedVO>> feedListCall = SocialService.getRetrofit(context).searchFeed(feedFilter,myID, "-1", "-1");
 
             try {
-                return (ArrayList<FeedVO>) feedListCall.execute().body();
+                return (ArrayList<DetailFeedVO>) feedListCall.execute().body();
 
                 // Do something with the response.
             } catch (IOException e) {
@@ -254,7 +251,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
         }
 
         @Override
-        protected void onPostExecute(ArrayList<FeedVO> feeds) {
+        protected void onPostExecute(ArrayList<DetailFeedVO> feeds) {
             super.onPostExecute(feeds);
         }
     }

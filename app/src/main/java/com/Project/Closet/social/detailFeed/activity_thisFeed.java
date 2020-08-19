@@ -1,9 +1,8 @@
-package com.Project.Closet.social;
+package com.Project.Closet.social.detailFeed;
 
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,8 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
-import com.Project.Closet.HTTP.VO.FeedVO;
-import com.Project.Closet.PostCommentAdapter;
+import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
@@ -33,78 +31,121 @@ import retrofit2.Call;
 
 public class activity_thisFeed extends AppCompatActivity {
 
-    String writerID, writerName, pfImagePath, contents, regDate;
-    int numHeart, numComment, boardNo;
 
-    ImageView iv_profileImage;
-    TextView tv_writerName, tv_contents, tv_regDate;
+    String writerID, writerName, pfImagePath, pfContents,
+            if_following, if_hearting,
+            boardNo, imagePath, contents, regDate,
+            cloNo, cloImagePath, cloIdentifier, cloBrand;
+    int numHeart, numComment;
+
+    ImageView iv_profileImage, iv_heart, iv_image;
+    TextView tv_writerName, tv_pfContents, tv_numHeart, tv_numComment,
+            tv_contents, tv_regDate;
 
     //int gridsize=2;
     String pageSize="10";
 
     int page=0;
+    RecyclerView rv_clothes_list;
     RecyclerView rv_comment_list;
     ArrayList<CommentFeedVO> commentList = new ArrayList();
 
     //리사이클러뷰 어댑터
-    PostCommentAdapter commentListAdapter;
+    ChildCloAdapter childCloAdapter;
+    FeedCommentAdapter commentListAdapter;
+
     Call<List<CommentFeedVO>> commentListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_post);
+        setContentView(R.layout.layout_thisfeed);
 
-        ArrayList<FeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
-        FeedVO feed = selectedFeedList.get(0);
+        ArrayList<DetailFeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
+        DetailFeedVO feed = selectedFeedList.get(0);
 
         writerID = feed.getWriterID();
         writerName = feed.getWriterName();
         pfImagePath = feed.getPfImagePath();
+        pfContents = feed.getPfContents();
+        if_following = feed.getIf_following();
+        if_hearting = feed.getIf_hearting();
+        boardNo = feed.getBoardNo();
+        imagePath = feed.getImagePath();
         contents = feed.getContents();
         regDate = feed.getRegDate();
         numHeart = feed.getNumHeart();
         numComment = feed.getNumComment();
-        boardNo = feed.getBoardNo();
 
 
 
-        iv_profileImage = findViewById(R.id.iv_profileImage);
         tv_writerName = findViewById(R.id.tv_writerName);
+        tv_pfContents = findViewById(R.id.tv_pfContents);
+        tv_numHeart = findViewById(R.id.tv_numHeart);
+        tv_numComment = findViewById(R.id.tv_numComment);
         tv_contents = findViewById(R.id.tv_contents);
         tv_regDate = findViewById(R.id.tv_regDate);
+
+        iv_profileImage = findViewById(R.id.iv_profileImage);
+        iv_image = findViewById(R.id.iv_image);
+        iv_heart = findViewById(R.id.iv_heart);
+
 
 
         //작성 시간 포매팅
         long ts = Timestamp.valueOf(regDate).getTime();
         regDate = NumFormat.formatTimeString(ts);
         //수 포매팅
-        //numHeart = NumFormat.formatNumString(numHeart);
-        //numComment  = NumFormat.formatNumString(numComment);
+        String numHeartstr = NumFormat.formatNumString(numHeart);
+        String numCommentstr  = NumFormat.formatNumString(numComment);
 
+
+        Glide.with(this).load(Global.baseURL+imagePath).into(iv_image);
         Glide.with(this).load(Global.baseURL+pfImagePath).into(iv_profileImage);
+        if(if_hearting.contains("hearting")){
+            iv_heart.setImageResource(R.drawable.heart_color);
+        }else
+            iv_heart.setImageResource(R.drawable.heart_empty);
+
         tv_writerName.setText(writerName);
+        if(pfContents!= null && !pfContents.isEmpty())
+            tv_pfContents.setText(pfContents);
+        else
+            tv_pfContents.setVisibility(View.GONE);
+        tv_numHeart.setText(numHeartstr);
+        tv_numComment.setText(numCommentstr);
         tv_contents.setText(contents);
         tv_regDate.setText(regDate);
 
-
-
-
         //현재 페이지수와 함께 웹서버에 댓글 데이터 요청
-        new networkTask().execute(Integer.toString(page),Integer.toString(boardNo));
+        new networkTask().execute(Integer.toString(page),boardNo);
 
-        //리사이클러뷰 어댑터 초기화
-        commentListAdapter = new PostCommentAdapter(commentList);
-        commentListAdapter.setOnItemClickListener(new PostCommentAdapter.OnItemClickListener() {
+
+        //옷 리사이클러뷰 어댑터 초기화
+        childCloAdapter = new ChildCloAdapter(selectedFeedList);
+        childCloAdapter.setOnItemClickListener(new ChildCloAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+
+            }
+        });
+        //댓글 리사이클러뷰 어댑터 초기화
+        commentListAdapter = new FeedCommentAdapter(commentList);
+        commentListAdapter.setOnItemClickListener(new FeedCommentAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
 
             }
         });
 
+        //옷 리사이클러뷰
+        rv_clothes_list = (RecyclerView) findViewById(R.id.rv_clothes_list);
+        LinearLayoutManager nLinearLayoutManager = new LinearLayoutManager(this);
+        rv_clothes_list.setLayoutManager(nLinearLayoutManager);
+        rv_clothes_list.setAdapter(childCloAdapter);
 
-
+        //댓글 리사이클러뷰
         rv_comment_list = (RecyclerView) findViewById(R.id.rv_comment_list);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         rv_comment_list.setLayoutManager(mLinearLayoutManager);
@@ -121,7 +162,7 @@ public class activity_thisFeed extends AppCompatActivity {
                 }
                 else if (!rv_comment_list.canScrollVertically(1)) {
                     //스크롤이 최하단이면 웹서버에 다음 페이지 옷 데이터 요청
-                    new networkTask().execute(Integer.toString(++page),Integer.toString(boardNo));
+                    new networkTask().execute(Integer.toString(++page),boardNo);
                     Log.e("test","페이지 수 증가");
                 }
                 else {
@@ -129,10 +170,13 @@ public class activity_thisFeed extends AppCompatActivity {
             }
         });
 
+        DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(rv_comment_list.getContext(),
+                nLinearLayoutManager.getOrientation());
+        rv_clothes_list.addItemDecoration(dividerItemDecoration1);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(rv_comment_list.getContext(),
+        DividerItemDecoration dividerItemDecoration2 = new DividerItemDecoration(rv_comment_list.getContext(),
                 mLinearLayoutManager.getOrientation());
-        rv_comment_list.addItemDecoration(dividerItemDecoration);
+        rv_comment_list.addItemDecoration(dividerItemDecoration2);
 
     }
 

@@ -1,7 +1,6 @@
-package com.Project.Closet;
+package com.Project.Closet.social.detailFeed;
 
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
-import com.Project.Closet.util.CommentListAdapter;
+import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-public class PostCommentAdapter extends RecyclerView.Adapter<PostCommentAdapter.CustomViewHolder> {
+public class FeedCommentAdapter extends RecyclerView.Adapter<FeedCommentAdapter.CustomViewHolder> {
 
     ArrayList<CommentFeedVO> commentList;
 
@@ -50,7 +50,7 @@ public class PostCommentAdapter extends RecyclerView.Adapter<PostCommentAdapter.
     }
 
 
-    public PostCommentAdapter(ArrayList<CommentFeedVO> list) {
+    public FeedCommentAdapter(ArrayList<CommentFeedVO> list) {
         this.commentList = list;
     }
 
@@ -72,14 +72,6 @@ public class PostCommentAdapter extends RecyclerView.Adapter<PostCommentAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
-
-        viewholder.post_comment_nickname.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.post_comment_comment.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-        viewholder.post_comment_likes.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-
-        //viewholder.post_comment_nickname.setGravity(Gravity.CENTER);
-       // viewholder.post_comment_comment.setGravity(Gravity.CENTER);
-       // viewholder.post_comment_likes.setGravity(Gravity.CENTER);
 
 
         Glide.with(viewholder.itemView.getContext()).load(Global.baseURL+commentList.get(position).getPfImagePath()).into(viewholder.post_comment_profile);

@@ -15,6 +15,7 @@
 	
 		<typeAlias type="com.my.closet.social.vo.FeedVO"  alias="feedVO" />
 		<typeAlias type="com.my.closet.social.vo.ExpandedFeedVO"  alias="expandedFeedVO" />
+		<typeAlias type="com.my.closet.social.vo.DetailFeedVO"  alias="detailFeedVO" />
 		<typeAlias type="com.my.closet.social.vo.CommentFeedVO"  alias="commentFeedVO" />
 
 		<typeAlias type="com.my.closet.social.vo.UserspaceVO"  alias="userspaceVO" />
