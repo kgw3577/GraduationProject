@@ -3,15 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/화이트"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_below="@id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
         android:scrollbars="none"
+        android:layout_weight="1"
         >
 
 
@@ -92,21 +94,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-                android:maxHeight="600dp"
                 android:src="@drawable/sample4"
                 />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_clothes_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                 />
 
             <TextView
                 android:id="@+id/tv_contents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:layout_margin="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="20dp"
                 android:text="#우주" />
 
 
@@ -222,34 +228,70 @@
 
         <LinearLayout
             android:id="@+id/post_comment"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/post_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/closet">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_comment_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/closet"
                 />
 
         </LinearLayout>
     </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/et_add_comment"
+        android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:background="#bbbbbb">
+        </View>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginRight="10dp"
-            android:text="!!" />
+            android:orientation="horizontal"
+            android:background="@color/화이트"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp">
+            <EditText
+                android:id="@+id/et_add_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@color/화이트"
+                android:minLines="2"
+                android:hint="댓글 등록"
+                android:textSize="15sp"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@color/화이트">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:backgroundTint="@color/follow"
+                    android:text="전송"
+                    android:textSize="15sp"
+                    android:padding="9dp"
+                    android:textColor="@color/follow"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

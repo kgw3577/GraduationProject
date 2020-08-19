@@ -174,6 +174,7 @@ public class activity_thisFeed extends AppCompatActivity {
                 nLinearLayoutManager.getOrientation());
         rv_clothes_list.addItemDecoration(dividerItemDecoration1);
 
+
         DividerItemDecoration dividerItemDecoration2 = new DividerItemDecoration(rv_comment_list.getContext(),
                 mLinearLayoutManager.getOrientation());
         rv_comment_list.addItemDecoration(dividerItemDecoration2);

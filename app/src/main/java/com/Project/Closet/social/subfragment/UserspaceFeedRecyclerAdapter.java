@@ -95,7 +95,7 @@ public class UserspaceFeedRecyclerAdapter extends RecyclerView.Adapter<Userspace
 
                         switch (v.getId()) {
                             default :
-                                //자세한 피드 보여주기
+                                //피드 상세 조회
                                 intent = new Intent(context, activity_space_detail.class);
 
                                 assert feed != null;

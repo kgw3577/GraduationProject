@@ -1,6 +1,5 @@
 package com.Project.Closet.social.detailFeed;
 
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,16 @@ public class FeedCommentAdapter extends RecyclerView.Adapter<FeedCommentAdapter.
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
         protected TextView post_comment_nickname;
+        protected TextView tv_commenterID;
         protected TextView post_comment_comment;
-        protected TextView post_comment_likes;
         protected ImageView post_comment_profile;
 
 
         public CustomViewHolder(View view) {
             super(view);
-            this.post_comment_nickname = (TextView) view.findViewById(R.id.post_comment_nickname);
-            this.post_comment_comment = (TextView) view.findViewById(R.id.post_comment_comment);
-            this.post_comment_likes = (TextView) view.findViewById(R.id.post_comment_likes);
+            this.post_comment_nickname = (TextView) view.findViewById(R.id.tv_commenterName);
+            this.tv_commenterID = (TextView) view.findViewById(R.id.tv_commenterID);
+            this.post_comment_comment = (TextView) view.findViewById(R.id.tv_comment);
             this.post_comment_profile = (ImageView) view.findViewById(R.id.post_comment_profile);
         }
     }
@@ -77,8 +76,8 @@ public class FeedCommentAdapter extends RecyclerView.Adapter<FeedCommentAdapter.
         Glide.with(viewholder.itemView.getContext()).load(Global.baseURL+commentList.get(position).getPfImagePath()).into(viewholder.post_comment_profile);
 
         viewholder.post_comment_nickname.setText(commentList.get(position).getCommenterName());
+        viewholder.tv_commenterID.setText("@"+commentList.get(position).getCommenterID());
         viewholder.post_comment_comment.setText(commentList.get(position).getContents());
-        viewholder.post_comment_likes.setText(commentList.get(position).getNumGood()+"");
     }
 
     @Override
