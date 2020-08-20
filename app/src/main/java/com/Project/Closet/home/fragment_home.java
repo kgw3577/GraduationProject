@@ -104,7 +104,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
+        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_home,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
         return viewGroup;
     }
@@ -336,13 +336,13 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         if(tabLayout == null){
             //탭 목록 설정
-            tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
+            tabLayout = (TabLayout) getView().findViewById(R.id.favorite_tabLayout);
             tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
             tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-            finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
+            finalPager = (ViewPager) getView().findViewById(R.id.favorite_tab_Pager);
             pagerAdapter = new TabPagerAdapter_home(getChildFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

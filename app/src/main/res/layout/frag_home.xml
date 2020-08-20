@@ -8,76 +8,92 @@
     android:background="@android:color/white"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
-        <RelativeLayout
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.ssomai.android.scalablelayout.ScalableLayout
+            android:id="@+id/header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/black"
+            app:scale_base_height="155"
+            app:scale_base_width="1080"
+            >
+
+            <include
+
+                layout="@layout/header_closets"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.ssomai.android.scalablelayout.ScalableLayout>
+
+
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/home_coordinator"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.ssomai.android.scalablelayout.ScalableLayout
-                android:id="@+id/header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:background="@android:color/black"
-                app:scale_base_height="155"
-                app:scale_base_width="1080"
-                >
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:background="@android:color/white"
+            >
 
-                <include
-
-                    layout="@layout/header_closets"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </com.ssomai.android.scalablelayout.ScalableLayout>
-
-
-
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
-                android:id="@+id/home_coordinator"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/header"
-                android:background="@android:color/white"
-                >
+                android:background="@android:color/white">
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/appbarLayout"
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white">
-
-                    <com.google.android.material.appbar.CollapsingToolbarLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:contentScrim="@android:color/white"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                    app:contentScrim="@android:color/white"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
-                    </com.google.android.material.appbar.CollapsingToolbarLayout>
-                </com.google.android.material.appbar.AppBarLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
 
-                <androidx.core.widget.NestedScrollView
+
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+
+
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    android:descendantFocusability="blocksDescendants"
+                    android:background="#cccccc"
+
+                    >
+
 
                     <RelativeLayout
+                        android:id="@+id/rl_recommend"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:descendantFocusability="blocksDescendants"
                         android:background="#cccccc"
                         >
-                        <HorizontalScrollView
 
+                        <HorizontalScrollView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:paddingLeft="10dp"
                             android:paddingRight="10dp"
-                            android:id="@+id/tab_view"
+                            android:id="@+id/recommend_tab_view"
                             android:background="@color/화이트"
                             android:scrollbars="none"
                             >
                             <com.google.android.material.tabs.TabLayout
-                                android:id="@+id/tabLayout"
+                                android:id="@+id/recommend_tabLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
 
@@ -89,37 +105,82 @@
 
 
                         <androidx.viewpager.widget.ViewPager
-                            android:id="@+id/tab_Pager"
+                            android:id="@+id/recommend_tab_Pager"
                             android:layout_marginTop="0.1dp"
                             android:padding="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="300dp"
+                            android:layout_height="200dp"
                             android:background="@color/closet"
-                            android:layout_below="@+id/tab_view" >
+                            android:layout_below="@+id/recommend_tab_view" >
 
-                            </androidx.viewpager.widget.ViewPager>
+                        </androidx.viewpager.widget.ViewPager>
                     </RelativeLayout>
-                </androidx.core.widget.NestedScrollView>
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-            <RelativeLayout
-                android:id="@+id/cloth_info"
-                android:visibility="invisible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <include
-                    layout="@layout/cardview_cloth_info"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/cloth_info_edit"
-                android:visibility="invisible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <include layout="@layout/cardview_cloth_info_edit" />
 
 
-            </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/rl_favorite"
+                        android:layout_below="@+id/rl_recommend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:descendantFocusability="blocksDescendants"
+                        android:background="#cccccc">
+                        <HorizontalScrollView
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:id="@+id/favorite_tab_view"
+                            android:background="@color/화이트"
+                            android:scrollbars="none"
+                            >
+                            <com.google.android.material.tabs.TabLayout
+                                android:id="@+id/favorite_tabLayout"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+
+                                app:tabMode="fixed"
+                                app:tabTextAppearance="@style/tab_text"
+                                />
+
+                        </HorizontalScrollView>
+
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/favorite_tab_Pager"
+                            android:layout_marginTop="0.1dp"
+                            android:padding="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:background="@color/closet"
+                            android:layout_below="@+id/favorite_tab_view" >
+
+                        </androidx.viewpager.widget.ViewPager>
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <RelativeLayout
+            android:id="@+id/cloth_info"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/cardview_cloth_info"/>
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/cloth_info_edit"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include
+                layout="@layout/cardview_cloth_info_edit" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/final_nav_view"

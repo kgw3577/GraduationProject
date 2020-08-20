@@ -36,7 +36,7 @@ public class activity_home extends AppCompatActivity {
 
 
         fragmentManager = getSupportFragmentManager();
-        f_home = fragment_favorite.newInstance();
+        f_home = fragment_home.newInstance();
         fragmentManager.beginTransaction().replace(R.id.fragment_place, f_home,"home").commit();
 
 
@@ -89,7 +89,7 @@ public class activity_home extends AppCompatActivity {
                 }
                 else{
                     if(f_home == null) {
-                        f_home = fragment_favorite.newInstance();
+                        f_home = fragment_home.newInstance();
                         fragmentManager.beginTransaction().add(R.id.fragment_place, f_home,"home").commit();
                     }
 
@@ -97,7 +97,7 @@ public class activity_home extends AppCompatActivity {
                     if(f_codi != null) fragmentManager.beginTransaction().hide(f_codi).commit();
                     if(f_home != null) fragmentManager.beginTransaction().show(f_home).commit();
                     if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
-                    setOnBackPressedListener((fragment_favorite)f_home);
+                    setOnBackPressedListener((fragment_home)f_home);
                 }
             }
         });
@@ -168,7 +168,7 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = fragment_favorite.newInstance();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
             if(f_closet != null){
@@ -178,7 +178,7 @@ public class activity_home extends AppCompatActivity {
                 transaction.add(R.id.fragment_place,f_closet,"closet");
             }
         }
-        else if((end_fragment instanceof fragment_favorite)){
+        else if((end_fragment instanceof fragment_home)){
             if(f_closet != null){
                 System.out.println("closet초기화");
                 transaction.remove(f_closet);
@@ -188,7 +188,7 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = fragment_favorite.newInstance();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
         }
@@ -204,7 +204,7 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = fragment_favorite.newInstance();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
             if(f_codi != null){
@@ -214,7 +214,7 @@ public class activity_home extends AppCompatActivity {
                 transaction.add(R.id.fragment_place,f_codi,"codi");
             }
         }
-        else if((end_fragment instanceof fragment_favorite)){
+        else if((end_fragment instanceof fragment_home)){
             if(f_codi != null){
                 System.out.println("codi초기화");
                 transaction.remove(f_codi);
@@ -224,7 +224,7 @@ public class activity_home extends AppCompatActivity {
             if(f_home != null){
                 System.out.println("home초기화");
                 transaction.remove(f_home);
-                f_home = fragment_favorite.newInstance();
+                f_home = fragment_home.newInstance();
                 transaction.add(R.id.fragment_place,f_home,"home");
             }
         }
@@ -244,7 +244,7 @@ public class activity_home extends AppCompatActivity {
             FragmentTransaction transaction;
             transaction = fragmentManager.beginTransaction();
             transaction.remove(f_home);
-            f_home = fragment_favorite.newInstance();
+            f_home = fragment_home.newInstance();
             transaction.add(R.id.fragment_place,f_home,"home").commit();
         }
     }

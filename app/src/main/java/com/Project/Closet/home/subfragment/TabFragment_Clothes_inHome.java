@@ -1,4 +1,4 @@
-package com.Project.Closet.subfragment;
+package com.Project.Closet.home.subfragment;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +21,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.home.fragment_favorite;
+import com.Project.Closet.home.fragment_home;
 import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ import retrofit2.Call;
 
 public class TabFragment_Clothes_inHome extends Fragment {
 
-    fragment_favorite parentFragment;
+    fragment_home parentFragment;
 
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
@@ -73,7 +73,7 @@ public class TabFragment_Clothes_inHome extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        parentFragment = ((fragment_favorite)getParentFragment());
+        parentFragment = ((fragment_home)getParentFragment());
 
 
         Bundle args = getArguments(); // 데이터 받기
