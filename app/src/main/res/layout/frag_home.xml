@@ -82,29 +82,58 @@
                         android:descendantFocusability="blocksDescendants"
                         android:background="#cccccc"
                         >
+                        <TextView
+                            android:padding="5dp"
+                            android:id="@+id/reco_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/화이트"
+                            android:text="옷장을 부탁해"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="17dp"
+                            >
+
+                        </TextView>
 
                         <HorizontalScrollView
+                            android:layout_below="@+id/reco_title"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:paddingLeft="10dp"
+                            android:padding="10dp"
                             android:paddingRight="10dp"
                             android:id="@+id/recommend_tab_view"
                             android:background="@color/화이트"
                             android:scrollbars="none"
                             >
-                            <com.google.android.material.tabs.TabLayout
-                                android:id="@+id/recommend_tabLayout"
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
+                                android:layout_height="wrap_content">
+                                <Button
+                                    android:layout_marginRight="10dp"
+                                    android:id="@+id/bt_reco_select"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="29dp"
+                                    android:text="옷 조합"
+                                    android:background="@drawable/oval"
+                                    >
+                                </Button>
+                                <Button
+                                    android:layout_marginRight="10dp"
+                                    android:id="@+id/bt_reco_hot"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="29dp"
+                                    android:text="요즘 핫!"
+                                    android:background="@drawable/oval"
+                                    >
+                                </Button>
+                            </LinearLayout>
 
-                                app:tabMode="fixed"
-                                app:tabTextAppearance="@style/tab_text"
-                                />
+
 
                         </HorizontalScrollView>
 
 
-                        <androidx.viewpager.widget.ViewPager
+                        <com.Project.Closet.util.NoneSwipeableViewPager
                             android:id="@+id/recommend_tab_Pager"
                             android:layout_marginTop="0.1dp"
                             android:padding="10dp"
@@ -113,7 +142,7 @@
                             android:background="@color/closet"
                             android:layout_below="@+id/recommend_tab_view" >
 
-                        </androidx.viewpager.widget.ViewPager>
+                        </com.Project.Closet.util.NoneSwipeableViewPager>
                     </RelativeLayout>
 
 
@@ -189,5 +218,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
-        app:menu="@menu/drawerlayout" />
+        app:menu="@menu/drawerlayout"
+        android:visibility="gone"/>
 </androidx.drawerlayout.widget.DrawerLayout>

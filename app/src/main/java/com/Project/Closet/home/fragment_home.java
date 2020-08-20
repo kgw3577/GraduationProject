@@ -33,6 +33,8 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
+import com.Project.Closet.codi.addCodi.MyPagerAdapter;
+import com.Project.Closet.home.recommend.recommendPagerFragment;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
 import com.google.android.material.navigation.NavigationView;
@@ -56,9 +58,12 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
     Activity activity;
 
-    private TabLayout tabLayout;
-    public TabPagerAdapter_home pagerAdapter;
-    private ViewPager finalPager;
+    private ViewPager finalPager_recommend;
+    private MyPagerAdapter pagerAdapter_recommend;
+
+    private TabLayout tabLayout_favorite;
+    public TabPagerAdapter_home pagerAdapter_favorite;
+    private ViewPager finalPager_favorite;
 
     RelativeLayout filterButton;
     RelativeLayout addButton;
@@ -334,23 +339,30 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             }
         });
 
-        if(tabLayout == null){
+
+
+
+
+
+
+
+        if(tabLayout_favorite == null){
             //탭 목록 설정
-            tabLayout = (TabLayout) getView().findViewById(R.id.favorite_tabLayout);
-            tabLayout.addTab(tabLayout.newTab().setText("찜한 옷"));
-            tabLayout.addTab(tabLayout.newTab().setText("찜한 코디"));
-            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+            tabLayout_favorite = (TabLayout) getView().findViewById(R.id.favorite_tabLayout);
+            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("찜한 옷"));
+            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("찜한 코디"));
+            tabLayout_favorite.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-            finalPager = (ViewPager) getView().findViewById(R.id.favorite_tab_Pager);
-            pagerAdapter = new TabPagerAdapter_home(getChildFragmentManager(), tabLayout.getTabCount());
-            finalPager.setAdapter(pagerAdapter);
-            finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            finalPager_favorite = (ViewPager) getView().findViewById(R.id.favorite_tab_Pager);
+            pagerAdapter_favorite = new TabPagerAdapter_home(getChildFragmentManager(), tabLayout_favorite.getTabCount());
+            finalPager_favorite.setAdapter(pagerAdapter_favorite);
+            finalPager_favorite.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout_favorite));
+            tabLayout_favorite.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    finalPager.setCurrentItem(tab.getPosition());
+                    finalPager_favorite.setCurrentItem(tab.getPosition());
                 }
                 @Override
                 public void onTabUnselected(TabLayout.Tab tab) {
@@ -362,6 +374,20 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                 }
             });
         }
+
+
+        //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
+        finalPager_recommend = (ViewPager) getView().findViewById(R.id.recommend_tab_Pager);
+        pagerAdapter_recommend = new MyPagerAdapter(getChildFragmentManager());
+
+        //pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance(--));
+
+
+        finalPager_recommend.setAdapter(pagerAdapter_recommend);
+
+
+
+
 
     }
 

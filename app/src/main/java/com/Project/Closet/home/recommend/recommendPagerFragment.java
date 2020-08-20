@@ -104,6 +104,7 @@ public class recommendPagerFragment extends Fragment {
         pagerAdapter = new MyPagerAdapter(getChildFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
 
+
         int BoardNum = recommendedBoards.size();
         iv_codi_list = new ArrayList<ImageView>(Arrays.asList(iv_codi1, iv_codi2, iv_codi3, iv_codi4, iv_codi5));
         index_resourceID = new ArrayList<Integer>(Arrays.asList(R.id.iv_codi1, R.id.iv_codi2, R.id.iv_codi3, R.id.iv_codi4, R.id.iv_codi5));
