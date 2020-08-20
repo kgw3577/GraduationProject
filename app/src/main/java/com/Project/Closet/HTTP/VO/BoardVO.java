@@ -1,6 +1,9 @@
 package com.Project.Closet.HTTP.VO;
 
-public class BoardVO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class BoardVO implements Parcelable {
 
     private int boardNo; // PRIMARY KEY. AUTO INCREMENT
     private String userID; //FOREIGN KEY(USER). not null
@@ -17,6 +20,26 @@ public class BoardVO {
     }
 
 
+    protected BoardVO(Parcel in) {
+        boardNo = in.readInt();
+        userID = in.readString();
+        fileName = in.readString();
+        filePath = in.readString();
+        contents = in.readString();
+        regDate = in.readString();
+    }
+
+    public static final Creator<BoardVO> CREATOR = new Creator<BoardVO>() {
+        @Override
+        public BoardVO createFromParcel(Parcel in) {
+            return new BoardVO(in);
+        }
+
+        @Override
+        public BoardVO[] newArray(int size) {
+            return new BoardVO[size];
+        }
+    };
 
     //게터&세터
     public int getBoardNo() {
@@ -78,5 +101,19 @@ public class BoardVO {
         this.regDate = regDate;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(boardNo);
+        dest.writeString(userID);
+        dest.writeString(fileName);
+        dest.writeString(filePath);
+        dest.writeString(contents);
+        dest.writeString(regDate);
+    }
 }
 

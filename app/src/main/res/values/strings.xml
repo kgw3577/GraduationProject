@@ -178,8 +178,6 @@
     <string-array name="Place">
         <item>"캐주얼"</item>
         <item>"비지니스캐주얼"</item>
-        <item>"비지니스"</item>
-        <item>"세미포멀"</item>
         <item>"포멀"</item>
         <item>"특수"</item>
     </string-array>
@@ -234,11 +232,9 @@
     </string-array>
 
 
-
-
-
-
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

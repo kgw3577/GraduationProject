@@ -35,6 +35,7 @@
         <activity android:name=".signup.activity_signup" />
         <activity android:name=".signup.activity_signup_next" />
         <activity android:name=".signup.activity_signup_profile_img" />
+        <activity android:name=".signup.activity_signup_profile_contents" />
         <activity android:name=".activity_login">
         </activity>
         <activity android:name=".home.activity_home" />

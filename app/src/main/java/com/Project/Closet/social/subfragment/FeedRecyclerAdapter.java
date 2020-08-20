@@ -96,10 +96,10 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
         //하트 여부에 따라 아이콘 변경
         String if_hearting = feedInfo.getIf_hearting();
-        if(if_hearting.equals("hearting")){
+        if(if_hearting.contains("hearting")){
             holder.iv_heart.setImageResource(R.drawable.heart_color);
         }
-        else if(if_hearting.equals("not_hearting")){
+        else if(if_hearting.contains("not_hearting")){
             holder.iv_heart.setImageResource(R.drawable.heart_empty);
         }
 

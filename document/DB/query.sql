@@ -73,37 +73,6 @@ insert into RELATION_BOARD_CLO values (null, 79, 16);
 
 UPDATE CLOTHES SET identifier="브라운_미디엄스커트",detailCategory="미디엄스커트" where identifier="브라운_미디엄 스커트";
 
--- 특정 종류의 옷(identifier)들을 반드시 포함하는 게시물 찾기 
-
--- 해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기
-select *
-     from BOARD
-    where boardNo not in
-           ( select R.boardNo
-               from RELATION_BOARD_CLO R, CLOTHES C
-              where R.cloNo = C.cloNo AND C.identifier not in
-                     ( select identifier
-                         from CLOTHES
-                         where userID='a'
-                     )
-           )
-           LIMIT 4
-;
-
--- 특정 옷 종류들로 할 수 있는 코디(게시물) 찾기
-select *
-     from BOARD
-    where boardNo not in
-           ( select R.boardNo
-               from RELATION_BOARD_CLO R, CLOTHES C
-              where R.cloNo = C.cloNo AND C.identifier not in
-                     ("베이지_롱스커트","아이보리_스니커즈","베이지_털모자") -- 여기에 배열로 입력
-           )
-;
-
-ALTER TABLE `CLOTHES` CHANGE `class` `kind` varchar(45);
-desc `CLOTHES`;
-update CLOTHES set identifier="클래식/드레스셔츠_화이트" where identifier="클래식／드레스셔츠_화이트";
 
 
 -- USER Table Create SQL
@@ -473,3 +442,112 @@ ALTER TABLE USER CHANGE age birth  DATE  NULL;
 
 ALTER TABLE USER ADD pfImageName VARCHAR(50) NULL        COMMENT '프로필 이미지 이름'; 
 SHOW CREATE TABLE `USER`;
+
+
+
+
+
+
+
+
+-- 특정 종류의 옷(identifier)들을 반드시 포함하는 게시물 찾기 
+
+-- 해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기
+select *
+     from BOARD B
+    where boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ( select identifier
+                         from CLOTHES
+                         where userID='a' AND location='private'
+                     )
+           )
+           ORDER BY RAND() LIMIT 3
+;
+
+
+
+
+
+-- 특정 옷 종류들로 할 수 있는 코디(게시물) 찾기
+select *
+     from BOARD
+    where boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ("베이지_롱스커트","아이보리_스니커즈","베이지_털모자") -- 여기에 배열로 입력
+           )
+;
+
+
+
+-- 해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기 (LIMIT n RANDOM 해야함)
+select U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'captain' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 게시자 팔로잉 여부
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'captain' AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
+              C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
+     from `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+    where B.boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ( select identifier
+                         from CLOTHES
+                         where userID='a' AND location='public'
+                     )
+           )
+           AND B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
+                ORDER BY RAND()
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'captain' AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 게시자 팔로잉 여부
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'captain' AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
+              C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
+ 		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+
+
+
+
+
+
+
+ALTER TABLE `CLOTHES` CHANGE `class` `kind` varchar(45);
+desc `CLOTHES`;
+update CLOTHES set identifier="클래식/드레스셔츠_화이트" where identifier="클래식／드레스셔츠_화이트";
+
+

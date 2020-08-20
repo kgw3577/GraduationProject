@@ -112,7 +112,7 @@
             android:layout_below="@id/blank"
             android:background="@drawable/buttonstyle"
             android:fontFamily="@font/calibri"
-            android:text="완료"
+            android:text="확인"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="20sp"

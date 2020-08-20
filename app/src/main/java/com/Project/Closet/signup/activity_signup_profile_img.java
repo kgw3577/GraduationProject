@@ -173,9 +173,8 @@ public class activity_signup_profile_img extends AppCompatActivity {
                             try {
                                 String result  = new activity_signup_profile_img.UploadTask().execute().get();
                                 if(result.equals("ok")) {
-                                    Toast.makeText(activity_signup_profile_img.this,"회원가입이 완료되었습니다!",Toast.LENGTH_SHORT).show();
-                                    finishAffinity();
-                                    Intent intent = new Intent(getApplicationContext(), activity_login.class);
+                                    Intent intent = new Intent(getApplicationContext(), activity_signup_profile_contents.class);
+                                    intent.putExtra("userID", userID);
                                     startActivity(intent);
                                 }else{
                                     Toast.makeText(activity_signup_profile_img.this, result, Toast.LENGTH_SHORT).show();
@@ -198,7 +197,6 @@ public class activity_signup_profile_img extends AppCompatActivity {
             }
         }
     }
-
 
 
     class BtnOnClickListener implements Button.OnClickListener {

@@ -60,7 +60,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
     //뷰페이저 선언
     private ViewPager viewPager;
-    private PagerAdapter_addCodi pagerAdapter;
+    private MyPagerAdapter pagerAdapter;
 
     //셀렉트바 선언
     LinearLayout selectbar;
@@ -198,7 +198,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
             }
         });
 
-        pagerAdapter = new PagerAdapter_addCodi(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
+        pagerAdapter = new MyPagerAdapter(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
         //뷰페이저에 프래그먼트 설정
         //pagerAdapter.addItem(new Page_allClothes());
