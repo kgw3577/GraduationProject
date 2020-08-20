@@ -142,11 +142,6 @@ public class SocialControllerImpl implements SocialController {
 	}
 	
 	
-	
-	
-	
-	
-	
 	// 해당 게시물 세부 내용 가져오기
 	@Override
 	@RequestMapping(value = "/feed/detail/{boardNo}", method = RequestMethod.GET)
@@ -331,6 +326,26 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<UserspaceVO>(userspaceInfo, HttpStatus.OK);
 	}
+	
+	/*코디 추천*/
+	@Override
+	@RequestMapping(value = "/recommend/full/{userID}", method = RequestMethod.GET)
+	public ResponseEntity<List<BoardVO>> recommendFull(@PathVariable("userID") String userID) throws Exception {
+		List<BoardVO> boardList;
+		
+		try {
+			BoardVO recoFilter = new BoardVO();
+			recoFilter.setUserID(userID);
+			recoFilter.setBoardNo((int) (Math.random() * 3) +2); //2~4개 뽑아줌
+			boardList = socialDAO.recommendFull(recoFilter);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(),
+					HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
+	}
+	
 	
 	
 	

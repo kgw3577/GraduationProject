@@ -102,5 +102,11 @@ public class SocialService extends APIAdapter {
         @GET("social/space/{userID}")
         Call<UserspaceVO> showUserSpace(@Path("userID") String userID, @Query("myID") String myID);
 
+
+        /*코디 추천*/
+        //하트 검색
+        @GET("social/recommend/full/{userID}")
+        Call<List<BoardVO>> recommendFull(@Path("userID") String userID);
+
     }
 }

@@ -64,6 +64,17 @@
 		<result property="following_friendsName" column="following_friendsName" />
 		<result property="following_friendsImgPath" column="following_friendsImgPath" />
 	</resultMap>
+	
+	<!--반환 레코드를 config에서 지정한 boardVO 빈에 저장 -->
+	<resultMap id="boardResult" type="boardVO">
+		<result property="boardNo" column="boardNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="userID" column="userID" />
+		<result property="fileName" column="fileName" />
+		<result property="filePath" column="filePath" />
+		<result property="contents" column="contents" />
+		<result property="regDate" column="regDate" />
+	</resultMap>
+	
 
 	
 	
@@ -247,6 +258,25 @@
 	</select>
 	
 	
+	
+	
+	<!--해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기. 검색조건 후에 추가-->
+	<select id="recommend_full" resultMap="boardResult" parameterType="boardVO">
+	<![CDATA[
+	  select *
+     from BOARD B
+     where boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = C.cloNo AND C.identifier not in
+                     ( select identifier
+                         from CLOTHES
+                         where userID=#{userID} AND location='private'
+                     )
+           )
+           ORDER BY RAND() LIMIT #{boardNo};
+	]]>
+	</select>
 	
 </mapper>
 

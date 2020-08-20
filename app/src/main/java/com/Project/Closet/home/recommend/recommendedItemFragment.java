@@ -73,7 +73,15 @@ public class recommendedItemFragment extends Fragment {
             boardNo = getArguments().getString(paramBoardNo);
         }
 
-        View v = getView();
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_recommended_item, container, false);
 
         selectedFeedList=new ArrayList<DetailFeedVO>();
         try {
@@ -99,13 +107,13 @@ public class recommendedItemFragment extends Fragment {
 
         //하트 여부에 따라 아이콘 변경
         String if_hearting = feedInfo.getIf_hearting();
-        if(if_hearting.contains("hearting")){
+        if(if_hearting.equals("hearting")){
             iv_heart.setImageResource(R.drawable.heart_color);
         }
-        else if(if_hearting.contains("not_hearting")){
-            iv_heart.setImageResource(R.drawable.heart_empty);
+        else if(if_hearting.equals("not_hearting")){
+            iv_heart.setImageResource(R.drawable.heart_empty_white);
         }
-        numHeart.setText(feedInfo.getNumHeart());
+        numHeart.setText(feedInfo.getNumHeart()+"");
 
         int childNum = selectedFeedList.size();
         TextView tv_childs[] = {child1,child2,child3,child4};
@@ -114,7 +122,7 @@ public class recommendedItemFragment extends Fragment {
         // 포함 옷 개수만큼 식별자 보여주기
         for(int i=0; i<childNum; i++){
             tv_childs[i].setVisibility(View.VISIBLE);
-            tv_childs[i].setText(selectedFeedList.get(i).getCloIdentifier());
+            tv_childs[i].setText("#"+selectedFeedList.get(i).getCloIdentifier());
         }
         // 안 쓰는 텍스트 끄기
         for(int i=3; i>childNum-1; i--){
@@ -126,14 +134,8 @@ public class recommendedItemFragment extends Fragment {
         iv_heart.setOnClickListener(onClickListener);
 
 
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recommended_item, container, false);
+        return v;
     }
 
 

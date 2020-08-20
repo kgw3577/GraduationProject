@@ -2,6 +2,7 @@ package com.Project.Closet.home.recommend;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +81,16 @@ public class recommendPagerFragment extends Fragment {
         }
 
 
-        View view = getView();
+
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        View view = inflater.inflate(R.layout.layout_recommend_viewpager, container, false);
 
 
         iv_codi1 = view.findViewById(R.id.iv_codi1);
@@ -130,13 +140,8 @@ public class recommendPagerFragment extends Fragment {
         selected_index=0;
         selected_iv = iv_codi_list.get(0);
 
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.layout_recommend_viewpager, container, false);
+        return view;
     }
 
     class BtnOnClickListener implements Button.OnClickListener {
@@ -146,6 +151,8 @@ public class recommendPagerFragment extends Fragment {
         public void onClick(View view) {
             Intent intent;
             Integer resourceID = view.getId();
+            int dp40;
+            int dp50;
             switch (view.getId()) {
                 case R.id.iv_codi1 :
                 case R.id.iv_codi2 :
@@ -154,14 +161,16 @@ public class recommendPagerFragment extends Fragment {
                 case R.id.iv_codi5 :
                     if(selected_index!=index_resourceID.indexOf(resourceID)){
                         //이전 선택 이미지뷰 작게 변경
-                        selected_iv.getLayoutParams().height=40;
-                        selected_iv.getLayoutParams().width=40;
+                        dp40 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,40,getResources().getDisplayMetrics());
+                        dp50 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,50,getResources().getDisplayMetrics());
+                        selected_iv.getLayoutParams().height=dp40;
+                        selected_iv.getLayoutParams().width=dp40;
                         selected_iv.requestLayout();
                         //현재 선택된 페이지로 바꾸고 이미지뷰 크게 변경
                         selected_index = index_resourceID.indexOf(resourceID);
                         selected_iv = iv_codi_list.get(selected_index);
-                        selected_iv.getLayoutParams().height=50;
-                        selected_iv.getLayoutParams().width=50;
+                        selected_iv.getLayoutParams().height=dp50;
+                        selected_iv.getLayoutParams().width=dp50;
                         selected_iv.requestLayout();
                         viewPager.setCurrentItem(selected_index);
                     }

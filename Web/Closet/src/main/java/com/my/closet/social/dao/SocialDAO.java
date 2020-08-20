@@ -26,4 +26,6 @@ public interface SocialDAO {
 	public List<CommentFeedVO> showCommentInBoard(BoardVO boardFilter) throws DataAccessException; //해당 게시글 댓글 가져오기
 
 	public UserspaceVO showUserSpace(FollowVO followFilter) throws DataAccessException;
+	
+	public List<BoardVO> recommendFull(BoardVO recoFilter) throws DataAccessException;
 }

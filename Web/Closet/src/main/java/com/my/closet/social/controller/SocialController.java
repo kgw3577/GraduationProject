@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.DetailFeedVO;
 import com.my.closet.social.vo.ExpandedFeedVO;
@@ -47,5 +48,8 @@ public interface SocialController {
 					
 	/*유저스페이스*/
 	public ResponseEntity<UserspaceVO> showUserspace(String userID, String myID) throws Exception;
-		
+	
+	/*코디 추천*/
+	public ResponseEntity<List<BoardVO>> recommendFull(@PathVariable("userID") String userID) throws Exception;
+	
 }

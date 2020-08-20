@@ -83,7 +83,9 @@
                         android:background="#cccccc"
                         >
                         <TextView
-                            android:padding="5dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:paddingLeft="15dp"
                             android:id="@+id/reco_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -136,9 +138,8 @@
                         <com.Project.Closet.util.NoneSwipeableViewPager
                             android:id="@+id/recommend_tab_Pager"
                             android:layout_marginTop="0.1dp"
-                            android:padding="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="380dp"
                             android:background="@color/closet"
                             android:layout_below="@+id/recommend_tab_view" >
 

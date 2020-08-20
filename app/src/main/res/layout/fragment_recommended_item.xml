@@ -18,7 +18,7 @@
         />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="180dp"
         android:layout_gravity="bottom"
         android:background="@drawable/gradation"
         android:paddingLeft="10dp"
@@ -38,6 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#블랙_크롭티"
+                android:textSize="16dp"
                 android:textColor="@color/화이트"
                 />
             <TextView
@@ -45,6 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#스카이블루_핫팬츠"
+                android:textSize="16dp"
                 android:textColor="@color/화이트"
                 />
             <TextView
@@ -52,12 +54,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#블랙_가방"
+                android:textSize="16dp"
                 android:textColor="@color/화이트"/>
             <TextView
                 android:id="@+id/child4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#블랙_초커"
+                android:textSize="16dp"
                 android:textColor="@color/화이트"/>
         </LinearLayout>
         <LinearLayout

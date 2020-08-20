@@ -66,5 +66,11 @@ public class SocialDAOImpl implements SocialDAO {
 		UserspaceVO userspaceInfo = sqlSession.selectOne("mapper.social.showUserSpace",followFilter);
 		return userspaceInfo;
 	}
+	
+	@Override
+	public List<BoardVO> recommendFull(BoardVO recoFilter) throws DataAccessException {
+		List<BoardVO> boardList = sqlSession.selectList("mapper.social.recommend_full",recoFilter);
+		return boardList;
+	}
 
 }

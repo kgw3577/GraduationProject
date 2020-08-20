@@ -30,6 +30,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.SocialService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
@@ -42,6 +45,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -128,6 +132,9 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
+
+        MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
+        String userID = pref.getUserID();
 
         addButton = getView().findViewById(R.id.header_add);
         filterButton = getView().findViewById(R.id.header_search);
@@ -376,17 +383,28 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         }
 
 
+
+
+
         //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
         finalPager_recommend = (ViewPager) getView().findViewById(R.id.recommend_tab_Pager);
         pagerAdapter_recommend = new MyPagerAdapter(getChildFragmentManager());
 
-        //pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance(--));
-
+        List<BoardVO> recommendedList = null;
+        try {
+            recommendedList = new RecommendTask().execute(userID).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if(recommendedList.size()!=0){
+            pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance((ArrayList<BoardVO>) recommendedList));
+        }
+        else
+            Toast.makeText(getContext(), "추천할 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
 
         finalPager_recommend.setAdapter(pagerAdapter_recommend);
-
-
-
 
 
     }
@@ -425,6 +443,30 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             toast.cancel();
         }
 
+    }
+
+    public class RecommendTask extends AsyncTask<String, Void, List<BoardVO>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected List<BoardVO> doInBackground(String... params) {
+
+            Call<List<BoardVO>> boardListCall = SocialService.getRetrofit(getContext()).recommendFull(params[0]);
+            //params : userID
+            try {
+                return boardListCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(List<BoardVO> boardList) {
+            super.onPostExecute(boardList);
+        }
     }
 
 

@@ -103,7 +103,7 @@ public class activity_thisFeed extends AppCompatActivity {
 
         Glide.with(this).load(Global.baseURL+imagePath).into(iv_image);
         Glide.with(this).load(Global.baseURL+pfImagePath).into(iv_profileImage);
-        if(if_hearting.contains("hearting")){
+        if(if_hearting.equals("hearting")){
             iv_heart.setImageResource(R.drawable.heart_color);
         }else
             iv_heart.setImageResource(R.drawable.heart_empty);
