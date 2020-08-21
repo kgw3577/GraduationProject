@@ -38,6 +38,7 @@ import retrofit2.Call;
 public class activity_space_detail extends AppCompatActivity {
 
 
+    /*
     String identifier; //프래그먼트의 종류를 알려줌
 
     int gridsize=1;
@@ -174,5 +175,7 @@ public class activity_space_detail extends AppCompatActivity {
     public void onResume() {
         super.onResume();
     }
+
+     */
 
 }

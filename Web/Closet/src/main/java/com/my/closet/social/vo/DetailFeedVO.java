@@ -14,8 +14,18 @@ public class DetailFeedVO {
 	cloNo, cloLocation, cloKind, cloCategory,
 	cloDetailCategory, cloColor, cloIdentifier, 
 	cloSeason, cloBrand, cloImagePath, cloUserID;
-	private int board_numHeart, board_numComment;
+	private int board_numHeart, board_numComment, board_numChild;
 	
+	public int getBoard_numChild() {
+		return board_numChild;
+	}
+
+
+	public void setBoard_numChild(int board_numChild) {
+		this.board_numChild = board_numChild;
+	}
+
+
 	//임시
 	private int pageStart =-1;
 	private int pageSize =-1;

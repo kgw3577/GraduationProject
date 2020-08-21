@@ -35,6 +35,7 @@
 		<result property="board_if_hearting" column="board_if_hearting" />
 		<result property="board_numHeart" column="board_numHeart" />
 		<result property="board_numComment" column="board_numComment" />
+		<result property="board_numChild" column="board_numChild" />
 		<result property="boardNo" column="boardNo" />
 		<result property="boardImagePath" column="boardImagePath" />
 		<result property="boardContents" column="boardContents" />
@@ -163,8 +164,10 @@
               ) board_if_hearting,       -- 이 게시물 하트 여부
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) board_numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) board_numComment,
+              (SELECT COUNT(*) FROM `RELATION_BOARD_CLO` where `RELATION_BOARD_CLO`.boardNo = B.boardNo) board_numChild,
               B.boardNo boardNo, B.filePath boardImagePath, B.contents boardContents, B.regDate boardRegDate,
-              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory, C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImgPath, C.userID cloUserID
+              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory,
+	 C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImagePath, C.userID cloUserID
      from `USER` U, RELATION_BOARD_CLO R, CLOTHES C, `BOARD` B
 	]]>
 		<where>
@@ -173,7 +176,11 @@
 			<if test="mode == 'follow'">
 				and (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{myID}) OR U.userID = #{myID})
 			</if>
-			<if test="userID != '' and userID != null">
+			<if test="mode == 'heart'">
+				AND B.boardNo in 
+            	(select boardNo FROM HEART where hearterID = #{userID})
+			</if>
+			<if test="userID != '' and userID != null and mode != 'heart'">
 				and U.userID = #{userID}
 			</if>
 			<if test="userName != '' and userName != null">
@@ -185,7 +192,6 @@
 			<if test="userPfContents != '' and userPfContents != null">
 				and U.pfContents LIKE CONCAT('%',#{userPfContents},'%')
 			</if>
-			
 			<if test="boardNo != '' and boardNo != null">
 				and B.boardNo = #{boardNo}
 			</if>
@@ -276,7 +282,7 @@
               C.commentNo commentNo, C.contents contents, C.regDate regDate
  		FROM `USER` U, `COMMENT` C
  		WHERE C.boardNo = #{boardNo} AND U.userID = C.writerID
- 		ORDER BY regDate DESC
+ 		ORDER BY regDate ASC
 	]]>
 		<if test="pageStart != -1 and pageSize != -1">
 			LIMIT #{pageStart}, #{pageSize}
@@ -345,7 +351,8 @@
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) board_numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) board_numComment,
               B.boardNo boardNo, B.filePath boardImagePath, B.contents boardContents, B.regDate boardRegDate,
-              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory, C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImgPath, C.userID cloUserID
+              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory,
+			 C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImagePath, C.userID cloUserID
      from `USER` U, RELATION_BOARD_CLO R, CLOTHES C, `BOARD` B
      where B.boardNo not in
            ( select R.boardNo

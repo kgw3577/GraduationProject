@@ -26,6 +26,7 @@ select U.userID userID, U.nickname userName, U.pfImagePath userPfImagePath, U.pf
               ) board_if_hearting,       -- 이 게시물 하트 여부
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) board_numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) board_numComment,
+              (SELECT COUNT(*) FROM `RELATION_BOARD_CLO` where `RELATION_BOARD_CLO`.boardNo = B.boardNo) board_numChild,
               B.boardNo boardNo, B.filePath boardImagePath, B.contents boardContents, B.regDate boardRegDate,
               C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, 
               C.detailCategory cloDetailCategory, C.color cloColor, C.identifier cloIdentifier, 

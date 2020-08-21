@@ -34,6 +34,7 @@ import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.ClothesVO;
+import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.codi.addCodi.MyPagerAdapter;
@@ -390,7 +391,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         finalPager_recommend = (ViewPager) getView().findViewById(R.id.recommend_tab_Pager);
         pagerAdapter_recommend = new MyPagerAdapter(getChildFragmentManager());
 
-        List<BoardVO> recommendedList = null;
+        List<DetailFeedVO> recommendedList = null;
         try {
             recommendedList = new RecommendTask().execute(userID).get();
         } catch (ExecutionException e) {
@@ -399,7 +400,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             e.printStackTrace();
         }
         if(recommendedList.size()!=0){
-            pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance((ArrayList<BoardVO>) recommendedList));
+            pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance((ArrayList<DetailFeedVO>) recommendedList));
         }
         else
             Toast.makeText(getContext(), "추천할 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
@@ -445,15 +446,15 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
     }
 
-    public class RecommendTask extends AsyncTask<String, Void, List<BoardVO>> {
+    public class RecommendTask extends AsyncTask<String, Void, List<DetailFeedVO>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected List<BoardVO> doInBackground(String... params) {
+        protected List<DetailFeedVO> doInBackground(String... params) {
 
-            Call<List<BoardVO>> boardListCall = SocialService.getRetrofit(getContext()).recommendFull(params[0]);
+            Call<List<DetailFeedVO>> boardListCall = SocialService.getRetrofit(getContext()).recommendFull(params[0],null);
             //params : userID
             try {
                 return boardListCall.execute().body();
@@ -464,7 +465,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
 
         }
         @Override
-        protected void onPostExecute(List<BoardVO> boardList) {
+        protected void onPostExecute(List<DetailFeedVO> boardList) {
             super.onPostExecute(boardList);
         }
     }

@@ -1,4 +1,4 @@
-package com.Project.Closet.social.subfragment;
+package com.Project.Closet.home.mySpace;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,14 +18,13 @@ import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.R;
-import com.Project.Closet.home.recommend.recommendedItemFragment;
-import com.Project.Closet.social.fragment_social;
+import com.Project.Closet.social.space.activity_space;
+import com.Project.Closet.social.subfragment.UserspaceFeedRecyclerAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import retrofit2.Call;
 
@@ -35,37 +33,35 @@ import retrofit2.Call;
 (small(4), medium(3), large(2)) 20p, 15p, 10p
 */
 
-public class Fragment_Feed extends Fragment {
+public class Fragment_MyspaceFeed extends Fragment {
 
-    fragment_social parentFragment;
 
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
 
     int gridsize=2;
-    String pagesize="8";
+    String pageSize="8";
 
     int page=0;
     RecyclerView rv_post;
+
     List<ArrayList<DetailFeedVO>> feedListByBoardNo;
     HashMap<String, ArrayList<DetailFeedVO>> feedMapByBoardNo;
     
     //리사이클러뷰 어댑터
-    FeedRecyclerAdapter feedRecyclerAdapter;
+    UserspaceFeedRecyclerAdapter userspaceFeedRecyclerAdapter;
     Call<List<DetailFeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
-    MySharedPreferences pref;
-    String userID;
+    String targetID;
+    MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
 
-    public static Fragment_Feed newInstance(String identifier, String size) {
+    public static Fragment_MyspaceFeed newInstance(String identifier, String size) {
 
         Bundle args = new Bundle();
         args.putString("identifier", identifier);  // 키값, 데이터
         args.putString("size", size);
 
-
-
-        Fragment_Feed fragment = new Fragment_Feed();
+        Fragment_MyspaceFeed fragment = new Fragment_MyspaceFeed();
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,10 +74,6 @@ public class Fragment_Feed extends Fragment {
 
         feedListByBoardNo= new ArrayList<>();
         feedMapByBoardNo = new HashMap<>();
-        pref = MySharedPreferences.getInstanceOf(getContext());
-        userID = pref.getUserID();
-        parentFragment = ((fragment_social)getParentFragment());
-
 
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
@@ -92,27 +84,29 @@ public class Fragment_Feed extends Fragment {
             switch (size){
                 case "small":
                     gridsize = 4; //스몰 그리드 4x5
-                    pagesize="150"; //스몰 페이지 사이즈 25*6
+                    pageSize="150"; //스몰 페이지 사이즈 25*6
                     break;
                 case "medium":
                     gridsize = 3; //미디엄 그리드 3x4
-                    pagesize="102"; //미디엄 페이지 사이즈 17*6
+                    pageSize="102"; //미디엄 페이지 사이즈 17*6
                     break;
                 case "large":
                     gridsize = 2; //라지 그리드 2x3
-                    pagesize="42"; //라지 페이지 사이즈 7*6
+                    pageSize="42"; //라지 페이지 사이즈 7*6
                     break;
                 case "xLarge":
                     gridsize = 1; //X라지 그리드 1x2
-                    pagesize="30"; //X라지 페이지 사이즈 5*6
+                    pageSize="30"; //X라지 페이지 사이즈 5*6
                     break;
             }
         }
 
 
+
         //리사이클러뷰 어댑터 초기화
-        feedRecyclerAdapter = new FeedRecyclerAdapter(feedListByBoardNo);
-        feedRecyclerAdapter.setOnItemClickListener(new FeedRecyclerAdapter.OnItemClickListener() {
+        userspaceFeedRecyclerAdapter = new UserspaceFeedRecyclerAdapter(feedListByBoardNo);
+
+        userspaceFeedRecyclerAdapter.setOnItemClickListener(new UserspaceFeedRecyclerAdapter.OnItemClickListener() {
 
         @Override
         public void onItemClick(View itemView, final int pos) {
@@ -130,16 +124,17 @@ public class Fragment_Feed extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-
         //현재 페이지수와 함께 웹서버에 옷 데이터 요청
         new networkTask().execute(Integer.toString(page));
+
+        fragment_mySpace parent = (fragment_mySpace) getParentFragment();
+        targetID = parent.targetID;
 
         //리사이클러 뷰 설정하기
         View view = inflater.inflate(R.layout.layout_share, container, false);
         rv_post = (RecyclerView) view.findViewById(R.id.post_list);
         rv_post.setLayoutManager(new GridLayoutManager(getContext(), gridsize)); //그리드 사이즈 설정
-        rv_post.setAdapter(feedRecyclerAdapter);
+        rv_post.setAdapter(userspaceFeedRecyclerAdapter);
         rv_post.setNestedScrollingEnabled(true);
 
 
@@ -180,33 +175,28 @@ public class Fragment_Feed extends Fragment {
 
         @Override
         protected List<DetailFeedVO> doInBackground(String... params) {
-            //인자 params[0]은 page.
-
             DetailFeedVO_Extended feedFilter = new DetailFeedVO_Extended();
             String myID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
-
-            if (identifier == null){
+            if(identifier==null){
                 feedFilter.setMyID(myID);
-                feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
-            }
-            else{
+                feedFilter.setUserID(targetID);
+                feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pageSize);
+            } else{
                 switch(identifier){
-                    case "following" : //팔로잉 피드
+                    case "my" : //해당 유저의 피드
                         feedFilter.setMyID(myID);
-                        feedFilter.setMode("follow");
-                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
+                        feedFilter.setUserID(targetID);
+                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pageSize);
                         break;
-                    case "best" : //인기 피드. 설정해야 함.
+                    case "heart" : //해당 유저가 좋아요한 피드
                         feedFilter.setMyID(myID);
-                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
-                        break;
-                    case "newest" : //최신 피드
-                        feedFilter.setMyID(myID);
-                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
+                        feedFilter.setUserID(targetID);
+                        feedFilter.setMode("heart");
+                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter,params[0], pageSize);
                         break;
                 }
             }
-
+            //인자 params[0]은 page.
 
             try {
                 return feedListCall.execute().body();
@@ -244,7 +234,7 @@ public class Fragment_Feed extends Fragment {
                         feedListByBoardNo.add(feedMapByBoardNo.get(thisBoardNo));
                     }
                 }
-                feedRecyclerAdapter.notifyDataSetChanged();
+                userspaceFeedRecyclerAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -256,12 +246,5 @@ public class Fragment_Feed extends Fragment {
     public void onResume() {
         super.onResume();
     }
-
-    //프래그먼트 갱신
-    private void refresh(){
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.detach(this).attach(this).commit();
-    }
-
 
 }

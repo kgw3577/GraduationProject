@@ -31,12 +31,10 @@ import retrofit2.Call;
 
 public class activity_thisFeed extends AppCompatActivity {
 
-
-    String writerID, writerName, pfImagePath, pfContents,
-            if_following, if_hearting,
-            boardNo, imagePath, contents, regDate,
-            cloNo, cloImagePath, cloIdentifier, cloBrand;
-    int numHeart, numComment;
+    String userID, userName, userPfImagePath, userPfContents,
+            user_if_following, board_if_hearting,
+            boardNo, boardImagePath, boardContents, boardRegDate;
+    String board_numHeart, board_numComment;
 
     ImageView iv_profileImage, iv_heart, iv_image;
     TextView tv_writerName, tv_pfContents, tv_numHeart, tv_numComment,
@@ -65,18 +63,18 @@ public class activity_thisFeed extends AppCompatActivity {
         ArrayList<DetailFeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
         DetailFeedVO feed = selectedFeedList.get(0);
 
-        writerID = feed.getWriterID();
-        writerName = feed.getWriterName();
-        pfImagePath = feed.getPfImagePath();
-        pfContents = feed.getPfContents();
-        if_following = feed.getIf_following();
-        if_hearting = feed.getIf_hearting();
+        userID = feed.getUserID();
+        userName = feed.getUserName();
+        userPfImagePath = feed.getUserPfImagePath();
+        userPfContents = feed.getUserPfContents();
+        user_if_following = feed.getUser_if_following();
+        board_if_hearting = feed.getBoard_if_hearting();
         boardNo = feed.getBoardNo();
-        imagePath = feed.getImagePath();
-        contents = feed.getContents();
-        regDate = feed.getRegDate();
-        numHeart = feed.getNumHeart();
-        numComment = feed.getNumComment();
+        boardImagePath = feed.getBoardImagePath();
+        boardContents = feed.getBoardContents();
+        boardRegDate = feed.getBoardRegDate();
+        board_numHeart = feed.getBoard_numHeart();
+        board_numComment = feed.getBoard_numComment();
 
 
 
@@ -94,29 +92,29 @@ public class activity_thisFeed extends AppCompatActivity {
 
 
         //작성 시간 포매팅
-        long ts = Timestamp.valueOf(regDate).getTime();
-        regDate = NumFormat.formatTimeString(ts);
+        long ts = Timestamp.valueOf(boardRegDate).getTime();
+        boardRegDate = NumFormat.formatTimeString(ts);
         //수 포매팅
-        String numHeartstr = NumFormat.formatNumString(numHeart);
-        String numCommentstr  = NumFormat.formatNumString(numComment);
+        String numHeartstr = NumFormat.formatNumString(Integer.parseInt(board_numHeart));
+        String numCommentstr  = NumFormat.formatNumString(Integer.parseInt(board_numComment));
 
 
-        Glide.with(this).load(Global.baseURL+imagePath).into(iv_image);
-        Glide.with(this).load(Global.baseURL+pfImagePath).into(iv_profileImage);
-        if(if_hearting.equals("hearting")){
+        Glide.with(this).load(Global.baseURL+ boardImagePath).into(iv_image);
+        Glide.with(this).load(Global.baseURL+ userPfImagePath).into(iv_profileImage);
+        if(board_if_hearting.equals("hearting")){
             iv_heart.setImageResource(R.drawable.heart_color);
         }else
             iv_heart.setImageResource(R.drawable.heart_empty);
 
-        tv_writerName.setText(writerName);
-        if(pfContents!= null && !pfContents.isEmpty())
-            tv_pfContents.setText(pfContents);
+        tv_writerName.setText(userName);
+        if(userPfContents != null && !userPfContents.isEmpty())
+            tv_pfContents.setText(userPfContents);
         else
             tv_pfContents.setVisibility(View.GONE);
         tv_numHeart.setText(numHeartstr);
         tv_numComment.setText(numCommentstr);
-        tv_contents.setText(contents);
-        tv_regDate.setText(regDate);
+        tv_contents.setText(boardContents);
+        tv_regDate.setText(boardRegDate);
 
         //현재 페이지수와 함께 웹서버에 댓글 데이터 요청
         new networkTask().execute(Integer.toString(page),boardNo);
@@ -175,9 +173,12 @@ public class activity_thisFeed extends AppCompatActivity {
         rv_clothes_list.addItemDecoration(dividerItemDecoration1);
 
 
+        /*
         DividerItemDecoration dividerItemDecoration2 = new DividerItemDecoration(rv_comment_list.getContext(),
                 mLinearLayoutManager.getOrientation());
         rv_comment_list.addItemDecoration(dividerItemDecoration2);
+
+         */
 
     }
 

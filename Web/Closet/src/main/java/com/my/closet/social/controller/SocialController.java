@@ -29,16 +29,16 @@ public interface SocialController {
 	public ModelAndView feedlist(HttpServletRequest request, HttpServletResponse response) throws Exception; //모든 피드 리스트 조회. 웹 관리용.
 	
 	/*피드*/
-	public ResponseEntity<List<FeedVO>> showAllFeed(String myID, String page, String pageSize) throws Exception; //최신 피드 가져오기
-	public ResponseEntity<List<FeedVO>> showFollowFeed(String userID, String page, String pageSize) throws Exception; //팔로우 피드
+	//public ResponseEntity<List<FeedVO>> showAllFeed(String myID, String page, String pageSize) throws Exception; //최신 피드 가져오기
+	//public ResponseEntity<List<FeedVO>> showFollowFeed(String userID, String page, String pageSize) throws Exception; //팔로우 피드
 	
 	
 	ResponseEntity<List<DetailFeedVO>> searchFeed(DetailFeedVO_Extended feedFilter,String page,String pageSize) throws Exception; //피드 조건 검색
 	
 	
-	public ResponseEntity<List<FeedVO>> showHeartFeed(String userID, String myID, String page,String pageSize) throws Exception; // 해당 사용자가 좋아요한 피드
+	//public ResponseEntity<List<FeedVO>> showHeartFeed(String userID, String myID, String page,String pageSize) throws Exception; // 해당 사용자가 좋아요한 피드
 	
-	public ResponseEntity<List<DetailFeedVO>> showDetailFeed(String boardNo, String myID) throws Exception; // 해당 게시물 세부 내용 가져오기
+	//public ResponseEntity<List<DetailFeedVO>> showDetailFeed(String boardNo, String myID) throws Exception; // 해당 게시물 세부 내용 가져오기
 	public ResponseEntity<List<CommentFeedVO>> showCommentInBoard(String boardNo, String page, String pageSize) throws Exception;
 		
 	/*팔로우*/

@@ -38,11 +38,10 @@ public class recommendedItemFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String paramBoardNo = "boardNo";
+    private static final String paramBoardNo = "boardInfo";
 
     // TODO: Rename and change types of parameters
-    private String boardNo;
-    ArrayList<DetailFeedVO> selectedFeedList;
+    private ArrayList<DetailFeedVO> selectedFeedList;
 
     public recommendedItemFragment() {
         // Required empty public constructor
@@ -52,14 +51,14 @@ public class recommendedItemFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param boardNo Parameter 1.
+     * @param boardInfo Parameter 1.
      * @return A new instance of fragment recommendedItemFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static recommendedItemFragment newInstance(String boardNo) {
+    public static recommendedItemFragment newInstance(ArrayList<DetailFeedVO> boardInfo) {
         recommendedItemFragment fragment = new recommendedItemFragment();
         Bundle args = new Bundle();
-        args.putString(paramBoardNo, boardNo);
+        args.putParcelableArrayList(paramBoardNo, boardInfo);
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +67,7 @@ public class recommendedItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            boardNo = getArguments().getString(paramBoardNo);
+            selectedFeedList = getArguments().getParcelableArrayList(paramBoardNo);
         }
 
 
@@ -81,19 +80,10 @@ public class recommendedItemFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_recommended_item, container, false);
 
-        selectedFeedList=new ArrayList<DetailFeedVO>();
-        try {
-            selectedFeedList = new detailInfoTask().execute(boardNo).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         DetailFeedVO feedInfo = selectedFeedList.get(0);
 
         FrameLayout fl_recommendedItem = v.findViewById(R.id.fl_recommended_item);
-        ImageView iv_image = v.findViewById(R.id.iv_codi_image);
+        ImageView iv_codi_image = v.findViewById(R.id.iv_codi_image);
         TextView child1 = v.findViewById(R.id.child1);
         TextView child2 = v.findViewById(R.id.child2);
         TextView child3 = v.findViewById(R.id.child3);
@@ -101,17 +91,17 @@ public class recommendedItemFragment extends Fragment {
         ImageView iv_heart= v.findViewById(R.id.iv_heart);
         TextView numHeart = v.findViewById(R.id.tv_numHeart);
 
-        Glide.with(getContext()).load(Global.baseURL+feedInfo.getImagePath()).into(iv_image);
+        Glide.with(getContext()).load(Global.baseURL+feedInfo.getBoardImagePath()).into(iv_codi_image);
 
         //하트 여부에 따라 아이콘 변경
-        String if_hearting = feedInfo.getIf_hearting();
+        String if_hearting = feedInfo.getBoard_if_hearting();
         if(if_hearting.equals("hearting")){
             iv_heart.setImageResource(R.drawable.heart_color);
         }
         else if(if_hearting.equals("not_hearting")){
             iv_heart.setImageResource(R.drawable.heart_empty_white);
         }
-        numHeart.setText(feedInfo.getNumHeart()+"");
+        numHeart.setText(feedInfo.getBoard_numHeart()+"");
 
         int childNum = selectedFeedList.size();
         TextView tv_childs[] = {child1,child2,child3,child4};
@@ -157,46 +147,5 @@ public class recommendedItemFragment extends Fragment {
             }
         }
     }
-
-
-    public class detailInfoTask extends AsyncTask<String, Void, ArrayList<DetailFeedVO>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            startTime = Util.getCurrentTime();
-        }
-
-
-        @Override
-        protected ArrayList<DetailFeedVO> doInBackground(String... params) {
-            String myID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
-
-            Call<List<DetailFeedVO>> feedListCall = SocialService.getRetrofit(getContext()).detailFeed(params[0],myID);
-            //인자 params[0]은 클릭한 boardNo.
-
-
-            try {
-                return (ArrayList<DetailFeedVO>) feedListCall.execute().body();
-
-                // Do something with the response.
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<DetailFeedVO> feeds) {
-            super.onPostExecute(feeds);
-        }
-    }
-
-
-
-
-
-
-
 
 }

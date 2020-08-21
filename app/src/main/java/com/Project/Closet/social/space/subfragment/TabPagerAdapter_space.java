@@ -1,4 +1,4 @@
-package com.Project.Closet.social.space;
+package com.Project.Closet.social.space.subfragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;

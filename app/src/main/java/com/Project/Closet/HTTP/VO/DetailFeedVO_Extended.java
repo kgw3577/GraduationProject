@@ -1,9 +1,8 @@
 package com.Project.Closet.HTTP.VO;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class DetailFeedVO implements Parcelable {
+public class DetailFeedVO_Extended {
 
     private String userID, userName, userPfImagePath, userPfContents,
             userNumBoard, userNumFollower, userNumFollowing,
@@ -13,57 +12,12 @@ public class DetailFeedVO implements Parcelable {
             boardNo, boardImagePath, boardContents, boardRegDate,
             cloNo, cloLocation, cloKind, cloCategory,
             cloDetailCategory, cloColor, cloIdentifier,
-            cloSeason, cloBrand, cloImagePath, cloUserID;
-    private String board_numHeart, board_numComment, board_numChild;
+            cloSeason, cloBrand, cloImagePath, cloUserID, board_numHeart, board_numComment, board_numChild,
+            myID, mode, tag1, tag2, tag3, tag4, tag5;
 
-    public DetailFeedVO(){
+    public DetailFeedVO_Extended(){
 
     }
-
-    protected DetailFeedVO(Parcel in) {
-        userID = in.readString();
-        userName = in.readString();
-        userPfImagePath = in.readString();
-        userPfContents = in.readString();
-        userNumBoard = in.readString();
-        userNumFollower = in.readString();
-        userNumFollowing = in.readString();
-        user_if_following = in.readString();
-        user_following_friendsID = in.readString();
-        user_followig_friendsName = in.readString();
-        user_followig_friendsImgPath = in.readString();
-        board_if_hearting = in.readString();
-        boardNo = in.readString();
-        boardImagePath = in.readString();
-        boardContents = in.readString();
-        boardRegDate = in.readString();
-        cloNo = in.readString();
-        cloLocation = in.readString();
-        cloKind = in.readString();
-        cloCategory = in.readString();
-        cloDetailCategory = in.readString();
-        cloColor = in.readString();
-        cloIdentifier = in.readString();
-        cloSeason = in.readString();
-        cloBrand = in.readString();
-        cloImagePath = in.readString();
-        cloUserID = in.readString();
-        board_numHeart = in.readString();
-        board_numComment = in.readString();
-        board_numChild = in.readString();
-    }
-
-    public static final Creator<DetailFeedVO> CREATOR = new Creator<DetailFeedVO>() {
-        @Override
-        public DetailFeedVO createFromParcel(Parcel in) {
-            return new DetailFeedVO(in);
-        }
-
-        @Override
-        public DetailFeedVO[] newArray(int size) {
-            return new DetailFeedVO[size];
-        }
-    };
 
     public String getUserID() {
         return userID;
@@ -305,42 +259,59 @@ public class DetailFeedVO implements Parcelable {
         this.board_numChild = board_numChild;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getMyID() {
+        return myID;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(userID);
-        dest.writeString(userName);
-        dest.writeString(userPfImagePath);
-        dest.writeString(userPfContents);
-        dest.writeString(userNumBoard);
-        dest.writeString(userNumFollower);
-        dest.writeString(userNumFollowing);
-        dest.writeString(user_if_following);
-        dest.writeString(user_following_friendsID);
-        dest.writeString(user_followig_friendsName);
-        dest.writeString(user_followig_friendsImgPath);
-        dest.writeString(board_if_hearting);
-        dest.writeString(boardNo);
-        dest.writeString(boardImagePath);
-        dest.writeString(boardContents);
-        dest.writeString(boardRegDate);
-        dest.writeString(cloNo);
-        dest.writeString(cloLocation);
-        dest.writeString(cloKind);
-        dest.writeString(cloCategory);
-        dest.writeString(cloDetailCategory);
-        dest.writeString(cloColor);
-        dest.writeString(cloIdentifier);
-        dest.writeString(cloSeason);
-        dest.writeString(cloBrand);
-        dest.writeString(cloImagePath);
-        dest.writeString(cloUserID);
-        dest.writeString(board_numHeart);
-        dest.writeString(board_numComment);
-        dest.writeString(board_numChild);
+    public void setMyID(String myID) {
+        this.myID = myID;
+    }
+
+    public String getMode() {
+        return mode;
+    }
+
+    public void setMode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getTag1() {
+        return tag1;
+    }
+
+    public void setTag1(String tag1) {
+        this.tag1 = tag1;
+    }
+
+    public String getTag2() {
+        return tag2;
+    }
+
+    public void setTag2(String tag2) {
+        this.tag2 = tag2;
+    }
+
+    public String getTag3() {
+        return tag3;
+    }
+
+    public void setTag3(String tag3) {
+        this.tag3 = tag3;
+    }
+
+    public String getTag4() {
+        return tag4;
+    }
+
+    public void setTag4(String tag4) {
+        this.tag4 = tag4;
+    }
+
+    public String getTag5() {
+        return tag5;
+    }
+
+    public void setTag5(String tag5) {
+        this.tag5 = tag5;
     }
 }

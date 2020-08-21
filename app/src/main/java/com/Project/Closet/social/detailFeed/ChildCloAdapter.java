@@ -18,10 +18,11 @@ import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ChildCloAdapter extends RecyclerView.Adapter<ChildCloAdapter.CustomViewHolder> {
 
-    ArrayList<DetailFeedVO> childCloList;
+    List<DetailFeedVO> childCloList;
 
     public interface OnItemClickListener {
         void onItemClick(View v, int position);

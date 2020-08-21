@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.DetailFeedVO;
+import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.space.activity_space;
@@ -23,6 +25,7 @@ import com.Project.Closet.social.subfragment.UserspaceFeedRecyclerAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,16 +46,16 @@ public class Fragment_UserspaceFeed extends Fragment {
 
     int page=0;
     RecyclerView rv_post;
-    ArrayList<String> ImageUrlList = new ArrayList<String>();
-    ArrayList<FeedVO> feedList = new ArrayList();
+
+    List<ArrayList<DetailFeedVO>> feedListByBoardNo;
+    HashMap<String, ArrayList<DetailFeedVO>> feedMapByBoardNo;
     
     //리사이클러뷰 어댑터
     UserspaceFeedRecyclerAdapter userspaceFeedRecyclerAdapter;
-    Call<List<FeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
+    Call<List<DetailFeedVO>> feedListCall; // 게시글 VO 리스트를 응답으로 받는 http 요청
 
     String targetID;
     MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
-    String myID = pref.getUserID();
 
     public static Fragment_UserspaceFeed newInstance(String identifier, String size) {
 
@@ -71,6 +74,9 @@ public class Fragment_UserspaceFeed extends Fragment {
         super.onCreate(savedInstanceState);
 
 
+        feedListByBoardNo= new ArrayList<>();
+        feedMapByBoardNo = new HashMap<>();
+
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
         {
@@ -80,26 +86,27 @@ public class Fragment_UserspaceFeed extends Fragment {
             switch (size){
                 case "small":
                     gridsize = 4; //스몰 그리드 4x5
-                    pageSize="26"; //스몰 페이지 사이즈 25
+                    pageSize="150"; //스몰 페이지 사이즈 25*6
                     break;
                 case "medium":
                     gridsize = 3; //미디엄 그리드 3x4
-                    pageSize="18"; //미디엄 페이지 사이즈 17
+                    pageSize="102"; //미디엄 페이지 사이즈 17*6
                     break;
                 case "large":
                     gridsize = 2; //라지 그리드 2x3
-                    pageSize="8"; //라지 페이지 사이즈 7
+                    pageSize="42"; //라지 페이지 사이즈 7*6
                     break;
                 case "xLarge":
                     gridsize = 1; //X라지 그리드 1x2
-                    pageSize="5"; //X라지 페이지 사이즈 5
+                    pageSize="30"; //X라지 페이지 사이즈 5*6
                     break;
             }
         }
 
 
+
         //리사이클러뷰 어댑터 초기화
-        userspaceFeedRecyclerAdapter = new UserspaceFeedRecyclerAdapter(feedList);
+        userspaceFeedRecyclerAdapter = new UserspaceFeedRecyclerAdapter(feedListByBoardNo);
 
         userspaceFeedRecyclerAdapter.setOnItemClickListener(new UserspaceFeedRecyclerAdapter.OnItemClickListener() {
 
@@ -159,7 +166,7 @@ public class Fragment_UserspaceFeed extends Fragment {
 
 
 
-    public class networkTask extends AsyncTask<String, Void, List<FeedVO>> {
+    public class networkTask extends AsyncTask<String, Void, List<DetailFeedVO>> {
 
         @Override
         protected void onPreExecute() {
@@ -169,22 +176,25 @@ public class Fragment_UserspaceFeed extends Fragment {
 
 
         @Override
-        protected List<FeedVO> doInBackground(String... params) {
+        protected List<DetailFeedVO> doInBackground(String... params) {
+            DetailFeedVO_Extended feedFilter = new DetailFeedVO_Extended();
             String myID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
-            if(identifier==null)
-                feedListCall = SocialService.getRetrofit(getActivity()).showHeartFeed(targetID,myID,params[0], pageSize);
-            else{
+            if(identifier==null){
+                feedFilter.setMyID(myID);
+                feedFilter.setUserID(targetID);
+                feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pageSize);
+            } else{
                 switch(identifier){
                     case "my" : //해당 유저의 피드
-                        FeedVO feedFilter = new FeedVO();
-                        feedFilter.setWriterID(targetID);
-                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter,myID, params[0], pageSize);
+                        feedFilter.setMyID(myID);
+                        feedFilter.setUserID(targetID);
+                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pageSize);
                         break;
                     case "heart" : //해당 유저가 좋아요한 피드
-                        feedListCall = SocialService.getRetrofit(getActivity()).showHeartFeed(targetID,myID,params[0], pageSize);
-                        break;
-                    default :
-                        feedListCall = SocialService.getRetrofit(getActivity()).showHeartFeed(targetID,myID,params[0], pageSize);
+                        feedFilter.setMyID(myID);
+                        feedFilter.setUserID(targetID);
+                        feedFilter.setMode("heart");
+                        feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter,params[0], pageSize);
                         break;
                 }
             }
@@ -201,13 +211,30 @@ public class Fragment_UserspaceFeed extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<FeedVO> feeds) {
-            super.onPostExecute(feeds);
-            if(feeds!=null) {
-                for(FeedVO e:feeds) {
-                    //게시글 데이터를 받아온 후 이미지 url 리스트를 갱신
-                    ImageUrlList.add(new String(Global.baseURL+e.getImagePath()));
-                    feedList.add(e);
+        protected void onPostExecute(List<DetailFeedVO> feedsDataList) {
+            super.onPostExecute(feedsDataList);
+            String thisBoardNo;
+            int numChild;
+            if(feedsDataList!=null&& feedsDataList.size()!=0) {
+                for(DetailFeedVO thisData :feedsDataList) {
+                    /*받아온 레코드를 게시물 별로 분류*/
+                    //해당 레코드의 게시물 번호가 key에 없으면
+                    thisBoardNo = thisData.getBoardNo();
+                    numChild = Integer.parseInt(thisData.getBoard_numChild());
+                    System.out.println(thisBoardNo+"번 "+thisData.getCloIdentifier()+" "+numChild+"개 중");
+                    if(!feedMapByBoardNo.containsKey(thisBoardNo)){
+                        //새로운 리스트를 생성해 레코드를 추가하고 key로 집어넣음
+                        ArrayList<DetailFeedVO> newDataList = new ArrayList<>();
+                        newDataList.add(thisData);
+                        feedMapByBoardNo.put(thisBoardNo,newDataList);
+                    } else{ //해당 key가 존재하면 해당 레코드를 리스트에 추가
+                        ArrayList<DetailFeedVO> ExistedList = feedMapByBoardNo.get(thisBoardNo);
+                        ExistedList.add(thisData);
+                    }
+                    //한 게시물 분류가 끝났다면 - 맵에서 게시물의 데이터리스트를 찾아 리사이클러뷰 데이터리스트에 추가함.
+                    if(feedMapByBoardNo.get(thisBoardNo).size()==numChild){
+                        feedListByBoardNo.add(feedMapByBoardNo.get(thisBoardNo));
+                    }
                 }
                 userspaceFeedRecyclerAdapter.notifyDataSetChanged();
             }

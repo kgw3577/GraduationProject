@@ -8,21 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.VO.BoardVO;
+import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.MyPagerAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +37,7 @@ public class recommendPagerFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
 
-    private ArrayList<BoardVO> recommendedBoards;
+    private ArrayList<DetailFeedVO> recommendedBoardsWithChild;
 
     ImageView iv_codi1, iv_codi2, iv_codi3, iv_codi4, iv_codi5;
     ArrayList<ImageView> iv_codi_list;
@@ -65,7 +65,7 @@ public class recommendPagerFragment extends Fragment {
      * @return A new instance of fragment PagerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static recommendPagerFragment newInstance(ArrayList<BoardVO> boards) {
+    public static recommendPagerFragment newInstance(ArrayList<DetailFeedVO> boards) {
         recommendPagerFragment fragment = new recommendPagerFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList(boardParams, boards);
@@ -77,7 +77,7 @@ public class recommendPagerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            recommendedBoards = getArguments().getParcelableArrayList(boardParams);
+            recommendedBoardsWithChild = getArguments().getParcelableArrayList(boardParams);
         }
 
 
@@ -91,6 +91,31 @@ public class recommendPagerFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.layout_recommend_viewpager, container, false);
+
+
+
+        HashMap<String, ArrayList<DetailFeedVO>> feedMapByBoardNo = new HashMap<>();
+
+        //게시물 번호 별로 나누기
+        for(int i =0; i<recommendedBoardsWithChild.size();i++){
+
+            DetailFeedVO thisData =  recommendedBoardsWithChild.get(i);
+            //해당 레코드의 게시물 번호가 key에 없으면
+            if(!feedMapByBoardNo.containsKey(thisData.getBoardNo())){
+                //새로운 리스트를 생성해 레코드를 추가하고 key로 집어넣음
+                ArrayList<DetailFeedVO> newDataList = new ArrayList<>();
+                newDataList.add(thisData);
+                feedMapByBoardNo.put(thisData.getBoardNo(),newDataList);
+            } else{ //해당 key가 존재하면 해당 레코드를 리스트에 추가
+                ArrayList<DetailFeedVO> ExistedList = feedMapByBoardNo.get(thisData.getBoardNo());
+                ExistedList.add(thisData);
+            }
+
+        }
+
+
+
+
 
 
         iv_codi1 = view.findViewById(R.id.iv_codi1);
@@ -115,24 +140,31 @@ public class recommendPagerFragment extends Fragment {
 
 
 
-        int BoardNum = recommendedBoards.size();
+        int BoardNum = feedMapByBoardNo.size();
         iv_codi_list = new ArrayList<ImageView>(Arrays.asList(iv_codi1, iv_codi2, iv_codi3, iv_codi4, iv_codi5));
         index_resourceID = new ArrayList<Integer>(Arrays.asList(R.id.iv_codi1, R.id.iv_codi2, R.id.iv_codi3, R.id.iv_codi4, R.id.iv_codi5));
 
 
         //뷰페이저에 코디 개수만큼 프래그먼트 추가
-        for(int i = 0; i< BoardNum; i++){
-            pagerAdapter.addItem(recommendedItemFragment.newInstance(Integer.toString(recommendedBoards.get(i).getBoardNo())));
+        for (Map.Entry<String, ArrayList<DetailFeedVO>> entry : feedMapByBoardNo.entrySet()) {
+            //String key = entry.getKey();
+            ArrayList<DetailFeedVO> boardData = entry.getValue();
+            pagerAdapter.addItem(recommendedItemFragment.newInstance(boardData));
         }
         viewPager.setAdapter(pagerAdapter);
 
+
         // 추천 코디 개수만큼 이미지 보여주기
-        for(int i=0; i<BoardNum; i++){
+        int i=0;
+        for (Map.Entry<String, ArrayList<DetailFeedVO>> entry : feedMapByBoardNo.entrySet()) {
+            ArrayList<DetailFeedVO> boardData = entry.getValue();
             iv_codi_list.get(i).setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(Global.baseURL+recommendedBoards.get(i).getFilePath()).into(iv_codi_list.get(i));
+            Glide.with(getContext()).load(Global.baseURL+ boardData.get(0).getBoardImagePath()).into(iv_codi_list.get(i));
+            i++;
         }
+
         // 안 쓰는 이미지뷰 끄기
-        for(int i=4; i>BoardNum-1; i--){
+        for(i=4; i>BoardNum-1; i--){
             iv_codi_list.get(i).setVisibility(View.GONE);
         }
 

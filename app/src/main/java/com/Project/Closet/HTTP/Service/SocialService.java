@@ -7,6 +7,7 @@ import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
+import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.HeartVO;
@@ -51,18 +52,21 @@ public class SocialService extends APIAdapter {
         // 최신순 피드 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.
-        @GET("social/feed/newest")
-        Call<List<FeedVO>> showNewestFeed(@Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
+        //@GET("social/feed/newest")
+        //Call<List<FeedVO>> showNewestFeed(@Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
         // 팔로우 피드 받아오기
-        @GET("social/feed/following/{userID}")
-        Call<List<FeedVO>> showFollowingFeed(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
+        //@GET("social/feed/following/{userID}")
+        //Call<List<FeedVO>> showFollowingFeed(@Path("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
+
         // 피드 조건 검색
         @Headers("Content-Type: application/json")
         @PUT("social/feed/search")
-        Call<List<FeedVO>> searchFeed(@Body FeedVO feedFilter, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
+        Call<List<DetailFeedVO>> searchFeed(@Body DetailFeedVO_Extended feedFilter, @Query("page") String page, @Query("pageSize") String pageSize);
+
+
         // 해당 사용자가 좋아요한 피드
-        @GET("social/space/{userID}/heart")
-        Call<List<FeedVO>> showHeartFeed(@Path("userID") String userID, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
+        //@GET("social/space/{userID}/heart")
+        //Call<List<FeedVO>> showHeartFeed(@Path("userID") String userID, @Query("myID") String myID, @Query("page") String page, @Query("pageSize") String pageSize);
 
 
         /*피드 상세 정보*/
@@ -104,9 +108,8 @@ public class SocialService extends APIAdapter {
 
 
         /*코디 추천*/
-        //하트 검색
-        @GET("social/recommend/full/{userID}")
-        Call<List<BoardVO>> recommendFull(@Path("userID") String userID);
+        @GET("social/recommend/full/{myID}")
+        Call<List<DetailFeedVO>> recommendFull(@Path("myID") String myID, @Query("tag") String tag);
 
     }
 }

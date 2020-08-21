@@ -62,6 +62,7 @@ public class SocialControllerImpl implements SocialController {
 		return mav;
 	}
 	// 피드 가져오기
+	/*
 	@Override
 	@RequestMapping(value = "/feed/newest", method = RequestMethod.GET)
 	public ResponseEntity<List<FeedVO>> showAllFeed(
@@ -81,7 +82,10 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
+	*/
+	
 	// 팔로우 피드 가져오기
+	/*
 	@Override
 	@RequestMapping(value = "/feed/following/{userID}", method = RequestMethod.GET)
 	public ResponseEntity<List<FeedVO>> showFollowFeed(@PathVariable("userID") String userID,
@@ -100,6 +104,7 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
+	*/
 	
 	
 	// 피드 조건 검색
@@ -111,7 +116,9 @@ public class SocialControllerImpl implements SocialController {
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<DetailFeedVO> feedList;
 		try {
-			feedFilter = (DetailFeedVO_Extended)Util.setPageFilter(feedFilter, page, pageSize);
+			if(page!=null) {
+				feedFilter = Util.setPageFilter(feedFilter, page, pageSize);
+			}
 			feedList = socialDAO.searchFeed(feedFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,7 +129,7 @@ public class SocialControllerImpl implements SocialController {
 	}
 	
 	
-	
+	/*
 	// 해당 사용자가 좋아요한 피드
 	@Override
 	@RequestMapping(value = "/space/{userID}/heart", method = RequestMethod.GET)
@@ -164,7 +171,7 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<DetailFeedVO>>(feedAndChildList, HttpStatus.OK);
 	}
-	
+	*/
 
 	// 해당 게시물 코멘트 가져오기
 	@Override

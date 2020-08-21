@@ -17,7 +17,6 @@ import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
-import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.detailFeed.activity_thisFeed;
@@ -28,6 +27,7 @@ import com.bumptech.glide.Glide;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -40,7 +40,7 @@ import retrofit2.Call;
 public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<FeedVO> feedList; // 피드 리스트
+    List<ArrayList<DetailFeedVO>> feedListByBoardNo; // 피드 데이터 리스트 (회원정보+게시물 x 포함옷)
 
     public interface OnItemClickListener {
         void onItemClick(View v, int position);
@@ -55,8 +55,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     }
 
     //생성자에서 데이터 리스트 객체를 전달받음.
-    public FeedRecyclerAdapter(ArrayList<FeedVO> items) {
-        this.feedList=items;
+    public FeedRecyclerAdapter(List<ArrayList<DetailFeedVO>> items) {
+        this.feedListByBoardNo =items;
     }
 
     // onCreateViewHolder() - 아이템 뷰를 위한 뷰홀더 객체 생성하여 리턴.
@@ -75,27 +75,30 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     // onBindViewHolder() - position에 해당하는 데이터를 뷰홀더의 아이템뷰에 표시.
     @Override
     public void onBindViewHolder(FeedRecyclerAdapter.ViewHolder holder, int position) {
-        final FeedVO feedInfo = feedList.get(position);
+
+
+        final ArrayList<DetailFeedVO> feedDataList = feedListByBoardNo.get(position);
+        final DetailFeedVO feedInfo = feedDataList.get(0);
 
         //작성 시간 포매팅
-        long ts = Timestamp.valueOf(feedInfo.getRegDate()).getTime();
+        long ts = Timestamp.valueOf(feedInfo.getBoardRegDate()).getTime();
         String regDate = NumFormat.formatTimeString(ts);
         //수 포매팅
-        String numHeart = NumFormat.formatNumString(feedInfo.getNumHeart());
-        String numComment  = NumFormat.formatNumString(feedInfo.getNumComment());
+        String numHeart = NumFormat.formatNumString(Integer.parseInt(feedInfo.getBoard_numHeart()));
+        String numComment  = NumFormat.formatNumString(Integer.parseInt(feedInfo.getBoard_numComment()));
 
 
-        holder.tv_writerName.setText(feedInfo.getWriterName());
+        holder.tv_writerName.setText(feedInfo.getUserName());
         holder.tv_numHeart.setText(numHeart); //형식 : 223.7만
         holder.tv_numComment.setText(numComment); //형식 : 223.7만
-        holder.tv_contents.setText(feedInfo.getContents());
+        holder.tv_contents.setText(feedInfo.getBoardContents());
         holder.tv_regDate.setText(regDate); //형식 : 6시간 전
 
-        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getPfImagePath()).into(holder.iv_profileImage);
-        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getImagePath()).into(holder.iv_image);
+        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getUserPfImagePath()).into(holder.iv_profileImage);
+        Glide.with(holder.itemView.getContext()).load(Global.baseURL+feedInfo.getBoardImagePath()).into(holder.iv_image);
 
         //하트 여부에 따라 아이콘 변경
-        String if_hearting = feedInfo.getIf_hearting();
+        String if_hearting = feedInfo.getBoard_if_hearting();
         if(if_hearting.equals("hearting")){
             holder.iv_heart.setImageResource(R.drawable.heart_color);
         }
@@ -108,7 +111,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
     // getItemCount() - 전체 데이터 갯수 리턴.
     @Override
     public int getItemCount() {
-        return this.feedList.size();
+        return this.feedListByBoardNo.size();
     }
 
     //뷰 홀더 : 아이템 뷰를 저장하는 객체
@@ -145,7 +148,9 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                         Intent intent;
                         String result=null;
                         context = v.getContext();
-                        FeedVO feed = feedList.get(pos);
+
+                        ArrayList<DetailFeedVO> selectedFeedDataList;
+                        DetailFeedVO feedInfo;
 
                         MySharedPreferences pref = MySharedPreferences.getInstanceOf(context);
                         String myID = pref.getUserID();
@@ -153,14 +158,18 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
                         switch (v.getId()) {
                             case R.id.profile_area :
+                                selectedFeedDataList = feedListByBoardNo.get(pos);
+                                feedInfo = selectedFeedDataList.get(0);
                                 intent = new Intent(context, activity_space.class);
-                                assert feed != null;
-                                intent.putExtra("targetID", feed.getWriterID());
+                                assert feedInfo != null;
+                                intent.putExtra("feedInfo", feedInfo);
                                 context.startActivity(intent);
                                 break;
                             case R.id.ll_icon_heart :
+                                selectedFeedDataList = feedListByBoardNo.get(pos);
+                                feedInfo = selectedFeedDataList.get(0);
                                 try {
-                                    result = new heartTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(feed.getBoardNo()) ,myID).get();
+                                    result = new heartTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, feedInfo.getBoardNo() ,myID).get();
                                 } catch (ExecutionException | InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -186,21 +195,11 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
                                 break;
                             default :
-                                ArrayList<DetailFeedVO> selectedFeedList=new ArrayList<DetailFeedVO>();
-                                try {
-                                    selectedFeedList = new detailInfoTask().execute(Integer.toString(feed.getBoardNo())).get();
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-
+                                selectedFeedDataList = feedListByBoardNo.get(pos);
 
                                 intent = new Intent(context, activity_thisFeed.class);
-
-
-                                assert feed != null;
-                                intent.putParcelableArrayListExtra("selectedFeedList", selectedFeedList);
+                                assert selectedFeedDataList != null;
+                                intent.putParcelableArrayListExtra("selectedFeedList", selectedFeedDataList);
 
                                 context.startActivity(intent);
                         }
@@ -222,41 +221,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
         }
     }
-
-    public class detailInfoTask extends AsyncTask<String, Void, ArrayList<DetailFeedVO>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            startTime = Util.getCurrentTime();
-        }
-
-
-        @Override
-        protected ArrayList<DetailFeedVO> doInBackground(String... params) {
-            String myID = MySharedPreferences.getInstanceOf(context).getUserID();
-
-            Call<List<DetailFeedVO>> feedListCall = SocialService.getRetrofit(context).detailFeed(params[0],myID);
-            //인자 params[0]은 클릭한 boardNo.
-
-
-            try {
-                return (ArrayList<DetailFeedVO>) feedListCall.execute().body();
-
-                // Do something with the response.
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<DetailFeedVO> feeds) {
-            super.onPostExecute(feeds);
-        }
-    }
-
-
 
 
     public class heartTask extends AsyncTask<String, Void, String> {
