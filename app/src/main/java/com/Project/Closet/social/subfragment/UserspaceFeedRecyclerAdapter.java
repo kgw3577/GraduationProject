@@ -79,7 +79,7 @@ public class UserspaceFeedRecyclerAdapter extends RecyclerView.Adapter<Userspace
             super(itemView) ;
 
             // 뷰 객체에 대한 참조. (hold strong reference)
-            iv_image = itemView.findViewById(R.id.iv_image);
+            iv_image = itemView.findViewById(R.id.iv_codi_image);
 
             //아이템 클릭 이벤트 처리
             View.OnClickListener onClickListener = new View.OnClickListener() {

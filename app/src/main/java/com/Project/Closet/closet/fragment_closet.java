@@ -143,7 +143,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
         Cloth_Info_edit.setVisibility(View.GONE);
 
-        iv_image = (ImageView) getView().findViewById(R.id.iv_image);
+        iv_image = (ImageView) getView().findViewById(R.id.iv_codi_image);
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);

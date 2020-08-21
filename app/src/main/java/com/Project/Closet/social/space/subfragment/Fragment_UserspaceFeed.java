@@ -1,4 +1,4 @@
-package com.Project.Closet.social.subfragment;
+package com.Project.Closet.social.space.subfragment;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +19,7 @@ import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.FeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.social.space.activity_space;
+import com.Project.Closet.social.subfragment.UserspaceFeedRecyclerAdapter;
 
 import java.io.IOException;
 import java.util.ArrayList;

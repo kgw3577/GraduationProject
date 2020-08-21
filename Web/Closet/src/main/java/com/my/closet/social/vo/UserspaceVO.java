@@ -4,7 +4,8 @@ import org.springframework.stereotype.Component;
 @Component("userspaceVO")
 public class UserspaceVO {
 
-	private String userID, nickname, pfImagePath, pfContents, if_following, following_friendsID, following_friendsName, following_friendsImgPath;
+	private String userID, nickname, pfImagePath, pfContents, 
+	if_following, following_friendsID, following_friendsName, following_friendsImgPath;
 	private int numBoard, numFollower, numFollowing;
 	
 	//생성자

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.DetailFeedVO;
+import com.my.closet.social.vo.DetailFeedVO_Extended;
 import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
@@ -36,11 +37,16 @@ public class SocialDAOImpl implements SocialDAO {
 		return feedList;
 	}
 	
+	
+	
 	@Override
-	public List<FeedVO> searchFeed(ExpandedFeedVO feedFilter) throws DataAccessException {
-		List<FeedVO> feedList = sqlSession.selectList("mapper.social.searchFeed",feedFilter);
+	public List<DetailFeedVO> searchFeed(DetailFeedVO_Extended feedFilter) throws DataAccessException {
+		List<DetailFeedVO> feedList = sqlSession.selectList("mapper.social.searchFeed",feedFilter);
 		return feedList;
 	}
+	
+	
+	
 	
 	@Override
 	public List<FeedVO> showHeartFeed(FollowVO followFilter) throws DataAccessException {
@@ -68,9 +74,9 @@ public class SocialDAOImpl implements SocialDAO {
 	}
 	
 	@Override
-	public List<BoardVO> recommendFull(BoardVO recoFilter) throws DataAccessException {
-		List<BoardVO> boardList = sqlSession.selectList("mapper.social.recommend_full",recoFilter);
-		return boardList;
+	public List<DetailFeedVO> recommendFull(HashMap<String, Object> recoFilter) throws DataAccessException {
+		List<DetailFeedVO> feedList = sqlSession.selectList("mapper.social.recommend_full",recoFilter);
+		return feedList;
 	}
 
 }

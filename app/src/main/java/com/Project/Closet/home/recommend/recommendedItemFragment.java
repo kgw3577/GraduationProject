@@ -19,8 +19,6 @@ import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.addClothes.activity_addClothes;
-import com.Project.Closet.closet.closet_activities.activity_closet_share;
 import com.Project.Closet.social.detailFeed.activity_thisFeed;
 import com.bumptech.glide.Glide;
 
@@ -95,7 +93,7 @@ public class recommendedItemFragment extends Fragment {
         DetailFeedVO feedInfo = selectedFeedList.get(0);
 
         FrameLayout fl_recommendedItem = v.findViewById(R.id.fl_recommended_item);
-        ImageView iv_image = v.findViewById(R.id.iv_image);
+        ImageView iv_image = v.findViewById(R.id.iv_codi_image);
         TextView child1 = v.findViewById(R.id.child1);
         TextView child2 = v.findViewById(R.id.child2);
         TextView child3 = v.findViewById(R.id.child3);

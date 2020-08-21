@@ -88,7 +88,7 @@ public class activity_thisFeed extends AppCompatActivity {
         tv_regDate = findViewById(R.id.tv_regDate);
 
         iv_profileImage = findViewById(R.id.iv_profileImage);
-        iv_image = findViewById(R.id.iv_image);
+        iv_image = findViewById(R.id.iv_codi_image);
         iv_heart = findViewById(R.id.iv_heart);
 
 

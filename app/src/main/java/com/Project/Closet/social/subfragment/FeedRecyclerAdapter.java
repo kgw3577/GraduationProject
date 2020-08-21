@@ -129,7 +129,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             tv_regDate = itemView.findViewById(R.id.tv_regDate);
 
             iv_profileImage = itemView.findViewById(R.id.iv_profileImage);
-            iv_image = itemView.findViewById(R.id.iv_image);
+            iv_image = itemView.findViewById(R.id.iv_codi_image);
             iv_heart = itemView.findViewById(R.id.iv_heart);
             iv_comment = itemView.findViewById(R.id.iv_comment);
             iv_addToCloset = itemView.findViewById(R.id.iv_addToCloset);

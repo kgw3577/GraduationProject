@@ -53,7 +53,7 @@
 
             </LinearLayout>
             <ImageView
-                android:id="@+id/iv_image"
+                android:id="@+id/iv_codi_image"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="300dp"

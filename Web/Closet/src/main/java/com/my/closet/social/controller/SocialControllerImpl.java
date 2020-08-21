@@ -30,6 +30,7 @@ import com.my.closet.social.dao.CrudDAO;
 import com.my.closet.social.dao.SocialDAO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.DetailFeedVO;
+import com.my.closet.social.vo.DetailFeedVO_Extended;
 import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
@@ -99,26 +100,29 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
 	}
+	
+	
 	// 피드 조건 검색
 	@Override
 	@RequestMapping(value = "/feed/search", method = RequestMethod.PUT)
-	public ResponseEntity<List<FeedVO>> searchFeed(
-			@RequestBody ExpandedFeedVO feedFilter,
-			@RequestParam(value = "myID", required = false) String myID,
+	public ResponseEntity<List<DetailFeedVO>> searchFeed(
+			@RequestBody DetailFeedVO_Extended feedFilter,
 			@RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
-		List<FeedVO> feedList;
+		List<DetailFeedVO> feedList;
 		try {
-			feedFilter.setMyID(myID);
-			feedFilter = Util.setPageFilter(feedFilter, page, pageSize);
+			feedFilter = (DetailFeedVO_Extended)Util.setPageFilter(feedFilter, page, pageSize);
 			feedList = socialDAO.searchFeed(feedFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<FeedVO>>(Collections.<FeedVO>emptyList(),
+			return new ResponseEntity<List<DetailFeedVO>>(Collections.<DetailFeedVO>emptyList(),
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<FeedVO>>(feedList, HttpStatus.OK);
+		return new ResponseEntity<List<DetailFeedVO>>(feedList, HttpStatus.OK);
 	}
+	
+	
+	
 	// 해당 사용자가 좋아요한 피드
 	@Override
 	@RequestMapping(value = "/space/{userID}/heart", method = RequestMethod.GET)
@@ -329,21 +333,23 @@ public class SocialControllerImpl implements SocialController {
 	
 	/*코디 추천*/
 	@Override
-	@RequestMapping(value = "/recommend/full/{userID}", method = RequestMethod.GET)
-	public ResponseEntity<List<BoardVO>> recommendFull(@PathVariable("userID") String userID) throws Exception {
-		List<BoardVO> boardList;
+	@RequestMapping(value = "/recommend/full/{myID}", method = RequestMethod.GET)
+	public ResponseEntity<List<DetailFeedVO>> recommendFull(@PathVariable("myID") String myID,
+			@RequestParam(value = "tag", required = false) String tag) throws Exception {
+		List<DetailFeedVO> feedList;
 		
 		try {
-			BoardVO recoFilter = new BoardVO();
-			recoFilter.setUserID(userID);
-			recoFilter.setBoardNo((int) (Math.random() * 3) +2); //2~4개 뽑아줌
-			boardList = socialDAO.recommendFull(recoFilter);
+			HashMap<String, Object> recoFilter = new HashMap<String, Object>();
+			recoFilter.put("myID",myID);
+			recoFilter.put("numLimit",(int) (Math.random() * 3) +2); //2~4개 뽑아줌
+			recoFilter.put("tag",tag);
+			feedList = socialDAO.recommendFull(recoFilter);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<List<BoardVO>>(Collections.<BoardVO>emptyList(),
+			return new ResponseEntity<List<DetailFeedVO>>(Collections.<DetailFeedVO>emptyList(),
 					HttpStatus.SERVICE_UNAVAILABLE);
 		}
-		return new ResponseEntity<List<BoardVO>>(boardList, HttpStatus.OK);
+		return new ResponseEntity<List<DetailFeedVO>>(feedList, HttpStatus.OK);
 	}
 	
 	

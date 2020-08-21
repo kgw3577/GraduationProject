@@ -464,8 +464,7 @@ select *
                          where userID='a' AND location='private'
                      )
            )
-           ORDER BY RAND() LIMIT 3
-;
+           ORDER BY RAND() LIMIT 3;
 
 
 
@@ -486,19 +485,42 @@ select *
 
 -- 해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기 (LIMIT n RANDOM 해야함)
 select U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
+			(SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
 			IF(
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'captain' AND FOLLOW.followedID = U.userID)>0
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
               ,"following","not_following"
               ) if_following,       -- 게시자 팔로잉 여부
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = U.userID AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following_friendsID,     -- 내(a)가 팔로우하는 사람 중, 대상을 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) followig_friendsImgPath,   -- x를 팔로우하는 친구의 프사  
+ 		
               IF(
-              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'captain' AND HEART.boardNo = B.boardNo)>0
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'a' AND HEART.boardNo = B.boardNo)>0
               ,"hearting","not_hearting"
               ) if_hearting,       -- 이 게시물 하트 여부
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
               C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
+              -- Commenter.userID commenterID, Commenter.nickname commenterName, Commenter.pfImagePath commpfImagePath,
+              -- (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = Comm.commentNo) numGood
+              
+              -- Comm.commentNo commentNo,
+              -- Comm.contents contents,
+              -- Comm.regDate commregDate
      from `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+     LEFT OUTER JOIN `COMMENT`
+        ON `COMMENT`.boardNo = BOARD.boardNo
     where B.boardNo not in
            ( select R.boardNo
                from RELATION_BOARD_CLO R, CLOTHES C
@@ -510,14 +532,87 @@ select U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
            )
            AND B.userID = U.userID
                 AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
-                ORDER BY RAND()
-;
+                ;
+                
+                
+                -- AND B.contents LIKE '%#캐주얼%'
+                -- ORDER BY RAND() LIMIT 6;
+
+insert into `COMMENT` values(null,76,'captain',"댓글 3",null);
+
+
+
+select `USER`.userID writerID, `USER`.nickname writerName, `USER`.pfImagePath pfImagePath, `USER`.pfContents pfContents,
+			(SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = `USER`.userID)>0
+              ,"following","not_following"
+              ) if_following,       -- 게시자 팔로잉 여부
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = U.userID AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = "a") as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) following_friendsID,     -- 내(a)가 팔로우하는 사람 중, 대상을 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) followig_friendsImgPath,   -- x를 팔로우하는 친구의 프사  
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = 'a' AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
+              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
+              `CLOTHES`.cloNo cloNo, `CLOTHES`.filePath cloImagePath, `CLOTHES`.identifier cloIdentifier, `CLOTHES`.brand cloBrand,
+              
+              Commenter.userID commenterID, Commenter.nickname commenterName, Commenter.pfImagePath commenterpfImagePath,
+              (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = Comm.commentNo) numGood,
+              Comm.commentNo commentNo,Comm.contents contents,Comm.regDate commregDate
+     from `USER`, `CLOTHES`
+     LEFT JOIN `BOARD` B
+		ON B.userID = `USER`.userID
+     LEFT JOIN RELATION_BOARD_CLO R
+		ON R.cloNo = `CLOTHES`.cloNo
+     LEFT OUTER JOIN `COMMENT` Comm
+        ON Comm.boardNo = B.boardNo
+	LEFT OUTER JOIN `USER` Commenter
+        ON `COMMENT`.boardNo = `BOARD`.boardNo
+    where B.boardNo not in
+           ( select R.boardNo
+               from RELATION_BOARD_CLO R, CLOTHES C
+              where R.cloNo = `CLOTHES`.cloNo AND `CLOTHES`.identifier not in
+                     ( select identifier
+                         from CLOTHES
+                         where userID='a' AND location='public'
+                     )
+           )
+           AND B.userID = `USER`.userID
+                AND R.boardNo = B.boardNo AND 
+                ;
 
 
 
 
 
 
+
+
+
+
+
+
+
+SELECT U.userID commenterID, U.nickname commenterName, U.pfImagePath pfImagePath,
+              (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = C.commentNo) numGood,
+              C.commentNo commentNo, C.contents contents, C.regDate regDate
+ FROM `USER` U, `COMMENT` C
+ WHERE C.boardNo = '36' AND U.userID = C.writerID
+ ORDER BY regDate DESC;
 
 
 

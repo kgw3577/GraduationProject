@@ -21,22 +21,35 @@
 	
 	<!--반환 레코드를 config에서 지정한 =VO 빈에 저장 -->
 	<resultMap id="detailFeedResult" type="detailFeedVO">
-		<result property="writerID" column="writerID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
-		<result property="writerName" column="writerName" />
-		<result property="pfImagePath" column="pfImagePath" />
-		<result property="pfContents" column="pfContents" />
-		<result property="if_following" column="if_following" />
-		<result property="if_hearting" column="if_hearting" />
-		<result property="numHeart" column="numHeart" />
-		<result property="numComment" column="numComment" />
+		<result property="userID" column="userID" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="userName" column="userName" />
+		<result property="userPfImagePath" column="userPfImagePath" />
+		<result property="userPfContents" column="userPfContents" />
+		<result property="userNumBoard" column="userNumBoard" />
+		<result property="userNumFollower" column="userNumFollower" />
+		<result property="userNumFollowing" column="userNumFollowing" />
+		<result property="user_if_following" column="user_if_following" />		
+		<result property="user_following_friendsID" column="user_following_friendsID" />
+		<result property="user_followig_friendsName" column="user_followig_friendsName" />
+		<result property="user_followig_friendsImgPath" column="user_followig_friendsImgPath" />		
+		<result property="board_if_hearting" column="board_if_hearting" />
+		<result property="board_numHeart" column="board_numHeart" />
+		<result property="board_numComment" column="board_numComment" />
 		<result property="boardNo" column="boardNo" />
-		<result property="imagePath" column="imagePath" />
-		<result property="contents" column="contents" />
-		<result property="regDate" column="regDate" />
+		<result property="boardImagePath" column="boardImagePath" />
+		<result property="boardContents" column="boardContents" />
+		<result property="boardRegDate" column="boardRegDate" />
 		<result property="cloNo" column="cloNo" />
-		<result property="cloImagePath" column="cloImagePath" />
+		<result property="cloLocation" column="cloLocation" />
+		<result property="cloKind" column="cloKind" />
+		<result property="cloCategory" column="cloCategory" />
+		<result property="cloDetailCategory" column="cloDetailCategory" />
+		<result property="cloColor" column="cloColor" />		
 		<result property="cloIdentifier" column="cloIdentifier" />
+		<result property="cloSeason" column="cloSeason" />
 		<result property="cloBrand" column="cloBrand" />
+		<result property="cloImagePath" column="cloImagePath" />
+		<result property="cloUserID" column="cloUserID" />		
 	</resultMap>
 	
 	<!--반환 레코드를 config에서 지정한 =VO 빈에 저장 -->
@@ -121,44 +134,87 @@
 		</if>
 	</select>
 	
+	
 	<!-- 피드 조건 검색 -->
-	<select id="searchFeed" resultMap="feedResult" parameterType="expandedFeedVO">
+	<select id="searchFeed" resultMap="detailFeedResult" parameterType="detailFeedVO_Ex">
 	<![CDATA[
-		SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath,
-              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
-              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
-				IF(
-              (SELECT COUNT(*) FROM HEART where hearterID = #{myID} AND boardNo = B.boardNo)>0
+		select U.userID userID, U.nickname userName, U.pfImagePath userPfImagePath, U.pfContents userPfContents,
+			(SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) userNumBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) userNumFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) userNumFollowing,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = #{myID} AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) user_if_following,       -- 게시자 팔로잉 여부
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = U.userID AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = #{myID}) as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) user_following_friendsID,     -- 내(a)가 팔로우하는 사람 중, 대상을 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) user_followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) user_followig_friendsImgPath,   -- x를 팔로우하는 친구의 프사  
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = #{myID} AND HEART.boardNo = B.boardNo)>0
               ,"hearting","not_hearting"
-              ) if_hearting,       -- 게시물 하트 여부
-              B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate 
- 		FROM `USER` U, `BOARD` B
+              ) board_if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) board_numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) board_numComment,
+              B.boardNo boardNo, B.filePath boardImagePath, B.contents boardContents, B.regDate boardRegDate,
+              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory, C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImgPath, C.userID cloUserID
+     from `USER` U, RELATION_BOARD_CLO R, CLOTHES C, `BOARD` B
 	]]>
 		<where>
-			U.userID = B.userID
-			<if test="writerID != '' and writerID != null">
-				and U.userID = #{writerID}
+			B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
+			<if test="mode == 'follow'">
+				and (U.userID in (SELECT followedID FROM FOLLOW WHERE followerID = #{myID}) OR U.userID = #{myID})
 			</if>
-			<if test="writerName != '' and writerName != null">
-				and U.nickname = #{writerName}
+			<if test="userID != '' and userID != null">
+				and U.userID = #{userID}
 			</if>
-			<if test="pfImagePath != '' and pfImagePath != null">
-				and U.pfImagePath = #{pfImagePath}
+			<if test="userName != '' and userName != null">
+				and U.nickname = #{userName}
 			</if>
+			<if test="userPfImagePath != '' and userPfImagePath != null">
+				and U.pfImagePath = #{userPfImagePath}
+			</if>
+			<if test="userPfContents != '' and userPfContents != null">
+				and U.pfContents LIKE CONCAT('%',#{userPfContents},'%')
+			</if>
+			
 			<if test="boardNo != '' and boardNo != null">
 				and B.boardNo = #{boardNo}
 			</if>
-			<if test="imagePath != '' and imagePath != null">
-				and B.filePath = #{imagePath}
+			<if test="boardImagePath != '' and boardImagePath != null">
+				and B.filePath = #{boardImagePath}
 			</if>
-			<if test="contents != '' and contents != null">
-				and B.contents = #{contents}
+			<if test="boardContents != '' and boardContents != null">
+				and B.contents LIKE CONCAT('%',#{boardContents},'%')
 			</if>
-			<if test="regDate != '' and regDate != null">
-				and B.regDate = #{regDate}
+			<if test="boardRegDate != '' and boardRegDate != null">
+				and B.regDate = #{boardRegDate}
+			</if>
+			<if test="tag1 != '' and tag1 != null">
+				AND B.contents LIKE CONCAT('%',#{tag1},'%')
+			</if>
+			<if test="tag2 != '' and tag2 != null">
+				AND B.contents LIKE CONCAT('%',#{tag2},'%')
+			</if>
+			<if test="tag3 != '' and tag3 != null">
+				AND B.contents LIKE CONCAT('%',#{tag3},'%')
+			</if>
+			<if test="tag4 != '' and tag4 != null">
+				AND B.contents LIKE CONCAT('%',#{tag4},'%')
+			</if>
+			<if test="tag5 != '' and tag5 != null">
+				AND B.contents LIKE CONCAT('%',#{tag5},'%')
 			</if>
 		</where>
-		ORDER BY regDate DESC
+		ORDER BY boardRegDate DESC
 		<if test="pageStart != -1 and pageSize != -1">
 			LIMIT #{pageStart}, #{pageSize}
 		</if>
@@ -261,22 +317,55 @@
 	
 	
 	<!--해당 유저가 가진 옷 종류로 할 수 있는 코디(게시물) 찾기. 검색조건 후에 추가-->
-	<select id="recommend_full" resultMap="boardResult" parameterType="boardVO">
+	<select id="recommend_full" resultMap="detailFeedResult" parameterType="java.util.HashMap">
 	<![CDATA[
-	  select *
-     from BOARD B
-     where boardNo not in
+		select U.userID userID, U.nickname userName, U.pfImagePath userPfImagePath, U.pfContents userPfContents,
+			(SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) userNumBoard,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) userNumFollower,
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) userNumFollowing,
+			IF(
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = #{myID} AND FOLLOW.followedID = U.userID)>0
+              ,"following","not_following"
+              ) user_if_following,       -- 게시자 팔로잉 여부
+               @following_friendsID := 
+               (SELECT followerID FROM FOLLOW 
+				  where FOLLOW.followedID = U.userID AND 
+				  FOLLOW.followerID in 
+				  (
+					select * from (
+						(SELECT followedID FROM FOLLOW where FOLLOW.followerID = #{myID}) as tmp)
+					) ORDER BY RAND() DESC LIMIT 1
+				) user_following_friendsID,     -- 내(a)가 팔로우하는 사람 중, 대상을 팔로우하고 있는 사람의 아이디를 랜덤으로 선택
+              (SELECT nickname from `USER` where `USER`.userID = @following_friendsID) user_followig_friendsName,   -- x를 팔로우하는 친구의 닉네임
+              (SELECT pfImagePath from `USER` where `USER`.userID = @following_friendsID) user_followig_friendsImgPath,   -- x를 팔로우하는 친구의 프사  
+              IF(
+              (SELECT COUNT(*) FROM HEART where HEART.hearterID = #{myID} AND HEART.boardNo = B.boardNo)>0
+              ,"hearting","not_hearting"
+              ) board_if_hearting,       -- 이 게시물 하트 여부
+              (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) board_numHeart,
+              (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) board_numComment,
+              B.boardNo boardNo, B.filePath boardImagePath, B.contents boardContents, B.regDate boardRegDate,
+              C.cloNo cloNo, C.location cloLocation, C.kind cloKind, C.category cloCategory, C.detailCategory cloDetailCategory, C.color cloColor, C.identifier cloIdentifier, C.season cloSeason, C.brand cloBrand, C.filePath cloImgPath, C.userID cloUserID
+     from `USER` U, RELATION_BOARD_CLO R, CLOTHES C, `BOARD` B
+     where B.boardNo not in
            ( select R.boardNo
                from RELATION_BOARD_CLO R, CLOTHES C
               where R.cloNo = C.cloNo AND C.identifier not in
                      ( select identifier
                          from CLOTHES
-                         where userID=#{userID} AND location='private'
+                         where userID=#{myID} AND location='private'
                      )
            )
-           ORDER BY RAND() LIMIT #{boardNo};
+           AND B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
+                
 	]]>
+		<if test="tag != '' and tag != null">
+			AND B.contents LIKE CONCAT('%',#{tag},'%')
+		</if>
+		ORDER BY RAND() LIMIT #{numLimit};
 	</select>
+		
 	
 </mapper>
 

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
 import com.my.closet.social.vo.DetailFeedVO;
+import com.my.closet.social.vo.DetailFeedVO_Extended;
 import com.my.closet.social.vo.ExpandedFeedVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
@@ -30,7 +31,11 @@ public interface SocialController {
 	/*피드*/
 	public ResponseEntity<List<FeedVO>> showAllFeed(String myID, String page, String pageSize) throws Exception; //최신 피드 가져오기
 	public ResponseEntity<List<FeedVO>> showFollowFeed(String userID, String page, String pageSize) throws Exception; //팔로우 피드
-	public ResponseEntity<List<FeedVO>> searchFeed(ExpandedFeedVO feedFilter, String myID, String page,String pageSize) throws Exception; //피드 조건 검색
+	
+	
+	ResponseEntity<List<DetailFeedVO>> searchFeed(DetailFeedVO_Extended feedFilter,String page,String pageSize) throws Exception; //피드 조건 검색
+	
+	
 	public ResponseEntity<List<FeedVO>> showHeartFeed(String userID, String myID, String page,String pageSize) throws Exception; // 해당 사용자가 좋아요한 피드
 	
 	public ResponseEntity<List<DetailFeedVO>> showDetailFeed(String boardNo, String myID) throws Exception; // 해당 게시물 세부 내용 가져오기
@@ -50,6 +55,6 @@ public interface SocialController {
 	public ResponseEntity<UserspaceVO> showUserspace(String userID, String myID) throws Exception;
 	
 	/*코디 추천*/
-	public ResponseEntity<List<BoardVO>> recommendFull(@PathVariable("userID") String userID) throws Exception;
+	public ResponseEntity<List<DetailFeedVO>> recommendFull(String myID, String tag) throws Exception;
 	
 }
