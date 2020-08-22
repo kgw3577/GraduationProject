@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -29,6 +30,8 @@ import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.FollowVO;
 import com.Project.Closet.HTTP.VO.UserspaceVO;
 import com.Project.Closet.R;
+import com.Project.Closet.activity_login;
+import com.Project.Closet.activity_profile;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.social.space.subfragment.TabPagerAdapter_space;
 import com.Project.Closet.util.NumFormat;
@@ -229,6 +232,20 @@ public class fragment_mySpace extends Fragment implements OnBackPressedListener 
                 }
             });
         }
+
+
+        //로그아웃 버튼
+        Button bt_logout = v.findViewById(R.id.bt_logout);
+        bt_logout.setVisibility(View.VISIBLE);
+        bt_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
+                pref.setUserID("");
+                startActivity(new Intent(getContext(), activity_login.class));
+                ActivityCompat.finishAffinity(getActivity());
+            }
+        });
 
 
         return v;

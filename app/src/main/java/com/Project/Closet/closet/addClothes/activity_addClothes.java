@@ -63,7 +63,6 @@ public class activity_addClothes extends AppCompatActivity {
     static final String TAG = "lynnfield";
     Uri uri = Uri.parse("content");
     String path;
-    String likeArray[] = {"yes","no"};
 
     public LinearLayout ll_detailcategory;
     public LinearLayout Cloth_Info_edit;

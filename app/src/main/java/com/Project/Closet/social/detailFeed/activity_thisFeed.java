@@ -1,11 +1,15 @@
 package com.Project.Closet.social.detailFeed;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -19,6 +23,9 @@ import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.activity_cloInfo;
+import com.Project.Closet.signup.activity_signup_next;
+import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
 
@@ -43,6 +50,8 @@ public class activity_thisFeed extends AppCompatActivity {
     //int gridsize=2;
     String pageSize="10";
 
+    DetailFeedVO feed;
+
     int page=0;
     RecyclerView rv_clothes_list;
     RecyclerView rv_comment_list;
@@ -61,7 +70,7 @@ public class activity_thisFeed extends AppCompatActivity {
         setContentView(R.layout.layout_thisfeed);
 
         ArrayList<DetailFeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
-        DetailFeedVO feed = selectedFeedList.get(0);
+        feed = selectedFeedList.get(0);
 
         userID = feed.getUserID();
         userName = feed.getUserName();
@@ -124,8 +133,10 @@ public class activity_thisFeed extends AppCompatActivity {
         childCloAdapter = new ChildCloAdapter(selectedFeedList);
         childCloAdapter.setOnItemClickListener(new ChildCloAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int pos) {
-
+            public void onItemClick(View v, int pos, DetailFeedVO cloInfo) {
+                Intent intent = new Intent(activity_thisFeed.this, activity_cloInfo.class);
+                intent.putExtra("cloInfo", cloInfo);
+                startActivity(intent);
             }
         });
         //댓글 리사이클러뷰 어댑터 초기화
@@ -172,14 +183,34 @@ public class activity_thisFeed extends AppCompatActivity {
                 nLinearLayoutManager.getOrientation());
         rv_clothes_list.addItemDecoration(dividerItemDecoration1);
 
+        BtnOnClickListener onClickListener = new BtnOnClickListener();
 
-        /*
-        DividerItemDecoration dividerItemDecoration2 = new DividerItemDecoration(rv_comment_list.getContext(),
-                mLinearLayoutManager.getOrientation());
-        rv_comment_list.addItemDecoration(dividerItemDecoration2);
 
-         */
+        LinearLayout profile_area = findViewById(R.id.profile_area);
+        profile_area.setOnClickListener(onClickListener);
 
+        TextView send_comment = findViewById(R.id.send_comment);
+        send_comment.setOnClickListener(onClickListener);
+        EditText et_comment = findViewById(R.id.et_comment);
+
+
+    }
+
+    class BtnOnClickListener implements Button.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Intent intent;
+            switch (view.getId()) {
+                case R.id.profile_area :
+                    intent = new Intent(getApplicationContext(), activity_space.class);
+                    assert feed != null;
+                    intent.putExtra("feedInfo", feed);
+                    startActivity(intent);
+                    break;
+                case R.id.send_comment :
+                    break;
+            }
+        }
     }
 
 

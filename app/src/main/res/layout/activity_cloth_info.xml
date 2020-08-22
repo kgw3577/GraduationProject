@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:clickable="true"
+        android:focusable="true"
+
+        >
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
+
+                <FrameLayout
+                    android:id="@+id/ll_tools"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="right">
+                    <LinearLayout
+                        android:id="@+id/ll_closet_iconSet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:visibility="invisible">
+                        <ImageView
+                            android:id="@+id/iv_heart"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
+                            android:clickable="true"
+                            android:src="@drawable/heart_empty"/>
+                        <ImageView
+                            android:id="@+id/iv_modify"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10dp"
+                            android:clickable="true"
+                            android:src="@drawable/modification" />
+                        <ImageView
+                            android:id="@+id/iv_delete"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="20dp"
+                            android:clickable="true"
+                            android:src="@drawable/delete" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_share_iconSet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+
+                        android:visibility="visible">
+                        <ImageView
+                            android:id="@+id/iv_inbox"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="20dp"
+                            android:clickable="true"
+
+                            android:src="@drawable/inbox"
+                            app:tint="@android:color/holo_purple"
+                            />
+                    </LinearLayout>
+
+
+
+
+                </FrameLayout>
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_marginTop="20dp"
+                    android:layout_gravity="center"
+                    android:layout_width="350dp"
+                    android:layout_height="350dp"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/sample4"/>
+
+                <LinearLayout
+                    android:layout_marginTop="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="카테고리"/>
+                        <TextView
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:text="셔츠"
+                            android:id="@+id/tv_info_catergory"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/ll_detail"
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="세부 카테고리"/>
+                        <TextView
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:text="클래식/드레스셔츠"
+                            android:id="@+id/tv_info_detailcategory"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="컬러"/>
+                        <TextView
+                            android:id="@+id/tv_info_color"
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:text="화이트"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="계절"/>
+                        <TextView
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:text="봄"
+                            android:id="@+id/tv_info_season"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_margin="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="브랜드"/>
+                        <TextView
+                            android:layout_width="240dp"
+                            android:layout_height="wrap_content"
+                            android:text="폴라"
+                            android:id="@+id/tv_info_brand"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:id="@+id/tv_clothes_no"
+                            android:visibility="invisible"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/bt_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:backgroundTint="@color/button"
+                    android:text="선택"
+                    android:textSize="18dp"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#ffffff"
+                    android:visibility="gone"/>
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+</ScrollView>
+

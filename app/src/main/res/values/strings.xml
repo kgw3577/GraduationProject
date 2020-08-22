@@ -126,7 +126,6 @@
     <string-array name="패딩">
         <item>"숏패딩"</item>
         <item>"롱패딩"</item>
-        <item>"털파카"</item>
         <item>"패딩코트"</item>
     </string-array>
 

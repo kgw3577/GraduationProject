@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.CycleInterpolator;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -37,6 +39,7 @@ import com.Project.Closet.closet.closet_activities.activity_closet_share;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -95,6 +98,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_detailcategory;
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
+
+    private FloatingActionMenu fam;
 
     public static fragment_closet newInstance() {
 
@@ -378,6 +383,40 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                 }
             });
         }
+
+        fam = (FloatingActionMenu) getView().findViewById(R.id.fab);
+
+
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    //Toast.makeText(getContext(), "Menu is opened", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Toast.makeText(getContext(), "Menu is closed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //handling each floating action button clicked
+        //fabDelete.setOnClickListener(onClickListener);
+        //fabEdit.setOnClickListener(onClickListener);
+        //fabAdd.setOnClickListener(onClickListener);
+
+        fam.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fam.isOpened()){
+                    fam.close(true);
+                }
+                else{
+                    fam.open(true);
+                }
+            }
+        });
+
+        fam.setClosedOnTouchOutside(true);
 
     }
 

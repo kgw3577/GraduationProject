@@ -100,7 +100,7 @@
                 android:id="@+id/tv_edit_detailcategory"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text=""
+                android:text="선택"
                 android:textSize="15dp"
                 />
 

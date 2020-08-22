@@ -25,7 +25,7 @@ public class ChildCloAdapter extends RecyclerView.Adapter<ChildCloAdapter.Custom
     List<DetailFeedVO> childCloList;
 
     public interface OnItemClickListener {
-        void onItemClick(View v, int position);
+        void onItemClick(View v, int position, DetailFeedVO cloInfo);
     }
 
     // 리스너 객체 참조를 저장하는 변수
@@ -58,7 +58,24 @@ public class ChildCloAdapter extends RecyclerView.Adapter<ChildCloAdapter.Custom
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item_child_clo, viewGroup, false);
 
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        final CustomViewHolder viewHolder = new CustomViewHolder(view);
+
+        // 아이템 클릭 이벤트 처리.
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int pos = viewHolder.getAdapterPosition() ;
+                if (pos != RecyclerView.NO_POSITION) {
+                    // 리스너 객체의 메서드 호출.
+                    if (mListener != null) {
+                        mListener.onItemClick(v, pos, childCloList.get(pos)) ;
+                    }
+                    // 데이터 리스트로부터 아이템 데이터 참조.
+                    //RecyclerItem item = mData.get(pos) ;
+                }
+            }
+        });
+
 
         return viewHolder;
     }
@@ -85,6 +102,29 @@ public class ChildCloAdapter extends RecyclerView.Adapter<ChildCloAdapter.Custom
     @Override
     public int getItemCount() {
         return (null != childCloList ? childCloList.size() : 0);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            // 아이템 클릭 이벤트 처리.
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        // 리스너 객체의 메서드 호출.
+                        if (mListener != null) {
+                            mListener.onItemClick(v, pos, childCloList.get(pos)) ;
+                        }
+                        // 데이터 리스트로부터 아이템 데이터 참조.
+                        //RecyclerItem item = mData.get(pos) ;
+                    }
+                }
+            });
+        }
     }
 
 }

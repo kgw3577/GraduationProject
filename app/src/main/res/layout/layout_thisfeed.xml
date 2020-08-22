@@ -266,7 +266,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp">
             <EditText
-                android:id="@+id/et_add_comment"
+                android:id="@+id/et_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -283,6 +283,7 @@
                 android:layout_gravity="center_vertical"
                 android:background="@color/화이트">
                 <TextView
+                    android:id="@+id/send_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"

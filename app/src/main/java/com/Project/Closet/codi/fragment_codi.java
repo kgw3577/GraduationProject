@@ -93,7 +93,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
-    private Boolean isFabOpen = false;
 
     private FloatingActionMenu fam;
     private FloatingActionButton fabEdit, fabDelete, fabAdd;

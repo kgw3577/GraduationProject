@@ -131,4 +131,27 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/header"
         app:menu="@menu/drawerlayout" />
+
+
+    <com.github.clans.fab.FloatingActionMenu
+
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:paddingBottom="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+
+        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorPressed="#F2AB00"
+        fab:menu_colorRipple="#99FFFFFF"
+
+        fab:fab_shadowColor="#444"
+        fab:fab_showShadow="true"
+        >
+
+    </com.github.clans.fab.FloatingActionMenu>
+
 </androidx.drawerlayout.widget.DrawerLayout>
