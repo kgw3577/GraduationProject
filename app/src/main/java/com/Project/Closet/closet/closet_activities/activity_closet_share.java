@@ -107,8 +107,10 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         try{
             mode = getIntent().getExtras().getString("mode");
         }catch(NullPointerException e){
-            mode = "show";
+            e.printStackTrace();
         }
+        if(mode==null)
+            mode = "show";
 
         toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
@@ -364,15 +366,17 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
             });
         }
 
+        LinearLayout ll_tools;
+        Button bt_select;
 
         switch(mode){
             case "select": //선택 모드일 때
                 //ScalableLayout header = findViewById(R.id.header);
                 //header.setVisibility(View.GONE);
                 //info에서 위의 도구를 숨김. select 버튼을 보이게 함.
-                LinearLayout ll_tools = findViewById(R.id.ll_tools);
+                ll_tools = findViewById(R.id.ll_tools);
                 ll_tools.setVisibility(View.GONE);
-                Button bt_select = findViewById(R.id.bt_select);
+                bt_select = findViewById(R.id.bt_select);
                 bt_select.setVisibility(View.VISIBLE);
                 bt_select.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -402,6 +406,51 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                         intent.putExtra("image", byteArray);
                         setResult(RESULT_OK,intent);
                         finish();
+                    }
+                });
+                break;
+            case "add" :
+                ll_tools = findViewById(R.id.ll_tools);
+                ll_tools.setVisibility(View.GONE);
+                bt_select = findViewById(R.id.bt_select);
+                bt_select.setText("옷장에 추가");
+                bt_select.setVisibility(View.VISIBLE);
+                bt_select.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+/*
+                        String res=null;
+                        try {
+                            res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tv_cloNo.getText().toString()).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        if("ok".equals(res)){
+                            Toast.makeText(activity_closet_share.this, "옷장에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                            Cloth_Info.setVisibility(View.GONE);
+
+                        }else{
+                            Toast.makeText(activity_closet_share.this, "삭제 실패", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        //intent로 정보 전달
+                        //Intent intent = new Intent(activity_closet_share.this, activity_addBoard.class);
+                        //intent.putExtra("cloNo", cloNo);
+                        //intent.putExtra("identifier", identifier);
+                        //intent.putExtra("image", byteArray);
+                        //setResult(RESULT_OK,intent);
+                        //finish();
+
+
+ */
+
+
+
                     }
                 });
                 break;
@@ -489,6 +538,34 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
     }
 
 
+    /*
+    public class AddTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(String... cloNo) {
+
+            //Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).deleteClothes(cloNo[0]);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+     */
+
+
+
     //클릭 리스너
     class BtnOnClickListener implements Button.OnClickListener {
         String res="";
@@ -534,6 +611,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                             Toast.makeText(activity_closet_share.this, "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_color);
                             tv_cloFavorite.setText("yes");
+
                         }else{
                             Toast.makeText(activity_closet_share.this, "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_empty);

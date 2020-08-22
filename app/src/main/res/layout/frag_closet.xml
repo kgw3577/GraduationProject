@@ -150,8 +150,11 @@
 
         fab:fab_shadowColor="#444"
         fab:fab_showShadow="true"
+
+        android:visibility="invisible"
         >
 
-    </com.github.clans.fab.FloatingActionMenu>
 
+
+    </com.github.clans.fab.FloatingActionMenu>
 </androidx.drawerlayout.widget.DrawerLayout>

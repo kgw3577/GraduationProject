@@ -60,6 +60,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     int ADD_CLOTHES = 100;
 
 
+    private FloatingActionMenu fam;
+
     Activity activity;
 
     private TabLayout tabLayout;
@@ -99,7 +101,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
-    private FloatingActionMenu fam;
 
     public static fragment_closet newInstance() {
 
@@ -182,7 +183,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         });
 
         BtnOnClickListener onClickListener = new BtnOnClickListener();
-        iv_heart.setOnClickListener(onClickListener);
+        //iv_heart.setOnClickListener(onClickListener);
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
         addButton.setOnClickListener(onClickListener);
@@ -384,8 +385,12 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             });
         }
 
-        fam = (FloatingActionMenu) getView().findViewById(R.id.fab);
 
+
+
+        //플로팅 액션 메뉴 버튼 설정
+        fam = (FloatingActionMenu) getView().findViewById(R.id.fab);
+        fam.setVisibility(View.VISIBLE);
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -407,16 +412,16 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(fam.isOpened()){
-                    fam.close(true);
-                }
-                else{
-                    fam.open(true);
-                }
+                fam.open(true);
+                Intent intent = new Intent(getContext(), activity_closet_share.class);
+                intent.putExtra("mode", "add");
+                startActivity(intent);
+                fam.close(true);
             }
         });
 
         fam.setClosedOnTouchOutside(true);
+        fam.setAnimated(false);
 
     }
 

@@ -29,7 +29,7 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     int item_layout; //리사이클러뷰 레이아웃. fragment_recyclerview임.
 
     public interface OnItemClickListener {
-        void onItemClick(View v, int position, ImageView iv_Clothes);
+        void onItemClick(View v, int position, ImageView iv_Clothes, ClothesVO cloInfo);
     }
 
     // 리스너 객체 참조를 저장하는 변수
@@ -96,7 +96,7 @@ public class ClothesListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     if (pos != RecyclerView.NO_POSITION) {
                         // 리스너 객체의 메서드 호출.
                         if (mListener != null) {
-                            mListener.onItemClick(v, pos, iv_Clothes) ;
+                            mListener.onItemClick(v, pos, iv_Clothes, ClothesList.get(pos)) ;
                         }
                         // 데이터 리스트로부터 아이템 데이터 참조.
                         //RecyclerItem item = mData.get(pos) ;

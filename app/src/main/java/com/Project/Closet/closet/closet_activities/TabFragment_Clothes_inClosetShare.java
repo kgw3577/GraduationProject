@@ -107,8 +107,9 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, int position, ImageView iv_Clothes, ClothesVO cloInfo) {
 
+                /*
                 ClothesVO cloInfo = null;
                 try {
                     cloInfo = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(clothesList.get(position).getCloNo())).get();
@@ -117,7 +118,11 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                 */
                 parent.setInfo(cloInfo);
+
+
             }
         });
     }

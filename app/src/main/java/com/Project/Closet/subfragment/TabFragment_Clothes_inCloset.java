@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.closet.fragment_closet;
+import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.ClothesListAdapter;
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
@@ -39,6 +41,7 @@ import retrofit2.Call;
 public class   TabFragment_Clothes_inCloset extends Fragment {
 
     fragment_closet parentFragment;
+    int current_pos = 0;
 
     String location;
     String identifier; //프래그먼트의 종류를 알려줌
@@ -102,24 +105,73 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
         }
 
         //리사이클러뷰 어댑터 초기화
-        clothesListAdapter = new ClothesListAdapter(getActivity(),clothesList, R.layout.fragment_recyclerview, size);
+        clothesListAdapter = new ClothesListAdapter(getActivity(), clothesList, R.layout.fragment_recyclerview, size);
 
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, final int position, ImageView iv_Clothes, ClothesVO cloInfo) {
 
-                ClothesVO cloInfo = null;
-                try {
-                    cloInfo = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(clothesList.get(position).getCloNo())).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 parentFragment.setInfo(cloInfo);
+
+                final ImageView iv_heart = parentFragment.iv_heart;
+                iv_heart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String res = null;
+                        //필터가 될 vo 설정
+                        ClothesVO clothesFilter = new ClothesVO();
+                        clothesFilter.setCloNo(Integer.parseInt(parentFragment.tv_cloNo.getText().toString()));
+                        boolean reverted_favorite;
+                        //즐겨찾기 여부 불러와서 반대값으로 설정
+                        if("yes".equals(parentFragment.tv_cloFavorite.getText().toString())){
+                            clothesFilter.setFavorite("no");
+                            reverted_favorite = false;
+                        }
+                        else{
+                            clothesFilter.setFavorite("yes");
+                            reverted_favorite = true;
+                        }
+
+                        try {
+                            res = new FavoriteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clothesFilter).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("tag",res);
+                        ClothesVO currentVO;
+                        if("ok".equals(res)){
+                            if(reverted_favorite){
+                                Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
+                                iv_heart.setImageResource(R.drawable.heart_color);
+                                parentFragment.tv_cloFavorite.setText("yes");
+                                currentVO = clothesList.get(position);
+                                currentVO.setFavorite("yes");
+                                clothesList.set(position,currentVO);
+                            }else{
+                                Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
+                                iv_heart.setImageResource(R.drawable.heart_empty);
+                                parentFragment.tv_cloFavorite.setText("no");
+                                currentVO = clothesList.get(position);
+                                currentVO.setFavorite("no");
+                                clothesList.set(position,currentVO);
+                            }
+                            ((activity_home)getActivity()).notify_home_changed();
+                        }
+                        else
+                            Toast.makeText(getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+                //current_pos=position;
+
+
             }
         });
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -218,19 +270,17 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
     }
 
 
-
-
-    public class InfoTask extends AsyncTask<String, Void, ClothesVO> {
+    public class FavoriteTask extends AsyncTask<ClothesVO, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected ClothesVO doInBackground(String... cloNo) {
+        protected String doInBackground(ClothesVO... ClothesFilter) {
 
-            Call<ClothesVO> cloVOCall = ClothesService.getRetrofit(getContext()).infoClothes(cloNo[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(getContext()).modifyClothes(ClothesFilter[0]);
             try {
-                return cloVOCall.execute().body();
+                return stringCall.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -238,12 +288,10 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
 
         }
         @Override
-        protected void onPostExecute(ClothesVO c) {
-            super.onPostExecute(c);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
-
-
 
 
     @Override

@@ -115,7 +115,7 @@ public class Page_category extends Fragment {
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes) {
+            public void onItemClick(View v, int position, ImageView iv_Clothes, ClothesVO cloInfo) {
                 Bitmap selectedImage = ((BitmapDrawable)iv_Clothes.getDrawable()).getBitmap();
                 if(mFragListener != null){
                     mFragListener.ReceivedData(selectedImage);

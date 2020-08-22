@@ -174,7 +174,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                                     e.printStackTrace();
                                 }
                                 if(result!=null) {
-                                    String resCut[];
+                                    String resCut[]= null;
                                     String numHeart;
                                     if("fail".equals(result)){
 
@@ -184,11 +184,24 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                                             resCut = result.split("_");
                                             numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
                                             tv_numHeart.setText(numHeart);
+                                            for (DetailFeedVO feed : selectedFeedDataList){
+                                                feed.setBoard_if_hearting("not_hearting");
+                                                feed.setBoard_numHeart(resCut[0]);
+                                            }
+                                            feedListByBoardNo.set(pos,selectedFeedDataList);
+                                            //notifyItemChanged(pos);
                                         }else if(result.contains("hearting")) {
                                             iv_heart.setImageResource(R.drawable.heart_color);
+                                            feedListByBoardNo.set(pos,selectedFeedDataList);
                                             resCut = result.split("_");
                                             numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
                                             tv_numHeart.setText(numHeart);
+                                            for (DetailFeedVO feed : selectedFeedDataList){
+                                                feed.setBoard_if_hearting("hearting");
+                                                feed.setBoard_numHeart(resCut[0]);
+                                            }
+                                            feedListByBoardNo.set(pos,selectedFeedDataList);
+                                            //notifyItemChanged(pos);
                                         }
                                     }
                                 }
