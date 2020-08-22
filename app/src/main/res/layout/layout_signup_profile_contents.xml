@@ -7,6 +7,15 @@
     android:focusableInTouchMode="true"
     tools:context=".activity_login">
 
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
@@ -120,6 +129,7 @@
 
 
     </LinearLayout>
-
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

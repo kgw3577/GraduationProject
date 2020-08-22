@@ -149,7 +149,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
         Cloth_Info_edit.setVisibility(View.GONE);
 
-        iv_image = (ImageView) getView().findViewById(R.id.iv_codi_image);
+        iv_image = (ImageView) getView().findViewById(R.id.iv_image);
         iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
         tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
         tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
@@ -421,7 +421,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         });
 
         fam.setClosedOnTouchOutside(true);
-        fam.setAnimated(false);
+        fam.setIconAnimated(false);
 
     }
 
@@ -461,29 +461,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
     }
 
-
-    public class FavoriteTask extends AsyncTask<ClothesVO, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-        @Override
-        protected String doInBackground(ClothesVO... ClothesFilter) {
-
-            Call<String> stringCall = ClothesService.getRetrofit(getContext()).modifyClothes(ClothesFilter[0]);
-            try {
-                return stringCall.execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-    }
 
     public class DeleteTask extends AsyncTask<String, Void, String> {
         @Override
@@ -525,44 +502,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                 case R.id.share_closet : //공유 옷장 버튼
                     intent = new Intent(getContext(), activity_closet_share.class);
                     startActivity(intent);
-                    break;
-                case R.id.iv_heart : //즐겨찾기
-                    //필터가 될 vo 설정
-                    ClothesVO clothesFilter = new ClothesVO();
-                    clothesFilter.setCloNo(Integer.parseInt(tv_cloNo.getText().toString()));
-                    boolean reverted_favorite;
-                    //즐겨찾기 여부 불러와서 반대값으로 설정
-                    if("yes".equals(tv_cloFavorite.getText().toString())){
-                        clothesFilter.setFavorite("no");
-                        reverted_favorite = false;
-                    }
-                    else{
-                        clothesFilter.setFavorite("yes");
-                        reverted_favorite = true;
-                    }
-
-                    try {
-                        res = new FavoriteTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, clothesFilter).get();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Log.e("tag",res);
-                    if("ok".equals(res)){
-                        if(reverted_favorite){
-                            Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_color);
-                            tv_cloFavorite.setText("yes");
-                        }else{
-                            Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_empty);
-                            tv_cloFavorite.setText("no");
-                        }
-                        ((activity_home)activity).notify_home_changed();
-                    }
-                    else
-                        Toast.makeText(getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);

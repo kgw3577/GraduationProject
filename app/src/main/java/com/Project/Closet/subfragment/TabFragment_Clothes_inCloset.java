@@ -141,6 +141,7 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                             e.printStackTrace();
                         }
                         Log.e("tag",res);
+
                         ClothesVO currentVO;
                         if("ok".equals(res)){
                             if(reverted_favorite){
@@ -164,11 +165,6 @@ public class   TabFragment_Clothes_inCloset extends Fragment {
                             Toast.makeText(getContext(), "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-                //current_pos=position;
-
-
             }
         });
 

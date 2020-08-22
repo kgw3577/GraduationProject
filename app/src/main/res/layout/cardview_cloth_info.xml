@@ -7,6 +7,14 @@
     android:clickable="true"
     android:focusable="true">
 
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        >
     <androidx.cardview.widget.CardView
         android:layout_width="350dp"
         android:layout_height="600dp"
@@ -53,7 +61,7 @@
 
             </LinearLayout>
             <ImageView
-                android:id="@+id/iv_codi_image"
+                android:id="@+id/iv_image"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
                 android:layout_width="300dp"
@@ -211,7 +219,7 @@
                 android:layout_height="40dp"
                 android:backgroundTint="@color/button"
                 android:text="선택"
-                android:textSize="18dp"
+                android:textSize="16dp"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#ffffff"
                 android:visibility="gone"/>
@@ -219,4 +227,5 @@
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    </ScrollView>
 </RelativeLayout>
