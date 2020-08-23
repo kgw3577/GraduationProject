@@ -29,7 +29,7 @@ import com.Project.Closet.HTTP.Service.BoardService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
-import com.Project.Closet.closet.closet_activities.activity_closet_share;
+import com.Project.Closet.closet.closet_activities.activity_closet_DB;
 import com.Project.Closet.util.Utils;
 import com.ssomai.android.scalablelayout.ScalableLayout;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -188,7 +188,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 //share와 똑같이. mode 만들고 result 받아오기
                 break;
             case R.id.tv_from_share :
-                intent = new Intent(this, activity_closet_share.class);
+                intent = new Intent(this, activity_closet_DB.class);
                 intent.putExtra("mode","select");
                 startActivityForResult(intent, FROM_SHARE);
                 slidingDrawer.close();

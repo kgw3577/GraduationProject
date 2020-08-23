@@ -47,7 +47,7 @@ import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
-public class activity_closet_share extends AppCompatActivity implements OnBackPressedListener {
+public class activity_closet_DB extends AppCompatActivity implements OnBackPressedListener {
 
     ViewGroup viewGroup;
     Toast toast;
@@ -113,7 +113,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         if(mode==null)
             mode = "show";
 
-        toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
+        toast = Toast.makeText(activity_closet_DB.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
         activity = this;
 
@@ -319,11 +319,11 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                 switch (menuItem.getItemId())
                 {
                     case R.id.menuitem1:
-                        Toast.makeText(activity_closet_share.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
                     case R.id.menuitem2:
-                        Toast.makeText(activity_closet_share.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
                     case R.id.menuitem3:
-                        Toast.makeText(activity_closet_share.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
                 }
 
                 DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
@@ -404,12 +404,13 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                         byte[] byteArray = stream.toByteArray();
 
                         //intent로 정보 전달
-                        Intent intent = new Intent(activity_closet_share.this, activity_addBoard.class);
+                        Intent intent = new Intent(activity_closet_DB.this, activity_addBoard.class);
                         intent.putExtra("cloNo", cloNo);
                         intent.putExtra("identifier", identifier);
                         intent.putExtra("image", byteArray);
                         setResult(RESULT_OK,intent);
                         finish();
+
                     }
                 });
                 break;
@@ -434,7 +435,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             tv_edit_date.setText(year + "년" + monthOfYear + "월" + dayOfMonth +"일");
-            Toast.makeText(activity_closet_share.this, year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity_closet_DB.this, year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -456,7 +457,13 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
             Cloth_Info.setVisibility(View.GONE);
         } else {
+            if("add".equals(mode)){
+                Intent intent = new Intent();
+                setResult(RESULT_OK,intent);
+                finish();
+            }
             finish();
+
         }
 
     }
@@ -547,13 +554,13 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
             switch (view.getId()) {
                 case R.id.header_add : //헤더- 추가(/서치) 버튼
                     if("show".equals(mode)){
-                        intent = new Intent(activity_closet_share.this, activity_addClothes.class);
+                        intent = new Intent(activity_closet_DB.this, activity_addClothes.class);
                         intent.putExtra("location","public");
                         startActivityForResult(intent,ADD_CLOTHES);
                     }
                     break;
                 case R.id.share_closet : //공유 옷장 버튼
-                    intent = new Intent(activity_closet_share.this, activity_closet_share.class);
+                    intent = new Intent(activity_closet_DB.this, activity_closet_DB.class);
                     startActivity(intent);
                     break;
                 case R.id.iv_heart : //즐겨찾기
@@ -581,19 +588,19 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                     Log.e("tag",res);
                     if("ok".equals(res)){
                         if(reverted_favorite){
-                            Toast.makeText(activity_closet_share.this, "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_closet_DB.this, "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_color);
                             tv_cloFavorite.setText("yes");
 
                         }else{
-                            Toast.makeText(activity_closet_share.this, "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity_closet_DB.this, "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
                             iv_heart.setImageResource(R.drawable.heart_empty);
                             tv_cloFavorite.setText("no");
                         }
                         pagerAdapter.notifyDataSetChanged();
                     }
                     else
-                        Toast.makeText(activity_closet_share.this, "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "즐겨찾기 실패", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);
@@ -611,12 +618,12 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                     }
 
                     if("ok".equals(res)){
-                        Toast.makeText(activity_closet_share.this, "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "옷을 삭제했습니다.", Toast.LENGTH_SHORT).show();
                         Cloth_Info.setVisibility(View.GONE);
                         pagerAdapter.notifyDataSetChanged();
 
                     }else{
-                        Toast.makeText(activity_closet_share.this, "삭제 실패", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity_closet_DB.this, "삭제 실패", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -630,6 +637,8 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
             pagerAdapter.notifyDataSetChanged();
 
     }
+
+
 
     //커스텀 함수
     public void setInfo(ClothesVO cloInfo){

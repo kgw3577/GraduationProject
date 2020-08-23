@@ -1,17 +1,21 @@
 package com.Project.Closet.social.detailFeed;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -20,7 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.SocialService;
+import com.Project.Closet.HTTP.Service.UserService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
+import com.Project.Closet.HTTP.VO.CommentVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_cloInfo;
@@ -33,10 +40,14 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
 public class activity_thisFeed extends AppCompatActivity {
+
+
+    int CLO_INFO = 999;
 
     String userID, userName, userPfImagePath, userPfContents,
             user_if_following, board_if_hearting,
@@ -46,6 +57,12 @@ public class activity_thisFeed extends AppCompatActivity {
     ImageView iv_profileImage, iv_heart, iv_image;
     TextView tv_writerName, tv_pfContents, tv_numHeart, tv_numComment,
             tv_contents, tv_regDate;
+
+    LinearLayout ll_bottom;
+    EditText et_comment;
+
+    int pos;
+    ArrayList<DetailFeedVO> selectedFeedList;
 
     //int gridsize=2;
     String pageSize="10";
@@ -69,8 +86,12 @@ public class activity_thisFeed extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_thisfeed);
 
-        ArrayList<DetailFeedVO> selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
+        pos = getIntent().getExtras().getInt("pos");
+        selectedFeedList = getIntent().getExtras().getParcelableArrayList("selectedFeedList");
         feed = selectedFeedList.get(0);
+
+
+        ll_bottom = findViewById(R.id.ll_bottom);
 
         userID = feed.getUserID();
         userName = feed.getUserName();
@@ -143,7 +164,24 @@ public class activity_thisFeed extends AppCompatActivity {
         commentListAdapter = new FeedCommentAdapter(commentList);
         commentListAdapter.setOnItemClickListener(new FeedCommentAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int pos) {
+            public void onItemClick(View v, final int pos) {
+
+                /*
+
+                LinearLayout ll_delete = v.findViewById(R.id.ll_delete);
+                if(ll_delete.getVisibility()!=View.GONE) {
+                    ll_delete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            CommentVO commentInfo = new CommentVO();
+                            commentInfo.setBoardNo(feed.getBoardNo());
+                            commentInfo.setCommentNo(Integer.toString(commentList.get(pos).getCommentNo()));
+                            new commentTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, commentInfo);
+                        }
+                    });
+                }
+
+                 */
 
             }
         });
@@ -160,24 +198,50 @@ public class activity_thisFeed extends AppCompatActivity {
         rv_comment_list.setLayoutManager(mLinearLayoutManager);
         rv_comment_list.setAdapter(commentListAdapter);
         rv_comment_list.setNestedScrollingEnabled(true);
-        rv_comment_list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//        rv_comment_list.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+//                if (!rv_comment_list.canScrollVertically(-1)) {
+//                    //스크롤이 최상단이면 데이터를 갱신한다
+//                    //page = 0;
+//                    //new networkTask().execute(Integer.toString(page));
+//                    //Log.e("test","데이터 갱신");
+//                }
+//                else if (!rv_comment_list.canScrollVertically(1)) {
+//                    //스크롤이 최하단이면 웹서버에 다음 페이지 옷 데이터 요청
+//                    new networkTask().execute(Integer.toString(++page),boardNo);
+//                    Log.e("test","페이지 수 증가");
+//                }
+//                else {
+//                }
+//            }
+//        });
+
+
+
+
+
+        RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
-                if (!rv_comment_list.canScrollVertically(-1)) {
-                    //스크롤이 최상단이면 데이터를 갱신한다
-                    //page = 0;
-                    //new networkTask().execute(Integer.toString(page));
-                    //Log.e("test","데이터 갱신");
-                }
-                else if (!rv_comment_list.canScrollVertically(1)) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
+                int totalItemCount = layoutManager.getItemCount();
+                int lastVisible = layoutManager.findLastCompletelyVisibleItemPosition();
+
+                if (lastVisible >= totalItemCount - 1) {
+                    Log.d("log", "lastVisibled");
                     //스크롤이 최하단이면 웹서버에 다음 페이지 옷 데이터 요청
-                    new networkTask().execute(Integer.toString(++page),boardNo);
-                    Log.e("test","페이지 수 증가");
-                }
-                else {
+                   new networkTask().execute(Integer.toString(++page),boardNo);
+                   Log.e("test","페이지 수 증가");
                 }
             }
-        });
+        };
+
+        rv_comment_list.addOnScrollListener(onScrollListener);
+
+
 
         DividerItemDecoration dividerItemDecoration1 = new DividerItemDecoration(rv_comment_list.getContext(),
                 nLinearLayoutManager.getOrientation());
@@ -189,9 +253,10 @@ public class activity_thisFeed extends AppCompatActivity {
         LinearLayout profile_area = findViewById(R.id.profile_area);
         profile_area.setOnClickListener(onClickListener);
 
+        //댓글 관련 코드
         TextView send_comment = findViewById(R.id.send_comment);
         send_comment.setOnClickListener(onClickListener);
-        EditText et_comment = findViewById(R.id.et_comment);
+        et_comment = findViewById(R.id.et_comment);
 
 
     }
@@ -200,6 +265,7 @@ public class activity_thisFeed extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             Intent intent;
+            String myID;
             switch (view.getId()) {
                 case R.id.profile_area :
                     intent = new Intent(getApplicationContext(), activity_space.class);
@@ -208,6 +274,26 @@ public class activity_thisFeed extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 case R.id.send_comment :
+                    CommentVO commentInfo = new CommentVO();
+                    myID = MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID();
+                    String comm_contents = et_comment.getText().toString();
+                    commentInfo.setBoardNo(feed.getBoardNo());
+                    commentInfo.setWriterID(myID);
+                    commentInfo.setContents(comm_contents);
+                    String res = null;
+                    try {
+                        res = new commentTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, commentInfo).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(!"fail".equals(res)){
+                        commentList.clear();
+                        page=0;
+                        new networkTask().execute(Integer.toString(page),boardNo);
+                        //rv_comment_list.scrollToPosition(commentList.size()-1);
+                    }
                     break;
             }
         }
@@ -215,6 +301,45 @@ public class activity_thisFeed extends AppCompatActivity {
 
 
     public class networkTask extends AsyncTask<String, Void, List<CommentFeedVO>> {
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+    }
+
+
+    @Override
+    protected List<CommentFeedVO> doInBackground(String... params) {
+
+
+        commentListCall = SocialService.getRetrofit(getBaseContext()).showCommentInBoard(params[1],params[0], pageSize);
+        //인자 params[0]은 page. [1]은 boardNo
+
+        try {
+            return commentListCall.execute().body();
+
+            // Do something with the response.
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onPostExecute(List<CommentFeedVO> comments) {
+        super.onPostExecute(comments);
+        if(comments!=null) {
+            for(CommentFeedVO e:comments) {
+                //게시글 데이터를 받아온 후 이미지 url 리스트를 갱신
+                commentList.add(e);
+            }
+            commentListAdapter.notifyDataSetChanged();
+        }
+    }
+}
+
+    public class commentTask extends AsyncTask<CommentVO, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -224,14 +349,32 @@ public class activity_thisFeed extends AppCompatActivity {
 
 
         @Override
-        protected List<CommentFeedVO> doInBackground(String... params) {
+        protected String doInBackground(CommentVO... params) {
+
+            String mode;
+
+            if(params[0].getCommentNo()==null)
+                mode="add";
+            else
+                mode="delete";
 
 
-            commentListCall = SocialService.getRetrofit(getBaseContext()).showCommentInBoard(params[1],params[0], pageSize);
-            //인자 params[0]은 page. [1]은 boardNo
+            Call<String> stringCall;
+            switch(mode) {
+                case "add":
+                    stringCall = SocialService.getRetrofit(getApplicationContext()).addComment(params[0]);
+                    break;
+                case "delete":
+                    stringCall = SocialService.getRetrofit(getApplicationContext()).deleteComment(params[0].getCommentNo(),params[0].getBoardNo());
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + mode);
+            }
+
+            //인자 params[0]은 CommentVO
 
             try {
-                return commentListCall.execute().body();
+                return stringCall.execute().body();
 
                 // Do something with the response.
             } catch (IOException e) {
@@ -241,15 +384,48 @@ public class activity_thisFeed extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<CommentFeedVO> comments) {
-            super.onPostExecute(comments);
-            if(comments!=null) {
-                for(CommentFeedVO e:comments) {
-                    //게시글 데이터를 받아온 후 이미지 url 리스트를 갱신
-                    commentList.add(e);
-                }
-                commentListAdapter.notifyDataSetChanged();
-            }
+        protected void onPostExecute(String numComment) {
+            super.onPostExecute(numComment);
+            if(numComment!=null&&!numComment.equals("fail")) {
+                et_comment.setText("");
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(et_comment.getWindowToken(), 0);
+
+                selectedFeedList.get(0).setBoard_numComment(numComment);
+                numComment =NumFormat.formatNumString(Integer.parseInt(numComment));//포매팅
+                tv_numComment.setText(numComment);
+            }else
+                Toast.makeText(activity_thisFeed.this, "댓글 전송 실패", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void deleteComment(int pos) throws ExecutionException, InterruptedException {
+        CommentVO commentInfo = new CommentVO();
+        commentInfo.setBoardNo(feed.getBoardNo());
+        commentInfo.setCommentNo(Integer.toString(commentList.get(pos).getCommentNo()));
+        String res = new commentTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, commentInfo).get();
+        if(!"fail".equals(res)){
+            commentList.remove(pos);
+            commentListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("pos",pos);
+        intent.putParcelableArrayListExtra("feedInfo",selectedFeedList);
+        setResult(RESULT_OK,intent);
+        finish();
+        super.onBackPressed();
+
+    }
 }
+
+
+
+
+
+
+
+

@@ -1,5 +1,8 @@
 package com.Project.Closet.social.subfragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,8 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,17 +25,27 @@ import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
+import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.fragment_closet;
+import com.Project.Closet.home.activity_home;
 import com.Project.Closet.home.recommend.recommendedItemFragment;
+import com.Project.Closet.social.detailFeed.activity_thisFeed;
 import com.Project.Closet.social.fragment_social;
+import com.Project.Closet.social.space.activity_space;
+import com.Project.Closet.util.NumFormat;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
+
+import static android.app.Activity.RESULT_OK;
 
 /* 그리드 사이즈 조절 방법 :
 어댑터 변경, 그리드 사이즈 변경, 페이지사이즈 변경
@@ -38,6 +55,8 @@ import retrofit2.Call;
 public class Fragment_Feed extends Fragment {
 
     fragment_social parentFragment;
+
+    final int SHOW_THIS_FEED = 690;
 
     String identifier; //프래그먼트의 종류를 알려줌
     String size;
@@ -116,7 +135,51 @@ public class Fragment_Feed extends Fragment {
 
         @Override
         public void onItemClick(View itemView, final int pos) {
-            //
+
+
+            Intent intent;
+            String result=null;
+            Context context = itemView.getContext();
+
+            ArrayList<DetailFeedVO> selectedFeedDataList;
+            DetailFeedVO feedInfo;
+
+            MySharedPreferences pref = MySharedPreferences.getInstanceOf(context);
+            String myID = pref.getUserID();
+
+            switch(itemView.getId()){
+                case R.id.profile_area :
+                    selectedFeedDataList = feedListByBoardNo.get(pos);
+                    feedInfo = selectedFeedDataList.get(0);
+                    intent = new Intent(context, activity_space.class);
+                    assert feedInfo != null;
+                    intent.putExtra("feedInfo", feedInfo);
+                    context.startActivity(intent);
+                    break;
+                default:
+                    selectedFeedDataList = feedListByBoardNo.get(pos);
+                    intent = new Intent(context, activity_thisFeed.class);
+                    assert selectedFeedDataList != null;
+                    intent.putParcelableArrayListExtra("selectedFeedList", selectedFeedDataList);
+                    intent.putExtra("pos", pos);
+                    startActivityForResult(intent, SHOW_THIS_FEED);
+                    break;
+
+
+            }
+
+
+
+
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+
+                }
+            };
+
         }
 
 
@@ -229,7 +292,6 @@ public class Fragment_Feed extends Fragment {
                     //해당 레코드의 게시물 번호가 key에 없으면
                     thisBoardNo = thisData.getBoardNo();
                     numChild = Integer.parseInt(thisData.getBoard_numChild());
-                    System.out.println(thisBoardNo+"번 "+thisData.getCloIdentifier()+" "+numChild+"개 중");
                     if(!feedMapByBoardNo.containsKey(thisBoardNo)){
                         //새로운 리스트를 생성해 레코드를 추가하고 key로 집어넣음
                         ArrayList<DetailFeedVO> newDataList = new ArrayList<>();
@@ -249,8 +311,54 @@ public class Fragment_Feed extends Fragment {
         }
     }
 
+    public class heartTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+        }
 
 
+        @Override
+        protected String doInBackground(String... params) {
+            HeartVO heartInfo = new HeartVO(params[0],params[1]);
+            //params : 게시물 번호, 유저
+
+            Call<String> stringCall = SocialService.getRetrofit(getContext()).executeHeart(heartInfo);
+
+            //인자 params[0]은 page.
+
+            try {
+                return stringCall.execute().body();
+
+                // Do something with the response.
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String res) {
+            super.onPostExecute(res);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == SHOW_THIS_FEED && resultCode == RESULT_OK){
+            int pos = data.getExtras().getInt("pos");
+            ArrayList<DetailFeedVO> feedInfo = data.getExtras().getParcelableArrayList("feedInfo");
+            feedListByBoardNo.set(pos,feedInfo);
+            feedRecyclerAdapter.notifyDataSetChanged();
+            activity_home fragment = (activity_home)getActivity();
+            fragment.refresh_closet(parentFragment);
+        }
+
+
+    }
 
     @Override
     public void onResume() {
@@ -261,6 +369,10 @@ public class Fragment_Feed extends Fragment {
     private void refresh(){
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
+    }
+
+    public void showThisFeed(int pos){
+
     }
 
 

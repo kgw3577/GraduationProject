@@ -6,15 +6,12 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.CycleInterpolator;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -35,7 +32,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
-import com.Project.Closet.closet.closet_activities.activity_closet_share;
+import com.Project.Closet.closet.closet_activities.activity_closet_DB;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
@@ -58,6 +55,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     long backKeyPressedTime;
 
     int ADD_CLOTHES = 100;
+    int ADD_FROM_DB = 150;
 
 
     private FloatingActionMenu fam;
@@ -412,14 +410,14 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fam.open(true);
-                Intent intent = new Intent(getContext(), activity_closet_share.class);
+                Intent intent = new Intent(getContext(), activity_closet_DB.class);
                 intent.putExtra("mode", "add");
-                startActivity(intent);
-                fam.close(true);
+                startActivityForResult(intent, ADD_FROM_DB);
             }
         });
 
+        //fam.open(true);
+        //fam.close(true);
         fam.setClosedOnTouchOutside(true);
         fam.setIconAnimated(false);
 
@@ -450,6 +448,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             Cloth_Info_edit.setVisibility(View.GONE);
         } else if (Cloth_Info.getVisibility() == View.VISIBLE) {
             Cloth_Info.setVisibility(View.GONE);
+            fam.setVisibility(View.VISIBLE);
         } else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
             backKeyPressedTime = System.currentTimeMillis();
             toast.show();
@@ -500,7 +499,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                     startActivityForResult(intent,ADD_CLOTHES);
                     break;
                 case R.id.share_closet : //공유 옷장 버튼
-                    intent = new Intent(getContext(), activity_closet_share.class);
+                    intent = new Intent(getContext(), activity_closet_DB.class);
                     startActivity(intent);
                     break;
                 case R.id.iv_modify : //수정 버튼
@@ -537,12 +536,17 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK)
             ((activity_home)activity).refresh_clothes(fragment_closet.this);
+        else if(requestCode == ADD_FROM_DB && resultCode == RESULT_OK){
+            ((activity_home)activity).refresh_clothes(fragment_closet.this);
+        }
+
     }
 
     //커스텀 함수
     public void setInfo(ClothesVO cloInfo){
 
         Cloth_Info.setVisibility(View.VISIBLE);
+        fam.setVisibility(View.INVISIBLE);
         String ImageUrl = Global.baseURL+cloInfo.getFilePath();
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);
@@ -573,4 +577,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             tv_cloFavorite.setText("no");
         }
     }
+
+    
 }

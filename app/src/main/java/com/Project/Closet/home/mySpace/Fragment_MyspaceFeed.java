@@ -219,7 +219,6 @@ public class Fragment_MyspaceFeed extends Fragment {
                     //해당 레코드의 게시물 번호가 key에 없으면
                     thisBoardNo = thisData.getBoardNo();
                     numChild = Integer.parseInt(thisData.getBoard_numChild());
-                    System.out.println(thisBoardNo+"번 "+thisData.getCloIdentifier()+" "+numChild+"개 중");
                     if(!feedMapByBoardNo.containsKey(thisBoardNo)){
                         //새로운 리스트를 생성해 레코드를 추가하고 key로 집어넣음
                         ArrayList<DetailFeedVO> newDataList = new ArrayList<>();

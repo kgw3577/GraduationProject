@@ -6,6 +6,7 @@ import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
+import com.Project.Closet.HTTP.VO.CommentVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.HTTP.VO.FeedVO;
@@ -105,7 +106,7 @@ public class SocialService extends APIAdapter {
         //댓글 등록
         @Headers("Content-Type: application/json")
         @POST("social/comment/add")
-        Call<List<HeartVO>> addComment(@Body HeartVO heartFilter);
+        Call<String> addComment(@Body CommentVO commentInfo);
         //댓글 삭제
         @Headers("Content-Type: application/json")
         @DELETE("social/comment/delete/{commentNo}")

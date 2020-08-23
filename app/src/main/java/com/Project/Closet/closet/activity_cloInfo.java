@@ -1,17 +1,11 @@
 package com.Project.Closet.closet;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,15 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.addClothes.activity_addClothes;
-import com.Project.Closet.closet.closet_activities.activity_closet_share;
-import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.bumptech.glide.Glide;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
@@ -128,9 +119,47 @@ public class activity_cloInfo extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        //cloInfo를 보내서 db 추가 요청 - 복사?
-                        //그 후 옷장을 refresh 하기
-                        //토스트
+
+                        MySharedPreferences pref = MySharedPreferences.getInstanceOf(getApplicationContext());
+                        String myID = pref.getUserID();
+
+                        String res = null;
+                        try {
+                            ClothesVO cloInfo = new ClothesVO();
+                            cloInfo.setLocation("private");
+                            cloInfo.setKind(cloInfoVO.getCloKind());
+                            cloInfo.setCategory(cloInfoVO.getCloCategory());
+                            cloInfo.setDetailCategory(cloInfoVO.getCloDetailCategory());
+
+                            cloInfo.setColor(cloInfoVO.getCloColor());
+                            cloInfo.setIdentifier(cloInfoVO.getCloIdentifier());
+                            cloInfo.setSeason(cloInfoVO.getCloSeason());
+                            cloInfo.setBrand(cloInfoVO.getCloBrand());
+
+                            cloInfo.setFilePath(cloInfoVO.getCloImagePath());
+
+                            cloInfo.setFavorite("no");
+                            cloInfo.setUserID(myID);
+                            cloInfo.setClosetName("default");
+
+
+
+
+                            res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cloInfo).get();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        Log.e("tag",res);
+
+                        if("ok".equals(res)){
+                            Toast.makeText(getApplicationContext(), "옷장에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                        else
+                            Toast.makeText(getApplicationContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
+
 
 
                     }
@@ -138,6 +167,30 @@ public class activity_cloInfo extends AppCompatActivity {
                 break;
         }
 
+    }
+
+
+    public class AddTask extends AsyncTask<ClothesVO, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(ClothesVO... ClothesInfo) {
+
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothesFrData(ClothesInfo[0]);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
 

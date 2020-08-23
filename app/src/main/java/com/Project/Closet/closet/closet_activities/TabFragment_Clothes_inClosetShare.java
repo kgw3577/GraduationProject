@@ -1,6 +1,5 @@
 package com.Project.Closet.closet.closet_activities;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,9 +23,6 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.TabFragment_Clothes_inCloset;
-import com.Project.Closet.closet.fragment_closet;
-import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;
@@ -43,7 +39,7 @@ import retrofit2.Call;
 
 public class TabFragment_Clothes_inClosetShare extends Fragment {
 
-    activity_closet_share parent;
+    activity_closet_DB parent;
 
     String location;
     String identifier; //프래그먼트의 종류를 알려줌
@@ -52,7 +48,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
     int gridsize;
     String pagesize;
 
-    public RelativeLayout Cloth_Info;
+
 
     int page=0;
     RecyclerView rv_clothes;
@@ -81,7 +77,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        parent= (activity_closet_share) getActivity();
+        parent= (activity_closet_DB) getActivity();
 
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
@@ -115,7 +111,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
             public void onItemClick(View v, final int position, ImageView iv_Clothes, final ClothesVO cloInfo) {
 
                 parent.setInfo(cloInfo);
-                final activity_closet_share activity = (activity_closet_share)getActivity();
+                final activity_closet_DB activity = (activity_closet_DB)getActivity();
 
                 assert activity != null;
                 if("add".equals(activity.mode)){
@@ -124,8 +120,20 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
                     bt_select.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
+                            String myID = pref.getUserID();
+
                             String res = null;
                             try {
+                                cloInfo.setCloNo(0);
+                                cloInfo.setLocation("private");
+                                cloInfo.setBuyDate(null);
+                                cloInfo.setFavorite("no");
+                                cloInfo.setUserID(myID);
+                                cloInfo.setClosetName("default");
+                                cloInfo.setRegDate(null);
+
+
                                 res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cloInfo).get();
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
@@ -136,7 +144,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
 
                             if("ok".equals(res)){
                                 Toast.makeText(getContext(), "옷장에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                                Cloth_Info.setVisibility(View.GONE);
+                                parent.Cloth_Info.setVisibility(View.GONE);
 
                             }
                             else
@@ -271,6 +279,7 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
             super.onPostExecute(s);
         }
     }
+
 
 
 

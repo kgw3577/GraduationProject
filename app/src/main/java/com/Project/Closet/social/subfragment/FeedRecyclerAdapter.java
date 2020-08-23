@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
@@ -155,16 +156,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                         MySharedPreferences pref = MySharedPreferences.getInstanceOf(context);
                         String myID = pref.getUserID();
 
-
                         switch (v.getId()) {
-                            case R.id.profile_area :
-                                selectedFeedDataList = feedListByBoardNo.get(pos);
-                                feedInfo = selectedFeedDataList.get(0);
-                                intent = new Intent(context, activity_space.class);
-                                assert feedInfo != null;
-                                intent.putExtra("feedInfo", feedInfo);
-                                context.startActivity(intent);
-                                break;
                             case R.id.ll_icon_heart :
                                 selectedFeedDataList = feedListByBoardNo.get(pos);
                                 feedInfo = selectedFeedDataList.get(0);
@@ -207,30 +199,33 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                                 }
 
                                 break;
-                            default :
-                                selectedFeedDataList = feedListByBoardNo.get(pos);
-
-                                intent = new Intent(context, activity_thisFeed.class);
-                                assert selectedFeedDataList != null;
-                                intent.putParcelableArrayListExtra("selectedFeedList", selectedFeedDataList);
-
-                                context.startActivity(intent);
                         }
 
                         if(mListener!=null) {
-                            //mListener.onItemClick(v,pos);
+                            mListener.onItemClick(v,pos);
                         }
                     }
                 }
             };
 
+
+
+
+
+
+            LinearLayout ll_icon_heart = itemView.findViewById(R.id.ll_icon_heart);
+            ll_icon_heart.setOnClickListener(onClickListener);
+
+
+
             CardView feed_card = itemView.findViewById(R.id.feed_card);
             LinearLayout profile_area = itemView.findViewById(R.id.profile_area);
-            LinearLayout ll_icon_heart = itemView.findViewById(R.id.ll_icon_heart);
 
             feed_card.setOnClickListener(onClickListener);
             profile_area.setOnClickListener(onClickListener);
-            ll_icon_heart.setOnClickListener(onClickListener);
+
+
+
 
         }
     }
@@ -269,6 +264,8 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             super.onPostExecute(res);
         }
     }
+
+
 
 
 

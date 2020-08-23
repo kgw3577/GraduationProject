@@ -3,6 +3,7 @@ package com.Project.Closet.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -206,6 +207,27 @@ public class activity_home extends AppCompatActivity {
             }
         }
         transaction.commit();
+    }
+
+
+
+    public void refresh_closet(Fragment end_fragment){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Toast.makeText(activity_home.this, "closet 초기화", Toast.LENGTH_SHORT).show();
+        if(end_fragment instanceof fragment_social){
+            if(f_closet != null){
+                System.out.println("closet초기화");
+                transaction.remove(f_closet);
+                f_closet = fragment_closet.newInstance();
+                transaction.add(R.id.fragment_place,f_closet,"closet");
+            }
+            if(f_share != null){
+                System.out.println("f_share 초기화");
+                transaction.remove(f_share);
+                f_share = fragment_social.newInstance();
+                transaction.add(R.id.fragment_place,f_share,"home");
+            }
+        }
     }
 
 

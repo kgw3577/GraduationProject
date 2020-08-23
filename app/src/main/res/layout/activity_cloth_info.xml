@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:background="@color/화이트">
+
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:clickable="true"
         android:focusable="true"
-
         >
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -26,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_margin="10dp">
+                >
 
                 <FrameLayout
                     android:id="@+id/ll_tools"
@@ -37,8 +40,9 @@
                     <LinearLayout
                         android:id="@+id/ll_closet_iconSet"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:gravity="right"
+                        android:background="@color/closet"
                         android:visibility="invisible">
                         <ImageView
                             android:id="@+id/iv_heart"
@@ -48,7 +52,8 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
                             android:clickable="true"
-                            android:src="@drawable/heart_empty"/>
+                            android:src="@drawable/heart_empty"
+                            android:layout_gravity="center"/>
                         <ImageView
                             android:id="@+id/iv_modify"
                             android:layout_width="35dp"
@@ -57,7 +62,8 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
                             android:clickable="true"
-                            android:src="@drawable/modification" />
+                            android:src="@drawable/modification"
+                            android:layout_gravity="center"/>
                         <ImageView
                             android:id="@+id/iv_delete"
                             android:layout_width="35dp"
@@ -66,26 +72,30 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="20dp"
                             android:clickable="true"
-                            android:src="@drawable/delete" />
+                            android:src="@drawable/delete"
+                            android:layout_gravity="center"/>
                     </LinearLayout>
                     <LinearLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="5dp"
+                        android:padding="10dp"
                         android:id="@+id/ll_share_iconSet"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="50dp"
                         android:gravity="right"
-
                         android:visibility="visible">
                         <ImageView
                             android:id="@+id/iv_inbox"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
                             android:layout_marginBottom="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="20dp"
                             android:clickable="true"
+                            android:layout_gravity="center"
 
                             android:src="@drawable/inbox"
-                            app:tint="@android:color/holo_purple"
+                            app:tint="@color/follow"
                             />
                     </LinearLayout>
 
@@ -95,6 +105,8 @@
                 </FrameLayout>
                 <ImageView
                     android:id="@+id/iv_image"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
                     android:layout_gravity="center"
                     android:layout_width="350dp"
@@ -103,6 +115,8 @@
                     android:src="@drawable/sample4"/>
 
                 <LinearLayout
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
