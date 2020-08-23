@@ -29,6 +29,7 @@ import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.dao.CrudDAO;
 import com.my.closet.social.dao.SocialDAO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.CommentVO;
 import com.my.closet.social.vo.DetailFeedVO;
 import com.my.closet.social.vo.DetailFeedVO_Extended;
 import com.my.closet.social.vo.ExpandedFeedVO;
@@ -314,6 +315,58 @@ public class SocialControllerImpl implements SocialController {
 		}
 		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
 	}
+	
+	
+	
+	
+	//댓글 추가
+	@Override
+	@RequestMapping(value = "/comment/add", method = RequestMethod.POST)
+	public ResponseEntity<String> addComment(@RequestBody CommentVO commentInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 CommentVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+
+		String answer = null;
+		
+		try {
+			answer = crudDAO.addComment(commentInfo);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE); 
+		}
+		if(!"fail".equals(answer)) { 
+			
+			return new ResponseEntity<String>(answer, HttpStatus.OK); //성공시 현재 댓글 개수 보냄
+		}
+		
+		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE); 
+	}	
+		
+	
+	//댓글 삭제
+	@Override
+	@RequestMapping(value = "/comment/delete/{commentNo}", method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteComment(@PathVariable("commentNo") String commentNo,
+			@RequestParam(value = "boardNo", required = false) String boardNo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 CommentVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+
+		CommentVO commentFilter = new CommentVO();
+		commentFilter.setCommentNo(commentNo);
+		commentFilter.setBoardNo(boardNo);
+		
+		String answer = null;
+		
+		try {
+			answer = crudDAO.deleteComment(commentFilter);
+		} catch (Exception e) {
+			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE); 
+		}
+		if(!"fail".equals(answer)) { 
+			
+			return new ResponseEntity<String>(answer, HttpStatus.OK); //성공시 현재 댓글 개수 보냄
+		}
+		
+		return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE); 
+	}		
+			
 	
 	
 	

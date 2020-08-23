@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.my.closet.clothes.vo.ClothesVO;
 import com.my.closet.codi.vo.CodiVO;
 
 @Repository("codiDAO")
@@ -55,6 +56,25 @@ public class CodiDAOImpl implements CodiDAO {
 			return "fail"; //insert 실패
 		}			
 	}
+	
+	@Override
+	public String addCodiData(CodiVO codiInfo) throws DataAccessException {
+
+		System.out.println("insert 쿼리 실행 전");
+		int result = sqlSession.insert("mapper.codi.insertCodiData", codiInfo);
+		System.out.println("insert 쿼리 실행");
+		
+		if (result == 1) {
+			System.out.println("insert 성공");
+			return "ok"; //insert 성공
+		}
+		else {
+			System.out.println("insert 실패");
+			return "fail"; //insert 실패
+		}		
+	}	
+	
+	
 
 	@Override
 	public String updateCodi(CodiVO codiInfo) throws DataAccessException {

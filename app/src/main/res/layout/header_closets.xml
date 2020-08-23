@@ -125,7 +125,6 @@
                 app:scale_base_height="116">
 
 
-
                 <ImageView
                     android:id="@+id/add"
                     android:layout_width="24dp"

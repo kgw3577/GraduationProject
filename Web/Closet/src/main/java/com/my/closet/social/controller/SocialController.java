@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.CommentVO;
 import com.my.closet.social.vo.DetailFeedVO;
 import com.my.closet.social.vo.DetailFeedVO_Extended;
 import com.my.closet.social.vo.ExpandedFeedVO;
@@ -50,11 +51,20 @@ public interface SocialController {
 	public ModelAndView heartlist(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ResponseEntity<List<HeartVO>> searchHeart(@RequestBody HeartVO heartFilter) throws Exception;
 	public ResponseEntity<String> revertHeart(@RequestBody HeartVO heartInfo) throws Exception;
+	
+	/*댓글*/	
+	public ResponseEntity<String> addComment(CommentVO commentInfo) throws Exception;
+	public ResponseEntity<String> deleteComment(String commentNo, String boardNo) throws Exception;
 					
 	/*유저스페이스*/
 	public ResponseEntity<UserspaceVO> showUserspace(String userID, String myID) throws Exception;
 	
 	/*코디 추천*/
 	public ResponseEntity<List<DetailFeedVO>> recommendFull(String myID, String tag) throws Exception;
+
+	
+
+	
+
 	
 }

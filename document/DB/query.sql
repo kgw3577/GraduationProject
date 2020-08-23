@@ -217,6 +217,21 @@ alter table HEART add PRIMARY KEY(boardNo, hearterID);
 select * from BOARD;
 DELETE from BOARD where boardNo='39';
 
+
+
+
+
+
+
+
+
+ALTER TABLE `CLOSET` DROP foreign key `FK_CLOSET_userID_USER_userID`;
+ALTER TABLE `CLOSET`
+    ADD CONSTRAINT `FK_CLOSET_userID_USER_userID` FOREIGN KEY (`userID`) REFERENCES `USER` (`userID`)
+    ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
 SHOW CREATE TABLE `GOOD`;
 
 CREATE TABLE `GOOD` (
@@ -518,7 +533,7 @@ select U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pf
               -- Comm.commentNo commentNo,
               -- Comm.contents contents,
               -- Comm.regDate commregDate
-     from `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+     from `USER` U, RELATION_BOARD_CLO R, CLOTHES C, `BOARD` B
      LEFT OUTER JOIN `COMMENT`
         ON `COMMENT`.boardNo = BOARD.boardNo
     where B.boardNo not in
@@ -542,12 +557,12 @@ insert into `COMMENT` values(null,76,'captain',"댓글 3",null);
 
 
 
-select `USER`.userID writerID, `USER`.nickname writerName, `USER`.pfImagePath pfImagePath, `USER`.pfContents pfContents,
+select U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
 			(SELECT COUNT(*) FROM BOARD where BOARD.userID = U.userID) numBoard,
               (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followedID = U.userID) numFollower,
               (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = U.userID) numFollowing,
 			IF(
-              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = `USER`.userID)>0
+              (SELECT COUNT(*) FROM FOLLOW where FOLLOW.followerID = 'a' AND FOLLOW.followedID = U.userID)>0
               ,"following","not_following"
               ) if_following,       -- 게시자 팔로잉 여부
                @following_friendsID := 
@@ -568,31 +583,26 @@ select `USER`.userID writerID, `USER`.nickname writerName, `USER`.pfImagePath pf
               (SELECT COUNT(*) FROM HEART where HEART.boardNo = B.boardNo) numHeart,
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
-              `CLOTHES`.cloNo cloNo, `CLOTHES`.filePath cloImagePath, `CLOTHES`.identifier cloIdentifier, `CLOTHES`.brand cloBrand,
-              
-              Commenter.userID commenterID, Commenter.nickname commenterName, Commenter.pfImagePath commenterpfImagePath,
+              C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand,
+              Commenter.userID commenterID, Commenter.nickname commenterName, Commenter.pfImagePath commpfImagePath,
               (SELECT COUNT(*) FROM GOOD where GOOD.commentNo = Comm.commentNo) numGood,
               Comm.commentNo commentNo,Comm.contents contents,Comm.regDate commregDate
-     from `USER`, `CLOTHES`
-     LEFT JOIN `BOARD` B
-		ON B.userID = `USER`.userID
-     LEFT JOIN RELATION_BOARD_CLO R
-		ON R.cloNo = `CLOTHES`.cloNo
-     LEFT OUTER JOIN `COMMENT` Comm
-        ON Comm.boardNo = B.boardNo
-	LEFT OUTER JOIN `USER` Commenter
+     from `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+     LEFT OUTER JOIN `COMMENT`
+        ON `COMMENT`.boardNo = `BOARD`.boardNo
+	LEFT OUTER JOIN `USER`
         ON `COMMENT`.boardNo = `BOARD`.boardNo
     where B.boardNo not in
            ( select R.boardNo
                from RELATION_BOARD_CLO R, CLOTHES C
-              where R.cloNo = `CLOTHES`.cloNo AND `CLOTHES`.identifier not in
+              where R.cloNo = C.cloNo AND C.identifier not in
                      ( select identifier
                          from CLOTHES
                          where userID='a' AND location='public'
                      )
            )
-           AND B.userID = `USER`.userID
-                AND R.boardNo = B.boardNo AND 
+           AND B.userID = U.userID
+                AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
                 ;
 
 

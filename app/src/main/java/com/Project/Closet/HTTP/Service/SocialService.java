@@ -100,6 +100,16 @@ public class SocialService extends APIAdapter {
         @POST("social/heart/execute")
         Call<String> executeHeart(@Body HeartVO heartInfo); //응답 : hearting, not_hearting (현재 상태), fail(실패)
 
+        /*댓글*/
+        //응답 : 해당하는 boardNo의 댓글 개수. 실패시 fail.
+        //댓글 등록
+        @Headers("Content-Type: application/json")
+        @POST("social/comment/add")
+        Call<List<HeartVO>> addComment(@Body HeartVO heartFilter);
+        //댓글 삭제
+        @Headers("Content-Type: application/json")
+        @DELETE("social/comment/delete/{commentNo}")
+        Call<String> deleteComment(@Path("commentNo") String commentNo, @Query("boardNo") String boardNo);
 
 
         /*유저스페이스*/

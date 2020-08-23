@@ -1,5 +1,6 @@
 package com.Project.Closet.closet.closet_activities;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -21,7 +24,9 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.TabFragment_Clothes_inCloset;
 import com.Project.Closet.closet.fragment_closet;
+import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.ClothesListAdapter;
 
 import java.io.IOException;
@@ -107,20 +112,40 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
 
         clothesListAdapter.setOnItemClickListener(new ClothesListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position, ImageView iv_Clothes, ClothesVO cloInfo) {
+            public void onItemClick(View v, final int position, ImageView iv_Clothes, final ClothesVO cloInfo) {
 
-                /*
-                ClothesVO cloInfo = null;
-                try {
-                    cloInfo = new InfoTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, Integer.toString(clothesList.get(position).getCloNo())).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                parent.setInfo(cloInfo);
+                final activity_closet_share activity = (activity_closet_share)getActivity();
+
+                assert activity != null;
+                if("add".equals(activity.mode)){
+
+                    final Button bt_select = activity.bt_select;
+                    bt_select.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String res = null;
+                            try {
+                                res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cloInfo).get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e("tag",res);
+
+                            if("ok".equals(res)){
+                                Toast.makeText(getContext(), "옷장에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                                Cloth_Info.setVisibility(View.GONE);
+
+                            }
+                            else
+                                Toast.makeText(getContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                    });
                 }
 
-                 */
-                parent.setInfo(cloInfo);
+
 
 
             }
@@ -224,19 +249,17 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
     }
 
 
-
-
-    public class InfoTask extends AsyncTask<String, Void, ClothesVO> {
+    public class AddTask extends AsyncTask<ClothesVO, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
         @Override
-        protected ClothesVO doInBackground(String... cloNo) {
+        protected String doInBackground(ClothesVO... ClothesInfo) {
 
-            Call<ClothesVO> cloVOCall = ClothesService.getRetrofit(getContext()).infoClothes(cloNo[0]);
+            Call<String> stringCall = ClothesService.getRetrofit(getContext()).addClothesFrData(ClothesInfo[0]);
             try {
-                return cloVOCall.execute().body();
+                return stringCall.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
@@ -244,8 +267,8 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
 
         }
         @Override
-        protected void onPostExecute(ClothesVO c) {
-            super.onPostExecute(c);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 

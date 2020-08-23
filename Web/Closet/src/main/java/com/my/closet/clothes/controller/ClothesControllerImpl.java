@@ -23,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.clothes.dao.ClothesDAO;
 import com.my.closet.clothes.service.ClothesService;
 import com.my.closet.clothes.vo.ClothesVO;
 import com.my.closet.user.controller.UserControllerImpl;
+import com.my.closet.user.vo.UserVO;
 
 
 
@@ -46,6 +48,8 @@ public class ClothesControllerImpl implements ClothesController {
 	
 	@Autowired
 	private ClothesService clothesService;
+	@Autowired
+	private ClothesDAO clothesDAO;
 	@Autowired
 	ClothesVO clothesVO;
 	
@@ -140,6 +144,24 @@ public class ClothesControllerImpl implements ClothesController {
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
+	
+	//데이터로 옷 추가
+	@Override
+	@RequestMapping(value = "/add/data", method = RequestMethod.POST)
+	public ResponseEntity<String> addClothesFrData(@RequestBody ClothesVO cloInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 UserVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+		
+		String answer = null;
+		try {
+			answer = clothesDAO.addClothesData(cloInfo);			
+		} catch (Exception e) {
+			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(answer, HttpStatus.OK);
+	}	
+	
+	
+	
 	
 	//옷 정보 수정
 	@Override

@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.my.closet.clothes.vo.ClothesVO;
+import com.my.closet.codi.dao.CodiDAO;
 import com.my.closet.codi.service.CodiService;
 import com.my.closet.codi.vo.CodiVO;
 import com.my.closet.user.controller.UserControllerImpl;
@@ -37,6 +39,8 @@ public class CodiControllerImpl implements CodiController {
 		
 	@Autowired
 	private CodiService codiService;
+	@Autowired
+	private CodiDAO codiDAO;
 	@Autowired
 	CodiVO codiVO;
 	
@@ -94,7 +98,7 @@ public class CodiControllerImpl implements CodiController {
 	//코디 찾기
 	@Override
 	@RequestMapping(value = "/search", method = RequestMethod.PUT)
-	public ResponseEntity<List<CodiVO>> searchCodi(@RequestParam String userID, CodiVO codiFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+	public ResponseEntity<List<CodiVO>> searchCodi(@RequestParam String userID, @RequestBody CodiVO codiFilter, @RequestParam String page, @RequestParam String pageSize) throws Exception {
 		List<CodiVO> searched_codiList;
 		try{
 			if(!page.isEmpty()&&!pageSize.isEmpty()) {
@@ -131,6 +135,23 @@ public class CodiControllerImpl implements CodiController {
 		return new ResponseEntity<String>(answer, HttpStatus.OK);
 	}
 
+	
+	//데이터로 코디 추가
+	@Override
+	@RequestMapping(value = "/add/data", method = RequestMethod.POST)
+	public ResponseEntity<String> addCodiFrData(@RequestBody CodiVO codiInfo) throws Exception {
+		//@RequestBody : 전송된 파라미터를 UserVO 해당 속성에 자동으로 설정 (JSON을 VO로 자동 변환)
+		
+		String answer = null;
+		try {
+			answer = codiDAO.addCodiData(codiInfo);			
+		} catch (Exception e) {
+			return new ResponseEntity<String>(answer, HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<String>(answer, HttpStatus.OK);
+	}		
+		
+	
 	//코디 정보 수정
 	@Override
 	@RequestMapping(value = "/modify", method = RequestMethod.PUT)

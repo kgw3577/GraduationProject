@@ -124,7 +124,21 @@
 	]]>
 	</insert>
 
-	<!-- 옷 정보(즐겨찾기) 수정 쿼리 -->
+	
+	<!-- 옷 데이터 추가 쿼리  -->
+	<insert id="insertClothesData" parameterType="clothesVO">
+	<![CDATA[
+		insert into CLOTHES 
+		values(#{cloNo},#{location},#{kind},#{category},#{detailCategory},#{color},#{identifier},#{season},
+		#{brand},#{cloSize},#{buyDate},#{fileName},#{filePath},#{favorite},#{userID},
+		#{closetName},#{regDate})
+	]]>
+	</insert>
+	
+	
+	
+	
+	<!-- 옷 정보 수정 쿼리 -->
 	<update id="updateClothes" parameterType="clothesVO">
 	<![CDATA[
 		update CLOTHES

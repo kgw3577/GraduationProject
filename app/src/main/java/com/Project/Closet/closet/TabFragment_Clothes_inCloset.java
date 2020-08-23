@@ -1,4 +1,4 @@
-package com.Project.Closet.subfragment;
+package com.Project.Closet.closet;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
-import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.ClothesListAdapter;
 import com.Project.Closet.Global;

@@ -22,6 +22,7 @@
 
 		<typeAlias type="com.my.closet.social.vo.UserspaceVO"  alias="userspaceVO" />
 
+		<typeAlias type="com.my.closet.social.vo.CommentVO"  alias="commentVO" />
 		<typeAlias type="com.my.closet.social.vo.FollowVO"  alias="followVO" />
 		<typeAlias type="com.my.closet.social.vo.HeartVO"  alias="heartVO" />
 		

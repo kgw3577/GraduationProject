@@ -64,6 +64,7 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
     private ViewPager finalPager;
 
     Button shareButton;
+    Button bt_select;
     RelativeLayout filterButton;
     RelativeLayout addButton;
 
@@ -115,6 +116,10 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         toast = Toast.makeText(activity_closet_share.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
         activity = this;
+
+
+
+
 
         addButton = findViewById(R.id.header_add);
         filterButton = findViewById(R.id.header_search);
@@ -367,7 +372,6 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         }
 
         LinearLayout ll_tools;
-        Button bt_select;
 
         switch(mode){
             case "select": //선택 모드일 때
@@ -414,45 +418,12 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
                 ll_tools.setVisibility(View.GONE);
                 bt_select = findViewById(R.id.bt_select);
                 bt_select.setText("옷장에 추가");
+
+                ImageView iv_search = findViewById(R.id.add);
+                iv_search.setImageResource(R.drawable.search);
+
                 bt_select.setVisibility(View.VISIBLE);
-                bt_select.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
 
-/*
-                        String res=null;
-                        try {
-                            res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, tv_cloNo.getText().toString()).get();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        if("ok".equals(res)){
-                            Toast.makeText(activity_closet_share.this, "옷장에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                            Cloth_Info.setVisibility(View.GONE);
-
-                        }else{
-                            Toast.makeText(activity_closet_share.this, "삭제 실패", Toast.LENGTH_SHORT).show();
-                        }
-
-
-                        //intent로 정보 전달
-                        //Intent intent = new Intent(activity_closet_share.this, activity_addBoard.class);
-                        //intent.putExtra("cloNo", cloNo);
-                        //intent.putExtra("identifier", identifier);
-                        //intent.putExtra("image", byteArray);
-                        //setResult(RESULT_OK,intent);
-                        //finish();
-
-
- */
-
-
-
-                    }
-                });
                 break;
         }
 
@@ -574,10 +545,12 @@ public class activity_closet_share extends AppCompatActivity implements OnBackPr
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가 버튼
-                    intent = new Intent(activity_closet_share.this, activity_addClothes.class);
-                    intent.putExtra("location","public");
-                    startActivityForResult(intent,ADD_CLOTHES);
+                case R.id.header_add : //헤더- 추가(/서치) 버튼
+                    if("show".equals(mode)){
+                        intent = new Intent(activity_closet_share.this, activity_addClothes.class);
+                        intent.putExtra("location","public");
+                        startActivityForResult(intent,ADD_CLOTHES);
+                    }
                     break;
                 case R.id.share_closet : //공유 옷장 버튼
                     intent = new Intent(activity_closet_share.this, activity_closet_share.class);

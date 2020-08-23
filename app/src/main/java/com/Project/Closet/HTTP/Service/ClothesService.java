@@ -46,6 +46,13 @@ public class ClothesService extends APIAdapter {
         Call<String> addClothes(@PartMap() LinkedHashMap<String, RequestBody> partMap, @Part List<MultipartBody.Part> names);
         //response는 true/false
 
+        //데이터로 옷 추가
+        @Headers("Content-Type: application/json")
+        @POST("clothes/add/data")
+        Call<String> addClothesFrData(@Body ClothesVO cloInfo);
+
+
+
         //모든 옷 정보 받아오기
         // Get방식, 파라메터는 @Query("파라메터명")으로 보낼 수 있습니다.
         // Bean객체를 생성하지 않고 JsonObject로 받을 수 있습니다.

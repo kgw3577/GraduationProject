@@ -108,6 +108,35 @@
 		SELECT COUNT(*) FROM HEART where HEART.boardNo = #{boardNo}
 	]]>
 	</select>
+	
+	
+	<!-- 코멘트  -->
+	<!-- 코멘트 추가 쿼리 -->
+	<insert id="insertComment" parameterType="commentVO">
+	<![CDATA[
+		insert into `COMMENT`
+		values(#{commentNo},#{boardNo},#{writerID},#{contents},#{regDate})
+	]]>
+		<selectKey resultType="String" keyProperty="boardNo" order="AFTER">
+        SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = #{boardNo}
+    	</selectKey>
+    	
+	</insert>
+	<!-- 코멘트 삭제 쿼리 -->
+	<delete id="deleteComment" parameterType="commentVO">
+	<![CDATA[
+		delete from `COMMENT`
+		where
+		commentNo = #{commentNo}
+	]]>
+	</delete>
+	
+	<!-- 코멘트 수 조회 쿼리. -->
+	<select id="numComment" resultType="java.lang.Integer" parameterType="commentVO">
+	<![CDATA[
+		SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = #{boardNo}
+	]]>
+	</select>
 
 	
 </mapper>

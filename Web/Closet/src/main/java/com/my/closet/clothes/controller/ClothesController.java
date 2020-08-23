@@ -24,7 +24,8 @@ public interface ClothesController {
 	public ResponseEntity<List<ClothesVO>> searchClothes(ClothesVO clothesVO, String userID, String page, String pageSize) throws Exception; //옷 찾기
 	
 	public ResponseEntity<String> addClothes(MultipartHttpServletRequest multipartRequest,MultipartFile multipartFile) throws Exception; //옷 추가
-
+	public ResponseEntity<String> addClothesFrData(@RequestBody ClothesVO cloInfo) throws Exception;
+	
 	public ResponseEntity<String> modifyClothes(ClothesVO clothesInfo) throws Exception; //옷 정보 수정
 	public ResponseEntity<String> deleteClothes(String no) throws Exception; //옷 삭제
 	

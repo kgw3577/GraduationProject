@@ -93,6 +93,16 @@
 		#{fileName},#{filePath},#{addedDate}, #{userID})
 	]]>
 	</insert>
+	
+	<insert id="insertCodiData" parameterType="codiVO">
+	<![CDATA[
+		insert into CODI
+		values(#{codiNo},#{codiName},#{season},#{place},
+		#{buyDate},#{comment},#{favorite},
+		#{fileName},#{filePath},#{addedDate}, #{userID})
+	]]>
+	</insert>
+	
 
 	<update id="updateCodi" parameterType="codiVO">
 	<![CDATA[

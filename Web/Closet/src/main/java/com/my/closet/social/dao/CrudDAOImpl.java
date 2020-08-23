@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.CommentVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
 import com.my.closet.social.vo.HeartVO;
@@ -71,14 +72,14 @@ public class CrudDAOImpl implements CrudDAO {
 	
 	
 	/*하트*/
-	// 조건으로 팔로우 선택
+	// 조건으로 하트 선택
 	@Override
 	public List<HeartVO> selectHeart(HeartVO heartFilter) throws DataAccessException {
 		List<HeartVO> heartList = sqlSession.selectList("mapper.social_crud.searchHeart", heartFilter);
 		return heartList;
 	}
 
-	// 팔로우 추가
+	// 하트 추가
 	@Override
 	public String addHeart(HeartVO heartFilter) throws DataAccessException {
 
@@ -97,7 +98,7 @@ public class CrudDAOImpl implements CrudDAO {
 		}
 	}
 
-	// 팔로우 삭제
+	// 하트 삭제
 	@Override
 	public String deleteHeart(HeartVO heartFilter) throws DataAccessException {
 		int result = sqlSession.delete("mapper.social_crud.deleteHeart", heartFilter);
@@ -112,6 +113,45 @@ public class CrudDAOImpl implements CrudDAO {
 			return "fail"; // insert 실패
 		}
 	}	
+	
+	
+	
+	
+	// 코멘트 추가
+	@Override
+	public String addComment(CommentVO commentFilter) throws DataAccessException {
+
+		System.out.println("insert 쿼리 실행 전");
+		int result = sqlSession.insert("mapper.social_crud.insertComment", commentFilter);
+		System.out.println("insert 쿼리 실행");
+		
+		String numComment = commentFilter.getBoardNo();
+
+		if (result == 1) {
+			System.out.println("insert 성공");
+			return numComment; // insert 성공
+		} else {
+			System.out.println("insert 실패");
+			return "fail"; // insert 실패
+		}
+	}
+
+	// 코멘트 삭제
+	@Override
+	public String deleteComment(CommentVO commentFilter) throws DataAccessException {
+		int result = sqlSession.delete("mapper.social_crud.deleteComment", commentFilter);
+
+
+		if (result == 1) {
+			System.out.println("delete 성공");
+			int res = sqlSession.selectOne("mapper.social_crud.numComment", commentFilter);
+			return Integer.toString(res); // insert 성공
+		} else {
+			System.out.println("delete 실패");
+			return "fail"; // insert 실패
+		}
+	}		
+		
 	
 	
 }

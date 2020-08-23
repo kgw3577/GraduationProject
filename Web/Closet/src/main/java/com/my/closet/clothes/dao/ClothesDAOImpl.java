@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.my.closet.clothes.vo.ClothesVO;
+import com.my.closet.user.vo.UserVO;
 
 @Repository("clothesDAO")
 public class ClothesDAOImpl implements ClothesDAO {
@@ -57,6 +58,26 @@ public class ClothesDAOImpl implements ClothesDAO {
 		}
 			
 	}
+	
+	
+	@Override
+	public String addClothesData(ClothesVO cloInfo) throws DataAccessException {
+
+		System.out.println("insert 쿼리 실행 전");
+		int result = sqlSession.insert("mapper.clothes.insertClothesData", cloInfo);
+		System.out.println("insert 쿼리 실행");
+		
+		if (result == 1) {
+			System.out.println("insert 성공");
+			return "ok"; //insert 성공
+		}
+		else {
+			System.out.println("insert 실패");
+			return "fail"; //insert 실패
+		}		
+	}	
+	
+	
 
 	@Override
 	public String updateClothes(ClothesVO clothesInfo) throws DataAccessException {

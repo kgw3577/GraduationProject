@@ -24,7 +24,8 @@ public interface CodiController {
 	public ResponseEntity<List<CodiVO>> searchCodi(String userID, CodiVO codiFilter, String page, String pageSize) throws Exception; //코디 찾기
 	
 	public ResponseEntity<String> addCodi(MultipartHttpServletRequest multipartRequest, MultipartFile multipartFile) throws Exception; //코디 추가
-
+	public ResponseEntity<String> addCodiFrData(@RequestBody CodiVO codiInfo) throws Exception;
+	
 	public ResponseEntity<String> modifyCodi(CodiVO codiInfo) throws Exception; //코디 정보 수정
 	public ResponseEntity<String> deleteCodi(String codiNo) throws Exception; //코디 삭제
 	

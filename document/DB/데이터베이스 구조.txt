@@ -26,7 +26,7 @@ ALTER TABLE USER COMMENT '유저';
 
 
 -- 옷 테이블
-CLOTHES	CREATE TABLE `CLOTHES` (
+CREATE TABLE `CLOTHES` (
   `cloNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '옷번호(대리키)',
   `location` varchar(45) DEFAULT NULL,
   `kind` varchar(45) DEFAULT NULL,
@@ -46,35 +46,27 @@ CLOTHES	CREATE TABLE `CLOTHES` (
   `regDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`cloNo`),
   KEY `FK_CLOTHES_closetName_CLOSET_closetName` (`userID`,`closetName`),
-  CONSTRAINT `FK_CLOTHES_closetName_CLOSET_closetName` FOREIGN KEY (`userID`, `closetName`) REFERENCES `CLOSET` (`userID`, `closetName`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='옷'
-
-
+  CONSTRAINT `FK_CLOTHES_closetName_CLOSET_closetName` FOREIGN KEY (`userID`, `closetName`) REFERENCES `CLOSET` (`userID`, `closetName`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8 COMMENT='옷';
 
 
 -- USER Table Create SQL
-CREATE TABLE CODI
-(
-    `codiNo`           INT             NOT NULL    COMMENT '코디번호(대리키)' AUTO_INCREMENT, 
-    `codiName`         VARCHAR(45)     NULL        COMMENT '이름', 
-    `season`     VARCHAR(45)     NULL        COMMENT '계절', 
-    `place`        VARCHAR(45)     NULL        COMMENT '장소', 
-    `buyDate`        DATE     NULL        COMMENT '구입 날짜', 
-    `comment`         VARCHAR(1000)     NULL        COMMENT '코멘트 500자', 
-    `favorite`       VARCHAR(10)     NULL		DEFAULT 'no'        COMMENT '즐겨찾기 여부', 
-    `fileName`         VARCHAR(50)     NULL        COMMENT '파일이름', 
-    `filePath`          VARCHAR(80)     NULL        COMMENT '파일경로', 
-    `addedDate`        TIMESTAMP     NOT NULL	DEFAULT CURRENT_TIMESTAMP        COMMENT '추가 날짜', 
-    `userID`          VARCHAR(30)     NOT NULL    COMMENT '유저아이디', 
-    PRIMARY KEY (codiNo)
-);
-
-ALTER TABLE CODI COMMENT '코디';
-
-ALTER TABLE CODI
-    ADD CONSTRAINT FK_CODI_name_CLOSET_name FOREIGN KEY (userID)
-        REFERENCES CLOSET (userID) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
+CREATE TABLE `CODI` (
+  `codiNo` int(11) NOT NULL AUTO_INCREMENT COMMENT '코디번호(대리키)',
+  `codiName` varchar(45) DEFAULT NULL COMMENT '이름',
+  `season` varchar(45) DEFAULT NULL COMMENT '계절',
+  `place` varchar(45) DEFAULT NULL COMMENT '장소',
+  `buyDate` date DEFAULT NULL COMMENT '구입 날짜',
+  `comment` varchar(1000) DEFAULT NULL COMMENT '코멘트 500자',
+  `favorite` varchar(45) DEFAULT NULL,
+  `fileName` varchar(50) DEFAULT NULL COMMENT '파일이름',
+  `filePath` varchar(80) DEFAULT NULL COMMENT '파일경로',
+  `addedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '추가 날짜',
+  `userID` varchar(30) NOT NULL COMMENT '유저아이디',
+  PRIMARY KEY (`codiNo`),
+  KEY `FK_CODI_name_CLOSET_name` (`userID`),
+  CONSTRAINT `FK_CODI_name_CLOSET_name` FOREIGN KEY (`userID`) REFERENCES `CLOSET` (`userID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COMMENT='코디';
 
 
 

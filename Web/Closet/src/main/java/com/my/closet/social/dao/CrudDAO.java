@@ -9,6 +9,7 @@ import org.springframework.dao.DataAccessException;
 
 import com.my.closet.board.vo.BoardVO;
 import com.my.closet.social.vo.CommentFeedVO;
+import com.my.closet.social.vo.CommentVO;
 import com.my.closet.social.vo.FeedVO;
 import com.my.closet.social.vo.FollowVO;
 import com.my.closet.social.vo.HeartVO;
@@ -29,5 +30,11 @@ public interface CrudDAO {
 
 	public String deleteHeart(HeartVO heartFilter) throws DataAccessException;
 
+	// 댓글
+	public String addComment(CommentVO commentFilter) throws DataAccessException;
+	public String deleteComment(CommentVO commentFilter) throws DataAccessException;
+	
+	
+	
 	// 댓글 좋아요
 }
