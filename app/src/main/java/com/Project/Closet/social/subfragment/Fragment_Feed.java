@@ -353,8 +353,8 @@ public class Fragment_Feed extends Fragment {
             ArrayList<DetailFeedVO> feedInfo = data.getExtras().getParcelableArrayList("feedInfo");
             feedListByBoardNo.set(pos,feedInfo);
             feedRecyclerAdapter.notifyDataSetChanged();
-            activity_home fragment = (activity_home)getActivity();
-            fragment.refresh_closet(parentFragment);
+            activity_home activity = (activity_home)getActivity();
+            activity.is_closet_changed = true;
         }
 
 

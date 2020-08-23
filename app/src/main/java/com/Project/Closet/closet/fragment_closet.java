@@ -107,71 +107,59 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         fragment_closet fragment = new fragment_closet();
         fragment.setArguments(args);
         return fragment;
+
+
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
-        return viewGroup;
-    }
 
 
-    //액티비티에 재부착될 때의 처리.
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        if (context instanceof Activity){
-            activity = (Activity) context;
-            ((activity_home)activity).setOnBackPressedListener(this);
-        }
-    }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-        addButton = getView().findViewById(R.id.header_add);
-        filterButton = getView().findViewById(R.id.header_search);
-        shareButton = getView().findViewById(R.id.share_closet);
+        addButton = viewGroup.findViewById(R.id.header_add);
+        filterButton = viewGroup.findViewById(R.id.header_search);
+        shareButton = viewGroup.findViewById(R.id.share_closet);
         shareButton.setVisibility(View.VISIBLE);
 
-        ll_detail = getView().findViewById(R.id.ll_detail);
+        ll_detail = viewGroup.findViewById(R.id.ll_detail);
 
-        drawer = getView().findViewById(R.id.final_drawer_layout);
+        drawer = viewGroup.findViewById(R.id.final_drawer_layout);
 
-        Cloth_Info = (RelativeLayout) getView().findViewById(R.id.cloth_info);
+        Cloth_Info = (RelativeLayout) viewGroup.findViewById(R.id.cloth_info);
         Cloth_Info.setVisibility(View.GONE);
-        Cloth_Info_edit = (RelativeLayout) getView().findViewById(R.id.cloth_info_edit);
+        Cloth_Info_edit = (RelativeLayout) viewGroup.findViewById(R.id.cloth_info_edit);
         Cloth_Info_edit.setVisibility(View.GONE);
 
-        iv_image = (ImageView) getView().findViewById(R.id.iv_image);
-        iv_edit_image = (ImageView) getView().findViewById(R.id.iv_edit_image);
-        tv_category = (TextView) getView().findViewById(R.id.tv_info_catergory);
-        tv_detailcategory = (TextView) getView().findViewById(R.id.tv_info_detailcategory);
-        tv_color = (TextView) getView().findViewById(R.id.tv_info_color);
-        tv_season = (TextView) getView().findViewById(R.id.tv_info_season);
-        tv_brand = (TextView) getView().findViewById(R.id.tv_info_brand);
-        tv_size = (TextView) getView().findViewById(R.id.tv_info_size);
-        tv_date = (TextView) getView().findViewById(R.id.tv_info_date);
+        iv_image = (ImageView) viewGroup.findViewById(R.id.iv_image);
+        iv_edit_image = (ImageView) viewGroup.findViewById(R.id.iv_edit_image);
+        tv_category = (TextView) viewGroup.findViewById(R.id.tv_info_catergory);
+        tv_detailcategory = (TextView) viewGroup.findViewById(R.id.tv_info_detailcategory);
+        tv_color = (TextView) viewGroup.findViewById(R.id.tv_info_color);
+        tv_season = (TextView) viewGroup.findViewById(R.id.tv_info_season);
+        tv_brand = (TextView) viewGroup.findViewById(R.id.tv_info_brand);
+        tv_size = (TextView) viewGroup.findViewById(R.id.tv_info_size);
+        tv_date = (TextView) viewGroup.findViewById(R.id.tv_info_date);
 
-        iv_heart = (ImageView) getView().findViewById(R.id.iv_heart);
-        iv_modify = (ImageView) getView().findViewById(R.id.iv_modify);
-        iv_delete = (ImageView) getView().findViewById(R.id.iv_delete);
-        iv_save = (ImageView) getView().findViewById(R.id.iv_save);
+        iv_heart = (ImageView) viewGroup.findViewById(R.id.iv_heart);
+        iv_modify = (ImageView) viewGroup.findViewById(R.id.iv_modify);
+        iv_delete = (ImageView) viewGroup.findViewById(R.id.iv_delete);
+        iv_save = (ImageView) viewGroup.findViewById(R.id.iv_save);
 
-        tv_cloNo = (TextView) getView().findViewById(R.id.tv_clothes_no);
-        tv_cloFavorite = (TextView) getView().findViewById(R.id.tv_clothes_favorite);
-        tv_edit_color = (TextView) getView().findViewById(R.id.tv_info_color);
-        tv_edit_detailcategory = (TextView) getView().findViewById(R.id.tv_edit_detailcategory);
-        tv_edit_brand = (TextView) getView().findViewById(R.id.tv_edit_brand);
-        tv_edit_size = (TextView) getView().findViewById(R.id.tv_edit_size);
+        tv_cloNo = (TextView) viewGroup.findViewById(R.id.tv_clothes_no);
+        tv_cloFavorite = (TextView) viewGroup.findViewById(R.id.tv_clothes_favorite);
+        tv_edit_color = (TextView) viewGroup.findViewById(R.id.tv_info_color);
+        tv_edit_detailcategory = (TextView) viewGroup.findViewById(R.id.tv_edit_detailcategory);
+        tv_edit_brand = (TextView) viewGroup.findViewById(R.id.tv_edit_brand);
+        tv_edit_size = (TextView) viewGroup.findViewById(R.id.tv_edit_size);
 
-        tv_edit_category = (TextView) getView().findViewById(R.id.tv_edit_catergory);
-        tv_edit_season = (TextView) getView().findViewById(R.id.tv_edit_season);
-        tv_edit_date = (TextView) getView().findViewById(R.id.tv_edit_date);
+        tv_edit_category = (TextView) viewGroup.findViewById(R.id.tv_edit_catergory);
+        tv_edit_season = (TextView) viewGroup.findViewById(R.id.tv_edit_season);
+        tv_edit_date = (TextView) viewGroup.findViewById(R.id.tv_edit_date);
         tv_edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,7 +299,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             }
         });
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
+        NavigationView navigationView = (NavigationView) viewGroup.findViewById(R.id.final_nav_view); //드로워 뷰
 
 
         //필터 버튼 클릭하면 드로워 열고 닫기
@@ -340,7 +328,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                         Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
                 }
 
-                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
+                DrawerLayout drawer = viewGroup.findViewById(R.id.final_drawer_layout);
                 //drawer.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -348,7 +336,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         if(tabLayout == null){
             //탭 목록 설정
-            tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
+            tabLayout = (TabLayout) viewGroup.findViewById(R.id.tabLayout);
             tabLayout.addTab(tabLayout.newTab().setText("모두"));
             tabLayout.addTab(tabLayout.newTab().setText("상의"));
             tabLayout.addTab(tabLayout.newTab().setText("하의"));
@@ -362,7 +350,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
-            finalPager = (ViewPager) getView().findViewById(R.id.tab_Pager);
+            finalPager = (ViewPager) viewGroup.findViewById(R.id.tab_Pager);
             pagerAdapter = new TabPagerAdapter_closet(getChildFragmentManager(), tabLayout.getTabCount());
             finalPager.setAdapter(pagerAdapter);
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -387,7 +375,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
 
         //플로팅 액션 메뉴 버튼 설정
-        fam = (FloatingActionMenu) getView().findViewById(R.id.fab);
+        fam = (FloatingActionMenu) viewGroup.findViewById(R.id.fab);
         fam.setVisibility(View.VISIBLE);
 
         //handling menu status (open or close)
@@ -421,6 +409,31 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         fam.setClosedOnTouchOutside(true);
         fam.setIconAnimated(false);
 
+
+
+        return viewGroup;
+    }
+
+
+    //액티비티에 재부착될 때의 처리.
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            activity = (Activity) context;
+            ((activity_home)activity).setOnBackPressedListener(this);
+        }
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+
+
     }
 
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
@@ -435,7 +448,46 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     @Override
     public void onResume() {
         super.onResume();
-        //activity.setOnBackPressedListener(this);
+
+        if(tabLayout == null){
+            //탭 목록 설정
+            tabLayout = (TabLayout) viewGroup.findViewById(R.id.tabLayout);
+            tabLayout.addTab(tabLayout.newTab().setText("모두"));
+            tabLayout.addTab(tabLayout.newTab().setText("상의"));
+            tabLayout.addTab(tabLayout.newTab().setText("하의"));
+            tabLayout.addTab(tabLayout.newTab().setText("한벌"));
+            tabLayout.addTab(tabLayout.newTab().setText("외투"));
+            tabLayout.addTab(tabLayout.newTab().setText("신발"));
+            tabLayout.addTab(tabLayout.newTab().setText("가방"));
+            tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
+
+            tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+
+
+            //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
+            finalPager = (ViewPager) viewGroup.findViewById(R.id.tab_Pager);
+            pagerAdapter = new TabPagerAdapter_closet(getChildFragmentManager(), tabLayout.getTabCount());
+            finalPager.setAdapter(pagerAdapter);
+            finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    finalPager.setCurrentItem(tab.getPosition());
+                }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
+        }
+
+
+
     }
 
     //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.

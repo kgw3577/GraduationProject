@@ -127,6 +127,9 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             activity = (Activity) context;
             ((activity_home)activity).setOnBackPressedListener(this);
         }
+
+        if(pagerAdapter_recommend!=null)
+        pagerAdapter_recommend.notifyDataSetChanged();
     }
 
 

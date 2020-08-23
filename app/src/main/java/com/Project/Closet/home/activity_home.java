@@ -28,7 +28,8 @@ public class activity_home extends AppCompatActivity {
 
     int ADD_CLOTHES = 11;
 
-    boolean is_home_changed=false;
+    public boolean is_home_changed=false;
+    public boolean is_closet_changed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,8 @@ public class activity_home extends AppCompatActivity {
         MyCloset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if(f_closet == null) {
                     f_closet = fragment_closet.newInstance();
                     fragmentManager.beginTransaction().add(R.id.fragment_place, f_closet,"closet").commit();
@@ -57,7 +60,15 @@ public class activity_home extends AppCompatActivity {
                 if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
                 if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                 if(f_my != null) fragmentManager.beginTransaction().hide(f_my).commit();
+
+                if(is_closet_changed){
+                    refresh_closet();
+                    is_closet_changed=false;
+                }
+
                 setOnBackPressedListener((fragment_closet)f_closet);
+
+
             }
         });
 
@@ -210,29 +221,6 @@ public class activity_home extends AppCompatActivity {
     }
 
 
-
-    public void refresh_closet(Fragment end_fragment){
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Toast.makeText(activity_home.this, "closet 초기화", Toast.LENGTH_SHORT).show();
-        if(end_fragment instanceof fragment_social){
-            if(f_closet != null){
-                System.out.println("closet초기화");
-                transaction.remove(f_closet);
-                f_closet = fragment_closet.newInstance();
-                transaction.add(R.id.fragment_place,f_closet,"closet");
-            }
-            if(f_share != null){
-                System.out.println("f_share 초기화");
-                transaction.remove(f_share);
-                f_share = fragment_social.newInstance();
-                transaction.add(R.id.fragment_place,f_share,"home");
-            }
-        }
-    }
-
-
-
-
     public void refresh_codi(Fragment end_fragment){
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if(end_fragment instanceof fragment_codi){
@@ -281,6 +269,17 @@ public class activity_home extends AppCompatActivity {
             transaction.remove(f_home);
             f_home = fragment_home.newInstance();
             transaction.add(R.id.fragment_place,f_home,"home").commit();
+        }
+    }
+
+
+    private void refresh_closet(){
+        if(f_closet != null){
+            FragmentTransaction transaction;
+            transaction = fragmentManager.beginTransaction();
+            transaction.remove(f_closet);
+            f_closet = fragment_closet.newInstance();
+            transaction.add(R.id.fragment_place,f_closet,"closet").commit();
         }
     }
 
