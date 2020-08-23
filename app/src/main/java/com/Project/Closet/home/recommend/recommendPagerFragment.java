@@ -2,6 +2,7 @@ package com.Project.Closet.home.recommend;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,12 +114,9 @@ public class recommendPagerFragment extends Fragment {
                 ArrayList<DetailFeedVO> ExistedList = feedMapByBoardNo.get(thisData.getBoardNo());
                 ExistedList.add(thisData);
             }
+            Log.e("recommendAdapter", thisData.getCloIdentifier());
 
         }
-
-
-
-
 
 
         iv_codi1 = view.findViewById(R.id.iv_codi1);
@@ -153,37 +151,54 @@ public class recommendPagerFragment extends Fragment {
 
 
 
-        List<Object> valuesList = new ArrayList<Object>(feedMapByBoardNo.values());
+
+
+
+
         HashMap<String, ArrayList<DetailFeedVO>> NewfeedMapByBoardNo = new HashMap<>();
 
 
-        int[] randomIndex = new int[3]; // 3개의 정수를 담는 배열 선언
 
-        // insertCur가 numbers 배열의 길이를 넘지 않을 때까지 반복합니다.
-        // 중복이 생긴다면 반복 횟수가 늘어날 수 있습니다.
-        for(int insertCur = 0; insertCur < randomIndex.length ; insertCur++){
-            randomIndex[insertCur] = new Random().nextInt(valuesList.size());
+        if(feedMapByBoardNo.size()>3){ //3개 랜덤 뽑기
 
-            // 2. 중복 검사
-            // 배열의 기존 원소(insertCur 이전까지)를
-            // 방금 삽입한 수와 비교해 같은 수가 있다면 insertCur를 앞으로 밀어
-            // 다음 반복에서 같은 칸에 다른 수를 쓰도록 합니다.
-            for(int searchCur = 0; searchCur < insertCur; searchCur ++){
-                if(randomIndex[insertCur] == randomIndex[searchCur]){
-                    insertCur--; // insertCur를 앞으로 민다
-                    break; // 다음 것을 검색할 필요가 없으므로 중복검사 반복을 나갑니다.
+            List<ArrayList<DetailFeedVO>> valuesList = new ArrayList<>();
+
+            for(Map.Entry<String, ArrayList<DetailFeedVO>> elem : feedMapByBoardNo.entrySet()){
+                String key = elem.getKey();
+                ArrayList<DetailFeedVO> value = elem.getValue();
+                valuesList.add(value);
+            }
+
+
+            int[] randomIndex = new int[3]; // 3개의 정수를 담는 배열 선언
+
+            // insertCur가 numbers 배열의 길이를 넘지 않을 때까지 반복합니다.
+            // 중복이 생긴다면 반복 횟수가 늘어날 수 있습니다.
+
+            for(int insertCur = 0; insertCur < randomIndex.length ; insertCur++){
+                randomIndex[insertCur] = new Random().nextInt(valuesList.size());
+
+                // 2. 중복 검사
+                // 배열의 기존 원소(insertCur 이전까지)를
+                // 방금 삽입한 수와 비교해 같은 수가 있다면 insertCur를 앞으로 밀어
+                // 다음 반복에서 같은 칸에 다른 수를 쓰도록 합니다.
+                for(int searchCur = 0; searchCur < insertCur; searchCur ++){
+                    if(randomIndex[insertCur] == randomIndex[searchCur]){
+                        insertCur--; // insertCur를 앞으로 민다
+                        break; // 다음 것을 검색할 필요가 없으므로 중복검사 반복을 나갑니다.
+                    }
                 }
             }
-        }
 
+            for(int i=0; i<3; i++){
+                Object randomValue = valuesList.get(randomIndex[i]);
+                ArrayList<DetailFeedVO> randomFeed = (ArrayList<DetailFeedVO>) randomValue;
 
-        for(int i=0; i<3; i++){
-            Object randomValue = valuesList.get(randomIndex[i]);
-            ArrayList<DetailFeedVO> randomFeed = (ArrayList<DetailFeedVO>) randomValue;
+                NewfeedMapByBoardNo.put(getKey(feedMapByBoardNo,randomFeed),randomFeed);
+            }
 
-            NewfeedMapByBoardNo.put(getKey(feedMapByBoardNo,randomFeed),randomFeed);
-        }
-
+        }else
+            NewfeedMapByBoardNo = feedMapByBoardNo;
 
 
 
