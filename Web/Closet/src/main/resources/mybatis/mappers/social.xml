@@ -370,9 +370,7 @@
 		<if test="tag != '' and tag != null">
 			AND B.contents LIKE CONCAT('%',#{tag},'%')
 		</if>
-		ORDER BY RAND() LIMIT #{numLimit};
 	</select>
-		
 	
 </mapper>
 
