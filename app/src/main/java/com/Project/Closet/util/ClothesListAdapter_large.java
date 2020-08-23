@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.Project.Closet.Global;
+import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.R;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -17,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ClothesListAdapter_large extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
-    List<String> items;
+    ArrayList<CodiVO> items;
     int item_layout;
     public interface OnItemClickListener {
         void onItemClick(View v, int position);
@@ -26,7 +29,7 @@ public class ClothesListAdapter_large extends RecyclerView.Adapter<RecyclerView.
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.mListener = listener ;
     }
-    public ClothesListAdapter_large(Context context, List<String> items, int item_layout) {
+    public ClothesListAdapter_large(Context context, ArrayList<CodiVO> items, int item_layout) {
 
         this.mContext=context;
         this.items=items;
@@ -43,8 +46,8 @@ public class ClothesListAdapter_large extends RecyclerView.Adapter<RecyclerView.
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ViewHolder myViewHolder = (ViewHolder) holder;
-        final String item=items.get(position);
-        Glide.with(myViewHolder.itemView.getContext()).load(item).into(myViewHolder.iv_Cloth);
+        final CodiVO item=items.get(position);
+        Glide.with(myViewHolder.itemView.getContext()).load(Global.baseURL+item.getFilePath()).into(myViewHolder.iv_Cloth);
     }
 
     @Override

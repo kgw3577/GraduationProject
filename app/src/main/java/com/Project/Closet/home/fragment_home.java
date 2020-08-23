@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.Project.Closet.Global;
@@ -36,6 +37,7 @@ import com.Project.Closet.HTTP.VO.BoardVO;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.TabFragment_Clothes_inCloset;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.codi.addCodi.MyPagerAdapter;
 import com.Project.Closet.home.recommend.recommendPagerFragment;
@@ -409,6 +411,21 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             Toast.makeText(getContext(), "추천할 아이템이 없습니다.", Toast.LENGTH_SHORT).show();
 
         finalPager_recommend.setAdapter(pagerAdapter_recommend);
+
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //스크롤이 최상단이면 데이터를 갱신한다
+                //clothesList.clear();
+                //page=0;
+                //new TabFragment_Clothes_inCloset.networkTask().execute(Integer.toString(page));
+                //clothesListAdapter.notifyDataSetChanged();
+                Log.e("test","데이터 갱신");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
 
     }

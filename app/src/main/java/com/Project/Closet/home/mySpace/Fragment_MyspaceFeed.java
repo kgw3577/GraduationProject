@@ -12,12 +12,14 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.R;
+import com.Project.Closet.home.subfragment.TabFragment_Clothes_inHome;
 import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.social.subfragment.UserspaceFeedRecyclerAdapter;
 
@@ -156,6 +158,23 @@ public class Fragment_MyspaceFeed extends Fragment {
                 }
             }
         });
+
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //스크롤이 최상단이면 데이터를 갱신한다
+                feedListByBoardNo.clear();
+                feedMapByBoardNo.clear();
+                page=0;
+                new networkTask().execute(Integer.toString(page));
+                userspaceFeedRecyclerAdapter.notifyDataSetChanged();
+                Log.e("test","데이터 갱신");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         return view;
     }

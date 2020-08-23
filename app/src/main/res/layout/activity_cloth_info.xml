@@ -95,7 +95,7 @@
                             android:layout_gravity="center"
 
                             android:src="@drawable/inbox"
-                            app:tint="@color/follow"
+                            app:tint="@color/fab"
                             />
                     </LinearLayout>
 

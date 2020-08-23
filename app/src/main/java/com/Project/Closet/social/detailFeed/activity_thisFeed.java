@@ -23,15 +23,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Project.Closet.Global;
+import com.Project.Closet.HTTP.Service.ClothesService;
+import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.Service.SocialService;
-import com.Project.Closet.HTTP.Service.UserService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.ClothesVO;
+import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.CommentVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_cloInfo;
-import com.Project.Closet.signup.activity_signup_next;
+import com.Project.Closet.home.activity_home;
 import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.util.NumFormat;
 import com.bumptech.glide.Glide;
@@ -147,7 +150,7 @@ public class activity_thisFeed extends AppCompatActivity {
         tv_regDate.setText(boardRegDate);
 
         //현재 페이지수와 함께 웹서버에 댓글 데이터 요청
-        new networkTask().execute(Integer.toString(page),boardNo);
+        new commentListTask().execute(Integer.toString(page),boardNo);
 
 
         //옷 리사이클러뷰 어댑터 초기화
@@ -233,7 +236,7 @@ public class activity_thisFeed extends AppCompatActivity {
                 if (lastVisible >= totalItemCount - 1) {
                     Log.d("log", "lastVisibled");
                     //스크롤이 최하단이면 웹서버에 다음 페이지 옷 데이터 요청
-                   new networkTask().execute(Integer.toString(++page),boardNo);
+                   new commentListTask().execute(Integer.toString(++page),boardNo);
                    Log.e("test","페이지 수 증가");
                 }
             }
@@ -258,6 +261,10 @@ public class activity_thisFeed extends AppCompatActivity {
         send_comment.setOnClickListener(onClickListener);
         et_comment = findViewById(R.id.et_comment);
 
+        //코디북에 추가 관련 코드
+        ImageView iv_inbox = findViewById(R.id.iv_inbox);
+        iv_inbox.setOnClickListener(onClickListener);
+
 
     }
 
@@ -266,6 +273,7 @@ public class activity_thisFeed extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent;
             String myID;
+            String res;
             switch (view.getId()) {
                 case R.id.profile_area :
                     intent = new Intent(getApplicationContext(), activity_space.class);
@@ -280,7 +288,7 @@ public class activity_thisFeed extends AppCompatActivity {
                     commentInfo.setBoardNo(feed.getBoardNo());
                     commentInfo.setWriterID(myID);
                     commentInfo.setContents(comm_contents);
-                    String res = null;
+                    res = null;
                     try {
                         res = new commentTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, commentInfo).get();
                     } catch (ExecutionException e) {
@@ -291,16 +299,62 @@ public class activity_thisFeed extends AppCompatActivity {
                     if(!"fail".equals(res)){
                         commentList.clear();
                         page=0;
-                        new networkTask().execute(Integer.toString(page),boardNo);
+                        new commentListTask().execute(Integer.toString(page),boardNo);
                         //rv_comment_list.scrollToPosition(commentList.size()-1);
                     }
+                case R.id.iv_inbox :
+                    MySharedPreferences pref = MySharedPreferences.getInstanceOf(getApplicationContext());
+                    myID = pref.getUserID();
+
+                    res = null;
+                    try {
+                        CodiVO codiInfo = new CodiVO();
+                        codiInfo.setFavorite("no");
+                        codiInfo.setUserID(myID);
+                        codiInfo.setFilePath(feed.getBoardImagePath());
+                        String contents = feed.getBoardContents();
+
+                        String[] season = getResources().getStringArray(R.array.Season);
+                        for(String seasonStr : season){
+                            if(contents.contains("#"+seasonStr)){
+                                codiInfo.setSeason(seasonStr);
+                            }
+                        }
+
+                        String[] place = getResources().getStringArray(R.array.Place);
+                        for(String placeStr : place){
+                            if(contents.contains("#"+placeStr)){
+                                codiInfo.setPlace(placeStr);
+                            }
+                        }
+
+                        if(contents.contains("#여자")|| contents.contains("#여성")){
+                            codiInfo.setGender("여성");
+                        }else if(contents.contains("#남자")|| contents.contains("#남성")){
+                            codiInfo.setGender("남성");
+                        }
+
+                        res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, codiInfo).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("tag",res);
+
+                    if("ok".equals(res)){
+                        Toast.makeText(getApplicationContext(), "코디북에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
+
                     break;
             }
         }
     }
 
 
-    public class networkTask extends AsyncTask<String, Void, List<CommentFeedVO>> {
+    public class commentListTask extends AsyncTask<String, Void, List<CommentFeedVO>> {
 
     @Override
     protected void onPreExecute() {
@@ -419,6 +473,30 @@ public class activity_thisFeed extends AppCompatActivity {
         finish();
         super.onBackPressed();
 
+    }
+
+
+    public class AddTask extends AsyncTask<CodiVO, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(CodiVO... codiInfo) {
+
+            Call<String> stringCall = CodiService.getRetrofit(getApplicationContext()).addCodiFrData(codiInfo[0]);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }
 

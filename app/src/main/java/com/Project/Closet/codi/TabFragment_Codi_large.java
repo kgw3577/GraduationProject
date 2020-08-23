@@ -1,4 +1,4 @@
-package com.Project.Closet.subfragment;
+package com.Project.Closet.codi;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -13,12 +13,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.R;
+import com.Project.Closet.codi.addCodi.Page_category;
 import com.Project.Closet.util.ClothesListAdapter_large;
 
 import java.io.IOException;
@@ -41,7 +43,7 @@ public class TabFragment_Codi_large extends Fragment {
     ArrayList<String> ImageUrlList = new ArrayList<String>();
     ArrayList<CodiVO> codiVOList = new ArrayList<CodiVO>();
     //리사이클러뷰 어댑터 초기화
-    ClothesListAdapter_large clothesListAdapter = new ClothesListAdapter_large(getActivity(),ImageUrlList, R.layout.fragment_recyclerview);
+    ClothesListAdapter_large clothesListAdapter = new ClothesListAdapter_large(getActivity(),codiVOList, R.layout.fragment_recyclerview);
 
     Call<List<CodiVO>> codiListCall; //코디 VO 리스트를 응답으로 받는 http 요청
 
@@ -100,6 +102,20 @@ public class TabFragment_Codi_large extends Fragment {
             }
         });
 
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //스크롤이 최상단이면 데이터를 갱신한다
+                codiVOList.clear();
+                page=0;
+                new networkTask().execute(Integer.toString(page));
+                clothesListAdapter.notifyDataSetChanged();
+                Log.e("test","데이터 갱신");
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
 
         return view;
     }
@@ -131,7 +147,7 @@ public class TabFragment_Codi_large extends Fragment {
                     codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
                     break;
                 case "캐주얼" : //캐주얼 코디 조회
-                case "비지니스캐주얼" : //비지니스 코디 조회
+                case "세미포멀" : //세미포멀 코디 조회
                 case "포멀" : //포멀 코디 조회
                 case "특수" : //특수 코디 조회
                     codiFilter.setPlace(identifier);

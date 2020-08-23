@@ -204,7 +204,7 @@
 
 
                     <ImageView
-                        android:id="@+id/iv_addToCloset"
+                        android:id="@+id/iv_inbox"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:layout_gravity="left|center"
@@ -212,8 +212,8 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="25dp"
                         android:layout_marginBottom="10dp"
-                        android:src="@drawable/icon_footer_closet"
-                        app:tint="#aa000000" />
+                        android:src="@drawable/inbox"
+                        app:tint="@color/fab" />
                     <TextView
                         android:id="@+id/tv_regDate"
                         android:layout_marginRight="10dp"

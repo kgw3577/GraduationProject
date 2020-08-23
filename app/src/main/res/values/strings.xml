@@ -176,7 +176,7 @@
 
     <string-array name="Place">
         <item>"캐주얼"</item>
-        <item>"비지니스캐주얼"</item>
+        <item>"세미포멀"</item>
         <item>"포멀"</item>
         <item>"특수"</item>
     </string-array>

@@ -120,7 +120,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
 
         TextView tv_writerName, tv_numHeart, tv_numComment, tv_contents, tv_regDate;
-        ImageView iv_profileImage, iv_image, iv_heart, iv_comment, iv_addToCloset;
+        ImageView iv_profileImage, iv_image, iv_heart, iv_comment, iv_inbox;
 
         ViewHolder(View itemView) {
             super(itemView) ;
@@ -136,7 +136,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
             iv_image = itemView.findViewById(R.id.iv_codi_image);
             iv_heart = itemView.findViewById(R.id.iv_heart);
             iv_comment = itemView.findViewById(R.id.iv_comment);
-            iv_addToCloset = itemView.findViewById(R.id.iv_addToCloset);
+            iv_inbox = itemView.findViewById(R.id.iv_inbox);
 
             //아이템 클릭 이벤트 처리
             View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -223,8 +223,7 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
 
             feed_card.setOnClickListener(onClickListener);
             profile_area.setOnClickListener(onClickListener);
-
-
+            iv_inbox.setOnClickListener(onClickListener);
 
 
         }

@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.TabFragment_Clothes_inCloset;
 import com.Project.Closet.home.fragment_home;
 import com.Project.Closet.util.ClothesListAdapter;
 
@@ -151,6 +153,20 @@ public class TabFragment_Clothes_inHome extends Fragment {
                 }
                 else {
                 }
+            }
+        });
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //스크롤이 최상단이면 데이터를 갱신한다
+                clothesList.clear();
+                page=0;
+                new networkTask().execute(Integer.toString(page));
+                clothesListAdapter.notifyDataSetChanged();
+                Log.e("test","데이터 갱신");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 

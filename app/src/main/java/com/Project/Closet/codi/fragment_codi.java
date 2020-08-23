@@ -348,7 +348,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             tabLayout.addTab(tabLayout.newTab().setText("가을"));
             tabLayout.addTab(tabLayout.newTab().setText("겨울"));
             tabLayout.addTab(tabLayout.newTab().setText("캐주얼"));
-            tabLayout.addTab(tabLayout.newTab().setText("비지니스"));
+            tabLayout.addTab(tabLayout.newTab().setText("세미포멀"));
             tabLayout.addTab(tabLayout.newTab().setText("포멀"));
             tabLayout.addTab(tabLayout.newTab().setText("특수"));
 

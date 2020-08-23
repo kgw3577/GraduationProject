@@ -20,15 +20,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.Service.SocialService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO_Extended;
 import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.fragment_closet;
 import com.Project.Closet.home.activity_home;
+import com.Project.Closet.home.mySpace.Fragment_MyspaceFeed;
 import com.Project.Closet.home.recommend.recommendedItemFragment;
 import com.Project.Closet.social.detailFeed.activity_thisFeed;
 import com.Project.Closet.social.fragment_social;
@@ -146,6 +150,7 @@ public class Fragment_Feed extends Fragment {
 
             MySharedPreferences pref = MySharedPreferences.getInstanceOf(context);
             String myID = pref.getUserID();
+            String res;
 
             switch(itemView.getId()){
                 case R.id.profile_area :
@@ -155,6 +160,52 @@ public class Fragment_Feed extends Fragment {
                     assert feedInfo != null;
                     intent.putExtra("feedInfo", feedInfo);
                     context.startActivity(intent);
+                    break;
+                case R.id.iv_inbox :
+                    res = null;
+                    selectedFeedDataList = feedListByBoardNo.get(pos);
+                    DetailFeedVO feed = selectedFeedDataList.get(0);
+                    try {
+                        CodiVO codiInfo = new CodiVO();
+                        codiInfo.setFavorite("no");
+                        codiInfo.setUserID(myID);
+                        codiInfo.setFilePath(feed.getBoardImagePath());
+                        String contents = feed.getBoardContents();
+
+                        String[] season = getResources().getStringArray(R.array.Season);
+                        for(String seasonStr : season){
+                            if(contents.contains("#"+seasonStr)){
+                                codiInfo.setSeason(seasonStr);
+                            }
+                        }
+
+                        String[] place = getResources().getStringArray(R.array.Place);
+                        for(String placeStr : place){
+                            if(contents.contains("#"+placeStr)){
+                                codiInfo.setPlace(placeStr);
+                            }
+                        }
+
+                        if(contents.contains("#여자")|| contents.contains("#여성")){
+                            codiInfo.setGender("여성");
+                        }else if(contents.contains("#남자")|| contents.contains("#남성")){
+                            codiInfo.setGender("남성");
+                        }
+
+                        res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, codiInfo).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.e("tag",res);
+
+                    if("ok".equals(res)){
+                        Toast.makeText(getContext(), "코디북에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
+
                     break;
                 default:
                     selectedFeedDataList = feedListByBoardNo.get(pos);
@@ -168,17 +219,6 @@ public class Fragment_Feed extends Fragment {
 
             }
 
-
-
-
-            View.OnClickListener onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-
-                }
-            };
 
         }
 
@@ -222,6 +262,22 @@ public class Fragment_Feed extends Fragment {
                 }
                 else {
                 }
+            }
+        });
+
+
+        final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //스크롤이 최상단이면 데이터를 갱신한다
+                feedListByBoardNo.clear();
+                feedMapByBoardNo.clear();
+                page=0;
+                new networkTask().execute(Integer.toString(page));
+                feedRecyclerAdapter.notifyDataSetChanged();
+                Log.e("test","데이터 갱신");
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -311,39 +367,31 @@ public class Fragment_Feed extends Fragment {
         }
     }
 
-    public class heartTask extends AsyncTask<String, Void, String> {
 
+    public class AddTask extends AsyncTask<CodiVO, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            startTime = Util.getCurrentTime();
         }
-
-
         @Override
-        protected String doInBackground(String... params) {
-            HeartVO heartInfo = new HeartVO(params[0],params[1]);
-            //params : 게시물 번호, 유저
+        protected String doInBackground(CodiVO... codiInfo) {
 
-            Call<String> stringCall = SocialService.getRetrofit(getContext()).executeHeart(heartInfo);
-
-            //인자 params[0]은 page.
-
+            Call<String> stringCall = CodiService.getRetrofit(getContext()).addCodiFrData(codiInfo[0]);
             try {
                 return stringCall.execute().body();
-
-                // Do something with the response.
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;
             }
-        }
 
+        }
         @Override
-        protected void onPostExecute(String res) {
-            super.onPostExecute(res);
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -354,7 +402,6 @@ public class Fragment_Feed extends Fragment {
             feedListByBoardNo.set(pos,feedInfo);
             feedRecyclerAdapter.notifyDataSetChanged();
             activity_home activity = (activity_home)getActivity();
-            activity.is_closet_changed = true;
         }
 
 

@@ -4,8 +4,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.Project.Closet.subfragment.TabFragment_Codi_large;
-
 public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
     // Count number of tabs
     private int tabCount;
@@ -33,7 +31,7 @@ public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
             case 5:
                 return TabFragment_Codi_large.newInstance("캐주얼");
             case 6:
-                return TabFragment_Codi_large.newInstance("비지니스캐주얼");
+                return TabFragment_Codi_large.newInstance("세미포멀");
             case 7:
                 return TabFragment_Codi_large.newInstance("포멀");
             case 8:

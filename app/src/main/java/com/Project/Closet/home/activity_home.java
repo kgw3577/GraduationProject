@@ -29,7 +29,6 @@ public class activity_home extends AppCompatActivity {
     int ADD_CLOTHES = 11;
 
     public boolean is_home_changed=false;
-    public boolean is_closet_changed=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +60,6 @@ public class activity_home extends AppCompatActivity {
                 if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                 if(f_my != null) fragmentManager.beginTransaction().hide(f_my).commit();
 
-                if(is_closet_changed){
-                    refresh_closet();
-                    is_closet_changed=false;
-                }
-
                 setOnBackPressedListener((fragment_closet)f_closet);
 
 
@@ -87,6 +81,7 @@ public class activity_home extends AppCompatActivity {
                 if(f_home != null) fragmentManager.beginTransaction().hide(f_home).commit();
                 if(f_share != null) fragmentManager.beginTransaction().hide(f_share).commit();
                 if(f_my != null) fragmentManager.beginTransaction().hide(f_my).commit();
+
                 setOnBackPressedListener((fragment_codi)f_codi);
             }
         });
@@ -156,6 +151,8 @@ public class activity_home extends AppCompatActivity {
         });
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -257,11 +254,6 @@ public class activity_home extends AppCompatActivity {
 
 
 
-
-
-
-
-
     public void refresh_home(){
         if(f_home != null){
             FragmentTransaction transaction;
@@ -269,17 +261,6 @@ public class activity_home extends AppCompatActivity {
             transaction.remove(f_home);
             f_home = fragment_home.newInstance();
             transaction.add(R.id.fragment_place,f_home,"home").commit();
-        }
-    }
-
-
-    private void refresh_closet(){
-        if(f_closet != null){
-            FragmentTransaction transaction;
-            transaction = fragmentManager.beginTransaction();
-            transaction.remove(f_closet);
-            f_closet = fragment_closet.newInstance();
-            transaction.add(R.id.fragment_place,f_closet,"closet").commit();
         }
     }
 

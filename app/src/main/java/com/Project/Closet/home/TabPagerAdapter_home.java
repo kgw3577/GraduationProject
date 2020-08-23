@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.Project.Closet.home.subfragment.TabFragment_Clothes_inHome;
-import com.Project.Closet.subfragment.TabFragment_Codi_large;
+import com.Project.Closet.codi.TabFragment_Codi_large;
 
 public class TabPagerAdapter_home extends FragmentStatePagerAdapter {
     // Count number of tabs

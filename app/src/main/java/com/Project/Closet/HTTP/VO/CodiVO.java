@@ -5,6 +5,7 @@ public class CodiVO {
     private String codiName;
     private String season; //계절
     private String place; //장소
+    private String gender; //성별
     private String buyDate; //구입 날짜
     private String comment; //코멘트 500자
     private String favorite; //즐겨찾기 여부, DEFAULT 'no'
@@ -12,7 +13,6 @@ public class CodiVO {
     private String filePath;
     private String addedDate; //등록일, DEFAULT CURRENT_TIMESTAMP
     private String userID; // FOREIGN KEY(CLOSET). not null
-
 
 
     //생성자
@@ -69,6 +69,16 @@ public class CodiVO {
     public void setPlace(String place) {
         this.place = place;
     }
+
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 
     public String getBuyDate() {
         return buyDate;
