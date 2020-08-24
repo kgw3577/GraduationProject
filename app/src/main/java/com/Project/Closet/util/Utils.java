@@ -16,6 +16,9 @@ public class Utils {
     public String[] color_code;
     Context context;
 
+
+
+
     public static CropImage.ActivityBuilder CropImageSetting(){
 
         return CropImage.activity()

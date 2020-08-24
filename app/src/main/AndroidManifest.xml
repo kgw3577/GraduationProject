@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -28,6 +30,7 @@
         <activity android:name=".social.addFeed.activity_addBoard" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
+        <activity android:name=".codi.weather.activity_weatherCodi" />
         <activity android:name=".closet.addClothes.activity_addClothes" />
         <activity android:name=".closet.closet_activities.activity_closet_DB" />
         <activity

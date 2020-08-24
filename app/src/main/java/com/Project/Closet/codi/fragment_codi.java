@@ -33,6 +33,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.activity_addCodi;
+import com.Project.Closet.codi.weather.activity_weatherCodi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.github.clans.fab.FloatingActionMenu;
@@ -55,6 +56,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     long backKeyPressedTime;
 
     int MAKE_CODI = 120;
+    int WEATHER_CODI = 191;
 
     Activity activity;
 
@@ -505,16 +507,18 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         @Override
         public void onClick(View view) {
 
+            Intent intent;
             switch (view.getId()) {
                 case R.id.fab_add_photo : //헤더- 추가 버튼
                     // 사진으로 코디 추가
                     break;
                 case R.id.fab_make_codi:
-                    Intent intent = new Intent(getContext(), activity_addCodi.class);
+                    intent = new Intent(getContext(), activity_addCodi.class);
                     startActivityForResult(intent, MAKE_CODI);
                     break;
                 case R.id.fab_weather_codi:
-                    Toast.makeText(getContext(), "Button3", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(getContext(), activity_weatherCodi.class);
+                    startActivityForResult(intent, WEATHER_CODI);
                     break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정

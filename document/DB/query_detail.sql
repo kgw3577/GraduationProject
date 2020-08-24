@@ -44,3 +44,8 @@ select U.userID userID, U.nickname userName, U.pfImagePath userPfImagePath, U.pf
            AND B.userID = U.userID
                 AND R.boardNo = B.boardNo AND R.cloNo = C.cloNo
                 AND B.contents LIKE '%%';
+                
+                
+
+
+

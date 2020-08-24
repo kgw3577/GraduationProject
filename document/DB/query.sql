@@ -405,6 +405,10 @@ select * from CLOSET;
 delete from `CLOSET` where userID='w';
 
 
+
+
+
+
 -- 게시글 상세 조회 쿼리. 번호 123 게시물을 a가 보고 있는 상황.
 SELECT U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContents pfContents,
 			IF(
