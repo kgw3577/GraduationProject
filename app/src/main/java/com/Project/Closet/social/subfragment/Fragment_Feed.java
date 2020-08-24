@@ -315,8 +315,9 @@ public class Fragment_Feed extends Fragment {
                         feedFilter.setMode("follow");
                         feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
                         break;
-                    case "best" : //인기 피드. 설정해야 함.
+                    case "best" : //인기 피드. (댓글 수+하트 수 합산)
                         feedFilter.setMyID(myID);
+                        feedFilter.setMode("best");
                         feedListCall = SocialService.getRetrofit(getActivity()).searchFeed(feedFilter, params[0], pagesize);
                         break;
                     case "newest" : //최신 피드

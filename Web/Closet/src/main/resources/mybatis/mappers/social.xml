@@ -220,7 +220,15 @@
 				AND B.contents LIKE CONCAT('%',#{tag5},'%')
 			</if>
 		</where>
-		ORDER BY boardRegDate DESC
+		<choose>
+			<when test="mode == 'best'">
+				ORDER BY board_numHeart+board_numComment DESC
+			</when>
+			<otherwise>
+				ORDER BY boardRegDate DESC
+			</otherwise>
+		</choose>
+
 		<if test="pageStart != -1 and pageSize != -1">
 			LIMIT #{pageStart}, #{pageSize}
 		</if>

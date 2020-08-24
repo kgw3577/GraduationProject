@@ -302,6 +302,7 @@ public class activity_thisFeed extends AppCompatActivity {
                         new commentListTask().execute(Integer.toString(page),boardNo);
                         //rv_comment_list.scrollToPosition(commentList.size()-1);
                     }
+                    break;
                 case R.id.iv_inbox :
                     MySharedPreferences pref = MySharedPreferences.getInstanceOf(getApplicationContext());
                     myID = pref.getUserID();
