@@ -37,6 +37,8 @@ import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -63,10 +65,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     public TabPagerAdapter_closet_share pagerAdapter;
     private ViewPager finalPager;
 
-    Button shareButton;
     Button bt_select;
-    RelativeLayout filterButton;
-    RelativeLayout addButton;
 
     DrawerLayout drawer;
 
@@ -99,6 +98,10 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabAdd, fabBring;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -118,11 +121,6 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         activity = this;
 
 
-
-
-
-        addButton = findViewById(R.id.header_add);
-        filterButton = findViewById(R.id.header_search);
         ll_detail = findViewById(R.id.ll_detail);
 
 
@@ -170,7 +168,6 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         iv_heart.setOnClickListener(onClickListener);
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
-        addButton.setOnClickListener(onClickListener);
 
 
 
@@ -297,40 +294,40 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
             }
         });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.final_nav_view); //드로워 뷰
 
 
-        //필터 버튼 클릭하면 드로워 열고 닫기
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
+//        //필터 버튼 클릭하면 드로워 열고 닫기
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
 
         //필터(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(activity_closet_DB.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(activity_closet_DB.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(activity_closet_DB.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.menuitem1:
+//                        Toast.makeText(activity_closet_DB.this, "SelectedItem 1", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem2:
+//                        Toast.makeText(activity_closet_DB.this, "SelectedItem 2", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem3:
+//                        Toast.makeText(activity_closet_DB.this, "SelectedItem 3", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
+//                //drawer.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
         if(tabLayout == null){
             //탭 목록 설정
@@ -370,6 +367,8 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
                 }
             });
         }
+
+
 
         LinearLayout ll_tools;
 
@@ -417,12 +416,9 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
             case "add" :
                 ll_tools = findViewById(R.id.ll_tools);
                 ll_tools.setVisibility(View.GONE);
+                //fam.setVisibility(View.GONE);
                 bt_select = findViewById(R.id.bt_select);
                 bt_select.setText("옷장에 추가");
-
-                ImageView iv_search = findViewById(R.id.add);
-                iv_search.setImageResource(R.drawable.search);
-
                 bt_select.setVisibility(View.VISIBLE);
 
                 break;
@@ -552,7 +548,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가(/서치) 버튼
+                case R.id.fab_add_photo : //헤더- 추가(/서치) 버튼
                     if("show".equals(mode)){
                         intent = new Intent(activity_closet_DB.this, activity_addClothes.class);
                         intent.putExtra("location","public");

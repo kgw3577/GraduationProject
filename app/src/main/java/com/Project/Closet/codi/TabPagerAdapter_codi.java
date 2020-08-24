@@ -21,20 +21,12 @@ public class TabPagerAdapter_codi extends FragmentStatePagerAdapter {
             case 0:
                 return TabFragment_Codi_large.newInstance("share");
             case 1:
-                return TabFragment_Codi_large.newInstance("봄");
-            case 2:
-                return TabFragment_Codi_large.newInstance("여름");
-            case 3:
-                return TabFragment_Codi_large.newInstance("가을");
-            case 4:
-                return TabFragment_Codi_large.newInstance("겨울");
-            case 5:
                 return TabFragment_Codi_large.newInstance("캐주얼");
-            case 6:
+            case 2:
                 return TabFragment_Codi_large.newInstance("세미포멀");
-            case 7:
+            case 3:
                 return TabFragment_Codi_large.newInstance("포멀");
-            case 8:
+            case 4:
                 return TabFragment_Codi_large.newInstance("특수");
             default:
                 return null;

@@ -139,13 +139,13 @@ public class TabFragment_Codi_large extends Fragment {
                 case "share" : //모든 코디 조회
                     codiListCall = CodiService.getRetrofit(getActivity()).myAllCodi(userID,params[0], "7");
                     break;
-                case "봄" : //봄 코디 조회
-                case "여름" : //여름 코디 조회
-                case "가을" : //가을 코디 조회
-                case "겨울" : //겨울 코디 조회
-                    codiFilter.setSeason(identifier);
-                    codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
-                    break;
+//                case "봄" : //봄 코디 조회
+//                case "여름" : //여름 코디 조회
+//                case "가을" : //가을 코디 조회
+//                case "겨울" : //겨울 코디 조회
+//                    codiFilter.setSeason(identifier);
+//                    codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
+//                    break;
                 case "캐주얼" : //캐주얼 코디 조회
                 case "세미포멀" : //세미포멀 코디 조회
                 case "포멀" : //포멀 코디 조회

@@ -62,9 +62,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     public TabPagerAdapter_codi pagerAdapter;
     private ViewPager finalPager;
 
-    RelativeLayout filterButton;
-    RelativeLayout addButton;
-
     DrawerLayout drawer;
 
     public RelativeLayout Cloth_Info;
@@ -95,7 +92,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabEdit, fabDelete, fabAdd;
+    private FloatingActionButton fabAdd, fabMake, fabWeather;
 
     public static fragment_codi newInstance() {
 
@@ -128,9 +125,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     @Override
     public void onStart() {
         super.onStart();
-
-        addButton = getView().findViewById(R.id.header_add);
-        filterButton = getView().findViewById(R.id.header_search);
 
         drawer = getView().findViewById(R.id.final_drawer_layout);
 
@@ -175,7 +169,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         //iv_heart.setOnClickListener(onClickListener);
         //iv_modify.setOnClickListener(onClickListener);
         //iv_delete.setOnClickListener(onClickListener);
-        addButton.setOnClickListener(onClickListener);
 
 
         iv_save.setOnClickListener(new View.OnClickListener() {
@@ -308,45 +301,45 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         //필터 버튼 클릭하면 드로워 열고 닫기
 
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
 
         //필터(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.menuitem1:
+//                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem2:
+//                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem3:
+//                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
+//                //drawer.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
         if(tabLayout == null){
             //탭 목록 설정
             tabLayout = (TabLayout) getView().findViewById(R.id.tabLayout);
             tabLayout.addTab(tabLayout.newTab().setText("모두"));
-            tabLayout.addTab(tabLayout.newTab().setText("봄"));
-            tabLayout.addTab(tabLayout.newTab().setText("여름"));
-            tabLayout.addTab(tabLayout.newTab().setText("가을"));
-            tabLayout.addTab(tabLayout.newTab().setText("겨울"));
+//            tabLayout.addTab(tabLayout.newTab().setText("봄"));
+//            tabLayout.addTab(tabLayout.newTab().setText("여름"));
+//            tabLayout.addTab(tabLayout.newTab().setText("가을"));
+//            tabLayout.addTab(tabLayout.newTab().setText("겨울"));
             tabLayout.addTab(tabLayout.newTab().setText("캐주얼"));
             tabLayout.addTab(tabLayout.newTab().setText("세미포멀"));
             tabLayout.addTab(tabLayout.newTab().setText("포멀"));
@@ -379,9 +372,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         //플로팅 액션 버튼 설정
 
-        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_color_codi);
-        fabDelete = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
-        fabEdit = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
+        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_add_photo);
+        fabMake = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
+        fabWeather = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
         fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
@@ -397,9 +390,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         });
 
         //handling each floating action button clicked
-        fabDelete.setOnClickListener(onClickListener);
-        fabEdit.setOnClickListener(onClickListener);
         fabAdd.setOnClickListener(onClickListener);
+        fabMake.setOnClickListener(onClickListener);
+        fabWeather.setOnClickListener(onClickListener);
 
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
@@ -513,15 +506,12 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         public void onClick(View view) {
 
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가 버튼
+                case R.id.fab_add_photo : //헤더- 추가 버튼
                     // 사진으로 코디 추가
                     break;
                 case R.id.fab_make_codi:
                     Intent intent = new Intent(getContext(), activity_addCodi.class);
                     startActivityForResult(intent, MAKE_CODI);
-                    break;
-                case R.id.fab_color_codi:
-                    Toast.makeText(getContext(), "Button2", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.fab_weather_codi:
                     Toast.makeText(getContext(), "Button3", Toast.LENGTH_SHORT).show();

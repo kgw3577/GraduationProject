@@ -33,9 +33,11 @@ import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.closet.closet_activities.activity_closet_DB;
+import com.Project.Closet.codi.addCodi.activity_addCodi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.bumptech.glide.Glide;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
@@ -57,9 +59,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     int ADD_CLOTHES = 100;
     int ADD_FROM_DB = 150;
 
-
-    private FloatingActionMenu fam;
-
     Activity activity;
 
     private TabLayout tabLayout;
@@ -67,8 +66,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     private ViewPager finalPager;
 
     Button shareButton;
-    RelativeLayout filterButton;
-    RelativeLayout addButton;
 
     DrawerLayout drawer;
 
@@ -99,6 +96,9 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TextView tv_edit_brand;
     public TextView tv_edit_size;
 
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabAdd, fabBring;
+
 
     public static fragment_closet newInstance() {
 
@@ -117,12 +117,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
-
-
-
-
-        addButton = viewGroup.findViewById(R.id.header_add);
-        filterButton = viewGroup.findViewById(R.id.header_search);
         shareButton = viewGroup.findViewById(R.id.share_closet);
         shareButton.setVisibility(View.VISIBLE);
 
@@ -172,7 +166,6 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         //iv_heart.setOnClickListener(onClickListener);
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
-        addButton.setOnClickListener(onClickListener);
         shareButton.setOnClickListener(onClickListener);
 
 
@@ -299,40 +292,40 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
             }
         });
 
-        NavigationView navigationView = (NavigationView) viewGroup.findViewById(R.id.final_nav_view); //드로워 뷰
+        //NavigationView navigationView = (NavigationView) viewGroup.findViewById(R.id.final_nav_view); //드로워 뷰
 
 
         //필터 버튼 클릭하면 드로워 열고 닫기
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
 
         //필터(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = viewGroup.findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.menuitem1:
+//                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem2:
+//                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem3:
+//                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                DrawerLayout drawer = viewGroup.findViewById(R.id.final_drawer_layout);
+//                //drawer.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
         if(tabLayout == null){
             //탭 목록 설정
@@ -372,11 +365,10 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         }
 
 
-
-
-        //플로팅 액션 메뉴 버튼 설정
-        fam = (FloatingActionMenu) viewGroup.findViewById(R.id.fab);
-        fam.setVisibility(View.VISIBLE);
+        //플로팅 액션 버튼 설정
+        fabAdd = (FloatingActionButton) viewGroup.findViewById(R.id.fab_add_photo);
+        fabBring = (FloatingActionButton) viewGroup.findViewById(R.id.fab_bring_data);
+        fam = (FloatingActionMenu) viewGroup.findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
         fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
@@ -391,23 +383,26 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         });
 
         //handling each floating action button clicked
-        //fabDelete.setOnClickListener(onClickListener);
-        //fabEdit.setOnClickListener(onClickListener);
-        //fabAdd.setOnClickListener(onClickListener);
+        fabAdd.setOnClickListener(onClickListener);
+        fabBring.setOnClickListener(onClickListener);
 
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), activity_closet_DB.class);
-                intent.putExtra("mode", "add");
-                startActivityForResult(intent, ADD_FROM_DB);
+
+                if(fam.isOpened()){
+                    fam.close(true);
+                }
+                else{
+                    fam.open(true);
+                }
+
             }
         });
 
         //fam.open(true);
         //fam.close(true);
         fam.setClosedOnTouchOutside(true);
-        fam.setIconAnimated(false);
 
 
 
@@ -545,14 +540,19 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가 버튼
+                case R.id.share_closet : //공유 옷장 버튼
+                    intent = new Intent(getContext(), activity_closet_DB.class);
+                    startActivity(intent);
+                    break;
+                case R.id.fab_add_photo:
                     intent = new Intent(getContext(), activity_addClothes.class);
                     intent.putExtra("location","private");
                     startActivityForResult(intent,ADD_CLOTHES);
                     break;
-                case R.id.share_closet : //공유 옷장 버튼
+                case R.id.fab_bring_data:
                     intent = new Intent(getContext(), activity_closet_DB.class);
-                    startActivity(intent);
+                    intent.putExtra("mode", "add");
+                    startActivityForResult(intent, ADD_FROM_DB);
                     break;
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);
@@ -579,6 +579,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                         Toast.makeText(getContext(), "삭제 실패", Toast.LENGTH_SHORT).show();
                     }
                     break;
+
             }
         }
     }
