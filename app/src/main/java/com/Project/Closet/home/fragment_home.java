@@ -72,8 +72,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
     public TabPagerAdapter_home pagerAdapter_favorite;
     private ViewPager finalPager_favorite;
 
-    RelativeLayout filterButton;
-    RelativeLayout addButton;
+    //RelativeLayout filterButton;
+    //RelativeLayout addButton;
 
     DrawerLayout drawer;
 
@@ -142,8 +142,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         MySharedPreferences pref = MySharedPreferences.getInstanceOf(getContext());
         String userID = pref.getUserID();
 
-        addButton = getView().findViewById(R.id.header_add);
-        filterButton = getView().findViewById(R.id.header_search);
+        //addButton = getView().findViewById(R.id.header_add);
+        //filterButton = getView().findViewById(R.id.header_search);
         ll_detail = getView().findViewById(R.id.ll_detail);
 
         drawer = getView().findViewById(R.id.final_drawer_layout);
@@ -190,7 +190,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         iv_heart.setOnClickListener(onClickListener);
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
-        addButton.setOnClickListener(onClickListener);
+        //addButton.setOnClickListener(onClickListener);
 
 
         iv_save.setOnClickListener(new View.OnClickListener() {
@@ -316,41 +316,41 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             }
         });
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
+        //NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
 
 
         //필터 버튼 클릭하면 드로워 열고 닫기
 
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
 
         //필터(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.menuitem1:
+//                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem2:
+//                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem3:
+//                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
+//                //drawer.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
 
 
@@ -548,11 +548,11 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         public void onClick(View view) {
 
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가 버튼
-                    Intent intent = new Intent(getContext(), activity_addClothes.class);
-                    intent.putExtra("location","private");
-                    startActivityForResult(intent,ADD_CLOTHES);
-                    break;
+//                case R.id.header_add : //헤더- 추가 버튼
+//                    Intent intent = new Intent(getContext(), activity_addClothes.class);
+//                    intent.putExtra("location","private");
+//                    startActivityForResult(intent,ADD_CLOTHES);
+//                    break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();

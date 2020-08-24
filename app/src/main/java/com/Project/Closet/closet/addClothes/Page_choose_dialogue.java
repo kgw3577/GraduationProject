@@ -165,6 +165,9 @@ public class Page_choose_dialogue extends Fragment {
                     case "모자" :
                         items = getResources().getStringArray(R.array.모자);
                         break;
+                    case "기타" :
+                        items = getResources().getStringArray(R.array.기타);
+                        break;
                 }
                 break;
             default:

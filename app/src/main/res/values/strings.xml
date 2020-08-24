@@ -19,6 +19,7 @@
         <item>"니트"</item>
         <item>"가디건"</item>
         <item>"후디"</item>
+        <item>"기타"</item>
     </string-array>
 
     <string-array name="반팔티셔츠">
@@ -59,6 +60,9 @@
         <item>"후드집업"</item>
     </string-array>
 
+    <string-array name="기타">
+        <item>"수영복"</item>
+    </string-array>
 
     <string-array name="하의">
         <item>"청바지"</item>
@@ -69,6 +73,7 @@
         <item>"핫팬츠"</item>
         <item>"레깅스"</item>
         <item>"스커트"</item>
+        <item>"기타"</item>
     </string-array>
 
     <string-array name="스커트">
@@ -79,6 +84,7 @@
 
     <string-array name="한벌옷">
         <item>"원피스"</item>
+        <item>"기타"</item>
     </string-array>
 
     <string-array name="원피스">

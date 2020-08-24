@@ -65,6 +65,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     public TabPagerAdapter_closet_share pagerAdapter;
     private ViewPager finalPager;
 
+    RelativeLayout addButton;
     Button bt_select;
 
     DrawerLayout drawer;
@@ -370,6 +371,9 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
 
 
 
+        addButton = findViewById(R.id.header_add);
+        addButton.setOnClickListener(onClickListener);
+
         LinearLayout ll_tools;
 
         switch(mode){
@@ -548,7 +552,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.fab_add_photo : //헤더- 추가(/서치) 버튼
+                case R.id.header_add : //헤더- 추가(/서치) 버튼
                     if("show".equals(mode)){
                         intent = new Intent(activity_closet_DB.this, activity_addClothes.class);
                         intent.putExtra("location","public");
