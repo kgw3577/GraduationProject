@@ -32,6 +32,7 @@ import com.Project.Closet.HTTP.VO.CodiVO;
 import com.Project.Closet.HTTP.VO.CommentFeedVO;
 import com.Project.Closet.HTTP.VO.CommentVO;
 import com.Project.Closet.HTTP.VO.DetailFeedVO;
+import com.Project.Closet.HTTP.VO.HeartVO;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.activity_cloInfo;
 import com.Project.Closet.home.activity_home;
@@ -266,6 +267,10 @@ public class activity_thisFeed extends AppCompatActivity {
         iv_inbox.setOnClickListener(onClickListener);
 
 
+        LinearLayout ll_icon_heart = findViewById(R.id.ll_icon_heart);
+        ll_icon_heart.setOnClickListener(onClickListener);
+
+
     }
 
     class BtnOnClickListener implements Button.OnClickListener {
@@ -273,7 +278,8 @@ public class activity_thisFeed extends AppCompatActivity {
         public void onClick(View view) {
             Intent intent;
             String myID;
-            String res;
+            MySharedPreferences pref;
+            String res = null;
             switch (view.getId()) {
                 case R.id.profile_area :
                     intent = new Intent(getApplicationContext(), activity_space.class);
@@ -304,9 +310,8 @@ public class activity_thisFeed extends AppCompatActivity {
                     }
                     break;
                 case R.id.iv_inbox :
-                    MySharedPreferences pref = MySharedPreferences.getInstanceOf(getApplicationContext());
+                    pref = MySharedPreferences.getInstanceOf(getApplicationContext());
                     myID = pref.getUserID();
-
                     res = null;
                     try {
                         CodiVO codiInfo = new CodiVO();
@@ -350,6 +355,48 @@ public class activity_thisFeed extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
 
                     break;
+                case R.id.ll_icon_heart :
+                    DetailFeedVO feedInfo = feed;
+                    pref = MySharedPreferences.getInstanceOf(getApplicationContext());
+                    myID = pref.getUserID();
+                    try {
+                        res = new heartTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, feedInfo.getBoardNo() ,myID).get();
+                    } catch (ExecutionException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(res!=null) {
+                        String resCut[]= null;
+                        String numHeart;
+                        if("fail".equals(res)){
+                            Toast.makeText(activity_thisFeed.this, "실패하였습니다", Toast.LENGTH_SHORT).show();
+                        }else{
+                            if(res.contains("not_hearting")){
+                                iv_heart.setImageResource(R.drawable.heart_empty);
+                                resCut = res.split("_");
+                                numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
+                                tv_numHeart.setText(numHeart);
+                                for (DetailFeedVO feed : selectedFeedList){
+                                    feed.setBoard_if_hearting("not_hearting");
+                                    feed.setBoard_numHeart(resCut[0]);
+                                }
+                                //feedListByBoardNo.set(pos,selectedFeedList);
+                                //notifyItemChanged(pos);
+                            }else if(res.contains("hearting")) {
+                                iv_heart.setImageResource(R.drawable.heart_color);
+                                resCut = res.split("_");
+                                numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
+                                tv_numHeart.setText(numHeart);
+                                for (DetailFeedVO feed : selectedFeedList){
+                                    feed.setBoard_if_hearting("hearting");
+                                    feed.setBoard_numHeart(resCut[0]);
+                                }
+                                //feedListByBoardNo.set(pos,selectedFeedList);
+                                //notifyItemChanged(pos);
+                            }
+                        }
+                    }
+                    break;
+
             }
         }
     }
@@ -499,6 +546,44 @@ public class activity_thisFeed extends AppCompatActivity {
             super.onPostExecute(s);
         }
     }
+
+
+
+    public class heartTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            HeartVO heartInfo = new HeartVO(params[0],params[1]);
+            //params : 게시물 번호, 유저
+
+            Call<String> stringCall = SocialService.getRetrofit(getApplicationContext()).executeHeart(heartInfo);
+
+            //인자 params[0]은 page.
+
+            try {
+                return stringCall.execute().body();
+
+                // Do something with the response.
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String res) {
+            super.onPostExecute(res);
+        }
+    }
+
+
 }
 
 

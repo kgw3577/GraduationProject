@@ -85,7 +85,7 @@
 
     <ImageView
         android:id="@+id/iv_suit"
-        android:layout_width="150dp"
+        android:layout_width="120dp"
         android:layout_height="300dp"
         android:layout_centerHorizontal="true"
         android:visibility="gone"

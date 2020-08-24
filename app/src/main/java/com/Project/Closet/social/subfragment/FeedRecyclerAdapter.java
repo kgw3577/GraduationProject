@@ -184,7 +184,6 @@ public class FeedRecyclerAdapter extends RecyclerView.Adapter<FeedRecyclerAdapte
                                             //notifyItemChanged(pos);
                                         }else if(result.contains("hearting")) {
                                             iv_heart.setImageResource(R.drawable.heart_color);
-                                            feedListByBoardNo.set(pos,selectedFeedDataList);
                                             resCut = result.split("_");
                                             numHeart = NumFormat.formatNumString(Integer.parseInt(resCut[0])); //수 포매팅
                                             tv_numHeart.setText(numHeart);
