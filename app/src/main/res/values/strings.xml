@@ -19,7 +19,7 @@
         <item>"니트"</item>
         <item>"가디건"</item>
         <item>"후디"</item>
-        <item>"기타"</item>
+        <item>"상의 기타"</item>
     </string-array>
 
     <string-array name="반팔티셔츠">
@@ -60,8 +60,8 @@
         <item>"후드집업"</item>
     </string-array>
 
-    <string-array name="기타">
-        <item>"수영복"</item>
+    <string-array name="상의_기타">
+        <item>"수영복상의"</item>
     </string-array>
 
     <string-array name="하의">
@@ -73,7 +73,7 @@
         <item>"핫팬츠"</item>
         <item>"레깅스"</item>
         <item>"스커트"</item>
-        <item>"기타"</item>
+        <item>"하의 기타"</item>
     </string-array>
 
     <string-array name="스커트">
@@ -82,15 +82,23 @@
         <item>"롱스커트"</item>
     </string-array>
 
+    <string-array name="하의_기타">
+        <item>"수영복하의"</item>
+    </string-array>
+
     <string-array name="한벌옷">
         <item>"원피스"</item>
-        <item>"기타"</item>
+        <item>"한벌옷 기타"</item>
     </string-array>
 
     <string-array name="원피스">
         <item>"민소매원피스"</item>
         <item>"반팔원피스"</item>
         <item>"긴팔원피스"</item>
+    </string-array>
+
+    <string-array name="한벌옷_기타">
+        <item>"한벌수영복"</item>
     </string-array>
 
     <string-array name="외투">

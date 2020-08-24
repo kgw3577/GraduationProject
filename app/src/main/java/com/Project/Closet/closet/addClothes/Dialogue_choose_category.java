@@ -72,7 +72,7 @@ public class Dialogue_choose_category extends BottomSheetDialogFragment{
     public void setCategory(String category) {
         this.category = category;
         ArrayList<String> detailList = new ArrayList<String>(Arrays.asList("반팔티셔츠", "긴팔티셔츠", "셔츠",
-                "니트","후디","스커트","원피스","자켓","점퍼","코트","패딩","모자","기타"));
+                "니트","후디","스커트","원피스","자켓","점퍼","코트","패딩","모자","상의 기타","하의 기타", "한벌옷 기타"));
 
         if(detailList.contains(category)){
             pagerAdapter.addItem(Page_choose_dialogue.newInstance("detailCategory",kind,category));

@@ -622,11 +622,11 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
         if("yes".equals(cloInfo.getFavorite())){
-            iv_heart.setImageResource(R.drawable.heart_color);
+            iv_heart.setImageResource(R.drawable.star_color);
             tv_cloFavorite.setText("yes");
         }
         else{
-            iv_heart.setImageResource(R.drawable.heart_empty);
+            iv_heart.setImageResource(R.drawable.star_empty);
             tv_cloFavorite.setText("no");
         }
     }

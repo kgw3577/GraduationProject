@@ -542,11 +542,11 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                     if("ok".equals(res)){
                         if(reverted_favorite){
                             Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_color);
+                            iv_heart.setImageResource(R.drawable.star_color);
                             tv_cloFavorite.setText("yes");
                         }else{
                             Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_empty);
+                            iv_heart.setImageResource(R.drawable.star_empty);
                             tv_cloFavorite.setText("no");
                         }
                         ((activity_home)activity).notify_home_changed();

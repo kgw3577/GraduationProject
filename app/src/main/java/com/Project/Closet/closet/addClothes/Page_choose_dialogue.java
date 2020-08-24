@@ -1,39 +1,20 @@
 package com.Project.Closet.closet.addClothes;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.fragment_closet;
-import com.Project.Closet.util.ClothesListAdapter;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
 
 /* 그리드 사이즈 조절 방법 :
 어댑터 변경, 그리드 사이즈 변경, 페이지사이즈 변경
@@ -165,8 +146,14 @@ public class Page_choose_dialogue extends Fragment {
                     case "모자" :
                         items = getResources().getStringArray(R.array.모자);
                         break;
-                    case "기타" :
-                        items = getResources().getStringArray(R.array.기타);
+                    case "상의 기타" :
+                        items = getResources().getStringArray(R.array.상의_기타);
+                        break;
+                    case "하의 기타" :
+                        items = getResources().getStringArray(R.array.하의_기타);
+                        break;
+                    case "한벌옷 기타" :
+                        items = getResources().getStringArray(R.array.한벌옷_기타);
                         break;
                 }
                 break;

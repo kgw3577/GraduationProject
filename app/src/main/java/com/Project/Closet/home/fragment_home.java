@@ -362,8 +362,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         if(tabLayout_favorite == null){
             //탭 목록 설정
             tabLayout_favorite = (TabLayout) getView().findViewById(R.id.favorite_tabLayout);
-            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("찜한 옷"));
-            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("찜한 코디"));
+            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("즐겨찾는 옷"));
+            tabLayout_favorite.addTab(tabLayout_favorite.newTab().setText("즐겨찾는 코디"));
             tabLayout_favorite.setTabGravity(TabLayout.GRAVITY_CENTER);
 
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
@@ -579,11 +579,11 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
                     if("ok".equals(res)){
                         if(reverted_favorite){
                             Toast.makeText(getContext(), "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_color);
+                            iv_heart.setImageResource(R.drawable.star_color);
                             tv_cloFavorite.setText("yes");
                         }else{
                             Toast.makeText(getContext(), "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_empty);
+                            iv_heart.setImageResource(R.drawable.star_empty);
                             tv_cloFavorite.setText("no");
                         }
                         ((activity_home)activity).refresh_home();
@@ -655,7 +655,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
         if("yes".equals(cloInfo.getFavorite())){
-            iv_heart.setImageResource(R.drawable.heart_color);
+            iv_heart.setImageResource(R.drawable.star_color);
             tv_cloFavorite.setText("yes");
         }
         else{

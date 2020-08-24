@@ -608,12 +608,12 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
                     if("ok".equals(res)){
                         if(reverted_favorite){
                             Toast.makeText(activity_closet_DB.this, "즐겨찾기를 등록했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_color);
+                            iv_heart.setImageResource(R.drawable.star_color);
                             tv_cloFavorite.setText("yes");
 
                         }else{
                             Toast.makeText(activity_closet_DB.this, "즐겨찾기를 해제했습니다.", Toast.LENGTH_SHORT).show();
-                            iv_heart.setImageResource(R.drawable.heart_empty);
+                            iv_heart.setImageResource(R.drawable.star_empty);
                             tv_cloFavorite.setText("no");
                         }
                         pagerAdapter.notifyDataSetChanged();
@@ -685,11 +685,11 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         tv_cloNo.setText(Integer.toString(cloInfo.getCloNo()));
 
         if("yes".equals(cloInfo.getFavorite())){
-            iv_heart.setImageResource(R.drawable.heart_color);
+            iv_heart.setImageResource(R.drawable.star_color);
             tv_cloFavorite.setText("yes");
         }
         else{
-            iv_heart.setImageResource(R.drawable.heart_empty);
+            iv_heart.setImageResource(R.drawable.star_empty);
             tv_cloFavorite.setText("no");
         }
     }
