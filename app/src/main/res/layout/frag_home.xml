@@ -22,17 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@android:color/black"
-            app:scale_base_height="100"
+            app:scale_base_height="110"
             app:scale_base_width="1080"
             >
-
             <include
-
-                layout="@layout/header_closets"
+                layout="@layout/header_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
         </com.ssomai.android.scalablelayout.ScalableLayout>
 
 
@@ -187,7 +183,7 @@
                             android:layout_marginTop="0.1dp"
                             android:padding="10dp"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="380dp"
                             android:background="@color/closet"
                             android:layout_below="@+id/favorite_tab_view" >
 
@@ -219,13 +215,13 @@
     </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/final_nav_view"
-        android:layout_width="252dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/drawerlayout"
-        android:visibility="gone"/>
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/final_nav_view"-->
+<!--        android:layout_width="252dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:headerLayout="@layout/header"-->
+<!--        app:menu="@menu/drawerlayout"-->
+<!--        android:visibility="gone"/>-->
 </androidx.drawerlayout.widget.DrawerLayout>

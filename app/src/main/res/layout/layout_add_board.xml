@@ -340,7 +340,7 @@
                 <TextView
                     android:id="@+id/tv_from_share"
                     android:layout_marginTop="0.01dp"
-                    android:text="공유 옷장에서 가져오기"
+                    android:text="기본템 가져오기"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"

@@ -298,41 +298,41 @@ public class fragment_favorite extends Fragment implements OnBackPressedListener
             }
         });
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
+        //NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
 
 
-        //필터 버튼 클릭하면 드로워 열고 닫기
-
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(drawer.isDrawerOpen(GravityCompat.START)) {
-                    drawer.closeDrawer(GravityCompat.START);
-                } else {
-                    drawer.openDrawer(GravityCompat.START);
-                }
-            }
-        });
-
-        //필터(메뉴) 아이템 선택
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId())
-                {
-                    case R.id.menuitem1:
-                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem2:
-                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
-                    case R.id.menuitem3:
-                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
-                }
-
-                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
-                //drawer.closeDrawer(GravityCompat.START);
-                return true;
-            }
-        });
+//        //필터 버튼 클릭하면 드로워 열고 닫기
+//
+//        filterButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(drawer.isDrawerOpen(GravityCompat.START)) {
+//                    drawer.closeDrawer(GravityCompat.START);
+//                } else {
+//                    drawer.openDrawer(GravityCompat.START);
+//                }
+//            }
+//        });
+//
+//        //필터(메뉴) 아이템 선택
+//        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+//                switch (menuItem.getItemId())
+//                {
+//                    case R.id.menuitem1:
+//                        Toast.makeText(getContext(), "SelectedItem 1", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem2:
+//                        Toast.makeText(getContext(), "SelectedItem 2", Toast.LENGTH_SHORT).show();
+//                    case R.id.menuitem3:
+//                        Toast.makeText(getContext(), "SelectedItem 3", Toast.LENGTH_SHORT).show();
+//                }
+//
+//                DrawerLayout drawer = getView().findViewById(R.id.final_drawer_layout);
+//                //drawer.closeDrawer(GravityCompat.START);
+//                return true;
+//            }
+//        });
 
         if(tabLayout == null){
             //탭 목록 설정

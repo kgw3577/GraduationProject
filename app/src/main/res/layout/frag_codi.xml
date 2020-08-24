@@ -17,13 +17,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:background="@android:color/black"
-                app:scale_base_height="100"
+                app:scale_base_height="110"
                 app:scale_base_width="1080">
-
                 <include
-
-                    layout="@layout/header_closets"
+                    layout="@layout/header_main"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </com.ssomai.android.scalablelayout.ScalableLayout>
@@ -130,14 +127,14 @@
 
 
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/final_nav_view"
-        android:layout_width="252dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/drawerlayout"/>
+<!--    <com.google.android.material.navigation.NavigationView-->
+<!--        android:id="@+id/final_nav_view"-->
+<!--        android:layout_width="252dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_gravity="start"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        app:headerLayout="@layout/header"-->
+<!--        app:menu="@menu/drawerlayout"/>-->
 
     <com.github.clans.fab.FloatingActionMenu
 
@@ -157,9 +154,8 @@
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#99FFFFFF"
         fab:fab_shadowColor="#444"
-
-
         fab:fab_showShadow="true"
+
         fab:menu_labels_colorNormal="#333333"
         fab:menu_labels_colorPressed="#444444"
         fab:menu_labels_colorRipple="#66FFFFFF"

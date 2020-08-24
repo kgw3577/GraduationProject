@@ -296,7 +296,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             }
         });
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
+        //NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
 
 
         //필터 버튼 클릭하면 드로워 열고 닫기

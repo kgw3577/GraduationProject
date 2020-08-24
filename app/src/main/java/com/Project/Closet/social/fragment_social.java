@@ -5,20 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SlidingDrawer;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,7 +19,8 @@ import com.Project.Closet.R;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
-import com.google.android.material.navigation.NavigationView;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
 
 import static android.app.Activity.RESULT_OK;
@@ -47,14 +41,17 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     private ViewPager finalPager;
 
     //RelativeLayout filterButton;
-    RelativeLayout addButton;
+    //RelativeLayout addButton;
 
-    DrawerLayout drawer;
-    SlidingDrawer slidingDrawer;
-    LinearLayout drawer_content;
+    //DrawerLayout drawer;
+    //SlidingDrawer slidingDrawer;
+    //LinearLayout drawer_content;
 
-    TextView tv_add_image;
-    TextView tv_from_codi;
+    //TextView tv_add_image;
+    //TextView tv_from_codi;
+
+    private FloatingActionMenu fam;
+    private FloatingActionButton fabAdd, fabBring;
 
     public static fragment_social newInstance() {
 
@@ -68,7 +65,7 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_board,container,false);
+        viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_social,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
         return viewGroup;
     }
@@ -88,23 +85,23 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     public void onStart() {
         super.onStart();
 
-        addButton = getView().findViewById(R.id.header_add);
+        //addButton = getView().findViewById(R.id.header_add);
         //filterButton = getView().findViewById(R.id.header_search);
 
-        drawer = getView().findViewById(R.id.final_drawer_layout);
-        slidingDrawer = getView().findViewById(R.id.sliding_drawer);
-        drawer_content = getView().findViewById(R.id.drawer_content);
+//        drawer = getView().findViewById(R.id.final_drawer_layout);
+//        slidingDrawer = getView().findViewById(R.id.sliding_drawer);
+//        drawer_content = getView().findViewById(R.id.drawer_content);
 
-        tv_add_image = getView().findViewById(R.id.tv_add_image);
-        tv_from_codi= getView().findViewById(R.id.tv_from_codi);
+        //tv_add_image = getView().findViewById(R.id.tv_add_image);
+        //tv_from_codi= getView().findViewById(R.id.tv_from_codi);
 
 
 
         BtnOnClickListener onClickListener = new BtnOnClickListener();
-        addButton.setOnClickListener(onClickListener);
-        tv_add_image.setOnClickListener(onClickListener);
-        tv_from_codi.setOnClickListener(onClickListener);
-        drawer_content.setOnClickListener(onClickListener);
+        //addButton.setOnClickListener(onClickListener);
+        //tv_add_image.setOnClickListener(onClickListener);
+        //tv_from_codi.setOnClickListener(onClickListener);
+        //drawer_content.setOnClickListener(onClickListener);
 
         //NavigationView navigationView = (NavigationView) getView().findViewById(R.id.final_nav_view); //드로워 뷰
 
@@ -171,6 +168,53 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
                 }
             });
         }
+
+
+
+
+        //플로팅 액션 버튼 설정
+        fabAdd = (FloatingActionButton) viewGroup.findViewById(R.id.fab_add_photo);
+        fabBring = (FloatingActionButton) viewGroup.findViewById(R.id.fab_bring_codibook);
+        fam = (FloatingActionMenu) viewGroup.findViewById(R.id.fab_menu);
+
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    //Toast.makeText(getContext(), "Menu is opened", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Toast.makeText(getContext(), "Menu is closed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //handling each floating action button clicked
+        fabAdd.setOnClickListener(onClickListener);
+        fabBring.setOnClickListener(onClickListener);
+
+        fam.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(fam.isOpened()){
+                    fam.close(true);
+                }
+                else{
+                    fam.open(true);
+                }
+
+            }
+        });
+
+        //fam.open(true);
+        //fam.close(true);
+        fam.setClosedOnTouchOutside(true);
+
+
+
+
+
     }
 
 
@@ -183,12 +227,13 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else if (slidingDrawer.isOpened()) {
-            slidingDrawer.close();
-        }
-        else if(System.currentTimeMillis() > backKeyPressedTime + 2000){
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else if (slidingDrawer.isOpened()) {
+//            slidingDrawer.close();
+//        }
+//        else
+            if(System.currentTimeMillis() > backKeyPressedTime + 2000){
             backKeyPressedTime = System.currentTimeMillis();
             toast.show();
             return;
@@ -206,18 +251,25 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가 버튼
-                    slidingDrawer.open();
-                    break;
-                case R.id.tv_add_image :
+//                case R.id.header_add : //헤더- 추가 버튼
+//                    //slidingDrawer.open();
+//                    break;
+                case R.id.fab_add_photo:
                     Intent intent = new Intent(getContext(), activity_addBoard.class);
                     startActivityForResult(intent,ADD_BOARD);
                     break;
-                case R.id.tv_from_codi :
+                case R.id.fab_bring_codibook:
+                    //
                     break;
-                case R.id.drawer_content :
-                    slidingDrawer.close();
-                    break;
+//                case R.id.tv_add_image :
+//                    Intent intent = new Intent(getContext(), activity_addBoard.class);
+//                    startActivityForResult(intent,ADD_BOARD);
+//                    break;
+//                case R.id.tv_from_codi :
+//                    break;
+//                case R.id.drawer_content :
+//                    slidingDrawer.close();
+//                    break;
             }
         }
     }

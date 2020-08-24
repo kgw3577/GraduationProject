@@ -51,7 +51,7 @@ import retrofit2.Call;
 
 public class activity_closet_DB extends AppCompatActivity implements OnBackPressedListener {
 
-    ViewGroup viewGroup;
+
     Toast toast;
     long backKeyPressedTime;
 
@@ -369,10 +369,34 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
             });
         }
 
+        //플로팅 액션 버튼 설정
+        fam = (FloatingActionMenu) findViewById(R.id.fab_menu);
 
+        //handling menu status (open or close)
+        fam.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean opened) {
+                if (opened) {
+                    //Toast.makeText(getContext(), "Menu is opened", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Toast.makeText(getContext(), "Menu is closed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-        addButton = findViewById(R.id.header_add);
-        addButton.setOnClickListener(onClickListener);
+        //handling each floating action button clicked
+        fam.setOnMenuButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(activity_closet_DB.this, activity_addClothes.class);
+                intent.putExtra("location","public");
+                startActivityForResult(intent,ADD_CLOTHES);
+
+            }
+        });
+        fam.setClosedOnTouchOutside(true);
+
 
         LinearLayout ll_tools;
 
@@ -381,6 +405,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
                 //ScalableLayout header = findViewById(R.id.header);
                 //header.setVisibility(View.GONE);
                 //info에서 위의 도구를 숨김. select 버튼을 보이게 함.
+                fam.setVisibility(View.GONE);
                 ll_tools = findViewById(R.id.ll_tools);
                 ll_tools.setVisibility(View.GONE);
                 bt_select = findViewById(R.id.bt_select);
@@ -418,6 +443,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
                 });
                 break;
             case "add" :
+                fam.setVisibility(View.GONE);
                 ll_tools = findViewById(R.id.ll_tools);
                 ll_tools.setVisibility(View.GONE);
                 //fam.setVisibility(View.GONE);
@@ -552,13 +578,6 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.header_add : //헤더- 추가(/서치) 버튼
-                    if("show".equals(mode)){
-                        intent = new Intent(activity_closet_DB.this, activity_addClothes.class);
-                        intent.putExtra("location","public");
-                        startActivityForResult(intent,ADD_CLOTHES);
-                    }
-                    break;
                 case R.id.share_closet : //공유 옷장 버튼
                     intent = new Intent(activity_closet_DB.this, activity_closet_DB.class);
                     startActivity(intent);
