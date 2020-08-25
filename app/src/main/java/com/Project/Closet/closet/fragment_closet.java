@@ -65,7 +65,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     public TabPagerAdapter_closet pagerAdapter;
     private ViewPager finalPager;
 
-    Button shareButton;
+    //Button shareButton;
 
     DrawerLayout drawer;
 
@@ -117,8 +117,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.frag_closet,container,false);
         toast = Toast.makeText(getContext(),"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
-        shareButton = viewGroup.findViewById(R.id.share_closet);
-        shareButton.setVisibility(View.VISIBLE);
+        //shareButton = viewGroup.findViewById(R.id.share_closet);
+        //shareButton.setVisibility(View.VISIBLE);
 
         ll_detail = viewGroup.findViewById(R.id.ll_detail);
 
@@ -166,7 +166,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         //iv_heart.setOnClickListener(onClickListener);
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
-        shareButton.setOnClickListener(onClickListener);
+        //shareButton.setOnClickListener(onClickListener);
 
 
         iv_save.setOnClickListener(new View.OnClickListener() {
@@ -540,10 +540,10 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.share_closet : //공유 옷장 버튼
-                    intent = new Intent(getContext(), activity_closet_DB.class);
-                    startActivity(intent);
-                    break;
+                //case R.id.share_closet : //공유 옷장 버튼
+                    //intent = new Intent(getContext(), activity_closet_DB.class);
+                    //startActivity(intent);
+                    //break;
                 case R.id.fab_add_photo:
                     intent = new Intent(getContext(), activity_addClothes.class);
                     intent.putExtra("location","private");

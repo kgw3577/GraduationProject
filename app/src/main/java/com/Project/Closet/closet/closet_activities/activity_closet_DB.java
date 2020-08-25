@@ -65,7 +65,6 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     public TabPagerAdapter_closet_share pagerAdapter;
     private ViewPager finalPager;
 
-    RelativeLayout addButton;
     Button bt_select;
 
     DrawerLayout drawer;
@@ -578,10 +577,10 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         public void onClick(View view) {
             Intent intent;
             switch (view.getId()) {
-                case R.id.share_closet : //공유 옷장 버튼
-                    intent = new Intent(activity_closet_DB.this, activity_closet_DB.class);
-                    startActivity(intent);
-                    break;
+                //case R.id.share_closet : //공유 옷장 버튼
+                    //intent = new Intent(activity_closet_DB.this, activity_closet_DB.class);
+                    //startActivity(intent);
+                    //break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();

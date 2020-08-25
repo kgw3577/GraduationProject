@@ -381,7 +381,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         //플로팅 액션 버튼 설정
 
-        fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_add_photo);
+        //fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_add_photo);
         fabMake = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
         fabWeather = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
         fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
@@ -399,7 +399,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         });
 
         //handling each floating action button clicked
-        fabAdd.setOnClickListener(onClickListener);
+        //fabAdd.setOnClickListener(onClickListener);
         fabMake.setOnClickListener(onClickListener);
         fabWeather.setOnClickListener(onClickListener);
 
@@ -516,9 +516,9 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
             Intent intent;
             switch (view.getId()) {
-                case R.id.fab_add_photo : //헤더- 추가 버튼
+                //case R.id.fab_add_photo : //헤더- 추가 버튼
                     // 사진으로 코디 추가
-                    break;
+                    //break;
                 case R.id.fab_make_codi:
                     intent = new Intent(getContext(), activity_addCodi.class);
                     startActivityForResult(intent, MAKE_CODI);

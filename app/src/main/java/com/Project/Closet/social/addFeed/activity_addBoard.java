@@ -344,7 +344,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 finish();
             }
         } else if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
-            
+
 
 
 

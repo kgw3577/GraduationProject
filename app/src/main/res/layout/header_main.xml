@@ -30,6 +30,7 @@
             android:layout_toRightOf="@+id/add"
             android:visibility="invisible"
             android:text="관리자"
+
             />
     </RelativeLayout>
 
