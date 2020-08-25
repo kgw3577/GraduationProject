@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_makecodi"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:gravity="center">
+
+
+    <ImageView
+        android:id="@+id/iv_top"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/iv_top_place"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
+
+
+
+    <TextView
+        android:id="@+id/tv_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_top"
+        android:layout_alignTop="@id/iv_top"
+        android:layout_alignRight="@id/iv_top"
+        android:layout_alignBottom="@id/iv_top"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginBottom="3dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="상의"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_bottom"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:adjustViewBounds="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_below="@id/iv_top_place"/>
+
+    <ImageView
+        android:id="@+id/iv_bottom_place"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:layout_below="@id/iv_top_place"/>
+
+    <TextView
+        android:id="@+id/tv_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_bottom"
+        android:layout_alignTop="@id/iv_bottom"
+        android:layout_alignRight="@id/iv_bottom"
+        android:layout_alignBottom="@id/iv_bottom"
+        android:layout_margin="3dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="하의"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+
+
+
+
+    <ImageView
+        android:id="@+id/iv_suit"
+        android:layout_width="120dp"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_suit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_suit"
+        android:layout_alignTop="@id/iv_suit"
+        android:layout_alignRight="@id/iv_suit"
+        android:layout_alignBottom="@id/iv_suit"
+        android:layout_margin="3dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:gravity="center"
+        android:text="한벌옷 추가"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:background="#66F3F3F3"/>
+
+
+
+    <ImageView
+    android:id="@+id/iv_outer"
+    android:layout_width="120dp"
+    android:layout_height="300dp"
+    android:adjustViewBounds="true"
+    android:layout_centerHorizontal="true"
+    android:visibility="visible"
+    android:layout_toLeftOf="@id/iv_top_place"
+
+    />
+
+    <TextView
+        android:id="@+id/tv_outer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_outer"
+        android:layout_alignTop="@id/iv_outer"
+        android:layout_alignRight="@id/iv_outer"
+        android:layout_alignBottom="@id/iv_outer"
+        android:adjustViewBounds="true"
+        android:layout_margin="3dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="외투"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_shoes"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_toRightOf="@id/iv_bottom_place"
+        android:layout_below="@id/iv_bag"
+        />
+
+    <TextView
+        android:id="@+id/tv_shoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_shoes"
+        android:layout_alignTop="@id/iv_shoes"
+        android:layout_alignRight="@id/iv_shoes"
+        android:layout_alignBottom="@id/iv_shoes"
+        android:layout_margin="3dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="신발"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_bag"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_toRightOf="@id/iv_bottom_place"
+        android:layout_below="@id/iv_acc4"
+        />
+
+    <TextView
+        android:id="@+id/tv_bag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_bag"
+        android:layout_alignTop="@id/iv_bag"
+        android:layout_alignRight="@id/iv_bag"
+        android:layout_alignBottom="@id/iv_bag"
+        android:layout_margin="3dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="가방"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/iv_acc4"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible"
+        android:layout_toRightOf="@id/iv_bottom_place"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_acc4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/iv_acc4"
+        android:layout_alignTop="@id/iv_acc4"
+        android:layout_alignRight="@id/iv_acc4"
+        android:layout_alignBottom="@id/iv_acc4"
+        android:layout_margin="3dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="#66F3F3F3"
+        android:gravity="center"
+        android:text="액세서리"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+</RelativeLayout>

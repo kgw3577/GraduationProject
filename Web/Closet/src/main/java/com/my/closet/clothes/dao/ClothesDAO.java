@@ -1,5 +1,6 @@
 package com.my.closet.clothes.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ public interface ClothesDAO {
 	public List<ClothesVO> selectAllClothes() throws DataAccessException; //모든 옷 선택
 	public ClothesVO selectThisClothes(String no) throws DataAccessException; //no로 옷 하나 선택 -- int? String?
 	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException; //조건으로 옷 선택
+	public List<ClothesVO> selectClothesByList(HashMap keywordMap) throws DataAccessException;
 	
 	public String addClothes(Map<String, Object> clothesMap) throws DataAccessException; //옷 추가 (예외적으로 해쉬맵으로 받음)
 	public String addClothesData(ClothesVO cloInfo) throws DataAccessException; //옷 데이터로 추가

@@ -1,5 +1,6 @@
 package com.my.closet.clothes.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +35,15 @@ public class ClothesDAOImpl implements ClothesDAO {
 		return clothes;
 	}
 
+	@Override
+	public List<ClothesVO> selectClothesByList(HashMap keywordMap) throws DataAccessException {
+		// cloInfo는 일일이  put, detailCategory는 리스트로 들어가있을 것..
+		List<ClothesVO> clolist = sqlSession.selectList("mapper.clothes.searchClothesByList", keywordMap);
+
+		
+		return clolist;
+	}
+	
 	@Override
 	public List<ClothesVO> selectClothes(ClothesVO clothesVO) throws DataAccessException {
 		List<ClothesVO> clolist = sqlSession.selectList("mapper.clothes.searchClothes", clothesVO);
@@ -100,5 +110,6 @@ public class ClothesDAOImpl implements ClothesDAO {
 		else
 			return "fail";
 	}
+	
 
 }

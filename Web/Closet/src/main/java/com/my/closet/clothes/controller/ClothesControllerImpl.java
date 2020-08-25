@@ -1,6 +1,8 @@
 package com.my.closet.clothes.controller;
 
+import java.net.URLDecoder;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -123,6 +125,51 @@ public class ClothesControllerImpl implements ClothesController {
 		}
 		return new ResponseEntity<List<ClothesVO>>(searched_clolist, HttpStatus.OK);
 	}
+	
+	//옷 찾기
+	@Override
+	@RequestMapping(value = "/search/by_list", method = RequestMethod.PUT)
+	public ResponseEntity<List<ClothesVO>> searchClothesByList(
+			@RequestBody HashMap map,
+			@RequestParam String userID, 
+			@RequestParam String mode,
+			@RequestParam String page, 
+			@RequestParam String pageSize) throws Exception {
+		List<ClothesVO> searched_clolist;
+		HashMap keywordMap = new HashMap();
+		
+		List<String> strArray = (List<String>) map.get("list");
+		
+		//String decodeResult = URLDecoder.decode(list, "UTF-8");
+		//String[] strArray = decodeResult.split(",");
+		
+		keywordMap.put("kind",map.get("kind"));
+		keywordMap.put("userID",userID);
+		keywordMap.put("location","private");
+		keywordMap.put("mode", mode); //조건 칼럼(ex detailCategory), 그 리스트
+		keywordMap.put(mode, strArray);
+		
+		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			int pageInt = Integer.parseInt(page);
+			int pageSizeInt = Integer.parseInt(pageSize);
+			keywordMap.put("pageStart",pageInt*pageSizeInt);
+			keywordMap.put("pageSize",pageSizeInt);
+		}
+		System.out.println("////////////"+userID+mode+strArray);
+		
+		for(String str : strArray) {
+			System.out.println(str);
+		}
+		
+		
+		try{
+			searched_clolist = clothesDAO.selectClothesByList(keywordMap);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<ClothesVO>>(Collections.<ClothesVO>emptyList(), HttpStatus.SERVICE_UNAVAILABLE);
+		}
+		return new ResponseEntity<List<ClothesVO>>(searched_clolist, HttpStatus.OK);
+	}	
 
 	//옷 추가하기
 	@Override

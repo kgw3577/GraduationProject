@@ -64,7 +64,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
 
 
-    class Category {
+    public class Category {
         //final static int ALL = 0;
         final static int TOP = 0;
         final static int BOTTOM = 1;
@@ -72,10 +72,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         final static int OUTER = 3;
         final static int SHOES = 4;
         final static int BAG = 5;
-        final static int ACCESSORY = 6;
-        final static int ACCESSORY2 = 7;
-        final static int ACCESSORY3 = 8;
-        final static int ACCESSORY4 = 9;
+        final static int ACCESSORY4 = 6;
     }
 
     //뷰페이저 선언
@@ -84,6 +81,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
     //셀렉트바 선언
     LinearLayout selectbar;
+    LinearLayout ll_explain;
     ImageView iv_selected; // 현재 선택된 이미지뷰
     int selectedNum; //선택된 이미지뷰 번호
     List<TextView> tvList; //텍스트뷰 리스트
@@ -100,18 +98,12 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     TextView tvBottom;
     ImageView ivSuit;   //한벌옷 파트
     TextView tvSuit;
-    ImageView ivOuter;  //외투 파트
-    TextView tvOuter;
+    public ImageView ivOuter;  //외투 파트
+    public TextView tvOuter;
     ImageView ivShoes;  //신발 파트
     TextView tvShoes;
     ImageView ivBag;    //가방 파트
     TextView tvBag;
-    ImageView ivAccessory1; //액세서리1 파트
-    TextView tvAccessory1;
-    ImageView ivAccessory2; //액세서리2 파트
-    TextView tvAccessory2;
-    ImageView ivAccessory3; //액세서리3 파트
-    TextView tvAccessory3;
     ImageView ivAccessory4; //액세서리4 파트
     TextView tvAccessory4;
 
@@ -129,6 +121,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     private static final int REQUEST_CODE_LOCATION = 2;
     String API_KEY = "f73fa03d36a8a1b6c8acdca0ea6d229a";
     public Address addr;
+    double temper = 0;
 
 
 
@@ -137,7 +130,73 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_codi);
+
+
+
+        //위치
+        //사용자의 위치 수신을 위한 세팅
+        String[] recommendedDCate = null;
+
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        //사용자의 현재 위치
+        Location userLocation = getMyLocation(); //권한을 요청하고 위치 정보를 받아옴
+        double latitude = 0;
+        double longitude = 0;
+        if( userLocation != null ) { //위치 정보를 받아왔을 경우
+            latitude = userLocation.getLatitude();
+            longitude = userLocation.getLongitude();
+        }else{
+            Toast.makeText(this, "위치 정보를 받아올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        System.out.println("사용자의 위치 : "+latitude+","+longitude);
+        if(latitude==0 || longitude == 0){
+            Toast.makeText(this, "위치 정보를 받아올 수 없습니다.", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else{
+            String address = getAddress(getBaseContext(), latitude, longitude);//나라 도 시 구 동 번지
+
+            try {
+                temper = new weatherTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, latitude,longitude).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+            //getWeather(latitude, longitude); //변수 temper에 온도(섭씨) 저장
+
+
+            int temperInt= (int) Math.round(temper); //소수점 반올림
+            String do_ = addr.getAdminArea(); //도
+            String si = addr.getLocality(); //시
+            String gu = addr.getThoroughfare(); //구
+
+
+            String weather = si+" "+temperInt+"℃"; //군포시 24℃
+            Toast.makeText(this, si+" "+temperInt+"℃", Toast.LENGTH_SHORT).show();
+
+
+
+
+            if(temper<17){
+                Toast.makeText(this, "해당 날씨에 대한 추천 코디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else if(temper>=17 && temper<19)
+                recommendedDCate = getResources().getStringArray(R.array.fr17to19);
+            else if(temper>=19 && temper<22)
+                recommendedDCate = getResources().getStringArray(R.array.fr20to22);
+            else if(temper>=23 && temper<26)
+                recommendedDCate = getResources().getStringArray(R.array.fr23to26);
+            else if(temper>=27)
+                recommendedDCate = getResources().getStringArray(R.array.fr27);
+
+        }
+
+        setContentView(R.layout.layout_weather_codi_all);
 
         layout_preview = (RelativeLayout) findViewById(R.id.preview);
         layout_preview.setVisibility(View.GONE);
@@ -145,13 +204,17 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
         //헤더 메뉴 아이콘 받아오기
         ImageView ivRevert = (ImageView) findViewById(R.id.iv_revert);
-        ImageView ivSearch = (ImageView) findViewById(R.id.iv_search);
         ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
         TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
         TextView tvDone = (TextView) findViewById(R.id.tv_done);
 
         //코디 화면 레이아웃 받아오기
         RelativeLayout layoutMakeCodi = (RelativeLayout) findViewById(R.id.layout_makecodi);
+
+
+
+
+
 
         //이미지뷰 불러오기
         ivTop = (ImageView) findViewById(R.id.iv_top);
@@ -160,9 +223,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         ivOuter= (ImageView) findViewById(R.id.iv_outer);
         ivShoes= (ImageView) findViewById(R.id.iv_shoes);
         ivBag= (ImageView) findViewById(R.id.iv_bag);
-        ivAccessory1= (ImageView) findViewById(R.id.iv_acc1);
-        ivAccessory2= (ImageView) findViewById(R.id.iv_acc2);
-        ivAccessory3= (ImageView) findViewById(R.id.iv_acc3);
         ivAccessory4= (ImageView) findViewById(R.id.iv_acc4);
 
         //텍스트뷰 불러오기
@@ -172,9 +232,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         tvOuter= (TextView) findViewById(R.id.tv_outer);
         tvShoes= (TextView) findViewById(R.id.tv_shoes);
         tvBag= (TextView) findViewById(R.id.tv_bag);
-        tvAccessory1= (TextView) findViewById(R.id.tv_acc1);
-        tvAccessory2= (TextView) findViewById(R.id.tv_acc2);
-        tvAccessory3= (TextView) findViewById(R.id.tv_acc3);
         tvAccessory4= (TextView) findViewById(R.id.tv_acc4);
         //배열에 넣기
         tvList = new ArrayList<TextView>();
@@ -184,9 +241,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         tvList.add(tvOuter);
         tvList.add(tvShoes);
         tvList.add(tvBag);
-        tvList.add(tvAccessory1);
-        tvList.add(tvAccessory2);
-        tvList.add(tvAccessory3);
         tvList.add(tvAccessory4);
 
         is_selected_once = new boolean[10];
@@ -194,11 +248,11 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
 
         selectbar = (LinearLayout) findViewById(R.id.selectbar);
+        ll_explain = (LinearLayout) findViewById(R.id.explain);
 
         //버튼 온클릭리스너 설정
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         ivRevert.setOnClickListener(onClickListener);
-        ivSearch.setOnClickListener(onClickListener);
         ivRandom.setOnClickListener(onClickListener);
         tvPreview.setOnClickListener(onClickListener);
         tvDone.setOnClickListener(onClickListener);
@@ -208,14 +262,25 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         ivOuter.setOnClickListener(onClickListener);
         ivShoes.setOnClickListener(onClickListener);
         ivBag.setOnClickListener(onClickListener);
-        ivAccessory1.setOnClickListener(onClickListener);
-        ivAccessory2.setOnClickListener(onClickListener);
-        ivAccessory3.setOnClickListener(onClickListener);
         ivAccessory4.setOnClickListener(onClickListener);
+
+
+
+
+        if(temper>=23){
+            tvOuter.setVisibility(View.GONE);
+            ivOuter.setVisibility(View.GONE);
+            is_selected_once[Category.OUTER] = true;
+            Toast.makeText(this, "23℃ 이상이므로 외투를 추천하지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
 
         //하단 뷰페이저 어댑터 설정
         viewPager = (ViewPager) findViewById(R.id.viewPager) ;
-        viewPager.setOffscreenPageLimit(1); //캐싱을 해놓을 프래그먼트 개수
+        viewPager.setOffscreenPageLimit(7); //캐싱을 해놓을 프래그먼트 개수
         viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -229,13 +294,13 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
         //뷰페이저에 프래그먼트 설정
         //pagerAdapter.addItem(new Page_allClothes());
-        pagerAdapter.addItem(Page_category_weather.newInstance("상의","small")); //0
-        pagerAdapter.addItem(Page_category_weather.newInstance("하의","small")); //1
-        pagerAdapter.addItem(Page_category_weather.newInstance("한벌옷","small"));
-        pagerAdapter.addItem(Page_category_weather.newInstance("외투","small"));
-        pagerAdapter.addItem(Page_category_weather.newInstance("신발","small"));
-        pagerAdapter.addItem(Page_category_weather.newInstance("가방","small"));
-        pagerAdapter.addItem(Page_category_weather.newInstance("액세서리","small"));
+        pagerAdapter.addItem(Page_category_weather.newInstance("상의","small", recommendedDCate)); //0
+        pagerAdapter.addItem(Page_category_weather.newInstance("하의","small", recommendedDCate)); //1
+        pagerAdapter.addItem(Page_category_weather.newInstance("한벌옷","small", recommendedDCate));
+        pagerAdapter.addItem(Page_category_weather.newInstance("외투","small", recommendedDCate));
+        pagerAdapter.addItem(Page_category_weather.newInstance("신발","small", recommendedDCate));
+        pagerAdapter.addItem(Page_category_weather.newInstance("가방","small", recommendedDCate));
+        pagerAdapter.addItem(Page_category_weather.newInstance("액세서리","small", recommendedDCate));
         viewPager.setAdapter(pagerAdapter);
 
         //상하의/한벌옷 모드 초기 설정
@@ -248,78 +313,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
 
 
-        //위치
-        //사용자의 위치 수신을 위한 세팅
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        //사용자의 현재 위치
-        Location userLocation = getMyLocation(); //권한을 요청하고 위치 정보를 받아옴
-        double latitude = 0;
-        double longitude = 0;
-        if( userLocation != null ) { //위치 정보를 받아왔을 경우
-            latitude = userLocation.getLatitude();
-            longitude = userLocation.getLongitude();
-        }else{
-            //사용자가 위치 정보 권한을 거절했을 경우
-            if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "위치 정보 권한을 허용해야 합니다.", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-            //승인했을 경우
-            else{ //다시 받아옴
-                userLocation = getMyLocation();
-
-                if( userLocation != null ) { //위치 정보를 받아왔을 경우
-                    latitude = userLocation.getLatitude();
-                    longitude = userLocation.getLongitude();
-                }else{
-                    Toast.makeText(this, "위치 정보를 받아올 수 없습니다.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-        }
-        System.out.println("사용자의 위치 : "+latitude+","+longitude);
-
-
-        String address = getAddress(getBaseContext(), latitude, longitude);//나라 도 시 구 동 번지
-        double temper = 0;
-
-        try {
-            temper = new weatherTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, latitude,longitude).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
-        //getWeather(latitude, longitude); //변수 temper에 온도(섭씨) 저장
-
-
-        int temperInt= (int) Math.round(temper); //소수점 반올림
-        String do_ = addr.getAdminArea(); //도
-        String si = addr.getLocality(); //시
-        String gu = addr.getThoroughfare(); //구
-
-
-        String weather = si+" "+temperInt+"℃"; //군포시 24℃
-        //Toast.makeText(this, si+" "+temperInt+"℃", Toast.LENGTH_SHORT).show();
-
-
-        String[] recommendedDCate;
-
-        if(temper<17){
-            Toast.makeText(this, "해당 날씨에 대한 추천 코디가 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-        else if(temper>=17 && temper<19)
-            recommendedDCate = getResources().getStringArray(R.array.fr17to19);
-        else if(temper>=19 && temper<22)
-            recommendedDCate = getResources().getStringArray(R.array.fr20to22);
-        else if(temper>=23 && temper<26)
-            recommendedDCate = getResources().getStringArray(R.array.fr23to26);
-        else if(temper>=27)
-            recommendedDCate = getResources().getStringArray(R.array.fr27);
 
 
     }
@@ -333,6 +326,9 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
     //프래그먼트에서 데이터 받아오기
     public void ReceivedData(Object data){
+
+
+
         if(iv_selected !=null){ //선택된 이미지뷰가 있다면
             iv_selected.setImageBitmap((Bitmap)data); //받아온 비트맵으로 이미지뷰를 바꿈
 
@@ -357,8 +353,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
             switch (view.getId()) {
                 case R.id.iv_revert :
                     revertMode();
-                    break ;
-                case R.id.iv_search :
                     break ;
                 case R.id.iv_random :
                     getApplication();
@@ -432,30 +426,18 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
                     selectedNum = Category.BAG;
                     viewPager.setCurrentItem(Category.BAG);
                     break;
-                case R.id.iv_acc1:
-                    iv_selected = ivAccessory1;
-                    selectedNum = Category.ACCESSORY;
-                    viewPager.setCurrentItem(Category.ACCESSORY);
-                    break;
-                case R.id.iv_acc2:
-                    iv_selected = ivAccessory2;
-                    selectedNum = Category.ACCESSORY2;
-                    viewPager.setCurrentItem(Category.ACCESSORY);
-                    break;
-                case R.id.iv_acc3:
-                    iv_selected = ivAccessory3;
-                    selectedNum = Category.ACCESSORY3;
-                    viewPager.setCurrentItem(Category.ACCESSORY);
-                    break;
                 case R.id.iv_acc4:
                     iv_selected = ivAccessory4;
                     selectedNum = Category.ACCESSORY4;
-                    viewPager.setCurrentItem(Category.ACCESSORY);
+                    viewPager.setCurrentItem(Category.ACCESSORY4);
                     break;
             }
 
-            if(iv_selected!=null)
+            if(iv_selected!=null){
                 selectbar.setVisibility(View.VISIBLE);
+                ll_explain.setVisibility(View.GONE);
+            }
+
 
         }
     }
@@ -642,7 +624,11 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
                 //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
                 //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
                 address = geocoder.getFromLocation(lat, lng, 1);
-                addr = address.get(0);
+                if(address.size()==0){
+                    Toast.makeText(mContext, nowAddress, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else addr = address.get(0);
 
                 if (address != null && address.size() > 0) {
                     // 주소 받아오기
@@ -681,6 +667,8 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
                 repo = call.execute().body();
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(activity_weatherCodi.this, "날씨 정보 받아오기 실패", Toast.LENGTH_SHORT).show();
+                finish();
             }
             double temper = repo.getMain().getTemp()- 273.15;
             return temper;
@@ -694,28 +682,4 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     }
 
 
-
-    public void getWeather(double lat, double lot){
-
-
-        Retrofit client = new Retrofit.Builder().baseUrl("http://api.openweathermap.org").addConverterFactory(GsonConverterFactory.create()).build();
-
-        ApiInterface service = client.create(ApiInterface.class);
-        Call<Repo> call = service.repo(API_KEY, lat, lot);
-        call.enqueue(new Callback<Repo>() {
-            @Override
-            public void onResponse(Call<Repo> call, Response<Repo> response) {
-                Repo repo = response.body();
-                double temper = repo.getMain().getTemp()- 273.15;
-                Toast.makeText(activity_weatherCodi.this, temper+"", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Repo> call, Throwable t) {
-                Toast.makeText(activity_weatherCodi.this, "날씨 정보 받아오기 실패", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-
-        });
-    }
 }

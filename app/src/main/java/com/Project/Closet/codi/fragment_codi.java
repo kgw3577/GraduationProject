@@ -1,11 +1,13 @@
 package com.Project.Closet.codi;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -33,12 +36,14 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.activity_addCodi;
+import com.Project.Closet.codi.weather.PermissionActivity;
 import com.Project.Closet.codi.weather.activity_weatherCodi;
 import com.Project.Closet.home.activity_home;
 import com.Project.Closet.util.OnBackPressedListener;
 import com.github.clans.fab.FloatingActionMenu;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
@@ -50,6 +55,8 @@ import retrofit2.Call;
 import static android.app.Activity.RESULT_OK;
 
 public class fragment_codi extends Fragment implements OnBackPressedListener {
+
+    private static final int PERMISSIONS_REQUEST_CODE = 1500;
 
     ViewGroup viewGroup;
     Toast toast;
@@ -517,8 +524,13 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                     startActivityForResult(intent, MAKE_CODI);
                     break;
                 case R.id.fab_weather_codi:
-                    intent = new Intent(getContext(), activity_weatherCodi.class);
-                    startActivityForResult(intent, WEATHER_CODI);
+                    if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                        intent = new Intent(getContext(), PermissionActivity.class);
+                        startActivity(intent);
+                    }else{
+                        intent = new Intent(getContext(), activity_weatherCodi.class);
+                        startActivityForResult(intent, WEATHER_CODI);
+                    }
                     break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정

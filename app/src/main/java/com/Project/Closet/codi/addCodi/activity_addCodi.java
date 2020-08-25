@@ -188,7 +188,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
         //하단 뷰페이저 어댑터 설정
         viewPager = (ViewPager) findViewById(R.id.viewPager) ;
-        viewPager.setOffscreenPageLimit(1); //캐싱을 해놓을 프래그먼트 개수
+        viewPager.setOffscreenPageLimit(10); //캐싱을 해놓을 프래그먼트 개수
         viewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -200,6 +200,15 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
         pagerAdapter = new MyPagerAdapter(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
+
+        //상하의/한벌옷 모드 초기 설정
+        is_topBottom = true; //상하의 모드
+        is_checked_top = false;
+        is_checked_bottom = false;
+        is_checked_suit = false;
+        is_selected_once[Category.SUIT] = true; //한벌옷 체크 여부 끔
+
+
         //뷰페이저에 프래그먼트 설정
         //pagerAdapter.addItem(new Page_allClothes());
         pagerAdapter.addItem(Page_category.newInstance("상의","small")); //0
@@ -210,13 +219,6 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
         pagerAdapter.addItem(Page_category.newInstance("가방","small"));
         pagerAdapter.addItem(Page_category.newInstance("액세서리","small"));
         viewPager.setAdapter(pagerAdapter);
-
-        //상하의/한벌옷 모드 초기 설정
-        is_topBottom = true; //상하의 모드
-        is_checked_top = false;
-        is_checked_bottom = false;
-        is_checked_suit = false;
-        is_selected_once[Category.SUIT] = true; //한벌옷 체크 여부 끔
 
     }
 

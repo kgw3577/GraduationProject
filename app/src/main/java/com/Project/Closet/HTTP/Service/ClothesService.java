@@ -6,6 +6,7 @@ import com.Project.Closet.HTTP.APIAdapter;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.UserVO;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -63,6 +64,12 @@ public class ClothesService extends APIAdapter {
         @Headers("Content-Type: application/json")
         @PUT("clothes/search")
         Call<List<ClothesVO>> searchClothes(@Body ClothesVO clothesFilter, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
+
+        //리스트로 옷 찾기
+        @Headers("Content-Type: application/json")
+        @PUT("clothes/search/by_list")
+        Call<List<ClothesVO>> searchClothesByList(@Body HashMap map, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize, @Query("mode") String mode);
+
 
         //옷 정보 받아오기
         //cloNo를 파라미터로 받아 API URL을 완성해서 GET 방식으로 요청

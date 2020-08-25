@@ -114,6 +114,86 @@
 	</select>
 	
 	
+	<!-- 조건값에 따라 select하는 쿼리. clothesVO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchClothesByList" resultMap="clothesResult" parameterType="java.util.HashMap">
+	<![CDATA[
+		select * from CLOTHES
+	]]>
+			<where>
+				<if test="cloNo != '' and cloNo != null">
+				cloNo = #{cloNo}
+				</if>
+				<if test="location != '' and location != null">
+					and location = #{location}
+				</if>
+				<if test="kind != '' and kind != null">
+					and kind = #{kind}
+				</if>
+				<if test="category != '' and category != null">
+					and category = #{category}
+				</if>
+				<if test="detailCategory != '' and detailCategory != null and mode != 'detailCategory'">
+					and detailCategory = #{detailCategory}
+				</if>
+				<if test="color != '' and color != null">
+					and color = #{color}
+				</if>
+				<if test="identifier != '' and identifier != null">
+					and identifier = #{identifier}
+				</if>
+				<if test="season != '' and season != null">
+					and season = #{season}
+				</if>
+				<if test="brand != '' and brand != null">
+					and brand = #{brand}
+				</if>
+				<if test="cloSize != '' and cloSize != null">
+					and cloSize = #{cloSize}
+				</if>
+				<if test="buyDate != '' and buyDate != null">
+					and buyDate = #{buyDate}
+				</if>
+				<if test="fileName != '' and fileName != null">
+					and fileName = #{fileName}
+				</if>
+				<if test="filePath != '' and filePath != null">
+					and filePath = #{filePath}
+				</if>
+				<if test="favorite != '' and favorite != null">
+					and favorite = #{favorite}
+				</if>
+				<if test="userID != '' and userID != null">
+					and userID = #{userID}
+				</if>
+				<if test="closetName != '' and closetName != null">
+					and closetName = #{closetName} 
+				</if>
+				<if test="regDate != '' and regDate != null">
+					and regDate = #{regDate} 
+				</if>
+					<if test="mode == 'detailCategory'">
+						and detailCategory in
+								<foreach collection="detailCategory" item="detailCate"  open="(" close=")" separator=",">
+									#{detailCate}
+								</foreach>
+					</if>
+			</where>
+		
+		
+		<if test="pageStart != -1 and pageSize != -1">
+			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+		</if>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<!-- 옷 추가 쿼리  -->
 	<insert id="insertClothes" parameterType="java.util.HashMap">
 	<![CDATA[

@@ -1,5 +1,6 @@
 package com.my.closet.clothes.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,12 @@ public interface ClothesController {
 	
 	public ResponseEntity<ClothesVO> infoClothes(String no) throws Exception; //옷 정보 보기
 	public ResponseEntity<List<ClothesVO>> searchClothes(ClothesVO clothesVO, String userID, String page, String pageSize) throws Exception; //옷 찾기
+	public ResponseEntity<List<ClothesVO>> searchClothesByList(
+			@RequestBody HashMap map,
+			@RequestParam String userID, 
+			@RequestParam String mode,
+			@RequestParam String page, 
+			@RequestParam String pageSize) throws Exception; //리스트로 옷 찾기
 	
 	public ResponseEntity<String> addClothes(MultipartHttpServletRequest multipartRequest,MultipartFile multipartFile) throws Exception; //옷 추가
 	public ResponseEntity<String> addClothesFrData(@RequestBody ClothesVO cloInfo) throws Exception;

@@ -245,10 +245,6 @@
     </string-array>
 
 
-
-
-
-
     <string-array name="fr17to19">
         <item>"라운드넥긴팔티셔츠"</item>
         <item>"브이넥긴팔티셔츠"</item>
@@ -426,8 +422,6 @@
         <item>"넥타이"</item>
         <item>"양말"</item>
     </string-array>
-
-
 
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>

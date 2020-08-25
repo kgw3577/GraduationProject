@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".closet.activity_cloInfo"></activity>
+        <activity android:name=".codi.weather.PermissionActivity"></activity>
+        <activity android:name=".closet.activity_cloInfo" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +27,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".social.detailFeed.activity_thisFeed" />
-
         <activity android:name=".social.addFeed.activity_addBoard" />
         <activity android:name=".activity_profile" />
         <activity android:name=".codi.addCodi.activity_addCodi" />
@@ -40,7 +40,7 @@
         <activity android:name=".signup.activity_signup_next" />
         <activity android:name=".signup.activity_signup_profile_img" />
         <activity android:name=".signup.activity_signup_profile_contents" />
-        <activity android:name=".activity_login"></activity>
+        <activity android:name=".activity_login" />
         <activity android:name=".home.activity_home" />
         <activity android:name=".social.space.activity_space" />
     </application>
