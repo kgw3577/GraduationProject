@@ -186,6 +186,10 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.tv_from_closet :
                 //share와 똑같이. mode 만들고 result 받아오기
+                intent = new Intent(this, activity_closet_DB.class);
+                intent.putExtra("mode","select_my");
+                startActivityForResult(intent, FROM_CLOSET);
+                slidingDrawer.close();
                 break;
             case R.id.tv_from_share :
                 intent = new Intent(this, activity_closet_DB.class);

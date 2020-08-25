@@ -234,7 +234,7 @@
                                     android:id="@+id/bt_logout"
                                     android:textStyle="bold"
                                     android:layout_margin="5dp"
-                                    android:layout_gravity="left|center_vertical"
+                                    android:layout_gravity="right|center_vertical"
                                     android:layout_width="wrap_content"
                                     android:layout_height="38dp"
                                     android:visibility="gone"

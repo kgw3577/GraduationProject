@@ -63,6 +63,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     LinearLayout ll_detail;
     private TabLayout tabLayout;
     public TabPagerAdapter_closet_share pagerAdapter;
+    public TabPagerAdapter_closet_my myPagerAdapter;
     private ViewPager finalPager;
 
     Button bt_select;
@@ -348,8 +349,16 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
             finalPager = (ViewPager) findViewById(R.id.tab_Pager);
             finalPager.setBackgroundColor(Color.parseColor("#FFC0CB")); //공유 옷장만 구분 위해 핑크
 
-            pagerAdapter = new TabPagerAdapter_closet_share(getSupportFragmentManager(), tabLayout.getTabCount());
-            finalPager.setAdapter(pagerAdapter);
+
+            if("select_my".equals(mode)){
+                myPagerAdapter = new TabPagerAdapter_closet_my(getSupportFragmentManager(), tabLayout.getTabCount());
+                finalPager.setAdapter(myPagerAdapter);
+            }
+            else{
+                pagerAdapter = new TabPagerAdapter_closet_share(getSupportFragmentManager(), tabLayout.getTabCount());
+                finalPager.setAdapter(pagerAdapter);
+            }
+
             finalPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
@@ -400,7 +409,9 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
         LinearLayout ll_tools;
 
         switch(mode){
-            case "select": //선택 모드일 때
+            case "select":
+            case "select_my":
+                //선택 모드일 때
                 //ScalableLayout header = findViewById(R.id.header);
                 //header.setVisibility(View.GONE);
                 //info에서 위의 도구를 숨김. select 버튼을 보이게 함.

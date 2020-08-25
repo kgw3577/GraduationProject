@@ -222,7 +222,10 @@ public class TabFragment_Clothes_inClosetShare extends Fragment {
         @Override
         protected List<ClothesVO> doInBackground(String... params) {
             String userID = "-1"; //공유 옷장은 모든 유저가 볼수 있게 함
-            //String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
+            final activity_closet_DB activity = (activity_closet_DB)getActivity();
+            if("select_my".equals(activity.mode)){
+                userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
+            }
             ClothesVO clothesFilter = new ClothesVO();
             clothesFilter.setLocation(location);
             switch(identifier){
