@@ -70,7 +70,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
 
     EditText tv_contents;
 
-    TextView tv_add_image;
+    //TextView tv_add_image;
     TextView tv_from_closet;
     TextView tv_from_share;
     TextView tv_cancel;
@@ -107,12 +107,12 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
         slidingDrawer = findViewById(R.id.sliding_drawer);
         drawer_content = findViewById(R.id.drawer_content);
 
-        tv_add_image = findViewById(R.id.tv_add_image);
+        //tv_add_image = findViewById(R.id.tv_add_image);
         tv_from_closet= findViewById(R.id.tv_from_closet);
         tv_from_share = findViewById(R.id.tv_from_share);
         tv_cancel = findViewById(R.id.tv_cancel);
 
-        tv_add_image.setOnClickListener(this);
+        //tv_add_image.setOnClickListener(this);
         tv_from_closet.setOnClickListener(this);
         tv_from_share.setOnClickListener(this);
         tv_cancel.setOnClickListener(this);
@@ -178,12 +178,12 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
             case R.id.drawer_content :
                 slidingDrawer.close();
                 break;
-            case R.id.tv_add_image :
-                intent = new Intent(this, activity_addClothes.class);
-                intent.putExtra("location","private");
-                startActivityForResult(intent, ADD_CLOTHES);
-                slidingDrawer.close();
-                break;
+//            case R.id.tv_add_image :
+//                intent = new Intent(this, activity_addClothes.class);
+//                intent.putExtra("location","private");
+//                startActivityForResult(intent, ADD_CLOTHES);
+//                slidingDrawer.close();
+//                break;
             case R.id.tv_from_closet :
                 //share와 똑같이. mode 만들고 result 받아오기
                 intent = new Intent(this, activity_closet_DB.class);
@@ -348,10 +348,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 finish();
             }
         } else if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
-
-
-
-
+            //
         } else if(requestCode == FROM_CLOSET && resultCode == RESULT_OK||
                 requestCode == FROM_SHARE && resultCode == RESULT_OK){
             //데이터 받아오기

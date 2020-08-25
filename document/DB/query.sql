@@ -647,11 +647,15 @@ U.userID writerID, U.nickname writerName, U.pfImagePath pfImagePath, U.pfContent
               (SELECT COUNT(*) FROM `COMMENT` where `COMMENT`.boardNo = B.boardNo) numComment,
               B.boardNo boardNo, B.filePath imagePath, B.contents contents, B.regDate regDate,
               C.cloNo cloNo, C.filePath cloImagePath, C.identifier cloIdentifier, C.brand cloBrand
- 		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C
+ 		FROM `USER` U, `BOARD` B, RELATION_BOARD_CLO R, CLOTHES C;
 
 
 
-
+-- 해당 세부 카테고리 목록을 가진 옷 조회
+select * from CLOTHES
+	where userID='a' 
+    and location = 'private';
+    and detailCategory in ("양털점퍼","가방");
 
 
 

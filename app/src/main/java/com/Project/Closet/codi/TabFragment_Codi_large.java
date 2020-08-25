@@ -154,7 +154,7 @@ public class TabFragment_Codi_large extends Fragment {
                     codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
                     break;
                 case "favorite" : //즐겨찾기한 코디 조회
-                    codiFilter.setFavorite(identifier);
+                    codiFilter.setFavorite("yes");
                     codiListCall = CodiService.getRetrofit(getActivity()).searchCodi(codiFilter,userID,params[0], "7");
             }
 
