@@ -119,27 +119,27 @@
 
         >
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_add_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_add_photo"
-            app:fab_colorNormal="#000000"
-            app:fab_colorPressed="#F2AB00"
-            app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="사진 올리기"
-            fab:fab_size="normal" />
+<!--        <com.github.clans.fab.FloatingActionButton-->
+<!--            android:id="@+id/fab_add_photo"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/icon_add_photo"-->
+<!--            app:fab_colorNormal="#000000"-->
+<!--            app:fab_colorPressed="#F2AB00"-->
+<!--            app:fab_colorRipple="#99FFFFFF"-->
+<!--            fab:fab_label="사진 올리기"-->
+<!--            fab:fab_size="normal" />-->
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_bring_codibook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_make"
-            app:fab_colorNormal="#000000"
-            app:fab_colorPressed="#F2AB00"
-            app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="코디북에서 가져오기"
-            fab:fab_size="normal" />
+<!--        <com.github.clans.fab.FloatingActionButton-->
+<!--            android:id="@+id/fab_bring_codibook"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:src="@drawable/icon_make"-->
+<!--            app:fab_colorNormal="#000000"-->
+<!--            app:fab_colorPressed="#F2AB00"-->
+<!--            app:fab_colorRipple="#99FFFFFF"-->
+<!--            fab:fab_label="코디북에서 가져오기"-->
+<!--            fab:fab_size="normal" />-->
 
 
     </com.github.clans.fab.FloatingActionMenu>

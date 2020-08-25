@@ -19,12 +19,31 @@
         android:layout_marginBottom="10dp"
         >
 
+        <TextView
+            android:id="@+id/tv_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="군포시 27℃"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            >
+        </TextView>
+        <TextView
+            android:id="@+id/tv_explain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="오늘 날씨엔 옷장에서 이 코디를 추천합니다."
+            android:layout_below="@+id/tv_weather"
+            >
+        </TextView>
+
 
         <ImageView
             android:id="@+id/iv_revert"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_done"
+            android:layout_marginRight="15dp"
             app:srcCompat="@drawable/revert" />
 
         <ImageView
@@ -34,25 +53,9 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/iv_revert"
             android:layout_marginLeft="15dp"
-            app:srcCompat="@drawable/random" />
+            app:srcCompat="@drawable/random"
+            android:visibility="gone"/>
 
-
-
-
-
-
-
-
-
-        <TextView
-            android:id="@+id/tv_preview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@id/tv_done"
-            android:text="미리보기"
-            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tv_done"
@@ -100,13 +103,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <include
-            layout="@layout/preview"/>
-    </RelativeLayout>
 
 </RelativeLayout>

@@ -180,7 +180,7 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.tv_add_image :
                 intent = new Intent(this, activity_addClothes.class);
-                intent.putExtra("location","public");
+                intent.putExtra("location","private");
                 startActivityForResult(intent, ADD_CLOTHES);
                 slidingDrawer.close();
                 break;
@@ -344,7 +344,10 @@ public class activity_addBoard extends AppCompatActivity implements View.OnClick
                 finish();
             }
         } else if(requestCode == ADD_CLOTHES && resultCode == RESULT_OK){
-            //int 묶음
+            
+
+
+
         } else if(requestCode == FROM_CLOSET && resultCode == RESULT_OK||
                 requestCode == FROM_SHARE && resultCode == RESULT_OK){
             //데이터 받아오기

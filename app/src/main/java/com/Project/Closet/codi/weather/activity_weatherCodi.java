@@ -108,8 +108,8 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     TextView tvAccessory4;
 
     //미리보기 관련
-    RelativeLayout layout_preview;
-    ImageView ivPreviewImage;
+    //RelativeLayout layout_preview;
+    //ImageView ivPreviewImage;
 
     //이미지 저장 관련
     Bitmap savedCodi;
@@ -122,6 +122,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     String API_KEY = "f73fa03d36a8a1b6c8acdca0ea6d229a";
     public Address addr;
     double temper = 0;
+    String weather;
 
 
 
@@ -175,10 +176,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
             String gu = addr.getThoroughfare(); //구
 
 
-            String weather = si+" "+temperInt+"℃"; //군포시 24℃
-            Toast.makeText(this, si+" "+temperInt+"℃", Toast.LENGTH_SHORT).show();
-
-
+            weather = si+" "+temperInt+"℃"; //군포시 24℃
 
 
             if(temper<17){
@@ -198,19 +196,22 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
 
         setContentView(R.layout.layout_weather_codi_all);
 
-        layout_preview = (RelativeLayout) findViewById(R.id.preview);
-        layout_preview.setVisibility(View.GONE);
-        ivPreviewImage  = (ImageView) findViewById(R.id.iv_preview_image);
+        TextView tv_weather = findViewById(R.id.tv_weather);
+        tv_weather.setText(weather);
+
+
+        //layout_preview = (RelativeLayout) findViewById(R.id.preview);
+        //layout_preview.setVisibility(View.GONE);
+        //ivPreviewImage  = (ImageView) findViewById(R.id.iv_preview_image);
 
         //헤더 메뉴 아이콘 받아오기
         ImageView ivRevert = (ImageView) findViewById(R.id.iv_revert);
         ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
-        TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
+        //TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
         TextView tvDone = (TextView) findViewById(R.id.tv_done);
 
         //코디 화면 레이아웃 받아오기
         RelativeLayout layoutMakeCodi = (RelativeLayout) findViewById(R.id.layout_makecodi);
-
 
 
 
@@ -254,7 +255,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         ivRevert.setOnClickListener(onClickListener);
         ivRandom.setOnClickListener(onClickListener);
-        tvPreview.setOnClickListener(onClickListener);
+        //tvPreview.setOnClickListener(onClickListener);
         tvDone.setOnClickListener(onClickListener);
         ivTop.setOnClickListener(onClickListener);
         ivBottom.setOnClickListener(onClickListener);
@@ -356,23 +357,6 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
                     break ;
                 case R.id.iv_random :
                     getApplication();
-                    break ;
-                case R.id.tv_preview : //미리보기 버튼 : 현재 코디 비트맵으로 저장한 후 보여주기
-                    layout_preview.setVisibility(View.VISIBLE);
-
-                    for(int i=0; i<tvList.size();i++) {
-                        tvList.get(i).setVisibility(View.GONE);
-                    }
-
-                    layoutMakeCodi.setDrawingCacheEnabled(false); //캐시를 지운다
-                    layoutMakeCodi.setDrawingCacheEnabled(true); //캐시를 얻는다
-                    layoutMakeCodi.buildDrawingCache(); //뷰 이미지 캡쳐 Drawing cache에 저장
-                    savedCodi = layoutMakeCodi.getDrawingCache(); //캡쳐를 비트맵으로 저장
-                    if (savedCodi != null) {
-                        Log.e("confirm","코디 저장됨.");
-                        layout_preview.setVisibility(View.VISIBLE);
-                        ivPreviewImage.setImageBitmap(savedCodi.copy(savedCodi.getConfig(), false));
-                    }
                     break ;
                 case R.id.tv_done : //완료 버튼
                     for(int i=0; i<tvList.size();i++) {
@@ -569,18 +553,7 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
     //뒤로 가기 버튼이 눌렸을 경우 드로워(메뉴)를 닫는다.
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.final_drawer_layout);
-        if (layout_preview.getVisibility() == View.VISIBLE) { //미리보기가 끝나면
-            layout_preview.setVisibility(View.GONE);
-            for(int i=0; i<tvList.size();i++) {
-                if(!is_selected_once[i]){ //선택되지 않았던 파트들에 한해서
-                    tvList.get(i).setVisibility(View.VISIBLE); //텍스트가 보이게 한다
-                }
-            }
-
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
 

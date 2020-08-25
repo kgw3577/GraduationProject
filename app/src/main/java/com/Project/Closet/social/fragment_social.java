@@ -51,7 +51,7 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
     //TextView tv_from_codi;
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabAdd, fabBring;
+    //private FloatingActionButton fabAdd, fabBring;
 
     public static fragment_social newInstance() {
 
@@ -173,8 +173,8 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
 
 
         //플로팅 액션 버튼 설정
-        fabAdd = (FloatingActionButton) viewGroup.findViewById(R.id.fab_add_photo);
-        fabBring = (FloatingActionButton) viewGroup.findViewById(R.id.fab_bring_codibook);
+        //fabAdd = (FloatingActionButton) viewGroup.findViewById(R.id.fab_add_photo);
+        //fabBring = (FloatingActionButton) viewGroup.findViewById(R.id.fab_bring_codibook);
         fam = (FloatingActionMenu) viewGroup.findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
@@ -190,26 +190,20 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
         });
 
         //handling each floating action button clicked
-        fabAdd.setOnClickListener(onClickListener);
-        fabBring.setOnClickListener(onClickListener);
+        //fabAdd.setOnClickListener(onClickListener);
+        //fabBring.setOnClickListener(onClickListener);
 
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(fam.isOpened()){
-                    fam.close(true);
-                }
-                else{
-                    fam.open(true);
-                }
-
+                Intent intent = new Intent(getContext(), activity_addBoard.class);
+                startActivityForResult(intent,ADD_BOARD);
             }
         });
 
         //fam.open(true);
         //fam.close(true);
-        fam.setClosedOnTouchOutside(true);
+        //fam.setClosedOnTouchOutside(true);
 
 
 
@@ -254,13 +248,13 @@ public class fragment_social extends Fragment implements OnBackPressedListener {
 //                case R.id.header_add : //헤더- 추가 버튼
 //                    //slidingDrawer.open();
 //                    break;
-                case R.id.fab_add_photo:
-                    Intent intent = new Intent(getContext(), activity_addBoard.class);
-                    startActivityForResult(intent,ADD_BOARD);
-                    break;
-                case R.id.fab_bring_codibook:
-                    //
-                    break;
+//                case R.id.fab_add_photo:
+//                    Intent intent = new Intent(getContext(), activity_addBoard.class);
+//                    startActivityForResult(intent,ADD_BOARD);
+//                    break;
+//                case R.id.fab_bring_codibook:
+//                    //
+//                    break;
 //                case R.id.tv_add_image :
 //                    Intent intent = new Intent(getContext(), activity_addBoard.class);
 //                    startActivityForResult(intent,ADD_BOARD);

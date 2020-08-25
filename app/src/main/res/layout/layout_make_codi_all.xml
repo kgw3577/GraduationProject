@@ -27,32 +27,6 @@
             android:layout_centerVertical="true"
             app:srcCompat="@drawable/revert" />
 
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@id/iv_revert"
-            app:srcCompat="@drawable/search2" />
-
-
-        <ImageView
-            android:id="@+id/iv_random"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/iv_search"
-            android:layout_marginLeft="15dp"
-            app:srcCompat="@drawable/random" />
-
-
-
-
-
-
-
-
 
         <TextView
             android:id="@+id/tv_preview"

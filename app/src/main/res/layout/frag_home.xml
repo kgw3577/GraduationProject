@@ -9,10 +9,6 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipe_layout">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -119,6 +115,7 @@
                                     android:layout_height="29dp"
                                     android:text="옷 조합"
                                     android:background="@drawable/oval"
+                                    android:visibility="gone"
                                     >
                                 </Button>
                                 <Button
@@ -126,7 +123,7 @@
                                     android:id="@+id/bt_reco_hot"
                                     android:layout_width="wrap_content"
                                     android:layout_height="29dp"
-                                    android:text="요즘 핫!"
+                                    android:text="오늘의 추천"
                                     android:background="@drawable/oval"
                                     >
                                 </Button>
@@ -213,7 +210,6 @@
 
         </RelativeLayout>
     </RelativeLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 <!--    <com.google.android.material.navigation.NavigationView-->
 <!--        android:id="@+id/final_nav_view"-->

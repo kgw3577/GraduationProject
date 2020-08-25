@@ -415,6 +415,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         finalPager_recommend.setAdapter(pagerAdapter_recommend);
 
 
+        /*
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) getView().findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -429,6 +430,8 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
             }
         });
 
+
+         */
 
     }
 

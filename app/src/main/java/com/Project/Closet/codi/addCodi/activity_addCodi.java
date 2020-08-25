@@ -110,7 +110,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_add_codi);
+        setContentView(R.layout.layout_make_codi_all);
 
         layout_preview = (RelativeLayout) findViewById(R.id.preview);
         layout_preview.setVisibility(View.GONE);
@@ -118,8 +118,8 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
         //헤더 메뉴 아이콘 받아오기
         ImageView ivRevert = (ImageView) findViewById(R.id.iv_revert);
-        ImageView ivSearch = (ImageView) findViewById(R.id.iv_search);
-        ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
+        //ImageView ivSearch = (ImageView) findViewById(R.id.iv_search);
+        //ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
         TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
         TextView tvDone = (TextView) findViewById(R.id.tv_done);
 
@@ -171,8 +171,8 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
         //버튼 온클릭리스너 설정
         BtnOnClickListener onClickListener = new BtnOnClickListener();
         ivRevert.setOnClickListener(onClickListener);
-        ivSearch.setOnClickListener(onClickListener);
-        ivRandom.setOnClickListener(onClickListener);
+        //ivSearch.setOnClickListener(onClickListener);
+        //ivRandom.setOnClickListener(onClickListener);
         tvPreview.setOnClickListener(onClickListener);
         tvDone.setOnClickListener(onClickListener);
         ivTop.setOnClickListener(onClickListener);
@@ -250,11 +250,11 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
                 case R.id.iv_revert :
                     revertMode();
                     break ;
-                case R.id.iv_search :
-                    break ;
-                case R.id.iv_random :
-                    getApplication();
-                    break ;
+//                case R.id.iv_search :
+//                    break ;
+//                case R.id.iv_random :
+//                    getApplication();
+//                    break ;
                 case R.id.tv_preview : //미리보기 버튼 : 현재 코디 비트맵으로 저장한 후 보여주기
                     layout_preview.setVisibility(View.VISIBLE);
 
