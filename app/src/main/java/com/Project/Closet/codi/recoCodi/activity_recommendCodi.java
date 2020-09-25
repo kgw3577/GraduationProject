@@ -56,25 +56,25 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
     }
 
     public class Color {
-        final static int BLACK = 1000;
-        final static int WHITE = 1001;
-        final static int GRAY = 1002;
-        final static int IVORY = 1003;
-        final static int BEIGE = 1004;
-        final static int PINK = 1005;
-        final static int RED = 1006;
-        final static int WINE = 1007;
-        final static int PURPLE = 1008;
-        final static int SKY_BLUE = 1009;
-        final static int BLUE = 1010;
-        final static int NAVY = 1011;
-        final static int GREEN = 1012;
-        final static int OLIVE_GREEN = 1013;
-        final static int YELLOW = 1014;
-        final static int ORANGE = 1015;
-        final static int BROWN = 1016;
-        final static int GOLD = 1017;
-        final static int SILVER = 1018;
+        final static int BLACK = 0;
+        final static int WHITE = 1;
+        final static int GRAY = 2;
+        final static int IVORY = 3;
+        final static int BEIGE = 4;
+        final static int PINK = 5;
+        final static int RED = 6;
+        final static int WINE = 7;
+        final static int PURPLE = 8;
+        final static int SKY_BLUE = 9;
+        final static int BLUE = 10;
+        final static int NAVY = 11;
+        final static int GREEN = 12;
+        final static int OLIVE_GREEN = 13;
+        final static int YELLOW = 14;
+        final static int ORANGE = 15;
+        final static int BROWN = 16;
+        final static int GOLD = 17;
+        final static int SILVER = 18;
     }
 
     HashMap<String,Integer> colorMap;
@@ -131,7 +131,28 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         colorMap.put("골드",Color.GOLD);
         colorMap.put("실버",Color.SILVER);
 
-
+        int [][] score;
+        score = new int[][]{
+                {50,10,	50,	40,	40,	40,	20,	20,	20,	20,	40,	40,	40,	40,	20,	50,	20,	20,	50},
+                {50	,10	,30	,50	,50	,40	,40	,40	,20	,50	,50	,50	,40	,40	,50	,50	,50	,20	,40},
+                {50	,30	,20	,20	,20	,20	,20	,20	,50	,10	,20	,50	,0	,0	,20	,20	,50	,20	,40},
+                {50	,50	,20	,50	,50	,40	,50	,50	,20	,20	,20	,20	,40	,40	,20	,20	,20	,20	,20},
+                {50	,50	,50	,50	,50	,40	,20	,20	,20	,50	,40	,20	,40	,40	,20	,20	,50	,20	,20},
+                {40	,50	,20	,40	,40	,20	,20	,20	,20	,50	,40	,10	,20	,20	,20	,20	,20	,20	,20},
+                {30	,30	,20	,20	,20	,20	,10	,40	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
+                {50	,30	,20	,10	,10	,20	,40	,10	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
+                {0	,20	,50	,20	,20	,20	,50	,50	,20	,20	,20	,50	,50	,50	,20	,20	,20	,20	,20},
+                {40	,50	,50	,40	,40	,50	,40	,40	,50	,40	,50	,50	,0	,0	,50	,20	,50	,20	,20},
+                {40	,50	,50	,40	,40	,50	,40	,40	,50	,10	,20	,10	,0	,0	,50	,20	,50	,20	,20},
+                {30	,50	,50	,40	,40	,50	,50	,50	,50	,40	,40	,10	,40	,40	,50	,20	,50	,20	,20},
+                {30	,20	,20	,20	,20	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
+                {50	,20	,20	,40	,40	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
+                {40	,10	,20	,40	,40	,20	,40	,40	,20	,40	,40	,40	,20	,20	,20	,20	,20	,20	,20},
+                {40	,50	,20	,20	,20	,20	,20	,20	,20	,20	,40	,40	,10	,10	,20	,20	,20	,20	,20},
+                {20	,30	,50	,50	,50	,30	,20	,20	,20	,50	,50	,50	,50	,50	,20	,20	,20	,20	,20},
+                {40	,30	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10},
+                {50	,40	,40	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10	,40}
+        };
 
 
         //상하의 일때 mode 1 - switch mode
@@ -173,7 +194,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         }
 
         /*각 파트 별로 컬러 목록을 만듬*/
-        Set<Integer>[] colorsOfPart = new Set[7];
+        Set<Integer>[] colorsOfPart = new Set[7]; //set : 중복x
         for (int i=0; i<7; i++){
             colorsOfPart[i] = new HashSet<>();
         }
@@ -186,9 +207,6 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                 //System.out.println(clo.getKind()+clo.getColor());
             }
         }
-
-
-
 
 
         //헤더 메뉴 아이콘 받아오기
