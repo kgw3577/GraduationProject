@@ -36,6 +36,7 @@ import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.codi.addCodi.activity_addCodi;
+import com.Project.Closet.codi.recoCodi.activity_recoCodi_setting;
 import com.Project.Closet.codi.weather.PermissionActivity;
 import com.Project.Closet.codi.weather.activity_weatherCodi;
 import com.Project.Closet.home.activity_home;
@@ -64,6 +65,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
     int MAKE_CODI = 120;
     int WEATHER_CODI = 191;
+    int RECO_CODI = 255;
 
     Activity activity;
 
@@ -101,7 +103,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabAdd, fabMake, fabWeather;
+    private FloatingActionButton fabAdd, fabMake, fabWeather, fabRecommend;
 
     public static fragment_codi newInstance() {
 
@@ -384,6 +386,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         //fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_add_photo);
         fabMake = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
         fabWeather = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
+        fabRecommend = (FloatingActionButton) getView().findViewById(R.id.fab_recommend_codi);
         fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
 
         //handling menu status (open or close)
@@ -402,6 +405,8 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         //fabAdd.setOnClickListener(onClickListener);
         fabMake.setOnClickListener(onClickListener);
         fabWeather.setOnClickListener(onClickListener);
+        fabRecommend.setOnClickListener(onClickListener);
+
 
         fam.setOnMenuButtonClickListener(new View.OnClickListener() {
             @Override
@@ -532,6 +537,10 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                         startActivityForResult(intent, WEATHER_CODI);
                     }
                     break;
+                case R.id.fab_recommend_codi:
+                    intent = new Intent(getContext(), activity_recoCodi_setting.class);
+                    startActivityForResult(intent, RECO_CODI);
+                    break;
                 case R.id.iv_heart : //즐겨찾기
                     //필터가 될 vo 설정
                     ClothesVO clothesFilter = new ClothesVO();
@@ -603,6 +612,10 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == MAKE_CODI && resultCode == RESULT_OK)
+            ((activity_home)activity).refresh_codi(fragment_codi.this);
+        else if(requestCode == WEATHER_CODI && resultCode == RESULT_OK)
+            ((activity_home)activity).refresh_codi(fragment_codi.this);
+        else if(requestCode == RECO_CODI && resultCode == RESULT_OK)
             ((activity_home)activity).refresh_codi(fragment_codi.this);
     }
 

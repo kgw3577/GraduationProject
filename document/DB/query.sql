@@ -1,6 +1,8 @@
 
 use CLOSET;
 
+
+
 INSERT INTO `BOARD` VALUES (76,'a','codi001.jpg','/download/board?imageFileName=codi001.jpg','\n #JIPSY #캐주얼','2020-08-16 07:29:03'),(77,'a','codi002.jpg','/download/board?imageFileName=codi002.jpg','실키 레이어드 화이트 셔츠\n #JIPSY #화이트_클래식/드레스셔츠','2020-08-16 07:43:39'),(78,'a','codi003.jpg','/download/board?imageFileName=codi003.jpg','\n #JIPSY #화이트_클래식/드레스셔츠','2020-08-16 07:46:38'),(79,'a','codi004.jpg','/download/board?imageFileName=codi004.jpg','헤비스웨트 데일리 팬츠\n #JIPSY #캐주얼 #블랙_트레이닝바지','2020-08-16 07:52:24');
 INSERT INTO `RELATION_BOARD_CLO` VALUES (1,76,7),(2,76,14),(5,77,14),(6,78,14),(7,79,3),(8,79,16);
 
@@ -73,7 +75,7 @@ insert into RELATION_BOARD_CLO values (null, 79, 16);
 
 UPDATE CLOTHES SET identifier="브라운_미디엄스커트",detailCategory="미디엄스커트" where identifier="브라운_미디엄 스커트";
 
-
+UPDATE CODI SET favorite="yes" where codiNo="128";
 
 -- USER Table Create SQL
 CREATE TABLE BOARD

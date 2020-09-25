@@ -1,6 +1,9 @@
 package com.Project.Closet.HTTP.VO;
 
-public class ClothesVO {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class ClothesVO implements Parcelable {
     private int cloNo; // PRIMARY KEY. AUTO INCREMENT
     private String location;
     private String kind;
@@ -23,6 +26,40 @@ public class ClothesVO {
     private int pageStart =-1;
     private int pageSize =-1;
 
+
+    protected ClothesVO(Parcel in) {
+        cloNo = in.readInt();
+        location = in.readString();
+        kind = in.readString();
+        category = in.readString();
+        detailCategory = in.readString();
+        color = in.readString();
+        identifier = in.readString();
+        season = in.readString();
+        brand = in.readString();
+        cloSize = in.readString();
+        buyDate = in.readString();
+        fileName = in.readString();
+        filePath = in.readString();
+        favorite = in.readString();
+        userID = in.readString();
+        closetName = in.readString();
+        regDate = in.readString();
+        pageStart = in.readInt();
+        pageSize = in.readInt();
+    }
+
+    public static final Creator<ClothesVO> CREATOR = new Creator<ClothesVO>() {
+        @Override
+        public ClothesVO createFromParcel(Parcel in) {
+            return new ClothesVO(in);
+        }
+
+        @Override
+        public ClothesVO[] newArray(int size) {
+            return new ClothesVO[size];
+        }
+    };
 
     public int getPageStart() {
         return pageStart;
@@ -202,4 +239,31 @@ public class ClothesVO {
         this.regDate = regDate;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(cloNo);
+        dest.writeString(location);
+        dest.writeString(kind);
+        dest.writeString(category);
+        dest.writeString(detailCategory);
+        dest.writeString(color);
+        dest.writeString(identifier);
+        dest.writeString(season);
+        dest.writeString(brand);
+        dest.writeString(cloSize);
+        dest.writeString(buyDate);
+        dest.writeString(fileName);
+        dest.writeString(filePath);
+        dest.writeString(favorite);
+        dest.writeString(userID);
+        dest.writeString(closetName);
+        dest.writeString(regDate);
+        dest.writeInt(pageStart);
+        dest.writeInt(pageSize);
+    }
 }
