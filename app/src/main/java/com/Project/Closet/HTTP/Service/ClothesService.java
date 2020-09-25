@@ -65,6 +65,11 @@ public class ClothesService extends APIAdapter {
         @PUT("clothes/search")
         Call<List<ClothesVO>> searchClothes(@Body ClothesVO clothesFilter, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize);
 
+        //옷 찾기
+        @Headers("Content-Type: application/json")
+        @PUT("clothes/search")
+        Call<List<ClothesVO>> searchClothesNoPage(@Body ClothesVO clothesFilter, @Query("userID") String userID);
+
         //리스트로 옷 찾기
         @Headers("Content-Type: application/json")
         @PUT("clothes/search/by_list")

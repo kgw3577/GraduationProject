@@ -109,10 +109,12 @@ public class ClothesControllerImpl implements ClothesController {
 	//옷 찾기
 	@Override
 	@RequestMapping(value = "/search", method = RequestMethod.PUT)
-	public ResponseEntity<List<ClothesVO>> searchClothes(@RequestBody ClothesVO clothesVO, @RequestParam String userID, @RequestParam String page, @RequestParam String pageSize) throws Exception {
+	public ResponseEntity<List<ClothesVO>> searchClothes(@RequestBody ClothesVO clothesVO, @RequestParam String userID,
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<ClothesVO> searched_clolist;
 		try{
-			if(!page.isEmpty()&&!pageSize.isEmpty()) {
+			if(page!=null&&pageSize!=null&&!page.isEmpty()&&!pageSize.isEmpty()) {
 				int pageInt = Integer.parseInt(page);
 				int pageSizeInt = Integer.parseInt(pageSize);
 				clothesVO.setPageStart(pageInt*pageSizeInt);
