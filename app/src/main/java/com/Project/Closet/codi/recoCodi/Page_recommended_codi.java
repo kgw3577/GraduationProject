@@ -1,42 +1,20 @@
 package com.Project.Closet.codi.recoCodi;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.Project.Closet.Global;
-import com.Project.Closet.HTTP.Service.ClothesService;
-import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
-import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.closet.fragment_closet;
-import com.Project.Closet.util.ClothesListAdapter;
+import com.Project.Closet.util.Codi;
 import com.bumptech.glide.Glide;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import retrofit2.Call;
 
 /* 그리드 사이즈 조절 방법 :
 어댑터 변경, 그리드 사이즈 변경, 페이지사이즈 변경
@@ -48,7 +26,7 @@ public class Page_recommended_codi extends Fragment {
     String color1;
     String color2;
     int tmp;
-    ArrayList<ClothesVO> clothesList;
+    Codi codi;
 
 
     //파트별 뷰 선언
@@ -58,16 +36,16 @@ public class Page_recommended_codi extends Fragment {
     ImageView ivOuter;  //외투 파트
     ImageView ivShoes;  //신발 파트
     ImageView ivBag;    //가방 파트
-    ImageView ivAccessory4; //액세서리4 파트
+    ImageView ivAccessory; //액세서리4 파트
 
 
-    public static Page_recommended_codi newInstance(String color1, String color2, int tmp, ArrayList<ClothesVO> clothesList) {
+    public static Page_recommended_codi newInstance(String color1, String color2, int tmp, Codi codi) {
 
         Bundle args = new Bundle();
         args.putString("color1", color1);  // 키값, 데이터
         args.putString("color2", color2);  // 키값, 데이터
         args.putInt("tmp", tmp);
-        args.putParcelableArrayList("clothesList",clothesList);
+        args.putParcelable("codi",codi);
 
         Page_recommended_codi fragment = new Page_recommended_codi();
         fragment.setArguments(args);
@@ -99,19 +77,7 @@ public class Page_recommended_codi extends Fragment {
             color1 = args.getString("color1");
             color2 = args.getString("color2");
             tmp = args.getInt("tmp");
-            clothesList = args.getParcelableArrayList("clothesList");
-        }
-
-        for (ClothesVO clo : clothesList){
-            if("상의".equals(clo.getKind())){
-                Glide.with(getContext()).load(Global.baseURL+clo.getFilePath()).into(ivTop);
-            }
-            if("하의".equals(clo.getKind())){
-                Glide.with(getContext()).load(Global.baseURL+clo.getFilePath()).into(ivBottom);
-            }
-            if("가방".equals(clo.getKind())){
-                Glide.with(getContext()).load(Global.baseURL+clo.getFilePath()).into(ivBag);
-            }
+            codi = args.getParcelable("codi");
         }
 
 
@@ -128,8 +94,42 @@ public class Page_recommended_codi extends Fragment {
         ivOuter= (ImageView) view.findViewById(R.id.iv_outer);
         ivShoes= (ImageView) view.findViewById(R.id.iv_shoes);
         ivBag= (ImageView) view.findViewById(R.id.iv_bag);
-        ivAccessory4= (ImageView) view.findViewById(R.id.iv_acc4);
+        ivAccessory = (ImageView) view.findViewById(R.id.iv_acc4);
 
+        if(codi.getTop().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getTop().getFilePath()).into(ivTop);
+        else
+            ivTop.setVisibility(View.GONE);
+
+        if(codi.getBottom().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getBottom().getFilePath()).into(ivBottom);
+        else
+            ivBottom.setVisibility(View.GONE);
+
+        if(codi.getSuit().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getSuit().getFilePath()).into(ivSuit);
+        else
+            ivSuit.setVisibility(View.GONE);
+
+        if(codi.getOuter().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getOuter().getFilePath()).into(ivOuter);
+        else
+            ivOuter.setVisibility(View.GONE);
+
+        if(codi.getShoes().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getShoes().getFilePath()).into(ivShoes);
+        else
+            ivShoes.setVisibility(View.GONE);
+
+        if(codi.getBag().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getBag().getFilePath()).into(ivBag);
+        else
+            ivBag.setVisibility(View.GONE);
+
+        if(codi.getAccessory().getCategory()!=null)
+            Glide.with(getContext()).load(Global.baseURL+codi.getAccessory().getFilePath()).into(ivAccessory);
+        else
+            ivAccessory.setVisibility(View.GONE);
 
         return view;
     }

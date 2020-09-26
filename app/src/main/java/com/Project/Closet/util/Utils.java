@@ -18,6 +18,19 @@ public class Utils {
     public String[] color_code;
     Context context;
 
+
+    public static class Kind {
+        //final static int ALL = 0;
+        public final static int TOP = 0;
+        public final static int BOTTOM = 1;
+        public final static int SUIT = 2;
+        public final static int OUTER = 3;
+        public final static int SHOES = 4;
+        public final static int BAG = 5;
+        public final static int ACCESSORY = 6;
+    }
+
+
     static int [][] score_rule= new int[][]{
         {50,10,	50,	40,	40,	40,	20,	20,	20,	20,	40,	40,	40,	40,	20,	50,	20,	20,	50},
         {50	,10	,30	,50	,50	,40	,40	,40	,20	,50	,50	,50	,40	,40	,50	,50	,50	,20	,40},

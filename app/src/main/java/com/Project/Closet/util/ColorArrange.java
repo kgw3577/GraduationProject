@@ -28,6 +28,14 @@ public class ColorArrange  implements Comparable<ColorArrange>{
         arrange_score = Utils.score_rule[main_color][sub_color];
     }
 
+    public int getMain_color() {
+        return main_color;
+    }
+
+    public int getSub_color() {
+        return sub_color;
+    }
+
     public Set<Integer> getOther_colors() {
         return other_colors;
     }

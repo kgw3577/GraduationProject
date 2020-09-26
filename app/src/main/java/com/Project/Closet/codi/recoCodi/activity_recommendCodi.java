@@ -24,6 +24,7 @@ import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.util.Codi;
 import com.Project.Closet.util.ColorArrange;
 import com.Project.Closet.util.Utils;
 import com.google.android.material.tabs.TabLayout;
@@ -37,6 +38,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -49,19 +51,6 @@ import retrofit2.Call;
 public class activity_recommendCodi extends AppCompatActivity implements Page_recommended_codi.FragListener {
 
     private static final String TAG = "recommend";
-
-    public class Kind {
-        //final static int ALL = 0;
-        final static int TOP = 0;
-        final static int BOTTOM = 1;
-        final static int SUIT = 2;
-        final static int OUTER = 3;
-        final static int SHOES = 4;
-        final static int BAG = 5;
-        final static int ACCESSORY = 6;
-    }
-
-
 
 
     ArrayList<ClothesVO> clothesList;
@@ -100,9 +89,9 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
 
         //상하의 일때 mode 1 - switch mode
-        main_part = Kind.TOP;
-        sub_part = Kind.BOTTOM;
-        other_parts = new int[]{Kind.SUIT, Kind.OUTER, Kind.SHOES, Kind.BAG, Kind.ACCESSORY};
+        main_part = Utils.Kind.TOP;
+        sub_part = Utils.Kind.BOTTOM;
+        other_parts = new int[]{Utils.Kind.SUIT, Utils.Kind.OUTER, Utils.Kind.SHOES, Utils.Kind.BAG, Utils.Kind.ACCESSORY};
 
 
 
@@ -114,25 +103,25 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         for (ClothesVO clo : clothesList){
             switch(clo.getKind()){
                 case "상의" :
-                    parts[Kind.TOP].add(clo);
+                    parts[Utils.Kind.TOP].add(clo);
                     break;
                 case "하의" :
-                    parts[Kind.BOTTOM].add(clo);
+                    parts[Utils.Kind.BOTTOM].add(clo);
                     break;
                 case "한벌옷" :
-                    parts[Kind.SUIT].add(clo);
+                    parts[Utils.Kind.SUIT].add(clo);
                     break;
                 case "외투" :
-                    parts[Kind.OUTER].add(clo);
+                    parts[Utils.Kind.OUTER].add(clo);
                     break;
                 case "신발" :
-                    parts[Kind.SHOES].add(clo);
+                    parts[Utils.Kind.SHOES].add(clo);
                     break;
                 case "가방" :
-                    parts[Kind.BAG].add(clo);
+                    parts[Utils.Kind.BAG].add(clo);
                     break;
                 case "액세서리" :
-                    parts[Kind.ACCESSORY].add(clo);
+                    parts[Utils.Kind.ACCESSORY].add(clo);
                     break;
             }
         }
@@ -196,12 +185,76 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             cA.describe();
         }
 
-        List<List<ClothesVO>> codiLists;
+        Set<Codi> codiSet = new HashSet<>();
+        int numColorArrange = colorArrangeList.size();
+
+        int numAllRepeat = 1;
+        int numRepeat = 1;
+        if(numColorArrange<10){
+            numAllRepeat =3;
+            numRepeat = 10/numColorArrange;
+        }
+
+        for(int i=0; i<numAllRepeat; i++){ //중복값을 대비해 전체 과정을 최대 2번 되풀이
+
+            for(ColorArrange colorArrange : colorArrangeList){ //모든 배색조합에 대해
+                for(int j=0; j<numRepeat; j++){ //해당 색조합을 반복횟수만큼 코디를 만듬
+
+                    Codi codi = new Codi(); //코디 만들기
+                    int main_color = colorArrange.getMain_color();
+                    int sub_color = colorArrange.getSub_color();
+                    Set<Integer> other_colors = colorArrange.getOther_colors();
+                    List<ClothesVO> tempList = new ArrayList<>();
+                    int cloIndex;
+
+                    for(ClothesVO clothes: parts[main_part]){ //코디의 main 파트 결정
+                        if(Utils.colorMap.get(clothes.getColor())==main_color) //해당 컬러를 가진 해당 파트 찾기
+                            tempList.add(clothes);
+                    }
+                    cloIndex = new Random().nextInt(tempList.size()); //랜덤으로 옷 선택
+                    codi.setPart(main_part,tempList.get(cloIndex)); //코디의 해당 파트에 선택된 옷 set
+                    Log.d(TAG, "메인 파트 선택 : "+Utils.getKey(Utils.colorMap,main_color)+" "+tempList.get(cloIndex).getDetailCategory());
+                    tempList.clear();
 
 
+                    for(ClothesVO clothes: parts[sub_part]){ //코디의 sub 파트 결정
+                        if(Utils.colorMap.get(clothes.getColor())==sub_color) //해당 컬러를 가진 해당 파트 찾기
+                            tempList.add(clothes);
+                    }
+                    cloIndex = new Random().nextInt(tempList.size());
+                    codi.setPart(sub_part,tempList.get(cloIndex));
+                    Log.d(TAG, "서브 파트 선택 : "+Utils.getKey(Utils.colorMap,sub_color)+" "+tempList.get(cloIndex).getDetailCategory());
+                    tempList.clear();
 
+                    for(int part : other_parts){ //코디의 나머지 파트 결정
+                        for(ClothesVO clothes: parts[part]){ //해당 파트의 옷에서
+                            for(int color : other_colors){ //모든 기타 컬러에 대해
+                                if(Utils.colorMap.get(clothes.getColor())==color) //해당 컬러를 가진 해당 파트 찾기
+                                    tempList.add(clothes);
+                            }
+                        }
+                        if(tempList.size()!=0){
+                            //해당 컬러의 해당 파트가 있을 경우 그 중에서 랜덤 선택
+                            cloIndex = new Random().nextInt(tempList.size());
+                            codi.setPart(part,tempList.get(cloIndex));
+                            Log.d(TAG, part+"기타 파트 선택 : "+tempList.get(cloIndex).getColor()+" "+tempList.get(cloIndex).getDetailCategory());
+                            tempList.clear();
+                        }else if(parts[part].size()!=0){
+                            //없을 경우 해당 파트 중에서 랜덤 선택
+                            cloIndex = new Random().nextInt(parts[part].size());
+                            codi.setPart(part,parts[part].get(cloIndex));
+                            Log.d(TAG, part+"(안 어울림)기타 파트 선택 : "+parts[part].get(cloIndex).getColor()+" "+parts[part].get(cloIndex).getDetailCategory());
+                        }
+                    }
 
+                    codiSet.add(codi); //코디 생성 과정이 모두 끝난 후 리스트에 추가
+                    Log.d(TAG,i+" "+j+"번 코디 생성 완료");
+                }
+            }
+        }
 
+        Log.d(TAG, "코디 셋 개수 :"+codiSet.size());
+        List<Codi> codiList = new ArrayList<>(codiSet);
 
 
         //헤더 메뉴 아이콘 받아오기
@@ -221,8 +274,9 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         //탭 설정
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("1"));
-        tabLayout.addTab(tabLayout.newTab().setText("2"));
+        for(int i=0; i<codiSet.size();i++){ //생성된 코디 개수만큼 탭 생성
+            tabLayout.addTab(tabLayout.newTab().setText(i+1+""));
+        }
 
         //하단 뷰페이저 어댑터 설정
         viewPager = (ViewPager) findViewById(R.id.viewPager) ;
@@ -238,8 +292,10 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         pagerAdapter = new recommPagerAdapter(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
         //뷰페이저에 프래그먼트 설정
-        pagerAdapter.addItem(Page_recommended_codi.newInstance("블랙","화이트", 17, new ArrayList<ClothesVO>())); //0
-        pagerAdapter.addItem(Page_recommended_codi.newInstance("블랙","화이트", 17, new ArrayList<ClothesVO>())); //0
+        for(Codi codi : codiSet){ //생성된 코디 개수만큼 페이지 생성
+            pagerAdapter.addItem(Page_recommended_codi.newInstance("블랙","화이트", 17, codi));
+        }
+
         viewPager.setAdapter(pagerAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
