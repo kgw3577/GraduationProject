@@ -6,7 +6,9 @@ import com.Project.Closet.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Utils {
@@ -16,6 +18,61 @@ public class Utils {
     public String[] color_code;
     Context context;
 
+    static int [][] score_rule= new int[][]{
+        {50,10,	50,	40,	40,	40,	20,	20,	20,	20,	40,	40,	40,	40,	20,	50,	20,	20,	50},
+        {50	,10	,30	,50	,50	,40	,40	,40	,20	,50	,50	,50	,40	,40	,50	,50	,50	,20	,40},
+        {50	,30	,20	,20	,20	,20	,20	,20	,50	,10	,20	,50	,0	,0	,20	,20	,50	,20	,40},
+        {50	,50	,20	,50	,50	,40	,50	,50	,20	,20	,20	,20	,40	,40	,20	,20	,20	,20	,20},
+        {50	,50	,50	,50	,50	,40	,20	,20	,20	,50	,40	,20	,40	,40	,20	,20	,50	,20	,20},
+        {40	,50	,20	,40	,40	,20	,20	,20	,20	,50	,40	,10	,20	,20	,20	,20	,20	,20	,20},
+        {30	,30	,20	,20	,20	,20	,10	,40	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
+        {50	,30	,20	,10	,10	,20	,40	,10	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
+        {0	,20	,50	,20	,20	,20	,50	,50	,20	,20	,20	,50	,50	,50	,20	,20	,20	,20	,20},
+        {40	,50	,50	,40	,40	,50	,40	,40	,50	,40	,50	,50	,0	,0	,50	,20	,50	,20	,20},
+        {40	,50	,50	,40	,40	,50	,40	,40	,50	,10	,20	,10	,0	,0	,50	,20	,50	,20	,20},
+        {30	,50	,50	,40	,40	,50	,50	,50	,50	,40	,40	,10	,40	,40	,50	,20	,50	,20	,20},
+        {30	,20	,20	,20	,20	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
+        {50	,20	,20	,40	,40	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
+        {40	,10	,20	,40	,40	,20	,40	,40	,20	,40	,40	,40	,20	,20	,20	,20	,20	,20	,20},
+        {40	,50	,20	,20	,20	,20	,20	,20	,20	,20	,40	,40	,10	,10	,20	,20	,20	,20	,20},
+        {20	,30	,50	,50	,50	,30	,20	,20	,20	,50	,50	,50	,50	,50	,20	,20	,20	,20	,20},
+        {40	,30	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10},
+        {50	,40	,40	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10	,40}
+    };
+
+    public static class Color {
+        public final static int BLACK = 0;
+        public final static int WHITE = 1;
+        public final static int GRAY = 2;
+        public final static int IVORY = 3;
+        public final static int BEIGE = 4;
+        public final static int PINK = 5;
+        public final static int RED = 6;
+        public final static int WINE = 7;
+        public final static int PURPLE = 8;
+        public final static int SKY_BLUE = 9;
+        public final static int BLUE = 10;
+        public final static int NAVY = 11;
+        public final static int GREEN = 12;
+        public final static int OLIVE_GREEN = 13;
+        public final static int YELLOW = 14;
+        public final static int ORANGE = 15;
+        public final static int BROWN = 16;
+        public final static int GOLD = 17;
+        public final static int SILVER = 18;
+
+
+        public final static List<Integer> achromatic_colors = Arrays.asList(BLACK,WHITE,GRAY); //무채색 계열
+
+        public final static List<Integer> soft_colors = Arrays.asList(IVORY,BEIGE,BROWN,GOLD); //아이보리 계열
+        public final static List<Integer> pink_colors = Arrays.asList(PINK,PURPLE); //핑크 계열
+        public final static List<Integer> red_colors = Arrays.asList(RED,WINE); //레드 계열
+        public final static List<Integer> blue_colors = Arrays.asList(SKY_BLUE,BLUE,NAVY); //블루 계열
+        public final static List<Integer> green_colors = Arrays.asList(GREEN,OLIVE_GREEN); //그린 계열
+        public final static List<Integer> yellow_colors = Arrays.asList(YELLOW,ORANGE); //옐로우 계열
+        public final static List<Integer> black_colors = Arrays.asList(BLACK,WHITE,GRAY); //블랙 계열
+
+    }
 
 
 

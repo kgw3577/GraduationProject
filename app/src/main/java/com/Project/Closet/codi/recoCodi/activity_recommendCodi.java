@@ -23,6 +23,8 @@ import com.Project.Closet.HTTP.Service.CodiService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
+import com.Project.Closet.util.ColorArrange;
+import com.Project.Closet.util.Utils;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.File;
@@ -55,27 +57,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         final static int ACCESSORY = 6;
     }
 
-    public class Color {
-        final static int BLACK = 0;
-        final static int WHITE = 1;
-        final static int GRAY = 2;
-        final static int IVORY = 3;
-        final static int BEIGE = 4;
-        final static int PINK = 5;
-        final static int RED = 6;
-        final static int WINE = 7;
-        final static int PURPLE = 8;
-        final static int SKY_BLUE = 9;
-        final static int BLUE = 10;
-        final static int NAVY = 11;
-        final static int GREEN = 12;
-        final static int OLIVE_GREEN = 13;
-        final static int YELLOW = 14;
-        final static int ORANGE = 15;
-        final static int BROWN = 16;
-        final static int GOLD = 17;
-        final static int SILVER = 18;
-    }
+
 
     HashMap<String,Integer> colorMap;
 
@@ -111,48 +93,25 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
 
         colorMap = new HashMap<>();
-        colorMap.put("블랙",Color.BLACK);
-        colorMap.put("화이트",Color.WHITE);
-        colorMap.put("그레이",Color.GRAY);
-        colorMap.put("아이보리",Color.IVORY);
-        colorMap.put("베이지",Color.BEIGE);
-        colorMap.put("핑크",Color.PINK);
-        colorMap.put("레드",Color.RED);
-        colorMap.put("와인",Color.WINE);
-        colorMap.put("퍼플",Color.PURPLE);
-        colorMap.put("스카이블루",Color.SKY_BLUE);
-        colorMap.put("블루",Color.BLUE);
-        colorMap.put("네이비",Color.NAVY);
-        colorMap.put("그린",Color.GREEN);
-        colorMap.put("올리브그린",Color.OLIVE_GREEN);
-        colorMap.put("옐로우",Color.YELLOW);
-        colorMap.put("오렌지",Color.ORANGE);
-        colorMap.put("브라운",Color.BROWN);
-        colorMap.put("골드",Color.GOLD);
-        colorMap.put("실버",Color.SILVER);
-
-        int [][] score;
-        score = new int[][]{
-                {50,10,	50,	40,	40,	40,	20,	20,	20,	20,	40,	40,	40,	40,	20,	50,	20,	20,	50},
-                {50	,10	,30	,50	,50	,40	,40	,40	,20	,50	,50	,50	,40	,40	,50	,50	,50	,20	,40},
-                {50	,30	,20	,20	,20	,20	,20	,20	,50	,10	,20	,50	,0	,0	,20	,20	,50	,20	,40},
-                {50	,50	,20	,50	,50	,40	,50	,50	,20	,20	,20	,20	,40	,40	,20	,20	,20	,20	,20},
-                {50	,50	,50	,50	,50	,40	,20	,20	,20	,50	,40	,20	,40	,40	,20	,20	,50	,20	,20},
-                {40	,50	,20	,40	,40	,20	,20	,20	,20	,50	,40	,10	,20	,20	,20	,20	,20	,20	,20},
-                {30	,30	,20	,20	,20	,20	,10	,40	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
-                {50	,30	,20	,10	,10	,20	,40	,10	,50	,10	,10	,50	,0	,0	,20	,20	,20	,20	,20},
-                {0	,20	,50	,20	,20	,20	,50	,50	,20	,20	,20	,50	,50	,50	,20	,20	,20	,20	,20},
-                {40	,50	,50	,40	,40	,50	,40	,40	,50	,40	,50	,50	,0	,0	,50	,20	,50	,20	,20},
-                {40	,50	,50	,40	,40	,50	,40	,40	,50	,10	,20	,10	,0	,0	,50	,20	,50	,20	,20},
-                {30	,50	,50	,40	,40	,50	,50	,50	,50	,40	,40	,10	,40	,40	,50	,20	,50	,20	,20},
-                {30	,20	,20	,20	,20	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
-                {50	,20	,20	,40	,40	,10	,20	,20	,50	,20	,40	,50	,10	,10	,20	,20	,50	,20	,20},
-                {40	,10	,20	,40	,40	,20	,40	,40	,20	,40	,40	,40	,20	,20	,20	,20	,20	,20	,20},
-                {40	,50	,20	,20	,20	,20	,20	,20	,20	,20	,40	,40	,10	,10	,20	,20	,20	,20	,20},
-                {20	,30	,50	,50	,50	,30	,20	,20	,20	,50	,50	,50	,50	,50	,20	,20	,20	,20	,20},
-                {40	,30	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10},
-                {50	,40	,40	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10	,40}
-        };
+        colorMap.put("블랙", Utils.Color.BLACK);
+        colorMap.put("화이트",Utils.Color.WHITE);
+        colorMap.put("그레이",Utils.Color.GRAY);
+        colorMap.put("아이보리",Utils.Color.IVORY);
+        colorMap.put("베이지",Utils.Color.BEIGE);
+        colorMap.put("핑크",Utils.Color.PINK);
+        colorMap.put("레드",Utils.Color.RED);
+        colorMap.put("와인",Utils.Color.WINE);
+        colorMap.put("퍼플",Utils.Color.PURPLE);
+        colorMap.put("스카이블루",Utils.Color.SKY_BLUE);
+        colorMap.put("블루",Utils.Color.BLUE);
+        colorMap.put("네이비",Utils.Color.NAVY);
+        colorMap.put("그린",Utils.Color.GREEN);
+        colorMap.put("올리브그린",Utils.Color.OLIVE_GREEN);
+        colorMap.put("옐로우",Utils.Color.YELLOW);
+        colorMap.put("오렌지",Utils.Color.ORANGE);
+        colorMap.put("브라운",Utils.Color.BROWN);
+        colorMap.put("골드",Utils.Color.GOLD);
+        colorMap.put("실버",Utils.Color.SILVER);
 
 
         //상하의 일때 mode 1 - switch mode
@@ -204,9 +163,35 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             for(ClothesVO clo : parts[i]){
                 //해당 파트 색 목록에 <- 해당 옷 색깔 저장. set이므로 중복 x
                 colorsOfPart[i].add(colorMap.get(clo.getColor()));
-                //System.out.println(clo.getKind()+clo.getColor());
             }
         }
+
+
+        /*main 파트와 sub 파트의 배색 점수 계산*/
+        List<ColorArrange> colorArrangeList = new ArrayList<>();
+        //main 파트와 sub 파트 내의 모든 색 조합에 대하여 다음을 수행
+        for(int main_color : colorsOfPart[main_part]){
+            for(int sub_color : colorsOfPart[sub_part]){
+                //해당 컬러들에 대한 배색 클래스를 만듬
+                ColorArrange colorArrange = new ColorArrange(main_color,sub_color);
+                //기타 파트 중 메인-서브 컬러와 같은 계열의 색이 존재하는지 체크하고 없으면 balance 점수를 -20 함
+                for(int part : other_parts){
+                    int flag=0;
+                    for(int color : colorArrange.getOther_colors()) {
+                        if(colorsOfPart[part].contains(color)){
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if(flag==0)
+                        colorArrange.balance_score-=20;
+                }
+                colorArrange.total_score = colorArrange.arrange_score + colorArrange.balance_score; //총점 계산
+                colorArrangeList.add(colorArrange);
+            }
+        }
+
+        
 
 
         //헤더 메뉴 아이콘 받아오기
