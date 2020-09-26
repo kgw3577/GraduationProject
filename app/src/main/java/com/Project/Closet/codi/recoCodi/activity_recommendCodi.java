@@ -195,7 +195,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             cA.describe();
         }
 
-        Set<Codi> codiSet = new HashSet<>();
+        List<Codi> codiList = new ArrayList<>();
         int numColorArrange = colorArrangeList.size();
 
         int numAllRepeat = 1;
@@ -256,15 +256,16 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                             Log.d(TAG, part+"(안 어울림)기타 파트 선택 : "+parts[part].get(cloIndex).getColor()+" "+parts[part].get(cloIndex).getDetailCategory());
                         }
                     }
+                    if(!codiList.contains(codi)){
+                        codiList.add(codi); //코디 생성 과정이 모두 끝난 후 리스트에 추가
 
-                    codiSet.add(codi); //코디 생성 과정이 모두 끝난 후 리스트에 추가
+                    }else
+                        Log.d(TAG,"중복 제거함");
                     Log.d(TAG,i+" "+j+"번 코디 생성 완료");
                 }
             }
         }
-
-        Log.d(TAG, "코디 셋 개수 :"+codiSet.size());
-        List<Codi> codiList = new ArrayList<>(codiSet);
+        Log.d(TAG, "코디 리스트 개수 :"+codiList.size());
 
 
         //헤더 메뉴 아이콘 받아오기
@@ -284,7 +285,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         //탭 설정
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        for(int i=0; i<codiSet.size();i++){ //생성된 코디 개수만큼 탭 생성
+        for(int i=0; i<codiList.size();i++){ //생성된 코디 개수만큼 탭 생성
             tabLayout.addTab(tabLayout.newTab().setText(i+1+""));
         }
 
@@ -302,7 +303,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         pagerAdapter = new recommPagerAdapter(getSupportFragmentManager()); //getSupportFragmentManager로 프래그먼트 참조가능
 
         //뷰페이저에 프래그먼트 설정
-        for(Codi codi : codiSet){ //생성된 코디 개수만큼 페이지 생성
+        for(Codi codi : codiList){ //생성된 코디 개수만큼 페이지 생성
             pagerAdapter.addItem(Page_recommended_codi.newInstance("블랙","화이트", 17, codi));
         }
 
