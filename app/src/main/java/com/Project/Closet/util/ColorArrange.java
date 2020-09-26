@@ -1,5 +1,7 @@
 package com.Project.Closet.util;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -7,7 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ColorArrange {
+public class ColorArrange  implements Comparable<ColorArrange>{
     int main_color;
     int sub_color;
     Set<Integer> other_colors;
@@ -68,5 +70,24 @@ public class ColorArrange {
             return Utils.Color.black_colors;
         }
         else return Collections.emptyList();
+    }
+
+    @Override
+    public int compareTo(ColorArrange colorArrange) { //내림차순 비교
+        if (this.total_score < colorArrange.total_score) {
+            return 1;
+        } else if (this.total_score > colorArrange.total_score) {
+            return -1;
+        }
+        return 0;
+    }
+
+    public void describe(){
+        Log.d("colorArrange 클래스",
+                "main_color: "+ Utils.getKey(Utils.colorMap,main_color)
+                        + " sub_color: "+ Utils.getKey(Utils.colorMap,sub_color)
+                        + " 배색 점수 : "+arrange_score
+                        + " 조화 점수 : "+balance_score
+                        + " 종합 점수 : "+total_score);
     }
 }

@@ -74,6 +74,29 @@ public class Utils {
 
     }
 
+    public static final HashMap<String,Integer> colorMap = new HashMap<>();
+    static {
+        colorMap.put("블랙", Color.BLACK);
+        colorMap.put("화이트",Color.WHITE);
+        colorMap.put("그레이",Color.GRAY);
+        colorMap.put("아이보리",Color.IVORY);
+        colorMap.put("베이지",Color.BEIGE);
+        colorMap.put("핑크",Color.PINK);
+        colorMap.put("레드",Color.RED);
+        colorMap.put("와인",Color.WINE);
+        colorMap.put("퍼플",Color.PURPLE);
+        colorMap.put("스카이블루",Color.SKY_BLUE);
+        colorMap.put("블루",Color.BLUE);
+        colorMap.put("네이비",Color.NAVY);
+        colorMap.put("그린",Color.GREEN);
+        colorMap.put("올리브그린",Color.OLIVE_GREEN);
+        colorMap.put("옐로우",Color.YELLOW);
+        colorMap.put("오렌지",Color.ORANGE);
+        colorMap.put("브라운",Color.BROWN);
+        colorMap.put("골드",Color.GOLD);
+        colorMap.put("실버",Color.SILVER);
+    }
+
 
 
     public static CropImage.ActivityBuilder CropImageSetting(){

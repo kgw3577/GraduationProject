@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -46,6 +48,8 @@ import retrofit2.Call;
 
 public class activity_recommendCodi extends AppCompatActivity implements Page_recommended_codi.FragListener {
 
+    private static final String TAG = "recommend";
+
     public class Kind {
         //final static int ALL = 0;
         final static int TOP = 0;
@@ -58,8 +62,6 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
     }
 
 
-
-    HashMap<String,Integer> colorMap;
 
 
     ArrayList<ClothesVO> clothesList;
@@ -92,26 +94,9 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         clothesList = getIntent().getExtras().getParcelableArrayList("clothesList");
 
 
-        colorMap = new HashMap<>();
-        colorMap.put("블랙", Utils.Color.BLACK);
-        colorMap.put("화이트",Utils.Color.WHITE);
-        colorMap.put("그레이",Utils.Color.GRAY);
-        colorMap.put("아이보리",Utils.Color.IVORY);
-        colorMap.put("베이지",Utils.Color.BEIGE);
-        colorMap.put("핑크",Utils.Color.PINK);
-        colorMap.put("레드",Utils.Color.RED);
-        colorMap.put("와인",Utils.Color.WINE);
-        colorMap.put("퍼플",Utils.Color.PURPLE);
-        colorMap.put("스카이블루",Utils.Color.SKY_BLUE);
-        colorMap.put("블루",Utils.Color.BLUE);
-        colorMap.put("네이비",Utils.Color.NAVY);
-        colorMap.put("그린",Utils.Color.GREEN);
-        colorMap.put("올리브그린",Utils.Color.OLIVE_GREEN);
-        colorMap.put("옐로우",Utils.Color.YELLOW);
-        colorMap.put("오렌지",Utils.Color.ORANGE);
-        colorMap.put("브라운",Utils.Color.BROWN);
-        colorMap.put("골드",Utils.Color.GOLD);
-        colorMap.put("실버",Utils.Color.SILVER);
+
+
+
 
 
         //상하의 일때 mode 1 - switch mode
@@ -162,7 +147,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             //해당 파트의 옷들 중에서
             for(ClothesVO clo : parts[i]){
                 //해당 파트 색 목록에 <- 해당 옷 색깔 저장. set이므로 중복 x
-                colorsOfPart[i].add(colorMap.get(clo.getColor()));
+                colorsOfPart[i].add(Utils.colorMap.get(clo.getColor()));
             }
         }
 
@@ -176,22 +161,47 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                 ColorArrange colorArrange = new ColorArrange(main_color,sub_color);
                 //기타 파트 중 메인-서브 컬러와 같은 계열의 색이 존재하는지 체크하고 없으면 balance 점수를 -20 함
                 for(int part : other_parts){
+                    if(colorsOfPart[part].size()==0) { //해당 파트의 옷이 아예 존재하지 않으면 balance 점수를 깎지 않음.
+                        Log.d(TAG, Utils.getKey(Utils.colorMap, main_color) + " " + Utils.getKey(Utils.colorMap, sub_color)
+                                + " 파트" + part + " 존재하지 않음.");
+                        continue;
+                    }
                     int flag=0;
                     for(int color : colorArrange.getOther_colors()) {
                         if(colorsOfPart[part].contains(color)){
                             flag=1;
+                            Log.d(TAG, Utils.getKey(Utils.colorMap,main_color)+" "+Utils.getKey(Utils.colorMap,sub_color)
+                                    +" "+part+" "+Utils.getKey(Utils.colorMap,color));
                             break;
                         }
                     }
-                    if(flag==0)
+                    if(flag==0){
                         colorArrange.balance_score-=20;
+                        Log.d(TAG, Utils.getKey(Utils.colorMap,main_color)+" "+Utils.getKey(Utils.colorMap,sub_color)
+                                +" 파트"+part+" 해당 없음.");
+                    }
+
                 }
                 colorArrange.total_score = colorArrange.arrange_score + colorArrange.balance_score; //총점 계산
+                Log.d(TAG, Utils.getKey(Utils.colorMap,main_color)+" "+Utils.getKey(Utils.colorMap,sub_color)
+                        +" 배색 점수 "+colorArrange.arrange_score+" 조화 점수 "+colorArrange.balance_score);
+
                 colorArrangeList.add(colorArrange);
             }
         }
 
-        
+        //출력 확인용.
+        Collections.sort(colorArrangeList);
+        for(ColorArrange cA : colorArrangeList){
+            cA.describe();
+        }
+
+        List<List<ClothesVO>> codiLists;
+
+
+
+
+
 
 
         //헤더 메뉴 아이콘 받아오기
