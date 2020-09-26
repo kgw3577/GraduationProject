@@ -126,6 +126,15 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             }
         }
 
+        if(parts[main_part].size()==0 || parts[sub_part].size()==0){
+            //모드 바꾸기..
+            Toast.makeText(this, "만들 수 있는 코디가 없습니다. 더 많은 옷을 추가해보세요.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            setResult(RESULT_CANCELED, intent);
+            finish();
+        }
+        Log.d(TAG, parts[main_part].size()+" "+parts[sub_part].size());
+
         /*각 파트 별로 컬러 목록을 만듬*/
         Set<Integer>[] colorsOfPart = new Set[7]; //set : 중복x
         for (int i=0; i<7; i++){
@@ -148,6 +157,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             for(int sub_color : colorsOfPart[sub_part]){
                 //해당 컬러들에 대한 배색 클래스를 만듬
                 ColorArrange colorArrange = new ColorArrange(main_color,sub_color);
+                Log.d(TAG, Utils.getKey(Utils.colorMap, main_color) + " " + Utils.getKey(Utils.colorMap, sub_color)+ " 배색 생성");
                 //기타 파트 중 메인-서브 컬러와 같은 계열의 색이 존재하는지 체크하고 없으면 balance 점수를 -20 함
                 for(int part : other_parts){
                     if(colorsOfPart[part].size()==0) { //해당 파트의 옷이 아예 존재하지 않으면 balance 점수를 깎지 않음.
@@ -190,7 +200,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         int numAllRepeat = 1;
         int numRepeat = 1;
-        if(numColorArrange<10){
+        if(numColorArrange<10&&numColorArrange!=0){
             numAllRepeat =3;
             numRepeat = 10/numColorArrange;
         }
