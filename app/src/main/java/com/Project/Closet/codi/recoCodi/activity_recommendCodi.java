@@ -34,7 +34,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -189,8 +188,9 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             }
         }
 
-        //출력 확인용.
+        //배색 리스트 총점 순으로 정렬
         Collections.sort(colorArrangeList);
+        //출력 확인용.
         for(ColorArrange cA : colorArrangeList){
             cA.describe();
         }
@@ -210,7 +210,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             for(ColorArrange colorArrange : colorArrangeList){ //모든 배색조합에 대해
                 for(int j=0; j<numRepeat; j++){ //해당 색조합을 반복횟수만큼 코디를 만듬
 
-                    Codi codi = new Codi(); //코디 만들기
+                    Codi codi = new Codi(colorArrange); //코디 만들기
                     int main_color = colorArrange.getMain_color();
                     int sub_color = colorArrange.getSub_color();
                     Set<Integer> other_colors = colorArrange.getOther_colors();
@@ -236,6 +236,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                     Log.d(TAG, "서브 파트 선택 : "+Utils.getKey(Utils.colorMap,sub_color)+" "+tempList.get(cloIndex).getDetailCategory());
                     tempList.clear();
 
+                    int balance_score = 50;
                     for(int part : other_parts){ //코디의 나머지 파트 결정
                         for(ClothesVO clothes: parts[part]){ //해당 파트의 옷에서
                             for(int color : other_colors){ //모든 기타 컬러에 대해
@@ -253,9 +254,14 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                             //없을 경우 해당 파트 중에서 랜덤 선택
                             cloIndex = new Random().nextInt(parts[part].size());
                             codi.setPart(part,parts[part].get(cloIndex));
+                            balance_score-=20;
                             Log.d(TAG, part+"(안 어울림)기타 파트 선택 : "+parts[part].get(cloIndex).getColor()+" "+parts[part].get(cloIndex).getDetailCategory());
                         }
                     }
+                    //나머지 파트 선택후 밸런스 점수 갱신
+                    codi.getColorArrange().setBalance_score(balance_score);
+                    codi.getColorArrange().setTotal_score(colorArrange.arrange_score+balance_score);
+
                     if(!codiList.contains(codi)){
                         codiList.add(codi); //코디 생성 과정이 모두 끝난 후 리스트에 추가
 
@@ -265,6 +271,8 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                 }
             }
         }
+        //코디 리스트 총점 순으로 정렬
+        Collections.sort(codiList);
         Log.d(TAG, "코디 리스트 개수 :"+codiList.size());
 
 
@@ -304,7 +312,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         //뷰페이저에 프래그먼트 설정
         for(Codi codi : codiList){ //생성된 코디 개수만큼 페이지 생성
-            pagerAdapter.addItem(Page_recommended_codi.newInstance("블랙","화이트", 17, codi));
+            pagerAdapter.addItem(Page_recommended_codi.newInstance(codi));
         }
 
         viewPager.setAdapter(pagerAdapter);

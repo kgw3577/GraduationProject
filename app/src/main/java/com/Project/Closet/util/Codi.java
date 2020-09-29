@@ -10,7 +10,7 @@ import com.Project.Closet.HTTP.VO.ClothesVO;
 
 import java.util.Objects;
 
-public class Codi implements Parcelable {
+public class Codi implements Comparable<Codi>, Parcelable {
     ClothesVO top;
     ClothesVO bottom;
     ClothesVO suit;
@@ -18,6 +18,10 @@ public class Codi implements Parcelable {
     ClothesVO shoes;
     ClothesVO bag;
     ClothesVO accessory;
+
+    ColorArrange colorArrange;
+    int temperature=-1;
+
 
     protected Codi(Parcel in) {
         top = in.readParcelable(ClothesVO.class.getClassLoader());
@@ -27,7 +31,34 @@ public class Codi implements Parcelable {
         shoes = in.readParcelable(ClothesVO.class.getClassLoader());
         bag = in.readParcelable(ClothesVO.class.getClassLoader());
         accessory = in.readParcelable(ClothesVO.class.getClassLoader());
+        colorArrange = in.readParcelable(ColorArrange.class.getClassLoader());
+        temperature = in.readInt();
     }
+
+    public Codi(){
+        top = new ClothesVO();
+        bottom = new ClothesVO();
+        suit = new ClothesVO();
+        outer = new ClothesVO();
+        shoes = new ClothesVO();
+        bag = new ClothesVO();
+        accessory = new ClothesVO();
+        colorArrange = new ColorArrange();
+    }
+
+    public Codi(ColorArrange colorArrange){
+        top = new ClothesVO();
+        bottom = new ClothesVO();
+        suit = new ClothesVO();
+        outer = new ClothesVO();
+        shoes = new ClothesVO();
+        bag = new ClothesVO();
+        accessory = new ClothesVO();
+        this.colorArrange = colorArrange;
+    }
+
+
+
 
     public static final Creator<Codi> CREATOR = new Creator<Codi>() {
         @Override
@@ -40,6 +71,28 @@ public class Codi implements Parcelable {
             return new Codi[size];
         }
     };
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Codi)) return false;
+        Codi codi = (Codi) o;
+        return Objects.equals(top.getCloNo(), codi.top.getCloNo()) &&
+                Objects.equals(bottom.getCloNo(), codi.bottom.getCloNo()) &&
+                Objects.equals(suit.getCloNo(), codi.suit.getCloNo()) &&
+                Objects.equals(outer.getCloNo(), codi.outer.getCloNo()) &&
+                Objects.equals(shoes.getCloNo(), codi.shoes.getCloNo()) &&
+                Objects.equals(bag.getCloNo(), codi.bag.getCloNo()) &&
+                Objects.equals(accessory.getCloNo(), codi.accessory.getCloNo());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public int hashCode() {
+        return Objects.hash(top.getCloNo(), bottom.getCloNo(), suit.getCloNo(), outer.getCloNo(), shoes.getCloNo(),
+                bag.getCloNo(), accessory.getCloNo());
+    }
 
     public ClothesVO getTop() {
         return top;
@@ -97,62 +150,20 @@ public class Codi implements Parcelable {
         this.accessory = accessory;
     }
 
-    public Codi(){
-        top = new ClothesVO();
-        bottom = new ClothesVO();
-        suit = new ClothesVO();
-        outer = new ClothesVO();
-        shoes = new ClothesVO();
-        bag = new ClothesVO();
-        accessory = new ClothesVO();
+    public ColorArrange getColorArrange() {
+        return colorArrange;
     }
 
-    public void setPart(int index, ClothesVO clothes){
-        switch(index){
-            case Utils.Kind.TOP :
-                setTop(clothes);
-                break;
-            case Utils.Kind.BOTTOM :
-                setBottom(clothes);
-                break;
-            case Utils.Kind.SUIT :
-                setSuit(clothes);
-                break;
-            case Utils.Kind.OUTER :
-                setOuter(clothes);
-                break;
-            case Utils.Kind.SHOES :
-                setShoes(clothes);
-                break;
-            case Utils.Kind.BAG :
-                setBag(clothes);
-                break;
-            case Utils.Kind.ACCESSORY :
-                setAccessory(clothes);
-                break;
-        }
+    public void setColorArrange(ColorArrange colorArrange) {
+        this.colorArrange = colorArrange;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Codi)) return false;
-        Codi codi = (Codi) o;
-        return Objects.equals(top.getCloNo(), codi.top.getCloNo()) &&
-                Objects.equals(bottom.getCloNo(), codi.bottom.getCloNo()) &&
-                Objects.equals(suit.getCloNo(), codi.suit.getCloNo()) &&
-                Objects.equals(outer.getCloNo(), codi.outer.getCloNo()) &&
-                Objects.equals(shoes.getCloNo(), codi.shoes.getCloNo()) &&
-                Objects.equals(bag.getCloNo(), codi.bag.getCloNo()) &&
-                Objects.equals(accessory.getCloNo(), codi.accessory.getCloNo());
+    public int getTemperature() {
+        return temperature;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    @Override
-    public int hashCode() {
-        return Objects.hash(top.getCloNo(), bottom.getCloNo(), suit.getCloNo(), outer.getCloNo(), shoes.getCloNo(),
-                bag.getCloNo(), accessory.getCloNo());
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
     }
 
     @Override
@@ -169,5 +180,43 @@ public class Codi implements Parcelable {
         dest.writeParcelable(shoes, flags);
         dest.writeParcelable(bag, flags);
         dest.writeParcelable(accessory, flags);
+        dest.writeParcelable(colorArrange, flags);
+        dest.writeInt(temperature);
+    }
+
+    public void setPart(int index, ClothesVO clothes) {
+        switch (index) {
+            case Utils.Kind.TOP:
+                setTop(clothes);
+                break;
+            case Utils.Kind.BOTTOM:
+                setBottom(clothes);
+                break;
+            case Utils.Kind.SUIT:
+                setSuit(clothes);
+                break;
+            case Utils.Kind.OUTER:
+                setOuter(clothes);
+                break;
+            case Utils.Kind.SHOES:
+                setShoes(clothes);
+                break;
+            case Utils.Kind.BAG:
+                setBag(clothes);
+                break;
+            case Utils.Kind.ACCESSORY:
+                setAccessory(clothes);
+                break;
+        }
+    }
+
+    @Override
+    public int compareTo(Codi codi) {
+        if (this.colorArrange.total_score < codi.getColorArrange().total_score) {
+            return 1;
+        } else if (this.colorArrange.total_score > codi.getColorArrange().total_score) {
+            return -1;
+        }
+        return 0;
     }
 }

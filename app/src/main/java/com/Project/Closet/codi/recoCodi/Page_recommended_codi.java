@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import com.Project.Closet.Global;
 import com.Project.Closet.R;
 import com.Project.Closet.util.Codi;
+import com.Project.Closet.util.ColorArrange;
+import com.Project.Closet.util.Utils;
 import com.bumptech.glide.Glide;
 
 /* 그리드 사이즈 조절 방법 :
@@ -23,11 +26,7 @@ import com.bumptech.glide.Glide;
 
 public class Page_recommended_codi extends Fragment {
 
-    String color1;
-    String color2;
-    int tmp;
     Codi codi;
-
 
     //파트별 뷰 선언
     ImageView ivTop; //상의 파트
@@ -39,12 +38,9 @@ public class Page_recommended_codi extends Fragment {
     ImageView ivAccessory; //액세서리4 파트
 
 
-    public static Page_recommended_codi newInstance(String color1, String color2, int tmp, Codi codi) {
+    public static Page_recommended_codi newInstance(Codi codi) {
 
         Bundle args = new Bundle();
-        args.putString("color1", color1);  // 키값, 데이터
-        args.putString("color2", color2);  // 키값, 데이터
-        args.putInt("tmp", tmp);
         args.putParcelable("codi",codi);
 
         Page_recommended_codi fragment = new Page_recommended_codi();
@@ -74,12 +70,8 @@ public class Page_recommended_codi extends Fragment {
         Bundle args = getArguments(); // 데이터 받기
         if(args != null)
         {
-            color1 = args.getString("color1");
-            color2 = args.getString("color2");
-            tmp = args.getInt("tmp");
             codi = args.getParcelable("codi");
         }
-
 
     }
 
@@ -130,6 +122,19 @@ public class Page_recommended_codi extends Fragment {
             Glide.with(getContext()).load(Global.baseURL+codi.getAccessory().getFilePath()).into(ivAccessory);
         else
             ivAccessory.setVisibility(View.GONE);
+
+
+        ColorArrange colorArrange = codi.getColorArrange();
+
+        TextView arrange_tip = view.findViewById(R.id.arrange_tip);
+        arrange_tip.setText(Utils.getKey(Utils.colorMap,colorArrange.getMain_color())+" "
+                +Utils.getKey(Utils.colorMap,colorArrange.getSub_color())
+                +"\n"+"배색 점수 : "+colorArrange.arrange_score
+                +"\n"+"조화 점수 : "+colorArrange.balance_score
+                +"\n"+"총점 : "+colorArrange.total_score
+                );
+
+
 
         return view;
     }

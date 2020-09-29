@@ -1,5 +1,7 @@
 package com.Project.Closet.util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -9,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class ColorArrange  implements Comparable<ColorArrange>{
+public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
     int main_color;
     int sub_color;
     Set<Integer> other_colors;
@@ -27,6 +29,26 @@ public class ColorArrange  implements Comparable<ColorArrange>{
 
         arrange_score = Utils.score_rule[main_color][sub_color];
     }
+
+    protected ColorArrange(Parcel in) {
+        main_color = in.readInt();
+        sub_color = in.readInt();
+        arrange_score = in.readInt();
+        balance_score = in.readInt();
+        total_score = in.readInt();
+    }
+
+    public static final Creator<ColorArrange> CREATOR = new Creator<ColorArrange>() {
+        @Override
+        public ColorArrange createFromParcel(Parcel in) {
+            return new ColorArrange(in);
+        }
+
+        @Override
+        public ColorArrange[] newArray(int size) {
+            return new ColorArrange[size];
+        }
+    };
 
     public int getMain_color() {
         return main_color;
@@ -97,5 +119,19 @@ public class ColorArrange  implements Comparable<ColorArrange>{
                         + " 배색 점수 : "+arrange_score
                         + " 조화 점수 : "+balance_score
                         + " 종합 점수 : "+total_score);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(main_color);
+        dest.writeInt(sub_color);
+        dest.writeInt(arrange_score);
+        dest.writeInt(balance_score);
+        dest.writeInt(total_score);
     }
 }
