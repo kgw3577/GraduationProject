@@ -47,7 +47,7 @@
         android:layout_width="120dp"
         android:layout_height="300dp"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
 
     <ImageView

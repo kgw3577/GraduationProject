@@ -74,7 +74,7 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
         Set<Integer> other_colors = new HashSet<>();
 
         //무채색 계열 추가
-        other_colors.addAll(Utils.Color.achromatic_colors);
+        //other_colors.addAll(Utils.Color.achromatic_colors);
         //메인 컬러와 같은 계열의 색 추가
         other_colors.addAll(findAffiliation(main_color));
         //서브 컬러와 같은 계열의 색 추가
@@ -84,20 +84,32 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
     }
 
     public List<Integer> findAffiliation(int color){
-        if(Utils.Color.soft_colors.contains(color)) {
+        if(Utils.Color.white_colors.contains(color)) {
+            return Utils.Color.white_colors;
+        }else if(Utils.Color.beige_colors.contains(color)) {
+            return Utils.Color.beige_colors;
+        }else if(Utils.Color.soft_colors.contains(color)) {
             return Utils.Color.soft_colors;
-        }else if(Utils.Color.pink_colors.contains(color)){
-            return Utils.Color.pink_colors;
+        }else if(Utils.Color.pink_color.contains(color)){
+            return Utils.Color.pink_color;
+        }else if(Utils.Color.purple_color.contains(color)){
+            return Utils.Color.purple_color;
         }else if(Utils.Color.red_colors.contains(color)){
             return Utils.Color.red_colors;
+        }else if(Utils.Color.sky_blue_colors.contains(color)){
+            return Utils.Color.sky_blue_colors;
         }else if(Utils.Color.blue_colors.contains(color)){
             return Utils.Color.blue_colors;
+        }else if(Utils.Color.navy_colors.contains(color)){
+            return Utils.Color.navy_colors;
         }else if(Utils.Color.green_colors.contains(color)){
             return Utils.Color.green_colors;
         }else if(Utils.Color.yellow_colors.contains(color)){
             return Utils.Color.yellow_colors;
-        }else if(Utils.Color.black_colors.contains(color)){
-            return Utils.Color.black_colors;
+        }else if(Utils.Color.gray_color.contains(color)){
+            return Utils.Color.gray_color;
+        }else if(Utils.Color.black_color.contains(color)){
+            return Utils.Color.black_color;
         }
         else return Collections.emptyList();
     }

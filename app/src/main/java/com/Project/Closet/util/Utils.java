@@ -77,13 +77,19 @@ public class Utils {
 
         public final static List<Integer> achromatic_colors = Arrays.asList(BLACK,WHITE,GRAY); //무채색 계열
 
-        public final static List<Integer> soft_colors = Arrays.asList(IVORY,BEIGE,BROWN,GOLD); //아이보리 계열
-        public final static List<Integer> pink_colors = Arrays.asList(PINK,PURPLE); //핑크 계열
-        public final static List<Integer> red_colors = Arrays.asList(RED,WINE); //레드 계열
-        public final static List<Integer> blue_colors = Arrays.asList(SKY_BLUE,BLUE,NAVY); //블루 계열
+        public final static List<Integer> white_colors = Arrays.asList(IVORY,WHITE); //화이트 계열
+        public final static List<Integer> beige_colors = Arrays.asList(BEIGE, IVORY,WHITE); //베이지 계열
+        public final static List<Integer> soft_colors = Arrays.asList(BROWN,GOLD, IVORY,BEIGE); //브라운 계열
+        public final static List<Integer> pink_color = Arrays.asList(PINK); //핑크
+        public final static List<Integer> purple_color = Arrays.asList(PURPLE, PINK); //퍼플
+        public final static List<Integer> red_colors = Arrays.asList(RED,WINE, PINK); //레드 계열
+        public final static List<Integer> sky_blue_colors = Arrays.asList(SKY_BLUE); //스카이블루
+        public final static List<Integer> blue_colors = Arrays.asList(BLUE, SKY_BLUE); //블루 계열
+        public final static List<Integer> navy_colors = Arrays.asList(NAVY, BLUE); //네이비 계열
         public final static List<Integer> green_colors = Arrays.asList(GREEN,OLIVE_GREEN); //그린 계열
         public final static List<Integer> yellow_colors = Arrays.asList(YELLOW,ORANGE); //옐로우 계열
-        public final static List<Integer> black_colors = Arrays.asList(BLACK,WHITE,GRAY); //블랙 계열
+        public final static List<Integer> gray_color = Arrays.asList(GRAY); //그레이
+        public final static List<Integer> black_color = Arrays.asList(BLACK); //블랙
 
     }
 

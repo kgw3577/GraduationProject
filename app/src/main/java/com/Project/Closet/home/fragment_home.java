@@ -404,7 +404,7 @@ public class fragment_home extends Fragment implements OnBackPressedListener {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if(recommendedList.size()!=0){
+        if(recommendedList!=null && recommendedList.size()!=0){
             Log.e("fragment_home","pagerAdapter 아이템 추가 전");
             pagerAdapter_recommend.addItem(recommendPagerFragment.newInstance((ArrayList<DetailFeedVO>) recommendedList));
             Log.e("fragment_home","pagerAdapter 아이템 추가 후");
