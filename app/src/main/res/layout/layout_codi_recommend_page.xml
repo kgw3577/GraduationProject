@@ -194,6 +194,7 @@
 
             </LinearLayout>
             <TextView
+                android:id="@+id/tv_comment"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -202,11 +203,15 @@
                 android:textColor="@color/블랙">
             </TextView>
             <TextView
-                android:id="@+id/mood"
+                android:id="@+id/tv_mood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="단정하면서 도시적인 세련미"
+                android:shadowColor="#444444"
+                android:shadowRadius="2.0"
+                android:shadowDx="1.0"
+                android:shadowDy="1.0"
                 android:textColor="@color/네이비">
             </TextView>
             <TextView

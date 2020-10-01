@@ -375,10 +375,11 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
             switch (view.getId()) {
                 case R.id.iv_revert :
-                    break ;
-                case R.id.iv_save :
-                    getApplication();
-                    break ;
+                    //refresh로 수정할 것
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                    break;
                 case R.id.tv_done : //완료 버튼
                     finish_ok();
                     break;

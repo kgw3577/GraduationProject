@@ -123,7 +123,7 @@ public class Utils {
         colorIntMap.put("화이트",     "#FFFFFF"  );
         colorIntMap.put("그레이",     "#808080"      );
         colorIntMap.put("아이보리",    "#FFFFF0"  )   ;
-        colorIntMap.put("베이지",     "#F5F5DC"  );
+        colorIntMap.put("베이지",     "#D4B886"  );
         colorIntMap.put("핑크",      "#FFC0CB"  );
         colorIntMap.put("레드",      "#DC143C"  );
         colorIntMap.put("와인",      "#8B0000"  );

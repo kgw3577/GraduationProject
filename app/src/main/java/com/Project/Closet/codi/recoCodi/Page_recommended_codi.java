@@ -1,5 +1,6 @@
 package com.Project.Closet.codi.recoCodi;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,6 +38,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -110,6 +112,7 @@ public class Page_recommended_codi extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -161,20 +164,21 @@ public class Page_recommended_codi extends Fragment {
 
         ColorArrange colorArrange = codi.getColorArrange();
 
+
+        /*메인/서브 컬러 정보*/
         TextView tv_main_color = view.findViewById(R.id.tv_main_color);
         TextView tv_sub_color = view.findViewById(R.id.tv_sub_color);
         CircleImageView civ_main_color = view.findViewById(R.id.civ_main_color);
         CircleImageView civ_sub_color = view.findViewById(R.id.civ_sub_color);
 
-        String main_color = Utils.getKey(Utils.colorNumMap,colorArrange.getMain_color());
-        String sub_color = Utils.getKey(Utils.colorNumMap,colorArrange.getSub_color());
+        String main_colorName = Utils.getKey(Utils.colorNumMap,colorArrange.getMain_color()); //"레드"
+        String sub_colorName = Utils.getKey(Utils.colorNumMap,colorArrange.getSub_color());
 
-        String main_colorInt = Utils.colorIntMap.get(main_color);
-        String sub_colorInt = Utils.colorIntMap.get(sub_color);
+        String main_colorInt = Utils.colorIntMap.get(main_colorName); //"#ff0000"
+        String sub_colorInt = Utils.colorIntMap.get(sub_colorName);
 
-
-        tv_main_color.setText(main_color);
-        tv_sub_color.setText(sub_color);
+        tv_main_color.setText(main_colorName);
+        tv_sub_color.setText(sub_colorName);
         civ_main_color.setColorFilter(Color.parseColor(main_colorInt));
         civ_sub_color.setColorFilter(Color.parseColor(sub_colorInt));
 
@@ -187,6 +191,101 @@ public class Page_recommended_codi extends Fragment {
 //                );
 
 
+        //점수별 추천 문구
+        TextView tv_comment = view.findViewById(R.id.tv_comment);
+        switch ((int)colorArrange.total_score/10){
+            case 10:
+            case 9:
+                tv_comment.setText("강력 추천!");
+                break;
+            case 8:
+            case 7:
+                tv_comment.setText("추천!");
+                break;
+            case 6:
+            case 5:
+                tv_comment.setText("무난해요");
+                break;
+            default:
+                tv_comment.setText("비추...");
+                break;
+        }
+
+        //분위기 문구
+        TextView tv_mood = view.findViewById(R.id.tv_mood);
+        tv_mood.setTextColor(Color.parseColor(main_colorInt));
+        switch (main_colorName){
+            case "네이비":
+                tv_mood.setText("단정하면서 도시적인 세련미");
+                break;
+            case "블랙":
+                tv_mood.setText("품위있고 권위적, 격조 높은 고급");
+                break;
+            case "오렌지":
+                tv_mood.setText("개방적, 상큼함, 활기참");
+                break;
+            case "블루":
+                tv_mood.setText("시원함, 젊음, 냉정");
+                break;
+            case "베이지":
+                tv_mood.setText("부드러움, 따뜻함");
+                break;
+            case "화이트":
+                tv_mood.setText("깨끗함, 단아함, 청순함");
+                tv_mood.setShadowLayer(5,2,2,Color.parseColor("#444444"));
+                break;
+            default:
+                tv_mood.setVisibility(View.GONE);
+                break;
+        }
+
+        //날씨별 문구
+        TextView tv_weather_tip = view.findViewById(R.id.tv_weather_tip);
+        int temperature = codi.getTemperature();
+        temperature =new Random().nextInt(30); //임의. 0~29
+        if(new Random().nextBoolean())
+            temperature=-1;
+        if(temperature==-1){
+            tv_weather_tip.setVisibility(View.GONE);
+        }
+        else if(temperature<=5){
+            tv_weather_tip.setText("롱패딩은 생존템!\n" +
+                    "야상, 패딩, 목도리 등등 몸을 감싸는 옷을 있는대로 챙겨서 겹겹이 싸입고 나가는 것이 좋아요.\n" +
+                    "멋보다는 건강을 챙기려면 다들 패딩을 필수로 챙겨가야겠네요 :)");
+        }else if(temperature <= 9){
+            tv_weather_tip.setText("여전히 추운 날씨, 하지만 멋 정도는 부릴 수 있어요!\n" +
+                    "속옷을 따뜻하게 챙겨 입었다면 겉옷은 코트나 가죽자켓을 입어도 무방한 기온이랍니다 :D\n" +
+                    "요즘은 ‘얼.죽.코’라는 말도 있는데, ‘얼어 죽어도 코트를 입는 사람’ 이라는 뜻이라고 해요.\n" +
+                    "그래도 너무 추울 땐 감기에 걸릴 수도 있으니까 꼭 꼭 따뜻하게 입어주세요!");
+        }else if(temperature <= 11){
+            tv_weather_tip.setText("늦가을즈음, 조금 쌀쌀한 날씨!\n" +
+                    "간절기인 만큼 아우터를 들고 나가야 할까 말아야 할까 고민이 많이 되실 것 같은데요.\n" +
+                    "이럴 땐 트렌치코트나 간절기 야상을 입는 것을 추천 드려요 :)\n" +
+                    "또한 한창 이때 많이들 감기에 걸리시는데요ㅠ_ㅜ 쌀쌀한 추위에 대비할 수 있도록 얇은 옷을 여러 벌 껴입는 것도 추천드립니다!");
+        }else if(temperature <= 16){
+            tv_weather_tip.setText("대체로 따뜻하지만 바람이 불거나 해가 지면 확 추워지는 온도입니다.\n" +
+                    "낮에 활동할 때에는 자켓, 셔츠, 가디건, 간절기 야상, 살색 스타킹을,\n" +
+                    "추위를 잘타시는 분이나, 저녁에 활동할 때에는 아우터를 따로 챙겨나오는 것이 좋을 것 같습니다 :-)");
+        }else if(temperature <= 19){
+            tv_weather_tip.setText("새 학기가 시작될, 곧 다가올 따스한 봄 날씨의 기온입니다.\n" +
+                    "이 땐 얇은 니트, 가디건, 후드티, 면바지, 슬랙스 어떤 옷이든 OK!\n" +
+                    "한창 따뜻한 날씨이니까 마음껏 꾸미고 다니시면 될 것 같아요 :D\n" +
+                    "햇살이 좋은 날엔 예쁜 원피스를 입는 것도 좋을 것 같네요!");
+        }else if(temperature <= 22){
+            tv_weather_tip.setText("여름이 가까워지면서 낮이 뜨겁고 밤은 조금 쌀쌀한 날이 많습니다.\n" +
+                    "아우터 없이 긴팔티와 면바지를 입거나, 더위를 잘 타는 분은 반팔티를 입고 그 위에 후드집업이나 가디건과 같은 얇은 아우터를 걸치는 것을 추천드려요!");
+        }else if(temperature <= 26){
+            tv_weather_tip.setText("여름이 본격적으로 시작되는군요.\n" +
+                    "푹푹 찌는 날씨의 옷차림은 당연히 반팔과 반바지가 필수! 선크림을 발라주는 것도 잊지 마세요!\n" +
+                    "혹시 피부가 자외선에 예민하신 분들은 피부를 보호하기 위해 얇은 긴팔이나 면바지 등을 입는 것이 좋겠죠~?");
+        }else {
+            tv_weather_tip.setText("뜨거운 열기에 숨이 턱턱 막힙니다.\n" +
+                    "이럴 땐 나시티를 입거나 반바지, 민소매 원피스 등 몸의 열기를 빨리 날려주는 옷을 입어야 해요!\n" +
+                    "통풍이 잘되는 린넨 소재의 옷을 입는 것도 좋을 선택일 것 같아요 :)");
+        }
+
+
+        //저장 로직
         ImageView iv_save = view.findViewById(R.id.iv_save);
         iv_save.setOnClickListener(new View.OnClickListener() {
             @Override
