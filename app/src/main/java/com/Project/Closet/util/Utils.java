@@ -53,7 +53,7 @@ public class Utils {
         {50	,40	,40	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,20	,10	,40}
     };
 
-    public static class Color {
+    public static class ColorNum {
         public final static int BLACK = 0;
         public final static int WHITE = 1;
         public final static int GRAY = 2;
@@ -93,27 +93,51 @@ public class Utils {
 
     }
 
-    public static final HashMap<String,Integer> colorMap = new HashMap<>();
+    public static final HashMap<String,Integer> colorNumMap = new HashMap<>();
     static {
-        colorMap.put("블랙", Color.BLACK);
-        colorMap.put("화이트",Color.WHITE);
-        colorMap.put("그레이",Color.GRAY);
-        colorMap.put("아이보리",Color.IVORY);
-        colorMap.put("베이지",Color.BEIGE);
-        colorMap.put("핑크",Color.PINK);
-        colorMap.put("레드",Color.RED);
-        colorMap.put("와인",Color.WINE);
-        colorMap.put("퍼플",Color.PURPLE);
-        colorMap.put("스카이블루",Color.SKY_BLUE);
-        colorMap.put("블루",Color.BLUE);
-        colorMap.put("네이비",Color.NAVY);
-        colorMap.put("그린",Color.GREEN);
-        colorMap.put("올리브그린",Color.OLIVE_GREEN);
-        colorMap.put("옐로우",Color.YELLOW);
-        colorMap.put("오렌지",Color.ORANGE);
-        colorMap.put("브라운",Color.BROWN);
-        colorMap.put("골드",Color.GOLD);
-        colorMap.put("실버",Color.SILVER);
+        colorNumMap.put("블랙", ColorNum.BLACK);
+        colorNumMap.put("화이트", ColorNum.WHITE);
+        colorNumMap.put("그레이", ColorNum.GRAY);
+        colorNumMap.put("아이보리", ColorNum.IVORY);
+        colorNumMap.put("베이지", ColorNum.BEIGE);
+        colorNumMap.put("핑크", ColorNum.PINK);
+        colorNumMap.put("레드", ColorNum.RED);
+        colorNumMap.put("와인", ColorNum.WINE);
+        colorNumMap.put("퍼플", ColorNum.PURPLE);
+        colorNumMap.put("스카이블루", ColorNum.SKY_BLUE);
+        colorNumMap.put("블루", ColorNum.BLUE);
+        colorNumMap.put("네이비", ColorNum.NAVY);
+        colorNumMap.put("그린", ColorNum.GREEN);
+        colorNumMap.put("올리브그린", ColorNum.OLIVE_GREEN);
+        colorNumMap.put("옐로우", ColorNum.YELLOW);
+        colorNumMap.put("오렌지", ColorNum.ORANGE);
+        colorNumMap.put("브라운", ColorNum.BROWN);
+        colorNumMap.put("골드", ColorNum.GOLD);
+        colorNumMap.put("실버", ColorNum.SILVER);
+    }
+
+
+    public static final HashMap<String,String> colorIntMap = new HashMap<>();
+    static {
+        colorIntMap.put("블랙",      "#000000"  );
+        colorIntMap.put("화이트",     "#FFFFFF"  );
+        colorIntMap.put("그레이",     "#808080"      );
+        colorIntMap.put("아이보리",    "#FFFFF0"  )   ;
+        colorIntMap.put("베이지",     "#F5F5DC"  );
+        colorIntMap.put("핑크",      "#FFC0CB"  );
+        colorIntMap.put("레드",      "#DC143C"  );
+        colorIntMap.put("와인",      "#8B0000"  );
+        colorIntMap.put("퍼플",      "#800080"  );
+        colorIntMap.put("스카이블루",   "#87CEEB"     );
+        colorIntMap.put("블루",      "#0000FF"  );
+        colorIntMap.put("네이비",     "#000080"  );
+        colorIntMap.put("그린",      "#008000"  );
+        colorIntMap.put("올리브그린",   "#556B2F"     );
+        colorIntMap.put("옐로우",     "#FFFF00"  );
+        colorIntMap.put("오렌지",     "#FFA500"  );
+        colorIntMap.put("브라운",     "#8B4513"  );
+        colorIntMap.put("골드",      "#FFD700"  );
+        colorIntMap.put("실버",      "#C0C0C0"  );
     }
 
 

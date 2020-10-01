@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -84,32 +82,32 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
     }
 
     public List<Integer> findAffiliation(int color){
-        if(Utils.Color.white_colors.contains(color)) {
-            return Utils.Color.white_colors;
-        }else if(Utils.Color.beige_colors.contains(color)) {
-            return Utils.Color.beige_colors;
-        }else if(Utils.Color.soft_colors.contains(color)) {
-            return Utils.Color.soft_colors;
-        }else if(Utils.Color.pink_color.contains(color)){
-            return Utils.Color.pink_color;
-        }else if(Utils.Color.purple_color.contains(color)){
-            return Utils.Color.purple_color;
-        }else if(Utils.Color.red_colors.contains(color)){
-            return Utils.Color.red_colors;
-        }else if(Utils.Color.sky_blue_colors.contains(color)){
-            return Utils.Color.sky_blue_colors;
-        }else if(Utils.Color.blue_colors.contains(color)){
-            return Utils.Color.blue_colors;
-        }else if(Utils.Color.navy_colors.contains(color)){
-            return Utils.Color.navy_colors;
-        }else if(Utils.Color.green_colors.contains(color)){
-            return Utils.Color.green_colors;
-        }else if(Utils.Color.yellow_colors.contains(color)){
-            return Utils.Color.yellow_colors;
-        }else if(Utils.Color.gray_color.contains(color)){
-            return Utils.Color.gray_color;
-        }else if(Utils.Color.black_color.contains(color)){
-            return Utils.Color.black_color;
+        if(Utils.ColorNum.white_colors.contains(color)) {
+            return Utils.ColorNum.white_colors;
+        }else if(Utils.ColorNum.beige_colors.contains(color)) {
+            return Utils.ColorNum.beige_colors;
+        }else if(Utils.ColorNum.soft_colors.contains(color)) {
+            return Utils.ColorNum.soft_colors;
+        }else if(Utils.ColorNum.pink_color.contains(color)){
+            return Utils.ColorNum.pink_color;
+        }else if(Utils.ColorNum.purple_color.contains(color)){
+            return Utils.ColorNum.purple_color;
+        }else if(Utils.ColorNum.red_colors.contains(color)){
+            return Utils.ColorNum.red_colors;
+        }else if(Utils.ColorNum.sky_blue_colors.contains(color)){
+            return Utils.ColorNum.sky_blue_colors;
+        }else if(Utils.ColorNum.blue_colors.contains(color)){
+            return Utils.ColorNum.blue_colors;
+        }else if(Utils.ColorNum.navy_colors.contains(color)){
+            return Utils.ColorNum.navy_colors;
+        }else if(Utils.ColorNum.green_colors.contains(color)){
+            return Utils.ColorNum.green_colors;
+        }else if(Utils.ColorNum.yellow_colors.contains(color)){
+            return Utils.ColorNum.yellow_colors;
+        }else if(Utils.ColorNum.gray_color.contains(color)){
+            return Utils.ColorNum.gray_color;
+        }else if(Utils.ColorNum.black_color.contains(color)){
+            return Utils.ColorNum.black_color;
         }
         else return Collections.emptyList();
     }
@@ -126,8 +124,8 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
 
     public void describe(){
         Log.d("colorArrange 클래스",
-                "main_color: "+ Utils.getKey(Utils.colorMap,main_color)
-                        + " sub_color: "+ Utils.getKey(Utils.colorMap,sub_color)
+                "main_color: "+ Utils.getKey(Utils.colorNumMap,main_color)
+                        + " sub_color: "+ Utils.getKey(Utils.colorNumMap,sub_color)
                         + " 배색 점수 : "+arrange_score
                         + " 조화 점수 : "+balance_score
                         + " 종합 점수 : "+total_score);

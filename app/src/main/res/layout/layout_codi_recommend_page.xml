@@ -9,38 +9,213 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <include
+        <RelativeLayout
             android:id="@+id/layout_makecodi"
-            layout="@layout/layout_codi_recommend"
             android:layout_width="match_parent"
             android:layout_height="420dp"
-            />
+            android:background="#ffffff"
+            android:gravity="center">
+
+
+            <ImageView
+                android:id="@+id/iv_top"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/clo"
+                android:visibility="visible"/>
+
+            <ImageView
+                android:id="@+id/iv_top_place"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"/>
+
+
+            <ImageView
+                android:id="@+id/iv_bottom"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                android:layout_below="@id/iv_top_place"/>
+
+            <ImageView
+                android:id="@+id/iv_bottom_place"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
+                android:layout_below="@id/iv_top_place"/>
+
+
+            <ImageView
+                android:id="@+id/iv_suit"
+                android:layout_width="120dp"
+                android:layout_height="300dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"/>
+
+
+            <ImageView
+                android:id="@+id/iv_outer"
+                android:layout_width="120dp"
+                android:layout_height="300dp"
+                android:adjustViewBounds="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                android:layout_toLeftOf="@id/iv_top_place"
+
+                />
+
+            <ImageView
+                android:id="@+id/iv_shoes"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                android:layout_toRightOf="@id/iv_bottom_place"
+                android:layout_below="@id/iv_bag"
+                />
+
+            <ImageView
+                android:id="@+id/iv_bag"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                android:layout_toRightOf="@id/iv_bottom_place"
+                android:layout_below="@id/iv_acc4"
+                />
+
+            <ImageView
+                android:id="@+id/iv_acc4"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="visible"
+                android:layout_toRightOf="@id/iv_bottom_place"
+
+                />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/explain"
             android:layout_margin="15dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_below="@id/layout_makecodi"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_main_color"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@color/네이비"
+                    app:civ_border_width="1dp"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/tv_main_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="네이비 ">
+                </TextView>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_sub_color"
+                    android:layout_marginLeft="7dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@color/화이트"
+                    app:civ_border_width="1dp"
+                    android:layout_gravity="center"
+                    />
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/tv_sub_color"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="화이트">
+                </TextView>
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1"/>
+
+                <ImageView
+                    android:id="@+id/iv_save"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    app:srcCompat="@drawable/inbox"
+                    app:tint="#aa000000" />
+
+                <!--
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/civ"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="end"
+                        android:src="@color/화이트"
+                        />
+                    <ImageView
+                        android:id="@+id/iv_save"
+                        android:layout_margin="6dp"
+                        android:layout_alignLeft="@+id/civ"
+                        android:layout_alignRight="@+id/civ"
+                        android:layout_alignBottom="@+id/civ"
+                        android:layout_alignTop="@+id/civ"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        app:srcCompat="@drawable/inbox"
+                        app:tint="@color/fab" />
+
+                </RelativeLayout>
+                -->
+
+
+            </LinearLayout>
             <TextView
-                android:id="@+id/arrange_tip"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="배색 Tip">
+                android:text="강력 추천!"
+                android:textColor="@color/블랙">
             </TextView>
             <TextView
+                android:id="@+id/mood"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="날씨 Tip">
+                android:text="단정하면서 도시적인 세련미"
+                android:textColor="@color/네이비">
             </TextView>
             <TextView
+                android:id="@+id/tv_weather_tip"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="분위기 Tip">
+                android:text="대체로 따뜻하지만 바람이 불거나 해가 지면 확 추워지는 온도인데요.\n낮에 활동할 생각이라면 자켓, 셔츠, 가디건, 간절기 야상, 살색 스타킹 정도로 입는 것이 좋아요!\n하지만 추위를 잘타시는 분들이나, 저녁에도 활동하시는 분들은 아우터를 따로 챙겨나오는 것이 좋을 것 같습니다 :-)">
             </TextView>
         </LinearLayout>
 

@@ -31,23 +31,12 @@
 
         <ImageView
             android:id="@+id/iv_revert"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/iv_save"
-            android:layout_marginRight="15dp"
-            app:srcCompat="@drawable/revert" />
-
-        <ImageView
-            android:id="@+id/iv_save"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/tv_done"
             android:layout_marginRight="15dp"
-            app:srcCompat="@drawable/inbox"
-            app:tint="#aa000000" />
-
+            app:srcCompat="@drawable/revert" />
 
         <TextView
             android:id="@+id/tv_done"
