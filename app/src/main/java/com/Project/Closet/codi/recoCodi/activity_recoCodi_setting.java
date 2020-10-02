@@ -56,6 +56,10 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+
+                //여기서 설정대로 수정 후 보내기
+
+
                 Intent intent = new Intent(activity_recoCodi_setting.this, activity_recommendCodi.class);
                 intent.putParcelableArrayListExtra("clothesList",(ArrayList<ClothesVO>) clothesList);
                 startActivityForResult(intent, RECO_CODI);
