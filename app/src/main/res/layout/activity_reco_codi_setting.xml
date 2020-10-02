@@ -55,31 +55,37 @@
                         android:id="@+id/checkBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="상의+하의" />
+                        android:text="상의+하의"
+                        android:checked="true"
+                        />
 
                     <CheckBox
                         android:id="@+id/checkBox2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="한벌옷" />
+                        android:text="한벌옷"
+                        android:checked="true"/>
 
                     <CheckBox
                         android:id="@+id/checkBox3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="외투" />
+                        android:text="외투"
+                        android:checked="true"/>
 
                     <CheckBox
                         android:id="@+id/checkBox4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="가방" />
+                        android:text="가방"
+                        android:checked="true"/>
 
                     <CheckBox
                         android:id="@+id/checkBox5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="신발" />
+                        android:text="신발"
+                        android:checked="true"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,7 +97,8 @@
                         android:id="@+id/checkBox6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="액세서리" />
+                        android:text="액세서리"
+                        android:checked="true"/>
                 </LinearLayout>
 
 
@@ -114,45 +121,63 @@
                     android:textColor="@color/블랙" />
 
                 <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/civ_main_color"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@color/네이비"
-                        app:civ_border_width="1dp"
-                        android:layout_gravity="center"
-                        />
+                    <LinearLayout
+                        android:id="@+id/ll_main_color"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/civ_main_color"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="#dddddd"
+                            app:civ_border_width="1dp"
+                            android:layout_gravity="center"
+                            />
 
-                    <TextView
-                        android:layout_marginLeft="5dp"
-                        android:id="@+id/tv_main_color"
-                        android:layout_width="wrap_content"
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/tv_main_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="미설정">
+                        </TextView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_sub_color"
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="네이비 ">
-                    </TextView>
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/civ_sub_color"
-                        android:layout_marginLeft="7dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@color/베이지"
-                        app:civ_border_width="1dp"
-                        android:layout_gravity="center"
-                        />
-                    <TextView
-                        android:layout_marginLeft="5dp"
-                        android:id="@+id/tv_sub_color"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="베이지">
-                    </TextView>
+                        android:orientation="horizontal">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/civ_sub_color"
+                            android:layout_marginLeft="7dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="#dddddd"
+                            app:civ_border_width="1dp"
+                            android:layout_gravity="center"
+                            />
+                        <TextView
+                            android:layout_marginLeft="5dp"
+                            android:id="@+id/tv_sub_color"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="미설정">
+                        </TextView>
+                    </LinearLayout>
                 </LinearLayout>
+
+
+
             </LinearLayout>
 
 
@@ -165,7 +190,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="필수 포함 카테고리"
+                    android:text="이 카테고리 포함"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/블랙" />
 
@@ -175,10 +200,20 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_top"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_top_detail"
+                        android:entries="@array/상의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="상의"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
 
 
                 </LinearLayout>
@@ -188,61 +223,122 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_bottom"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_bottom_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="하의"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
-
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_suit"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="한벌옷" />
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_suit_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_outer"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_outer_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="외투"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_bag"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_bag_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="가방"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_shoes"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_shoes_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="신발"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
+
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <Spinner
+                        android:minWidth="150dp"
+                        android:id="@+id/spinner_select_accessory"
+                        android:entries="@array/Kind"
                         android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                    <Spinner
+                        android:id="@+id/spinner_select_accessory_detail"
+                        android:entries="@array/하의"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="액세서리"/>
+                        android:layout_weight="1"
+                        android:visibility="invisible"
+                        />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -257,7 +353,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="필수 포함 옷"
+                    android:text="이 옷 포함"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:textColor="@color/블랙" />
 
@@ -288,6 +384,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="상의 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -302,6 +403,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="하의 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
@@ -316,6 +422,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="한벌옷 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
 
 
@@ -331,6 +442,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="외투 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
                             android:layout_width="@dimen/child_card"
@@ -344,6 +460,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="가방 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
                             android:layout_width="@dimen/child_card"
@@ -357,6 +478,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="신발 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
                             android:layout_width="@dimen/child_card"
@@ -370,46 +496,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="액세서리 추가"
+                                android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="@dimen/child_card"
-                            android:layout_height="@dimen/child_card"
-                            android:layout_margin="3dp"
-                            app:cardBackgroundColor="@color/closet"
-                            card_view:cardCornerRadius="10dp">
 
-                            <ImageView
-                                android:id="@+id/child8"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/hanger_gray_small" />
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="@dimen/child_card"
-                            android:layout_height="@dimen/child_card"
-                            android:layout_margin="3dp"
-                            app:cardBackgroundColor="@color/closet"
-                            card_view:cardCornerRadius="10dp">
-
-                            <ImageView
-                                android:id="@+id/child9"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/hanger_gray_small" />
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="@dimen/child_card"
-                            android:layout_height="@dimen/child_card"
-                            android:layout_margin="3dp"
-                            app:cardBackgroundColor="@color/closet"
-                            card_view:cardCornerRadius="10dp">
-
-                            <ImageView
-                                android:id="@+id/child10"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/hanger_gray_small" />
-                        </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
                 </HorizontalScrollView>
@@ -437,13 +530,19 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <RadioButton
-                        android:id="@+id/radioButton"
+                        android:id="@+id/radioButton1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="모두"
+                        android:checked="true"/>
+                    <RadioButton
+                        android:id="@+id/radioButton2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="여성" />
 
                     <RadioButton
-                        android:id="@+id/radioButton2"
+                        android:id="@+id/radioButton3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="남성" />
@@ -477,17 +576,23 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
                     <RadioButton
-                        android:id="@+id/rb_now_temper"
+                        android:id="@+id/rb_weather_all"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="적용 안 함"
+                        android:checked="true"/>
+                    <RadioButton
+                        android:id="@+id/rb_weather_now"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="현재 날씨" />
                     <RadioButton
-                        android:id="@+id/rb_select_temper"
+                        android:id="@+id/rb_weather_temper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="기온 선택" />
                     <RadioButton
-                        android:id="@+id/rb_select_season"
+                        android:id="@+id/rb_weather_season"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="계절 선택" />

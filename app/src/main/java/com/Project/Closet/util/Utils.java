@@ -142,6 +142,8 @@ public class Utils {
 
 
 
+
+
     public static CropImage.ActivityBuilder CropImageSetting(){
 
         return CropImage.activity()
