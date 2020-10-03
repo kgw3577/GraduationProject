@@ -28,6 +28,17 @@ public class Utils {
         public final static int SHOES = 4;
         public final static int BAG = 5;
         public final static int ACCESSORY = 6;
+
+        public static final HashMap<String,Integer> kindNumMap = new HashMap<>();
+        static {
+            kindNumMap.put("상의", TOP);
+            kindNumMap.put("하의", BOTTOM);
+            kindNumMap.put("한벌옷", SUIT);
+            kindNumMap.put("외투", OUTER);
+            kindNumMap.put("신발", SHOES);
+            kindNumMap.put("가방", BAG);
+            kindNumMap.put("액세서리", ACCESSORY);
+        }
     }
 
 

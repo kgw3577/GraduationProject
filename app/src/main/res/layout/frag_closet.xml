@@ -160,6 +160,7 @@
         fab:menu_labels_ellipsize="end"
         fab:menu_labels_singleLine="true"
 
+
         >
 
         <com.github.clans.fab.FloatingActionButton

@@ -406,7 +406,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         final int SUIT_ACCESSORY=5;
         final int SUIT_OUTER = 6;
 
-        public List<Integer> setModes(int numTop, int numBottom, int numSuit, int numOuter, int numBag, int numShoes, int numAccessory){
+        public List<Integer> setModes(int numTop, int numBottom, int numSuit, int numOuter, int numShoes, int numBag, int numAccessory){
             List<Integer> modes = new ArrayList<>();
             int randomIndex;
 

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -46,6 +48,16 @@ public class activity_recoCodi_setting extends AppCompatActivity {
     int RECO_CODI = 255;
     Call<List<ClothesVO>> cloListCall;
     List<ClothesVO> clothesList;
+
+    List<CheckBox> checkBoxes;
+    CheckBox cb_top;
+    CheckBox cb_bottom;
+    CheckBox cb_suit;
+    CheckBox cb_outer;
+    CheckBox cb_shoes;
+    CheckBox cb_bag;
+    CheckBox cb_accessory;
+
 
 
     TextView tv_main_color;
@@ -84,15 +96,30 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         TextView header_title = findViewById(R.id.header_title);
         header_title.setText("코디 추천 설정");
 
+        //체크박스 관련
+        cb_top = findViewById(R.id.cb_top_bottom);
+        cb_bottom = findViewById(R.id.cb_top_bottom);
+        cb_suit = findViewById(R.id.cb_suit);
+        cb_outer = findViewById(R.id.cb_outer);
+        cb_bag = findViewById(R.id.cb_bag);
+        cb_shoes = findViewById(R.id.cb_shoes);
+        cb_accessory = findViewById(R.id.cb_accessory);
+        checkBoxes = new ArrayList<>();
+        checkBoxes.add(cb_top);
+        checkBoxes.add(cb_bottom);
+        checkBoxes.add(cb_suit);
+        checkBoxes.add(cb_outer);
+        checkBoxes.add(cb_shoes);
+        checkBoxes.add(cb_bag);
+        checkBoxes.add(cb_accessory);
 
-
+        //컬러 관련 변수
         LinearLayout ll_main_color = findViewById(R.id.ll_main_color);
         LinearLayout ll_sub_color = findViewById(R.id.ll_sub_color);
         tv_main_color = findViewById(R.id.tv_main_color);
         tv_sub_color = findViewById(R.id.tv_sub_color);
         civ_main_color = findViewById(R.id.civ_main_color);
         civ_sub_color = findViewById(R.id.civ_sub_color);
-
 
         //색 조합 선택
         ll_main_color.setOnClickListener(new View.OnClickListener() {
@@ -560,6 +587,9 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+                //선택되지 않은 파트 제거
+                deactivateParts();
+
 
                 //여기서 설정대로 수정 후 보내기
 
@@ -720,6 +750,29 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
     void reset_spinner(Spinner spinner){
         spinner.setSelection(spinner.getCount());
+    }
+
+    void deactivateParts(){
+
+
+
+
+        for(int kindNum=0; kindNum<7; kindNum++){
+            if(!checkBoxes.get(kindNum).isChecked()){ //체크되지 않은 파트
+                String Kind = Utils.getKey(Utils.Kind.kindNumMap,kindNum); //이름을 찾아서
+                Iterator<ClothesVO> iter = clothesList.iterator();
+                while (iter.hasNext()) { //제거
+                    ClothesVO clothes = iter.next();
+                    if(Kind.equals(clothes.getKind()))
+                        iter.remove();
+                }
+//
+//                for(ClothesVO clothes : clothesList){ //제거
+//                    if(Kind.equals(clothes.getKind()))
+//                        clothesList.remove(clothes);
+//                }
+            }
+        }
     }
 
 }

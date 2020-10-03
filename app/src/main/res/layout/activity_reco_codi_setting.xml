@@ -52,7 +52,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkBox"
+                        android:id="@+id/cb_top_bottom"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="상의+하의"
@@ -60,28 +60,28 @@
                         />
 
                     <CheckBox
-                        android:id="@+id/checkBox2"
+                        android:id="@+id/cb_suit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="한벌옷"
                         android:checked="true"/>
 
                     <CheckBox
-                        android:id="@+id/checkBox3"
+                        android:id="@+id/cb_outer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="외투"
                         android:checked="true"/>
 
                     <CheckBox
-                        android:id="@+id/checkBox4"
+                        android:id="@+id/cb_bag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="가방"
                         android:checked="true"/>
 
                     <CheckBox
-                        android:id="@+id/checkBox5"
+                        android:id="@+id/cb_shoes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="신발"
@@ -94,7 +94,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/checkBox6"
+                        android:id="@+id/cb_accessory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="액세서리"

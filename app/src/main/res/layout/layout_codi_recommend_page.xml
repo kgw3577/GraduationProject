@@ -78,7 +78,7 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="visible"
                 android:layout_toRightOf="@id/iv_bottom_place"
-                android:layout_below="@id/iv_bag"
+                android:layout_below="@id/iv_bag_place"
                 />
 
             <ImageView
@@ -88,7 +88,16 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="visible"
                 android:layout_toRightOf="@id/iv_bottom_place"
-                android:layout_below="@id/iv_acc4"
+                android:layout_below="@id/iv_acc4_place"
+                />
+            <ImageView
+                android:id="@+id/iv_bag_place"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
+                android:layout_toRightOf="@id/iv_bottom_place"
+                android:layout_below="@id/iv_acc4_place"
                 />
 
             <ImageView
@@ -97,6 +106,15 @@
                 android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:visibility="visible"
+                android:layout_toRightOf="@id/iv_bottom_place"
+
+                />
+            <ImageView
+                android:id="@+id/iv_acc4_place"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible"
                 android:layout_toRightOf="@id/iv_bottom_place"
 
                 />
