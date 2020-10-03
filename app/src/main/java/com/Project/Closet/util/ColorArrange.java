@@ -24,7 +24,6 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
         this.main_color = main_color;
         this.sub_color = sub_color;
         other_colors = findOtherColors(main_color, sub_color);
-
         arrange_score = Utils.score_rule[main_color][sub_color];
     }
 
@@ -54,6 +53,14 @@ public class ColorArrange  implements Comparable<ColorArrange>, Parcelable {
 
     public int getSub_color() {
         return sub_color;
+    }
+
+    public void setMain_color(int main_color) {
+        this.main_color = main_color;
+    }
+
+    public void setSub_color(int sub_color) {
+        this.sub_color = sub_color;
     }
 
     public Set<Integer> getOther_colors() {

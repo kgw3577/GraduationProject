@@ -27,6 +27,7 @@ import com.Project.Closet.activity_login;
 import com.Project.Closet.codi.addCodi.Page_category;
 import com.Project.Closet.codi.fragment_codi;
 import com.Project.Closet.home.activity_home;
+import com.Project.Closet.util.ColorArrange;
 import com.Project.Closet.util.MySpinnerAdapter;
 import com.Project.Closet.util.Utils;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -45,6 +46,7 @@ import retrofit2.Call;
 
 public class activity_recoCodi_setting extends AppCompatActivity {
 
+    private static final String TAG = "setting";
     int RECO_CODI = 255;
     Call<List<ClothesVO>> cloListCall;
     List<ClothesVO> clothesList;
@@ -65,8 +67,8 @@ public class activity_recoCodi_setting extends AppCompatActivity {
     CircleImageView civ_main_color;
     CircleImageView civ_sub_color;
 
-    String main_color_name;
-    String sub_color_name;
+    int main_color_num=-1;
+    int sub_color_num=-1;
 
     String top="";
     String bottom="";
@@ -83,6 +85,9 @@ public class activity_recoCodi_setting extends AppCompatActivity {
     String bag_detail="";
     String shoes_detail="";
     String accessory_detail="";
+    //
+    List<String> categories;
+    List<String> detail_categories;
 
 
     final int MAIN_COLOR = 0;
@@ -137,6 +142,7 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
 
         /*필수 포함 카테고리 - 스피너 설정*/
+
         final Spinner spinner_top = (Spinner)findViewById(R.id.spinner_select_top);
         final Spinner spinner_bottom = (Spinner)findViewById(R.id.spinner_select_bottom);
         final Spinner spinner_suit = (Spinner)findViewById(R.id.spinner_select_suit);
@@ -144,6 +150,8 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         final Spinner spinner_bag = (Spinner)findViewById(R.id.spinner_select_bag);
         final Spinner spinner_shoes = (Spinner)findViewById(R.id.spinner_select_shoes);
         final Spinner spinner_accessory = (Spinner)findViewById(R.id.spinner_select_accessory);
+        final List<Spinner> spn_categories = new ArrayList<>(Arrays.asList(spinner_top,spinner_bottom,spinner_suit,
+                spinner_outer,spinner_bag,spinner_shoes,spinner_accessory));
         //
         final Spinner spinner_top_detail = (Spinner)findViewById(R.id.spinner_select_top_detail);
         final Spinner spinner_bottom_detail = (Spinner)findViewById(R.id.spinner_select_bottom_detail);
@@ -152,6 +160,9 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         final Spinner spinner_bag_detail = (Spinner)findViewById(R.id.spinner_select_bag_detail);
         final Spinner spinner_shoes_detail = (Spinner)findViewById(R.id.spinner_select_shoes_detail);
         final Spinner spinner_accessory_detail = (Spinner)findViewById(R.id.spinner_select_accessory_detail);
+        List<Spinner> spn_detail_categories = new ArrayList<>(Arrays.asList(spinner_top_detail,
+                spinner_bottom_detail,spinner_suit_detail,spinner_outer_detail,
+                spinner_bag_detail,spinner_shoes_detail,spinner_accessory_detail));
 
         //상의
         String[] itemArray = getResources().getStringArray(R.array.상의);
@@ -176,6 +187,7 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
                     String selected = (String) spinner_top.getSelectedItem();
                     top = selected;
+                    Log.d(TAG, "onItemSelected: "+top);
                     List<String> items = setDetailCategory(selected);
                     if(!items.isEmpty()){
                         items.add("모두"); // Last item = Hint (제목)
@@ -204,8 +216,10 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                         top_detail ="";
                     }
                 }
-                else
+                else{
                     top = "";
+                    Log.d(TAG, "onItemSelected: "+top);
+                }
             }
 
             @Override
@@ -572,7 +586,6 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         });
 
 
-
         //설정 완료 버튼
         ScalableLayout sl_ok = findViewById(R.id.sl_ok);
         sl_ok.setOnClickListener(new View.OnClickListener() {
@@ -587,15 +600,19 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                //선택되지 않은 파트 제거
+                //선택되지 않은 파트(코디 구성) 제거
                 deactivateParts();
 
+                //특정 카테고리 포함
+                if(!restrictCategory())
+                    return;
 
-                //여기서 설정대로 수정 후 보내기
 
 
                 Intent intent = new Intent(activity_recoCodi_setting.this, activity_recommendCodi.class);
                 intent.putParcelableArrayListExtra("clothesList",(ArrayList<ClothesVO>) clothesList);
+                intent.putExtra("main_color", main_color_num);  //배색 조합 정보 보내기(default 값:-1)
+                intent.putExtra("sub_color", sub_color_num);
                 startActivityForResult(intent, RECO_CODI);
             }
         });
@@ -666,15 +683,16 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
                         String colorIntStr = String.format("#%06X", 0xFFFFFF & colorInt); //"#ff0000"
                         String colorName = Utils.getKey(colorUtil.mapColors,colorIntStr);
+                        int colorNum = Utils.colorNumMap.get(colorName);
 
                         switch(numColor){
                             case MAIN_COLOR:
-                                main_color_name = colorName;
+                                main_color_num = colorNum;
                                 tv_main_color.setText(colorName);
                                 civ_main_color.setColorFilter(Color.parseColor(colorIntStr));
                                 break;
                             case SUB_COLOR :
-                                sub_color_name = colorName;
+                                sub_color_num = colorNum;
                                 tv_sub_color.setText(colorName);
                                 civ_sub_color.setColorFilter(Color.parseColor(colorIntStr));
                                 break;
@@ -754,9 +772,6 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
     void deactivateParts(){
 
-
-
-
         for(int kindNum=0; kindNum<7; kindNum++){
             if(!checkBoxes.get(kindNum).isChecked()){ //체크되지 않은 파트
                 String Kind = Utils.getKey(Utils.Kind.kindNumMap,kindNum); //이름을 찾아서
@@ -773,6 +788,74 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 //                }
             }
         }
+    }
+
+    boolean restrictCategory(){
+
+        categories = new ArrayList<>(Arrays.asList(top,bottom,suit,outer,shoes,bag,accessory));
+        detail_categories = new ArrayList<>(Arrays.asList(top_detail,bottom_detail,suit_detail,
+                outer_detail,shoes_detail,bag_detail,accessory_detail));
+
+
+        for (int kindNum=0; kindNum<7; kindNum++){
+            String category = categories.get(kindNum); //해당 종류(ex.상의)에 설정된 카테고리명 받아옴
+            String kind = Utils.getKey(Utils.Kind.kindNumMap,kindNum); //종류명 받아옴
+
+            if(!category.isEmpty()){ //카테고리가 설정 되어있다면
+                String detail_category = detail_categories.get(kindNum); //디테일 카테고리 받아옴
+                Iterator<ClothesVO> cloListIter = clothesList.iterator();
+                int remain_items=0;
+
+                if(detail_category.isEmpty()){ //카테고리만 설정되어 있다면
+                    while (cloListIter.hasNext()) {
+                        ClothesVO clothes = cloListIter.next();
+                        String cloKind = clothes.getKind();
+                        if(cloKind.equals(kind)){
+                            if(!clothes.getCategory().equals(category))
+                                cloListIter.remove(); //해당 종류에 해당 카테고리가 아닌 옷들을 제거
+                            else
+                                remain_items+=1; //제거되지 않은 옷
+                        }
+
+                        if(kindNum == Utils.Kind.TOP || kindNum == Utils.Kind.BOTTOM){
+                            if("한벌옷".equals(cloKind))
+                                cloListIter.remove();
+                        }else if(kindNum == Utils.Kind.SUIT){
+                            if("상의".equals(cloKind) || "하의".equals(cloKind))
+                                cloListIter.remove(); //제거
+                        }
+                    }
+                }else{ //디테일 카테고리도 설정되어 있다면
+                    while (cloListIter.hasNext()) {
+                        ClothesVO clothes = cloListIter.next();
+                        String cloKind = clothes.getKind();
+                        if(cloKind.equals(kind)){
+                            if(!clothes.getDetailCategory().equals(detail_category))
+                                cloListIter.remove();//해당 종류에 해당 세부 카테고리가 아닌 옷들을 제거
+                            else
+                                remain_items+=1; //제거되지 않은 옷
+                        }
+
+                        if(kindNum == Utils.Kind.TOP || kindNum == Utils.Kind.BOTTOM){
+                            if("한벌옷".equals(cloKind))
+                                cloListIter.remove();
+                        }else if(kindNum == Utils.Kind.SUIT){
+                            if("상의".equals(cloKind) || "하의".equals(cloKind))
+                                cloListIter.remove(); //제거
+                        }
+                    }
+                }
+
+                if(remain_items==0){
+                    if(!detail_category.isEmpty())
+                        category = detail_category;
+                    Toast.makeText(this, "설정한 <"+category+"> 카테고리의 옷이 없습니다. \n더 많은 옷을 추가해보세요.", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }

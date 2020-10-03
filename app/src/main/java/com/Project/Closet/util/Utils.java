@@ -6,6 +6,7 @@ import com.Project.Closet.R;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Utils {
         public final static int SHOES = 4;
         public final static int BAG = 5;
         public final static int ACCESSORY = 6;
+
+        public static final List<Integer> kindList = new ArrayList<Integer>(Arrays.asList(TOP,BOTTOM,SUIT,OUTER,SHOES,BAG,ACCESSORY));
 
         public static final HashMap<String,Integer> kindNumMap = new HashMap<>();
         static {

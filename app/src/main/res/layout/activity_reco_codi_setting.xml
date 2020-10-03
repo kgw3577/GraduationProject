@@ -80,18 +80,20 @@
                         android:text="가방"
                         android:checked="true"/>
 
-                    <CheckBox
-                        android:id="@+id/cb_shoes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="신발"
-                        android:checked="true"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+
+                    <CheckBox
+                        android:id="@+id/cb_shoes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신발"
+                        android:checked="true"/>
 
                     <CheckBox
                         android:id="@+id/cb_accessory"
