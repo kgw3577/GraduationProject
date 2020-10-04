@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -25,7 +25,10 @@
     </com.ssomai.android.scalablelayout.ScalableLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+
+        android:layout_below="@id/header"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,12 +76,22 @@
                         android:text="외투"
                         android:checked="true"/>
 
+
+                    <CheckBox
+                        android:id="@+id/cb_shoes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="신발"
+                        android:checked="true"/>
+
                     <CheckBox
                         android:id="@+id/cb_bag"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="가방"
                         android:checked="true"/>
+
+
 
                 </LinearLayout>
 
@@ -88,12 +101,6 @@
                     android:orientation="horizontal">
 
 
-                    <CheckBox
-                        android:id="@+id/cb_shoes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="신발"
-                        android:checked="true"/>
 
                     <CheckBox
                         android:id="@+id/cb_accessory"
@@ -387,6 +394,7 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="상의 추가"
@@ -406,6 +414,7 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="하의 추가"
@@ -425,6 +434,7 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="한벌옷 추가"
@@ -445,6 +455,7 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="외투 추가"
@@ -463,9 +474,10 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="가방 추가"
+                                android:text="신발 추가"
                                 android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
@@ -481,9 +493,10 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="신발 추가"
+                                android:text="가방 추가"
                                 android:layout_gravity="center_horizontal|bottom"/>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
@@ -499,6 +512,7 @@
                                 android:layout_height="match_parent"
                                 android:src="@drawable/hanger_gray_small" />
                             <TextView
+                                android:id="@+id/tv_child7"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="액세서리 추가"
@@ -613,6 +627,108 @@
     </ScrollView>
 
 
+    <SlidingDrawer
+        android:id="@+id/sliding_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:allowSingleTap="true"
+        android:animateOnClick="true"
+        android:bottomOffset="5dp"
+        android:content="@+id/drawer_content"
+        android:handle="@+id/handle"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/handle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#dddddd"
+            android:src="@drawable/ic_launcher_background"
+            android:text="끌어올려주세요" />
+
+        <LinearLayout
+            android:id="@+id/drawer_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:focusable="true"
+            android:clickable="true"
+            android:background="#BB000000"
+            android:orientation="vertical">
 
 
-</LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/msgLo"
+                android:background="#EEEEEE"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                >
+                <TextView
+                    android:layout_margin="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:text="옷 추가"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:background="#bbbbbb"
+                >
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tv_add_image"-->
+                <!--                    android:text="새로운 옷 올리기"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="56dp"-->
+                <!--                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+                <!--                    android:textColor="#000000"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:background="#ffffff"-->
+                <!--                    android:minHeight="?android:attr/listPreferredItemHeightSmall"-->
+
+                <!--                    />-->
+
+                <TextView
+                    android:id="@+id/tv_from_closet"
+                    android:layout_marginTop="0.01dp"
+                    android:text="옷장에서 가져오기"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_marginTop="0.01dp"
+                    android:text="취소"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="#000000"
+                    android:gravity="center"
+                    android:background="#ffffff"
+                    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </SlidingDrawer>
+
+
+
+
+</RelativeLayout>

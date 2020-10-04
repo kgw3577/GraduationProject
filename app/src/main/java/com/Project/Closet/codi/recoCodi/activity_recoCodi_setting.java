@@ -1,16 +1,25 @@
 package com.Project.Closet.codi.recoCodi;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,14 +33,20 @@ import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
 import com.Project.Closet.activity_login;
+import com.Project.Closet.closet.closet_activities.activity_closet_DB;
 import com.Project.Closet.codi.addCodi.Page_category;
 import com.Project.Closet.codi.fragment_codi;
 import com.Project.Closet.home.activity_home;
+import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.ColorArrange;
 import com.Project.Closet.util.MySpinnerAdapter;
 import com.Project.Closet.util.Utils;
 import com.ssomai.android.scalablelayout.ScalableLayout;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +59,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import petrov.kristiyan.colorpicker.ColorPicker;
 import retrofit2.Call;
 
-public class activity_recoCodi_setting extends AppCompatActivity {
+public class activity_recoCodi_setting extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "setting";
     int RECO_CODI = 255;
@@ -88,6 +103,45 @@ public class activity_recoCodi_setting extends AppCompatActivity {
     //
     List<String> categories;
     List<String> detail_categories;
+
+
+
+
+    private static final int FROM_CLOSET = 1009;
+
+    SlidingDrawer slidingDrawer;
+    LinearLayout drawer_content;
+
+    EditText tv_contents;
+
+    //TextView tv_add_image;
+    TextView tv_from_closet;
+    TextView tv_from_share;
+    TextView tv_cancel;
+
+    ArrayList<ImageView> list_childClothes;
+    ArrayList<TextView> list_tv_childClothes;
+    int[] child_clothes_no;
+    ArrayList<Integer> index_resourceID;
+    int selected_clo_index;
+
+
+    ImageView child1;
+    ImageView child2;
+    ImageView child3;
+    ImageView child4;
+    ImageView child5;
+    ImageView child6;
+    ImageView child7;
+    //
+    TextView tv_child1;
+    TextView tv_child2;
+    TextView tv_child3;
+    TextView tv_child4;
+    TextView tv_child5;
+    TextView tv_child6;
+    TextView tv_child7;
+
 
 
     final int MAIN_COLOR = 0;
@@ -141,7 +195,7 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         });
 
 
-        /*필수 포함 카테고리 - 스피너 설정*/
+        /*포함 카테고리 - 스피너 설정*/
 
         final Spinner spinner_top = (Spinner)findViewById(R.id.spinner_select_top);
         final Spinner spinner_bottom = (Spinner)findViewById(R.id.spinner_select_bottom);
@@ -586,6 +640,45 @@ public class activity_recoCodi_setting extends AppCompatActivity {
         });
 
 
+        /*포함 옷 관련*/
+
+        //드로워 관련
+        slidingDrawer = findViewById(R.id.sliding_drawer);
+        drawer_content = findViewById(R.id.drawer_content);
+
+        tv_from_closet= findViewById(R.id.tv_from_closet);
+        tv_cancel = findViewById(R.id.tv_cancel);
+
+        tv_from_closet.setOnClickListener(this);
+        tv_cancel.setOnClickListener(this);
+        drawer_content.setOnClickListener(this);
+
+        //옷 관련
+        child1 = findViewById(R.id.child1);
+        child2 = findViewById(R.id.child2);
+        child3 = findViewById(R.id.child3);
+        child4 = findViewById(R.id.child4);
+        child5 = findViewById(R.id.child5);
+        child6 = findViewById(R.id.child6);
+        child7 = findViewById(R.id.child7);
+        tv_child1 = findViewById(R.id.tv_child1);
+        tv_child2 = findViewById(R.id.tv_child2);
+        tv_child3 = findViewById(R.id.tv_child3);
+        tv_child4 = findViewById(R.id.tv_child4);
+        tv_child5 = findViewById(R.id.tv_child5);
+        tv_child6 = findViewById(R.id.tv_child6);
+        tv_child7 = findViewById(R.id.tv_child7);
+
+        list_childClothes = new ArrayList<ImageView>(Arrays.asList(child1, child2, child3, child4, child5, child6, child7));
+        list_tv_childClothes = new ArrayList<TextView>(Arrays.asList(tv_child1, tv_child2, tv_child3, tv_child4, tv_child5, tv_child6, tv_child7));
+        child_clothes_no =new int[7]; //옷 no 저장
+        index_resourceID = new ArrayList<Integer>(Arrays.asList(R.id.child1, R.id.child2, R.id.child3, R.id.child4, R.id.child5, R.id.child6, R.id.child7));
+
+        for(ImageView v : list_childClothes){
+            v.setOnClickListener(this);
+        }
+
+
         //설정 완료 버튼
         ScalableLayout sl_ok = findViewById(R.id.sl_ok);
         sl_ok.setOnClickListener(new View.OnClickListener() {
@@ -603,10 +696,23 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                 //선택되지 않은 파트(코디 구성) 제거
                 deactivateParts();
 
+                categories = new ArrayList<>(Arrays.asList(top,bottom,suit,outer,shoes,bag,accessory));
+                for(int i=0; i<7; i++){
+                    if(!categories.get(i).isEmpty() && child_clothes_no[i]!=0){
+                        String kind = Utils.getKey(Utils.Kind.kindNumMap,i);
+                        Toast.makeText(activity_recoCodi_setting.this, "<"+kind+">"+" 파트의 '이 카테고리 포함'과 '이 옷 포함' 설정이 중복됩니다." +
+                                "\n파트 당 하나만 선택해 주세요.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+
                 //특정 카테고리 포함
                 if(!restrictCategory())
                     return;
 
+                //특정 옷 포함
+                if(!restrictClothes())
+                    return;
 
 
                 Intent intent = new Intent(activity_recoCodi_setting.this, activity_recommendCodi.class);
@@ -617,19 +723,6 @@ public class activity_recoCodi_setting extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RECO_CODI && resultCode == RESULT_OK){
-            Intent intent = new Intent();
-            setResult(RESULT_OK, intent);
-            finish();
-        }
-    }
-
-
-
 
 
     public class networkTask extends AsyncTask<String, Void, List<ClothesVO>> {
@@ -701,7 +794,18 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
                     @Override
                     public void onCancel() {
-                        // Cancel 버튼 클릭 시 이벤트
+                        switch(numColor){
+                            case MAIN_COLOR:
+                                main_color_num = -1;
+                                tv_main_color.setText("미설정");
+                                civ_main_color.setColorFilter(Color.parseColor("#dddddd"));
+                                break;
+                            case SUB_COLOR :
+                                sub_color_num = -1;
+                                tv_sub_color.setText("미설정");
+                                civ_sub_color.setColorFilter(Color.parseColor("#dddddd"));
+                                break;
+                        }
                     }
                 }).show();  // dialog 생성
     }
@@ -792,10 +896,17 @@ public class activity_recoCodi_setting extends AppCompatActivity {
 
     boolean restrictCategory(){
 
-        categories = new ArrayList<>(Arrays.asList(top,bottom,suit,outer,shoes,bag,accessory));
-        detail_categories = new ArrayList<>(Arrays.asList(top_detail,bottom_detail,suit_detail,
-                outer_detail,shoes_detail,bag_detail,accessory_detail));
+        //categories = new ArrayList<>(Arrays.asList(top,bottom,suit,outer,shoes,bag,accessory));
 
+
+        if((!top.isEmpty()||!bottom.isEmpty())&&!suit.isEmpty()){
+            Toast.makeText(this, "상의/하의와 한벌옷은 동시에 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
+            detail_categories = new ArrayList<>(Arrays.asList(top_detail,bottom_detail,suit_detail,
+                outer_detail,shoes_detail,bag_detail,accessory_detail));
 
         for (int kindNum=0; kindNum<7; kindNum++){
             String category = categories.get(kindNum); //해당 종류(ex.상의)에 설정된 카테고리명 받아옴
@@ -849,13 +960,141 @@ public class activity_recoCodi_setting extends AppCompatActivity {
                 if(remain_items==0){
                     if(!detail_category.isEmpty())
                         category = detail_category;
-                    Toast.makeText(this, "설정한 <"+category+"> 카테고리의 옷이 없습니다. \n더 많은 옷을 추가해보세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "설정한 <"+category+"> 카테고리의 옷이 없습니다. \n더 많은 옷을 추가해보세요.", Toast.LENGTH_LONG).show();
                     return false;
                 }
             }
         }
 
         return true;
+    }
+
+    boolean restrictClothes(){
+
+        if((child_clothes_no[Utils.Kind.TOP]!=0 || child_clothes_no[Utils.Kind.BOTTOM]!=0)
+                && child_clothes_no[Utils.Kind.SUIT]!=0){
+            Toast.makeText(this, "상의/하의와 한벌옷은 동시에 설정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        for(int kindNum=0; kindNum<7; kindNum++){
+            int cloNo=child_clothes_no[kindNum];
+            String kind = Utils.getKey(Utils.Kind.kindNumMap, kindNum);
+            int remain_item=0;
+            if(cloNo!=0){
+                Iterator<ClothesVO> cloListIter = clothesList.iterator();
+                while (cloListIter.hasNext()) {
+                    ClothesVO clothes = cloListIter.next();
+                    String cloKind = clothes.getKind();
+                    if(cloKind.equals(kind)){
+                        if(clothes.getCloNo()!=cloNo)
+                            cloListIter.remove();
+                        else
+                            remain_item+=1; //제거되지 않은 옷
+                    }
+                    if(kindNum == Utils.Kind.TOP || kindNum == Utils.Kind.BOTTOM){
+                        if("한벌옷".equals(cloKind))
+                            cloListIter.remove();
+                    }else if(kindNum == Utils.Kind.SUIT){
+                        if("상의".equals(cloKind) || "하의".equals(cloKind))
+                            cloListIter.remove(); //제거
+                    }
+                }
+                if(remain_item==0){
+                    Toast.makeText(this, "<"+kind+"> 파트의 옷을 불러오는 중에 오류가 발생했습니다." +
+                            "\n상의/하의와 한벌옷은 동시에 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        Integer resourceID = v.getId();
+        switch(v.getId()){
+            case R.id.child1 :
+            case R.id.child2 :
+            case R.id.child3 :
+            case R.id.child4 :
+            case R.id.child5 :
+            case R.id.child6 :
+            case R.id.child7 :
+                selected_clo_index= index_resourceID.indexOf(resourceID);
+                slidingDrawer.open();
+                break;
+            case R.id.drawer_content :
+                slidingDrawer.close();
+                break;
+            case R.id.tv_from_closet :
+                //share와 똑같이. mode 만들고 result 받아오기
+                intent = new Intent(this, activity_closet_DB.class);
+                intent.putExtra("mode","select_my");
+                intent.putExtra("selected_kindNum_str",Integer.toString(selected_clo_index));
+                startActivityForResult(intent, FROM_CLOSET);
+                slidingDrawer.close();
+                break;
+            case R.id.tv_cancel :
+                resetCurrentItem();
+                break;
+        }
+    }
+
+    void resetCurrentItem(){
+        //이미지 리셋
+        list_childClothes.get(selected_clo_index).setImageResource(R.drawable.hanger_gray_small);
+        //옷 번호 리셋
+        child_clothes_no[selected_clo_index] = 0;
+        //텍스트 보이기
+        list_tv_childClothes.get(selected_clo_index).setVisibility(View.VISIBLE);
+        slidingDrawer.close();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if(requestCode == RECO_CODI && resultCode == RESULT_OK){
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        else if(requestCode == FROM_CLOSET && resultCode == RESULT_OK){
+            //데이터 받아오기
+            Bundle extras = intent.getExtras();
+            String cloNo = extras.getString("cloNo");
+            boolean isExist=false;
+
+            for (int i=0;i<7;i++){
+                if(i==selected_clo_index)
+                    continue;
+                if(Integer.parseInt(cloNo)==child_clothes_no[i]){
+                    isExist=true;
+                    Toast.makeText(this, "중복 아이템입니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            if(!isExist){
+                byte[] byteArray = intent.getByteArrayExtra("image");
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                //이미지 설정
+                list_childClothes.get(selected_clo_index).setImageBitmap(bitmap);
+                //텍스트 지우기
+                list_tv_childClothes.get(selected_clo_index).setVisibility(View.INVISIBLE);
+                //옷 번호 저장
+                child_clothes_no[selected_clo_index] = Integer.parseInt(cloNo);
+            }
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (slidingDrawer.isOpened()) {
+            slidingDrawer.close();
+        }else{
+            super.onBackPressed();
+        }
     }
 
 }

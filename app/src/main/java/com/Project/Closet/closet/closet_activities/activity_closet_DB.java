@@ -36,6 +36,7 @@ import com.Project.Closet.R;
 import com.Project.Closet.closet.addClothes.activity_addClothes;
 import com.Project.Closet.social.addFeed.activity_addBoard;
 import com.Project.Closet.util.OnBackPressedListener;
+import com.Project.Closet.util.Utils;
 import com.bumptech.glide.Glide;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -64,6 +65,7 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     private TabLayout tabLayout;
     public TabPagerAdapter_closet_share pagerAdapter;
     public TabPagerAdapter_closet_my myPagerAdapter;
+    public TabPagerAdapter_closet_my_selected myPagerAdapter_selected;
     private ViewPager finalPager;
 
     Button bt_select;
@@ -71,6 +73,8 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
     DrawerLayout drawer;
 
     String mode;
+    String selected_kindNum_str;
+    int selected_kind=-1;
 
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
@@ -111,11 +115,14 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
 
         try{
             mode = getIntent().getExtras().getString("mode");
+            selected_kindNum_str = getIntent().getExtras().getString("selected_kindNum_str");
         }catch(NullPointerException e){
             e.printStackTrace();
         }
         if(mode==null)
             mode = "show";
+        if(selected_kindNum_str!=null && !selected_kindNum_str.isEmpty())
+            selected_kind = Integer.parseInt(selected_kindNum_str);
 
         toast = Toast.makeText(activity_closet_DB.this,"한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT);
 
@@ -331,28 +338,38 @@ public class activity_closet_DB extends AppCompatActivity implements OnBackPress
 //        });
 
         if(tabLayout == null){
+
             //탭 목록 설정
             tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-            tabLayout.addTab(tabLayout.newTab().setText("모두"));
-            tabLayout.addTab(tabLayout.newTab().setText("상의"));
-            tabLayout.addTab(tabLayout.newTab().setText("하의"));
-            tabLayout.addTab(tabLayout.newTab().setText("한벌"));
-            tabLayout.addTab(tabLayout.newTab().setText("외투"));
-            tabLayout.addTab(tabLayout.newTab().setText("신발"));
-            tabLayout.addTab(tabLayout.newTab().setText("가방"));
-            tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
-
             tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-
-
             //탭 페이저 설정 (탭 클릭시 바뀌는 화면)
             finalPager = (ViewPager) findViewById(R.id.tab_Pager);
             finalPager.setBackgroundColor(Color.parseColor("#FFC0CB")); //공유 옷장만 구분 위해 핑크
 
+            if(selected_kind==-1){
+                tabLayout.addTab(tabLayout.newTab().setText("모두"));
+                tabLayout.addTab(tabLayout.newTab().setText("상의"));
+                tabLayout.addTab(tabLayout.newTab().setText("하의"));
+                tabLayout.addTab(tabLayout.newTab().setText("한벌"));
+                tabLayout.addTab(tabLayout.newTab().setText("외투"));
+                tabLayout.addTab(tabLayout.newTab().setText("신발"));
+                tabLayout.addTab(tabLayout.newTab().setText("가방"));
+                tabLayout.addTab(tabLayout.newTab().setText("액세서리"));
+            }else{
+                tabLayout.addTab(tabLayout.newTab().setText(Utils.getKey(Utils.Kind.kindNumMap,selected_kind)));
+            }
+
 
             if("select_my".equals(mode)){
-                myPagerAdapter = new TabPagerAdapter_closet_my(getSupportFragmentManager(), tabLayout.getTabCount());
-                finalPager.setAdapter(myPagerAdapter);
+
+                if(selected_kind==-1){
+                    myPagerAdapter = new TabPagerAdapter_closet_my(getSupportFragmentManager(), tabLayout.getTabCount());
+                    finalPager.setAdapter(myPagerAdapter);
+                }else{
+                    myPagerAdapter_selected = new TabPagerAdapter_closet_my_selected(getSupportFragmentManager(), tabLayout.getTabCount(),selected_kind);
+                    finalPager.setAdapter(myPagerAdapter_selected);
+                    //tabLayout.setVisibility(View.GONE);
+                }
             }
             else{
                 pagerAdapter = new TabPagerAdapter_closet_share(getSupportFragmentManager(), tabLayout.getTabCount());
