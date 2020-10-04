@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -74,6 +75,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     CheckBox cb_shoes;
     CheckBox cb_bag;
     CheckBox cb_accessory;
+
+    RadioButton rb_man;
 
 
 
@@ -193,6 +196,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 openColorPicker(SUB_COLOR);
             }
         });
+
+        rb_man = findViewById(R.id.radioButton3);
 
 
         /*포함 카테고리 - 스피너 설정*/
@@ -714,6 +719,9 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 if(!restrictClothes())
                     return;
 
+                //성별 설정
+                setGender();
+
 
                 Intent intent = new Intent(activity_recoCodi_setting.this, activity_recommendCodi.class);
                 intent.putParcelableArrayListExtra("clothesList",(ArrayList<ClothesVO>) clothesList);
@@ -1000,8 +1008,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                     }
                 }
                 if(remain_item==0){
-                    Toast.makeText(this, "<"+kind+"> 파트의 옷을 불러오는 중에 오류가 발생했습니다." +
-                            "\n상의/하의와 한벌옷은 동시에 설정할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "설정에 중복된 요소가 존재합니다.", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }
@@ -1049,6 +1056,22 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         //텍스트 보이기
         list_tv_childClothes.get(selected_clo_index).setVisibility(View.VISIBLE);
         slidingDrawer.close();
+    }
+
+    void setGender(){
+        if (rb_man.isChecked()){
+            Iterator<ClothesVO> cloListIter = clothesList.iterator();
+            while (cloListIter.hasNext()) {
+                ClothesVO clothes = cloListIter.next();
+                String category = clothes.getCategory();
+                if("스커트".equals(category)){
+                    cloListIter.remove();
+                }
+                else if("원피스".equals(category)){
+                    cloListIter.remove();
+                }
+            }
+        }
     }
 
     @Override

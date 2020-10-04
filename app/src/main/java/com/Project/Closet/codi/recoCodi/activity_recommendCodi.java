@@ -464,7 +464,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             if (numTop != 0 && numBottom != 0) {
                 modesT.add(TOP_BOTTOM);
             }
-            if (numTop != 0 && numOuter != 0) {
+            if (numTop != 0 && numOuter != 0        &&numBottom!=0) {
                 modesT.add(TOP_OUTER);
             }
             if (numBottom != 0 && numOuter != 0     &&numTop!=0) {
@@ -508,7 +508,8 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                     colorsOfPart[Utils.Kind.BOTTOM].contains(sub_color))
                 modesT.add(TOP_BOTTOM);
             if(colorsOfPart[Utils.Kind.TOP].contains(main_color) &&
-                    colorsOfPart[Utils.Kind.OUTER].contains(sub_color))
+                    colorsOfPart[Utils.Kind.OUTER].contains(sub_color) &&
+                    parts[Utils.Kind.BOTTOM].size()!=0)
                 modesT.add(TOP_OUTER);
             if(colorsOfPart[Utils.Kind.OUTER].contains(main_color) &&
                     colorsOfPart[Utils.Kind.BOTTOM].contains(sub_color) &&
@@ -565,7 +566,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                         numBottom != 0)
                     modesT.add(TOP_BOTTOM);
                 if(colorsOfPart[Utils.Kind.TOP].contains(main_color) &&
-                        numOuter != 0)
+                        numOuter != 0 && numBottom!=0)
                     modesT.add(TOP_OUTER);
                 if(colorsOfPart[Utils.Kind.OUTER].contains(main_color) &&
                         numBottom != 0 && numTop!=0)
