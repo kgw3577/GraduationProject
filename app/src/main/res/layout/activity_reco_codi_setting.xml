@@ -611,20 +611,37 @@
 
                 </org.apmem.tools.layouts.FlowLayout>
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/tv_now_weather"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_now_weather"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:text="부천시 35℃"
-                    android:textSize="15sp"
-                    android:visibility="gone"
-                    >
-                </TextView>
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_now_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="군포시"
+                        android:textSize="15sp"
+                        >
+                    </TextView>
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tv_now_temperature"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:text="25℃"
+                        android:textSize="15sp"
+                        >
+                    </TextView>
+                </LinearLayout>
+
 
                 <org.apmem.tools.layouts.FlowLayout
-                    android:id="@+id/setting_temperature"
+                    android:id="@+id/fl_setting_temperature"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
@@ -688,39 +705,40 @@
                 </org.apmem.tools.layouts.FlowLayout>
 
                 <org.apmem.tools.layouts.FlowLayout
-                    android:id="@+id/setting_season"
+                    android:id="@+id/fl_setting_season"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginLeft="2dp"
                     android:orientation="horizontal"
                     android:visibility="gone">
-
-                    <CheckBox
-                        android:id="@+id/spring"
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="봄"
-                        />
+                        android:orientation="horizontal">
+                        <RadioButton
+                            android:id="@+id/spring"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="봄"
+                            />
+                        <RadioButton
+                            android:id="@+id/summer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="여름"/>
+                        <RadioButton
+                            android:id="@+id/fall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="가을"/>
+                        <RadioButton
+                            android:id="@+id/winter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="겨울"/>
+                    </RadioGroup>
 
-                    <CheckBox
-                        android:id="@+id/summer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="여름"/>
-
-                    <CheckBox
-                        android:id="@+id/fall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="가을"/>
-
-
-                    <CheckBox
-                        android:id="@+id/winter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="겨울"/>
 
                 </org.apmem.tools.layouts.FlowLayout>
 

@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -67,6 +68,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     CheckBox cb_accessory;
 
     RadioButton rb_man;
+
+    final static String TEMPER_CODE = "℃";
 
 
     TextView tv_main_color;
@@ -144,9 +147,22 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     RadioButton rb_weather_temper;
     RadioButton rb_weather_season;
 
-    TextView tv_now_weather;
-    FlowLayout setting_temperature;
-    FlowLayout setting_season;
+    LinearLayout ll_now_weather;
+    TextView tv_now_location;
+    TextView tv_now_temperature;
+    FlowLayout fl_setting_temperature;
+    FlowLayout fl_setting_season;
+
+
+    CheckBox temper0;
+    CheckBox temper1;
+    CheckBox temper2;
+    CheckBox temper3;
+    CheckBox temper4;
+    CheckBox temper5;
+    CheckBox temper6;
+    CheckBox temper7;
+    List<CheckBox> weatherCheckBoxes;
 
 
 
@@ -692,17 +708,16 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         rb_weather_now = findViewById(R.id.rb_weather_now);
         rb_weather_temper = findViewById(R.id.rb_weather_temper);
         rb_weather_season = findViewById(R.id.rb_weather_season);
-        tv_now_weather = findViewById(R.id.tv_now_weather);
-        setting_temperature= findViewById(R.id.setting_temperature);
-        setting_season= findViewById(R.id.setting_season);
-
         rb_weather_none.setOnClickListener(this);
         rb_weather_now.setOnClickListener(this);
         rb_weather_temper.setOnClickListener(this);
         rb_weather_season.setOnClickListener(this);
-        tv_now_weather.setOnClickListener(this);
-        setting_temperature.setOnClickListener(this);
-        setting_season.setOnClickListener(this);
+
+        ll_now_weather = findViewById(R.id.ll_now_weather);
+        tv_now_location = findViewById(R.id.tv_now_location);
+        tv_now_temperature = findViewById(R.id.tv_now_temperature);
+        fl_setting_temperature = findViewById(R.id.fl_setting_temperature);
+        fl_setting_season = findViewById(R.id.fl_setting_season);
 
 
         //설정 완료 버튼
@@ -712,7 +727,9 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             public void onClick(View v) {
 
                 //날씨 설정
-                applyWeather();
+                if(!applyWeather())
+                    return;
+
 
                 try {
                     clothesList = new networkTask().execute().get();
@@ -1092,26 +1109,26 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 resetCurrentItem();
                 break;
             case R.id.rb_weather_none :
-                tv_now_weather.setVisibility(View.GONE);
-                setting_temperature.setVisibility(View.GONE);
-                setting_season.setVisibility(View.GONE);
+                ll_now_weather.setVisibility(View.GONE);
+                fl_setting_temperature.setVisibility(View.GONE);
+                fl_setting_season.setVisibility(View.GONE);
                 break;
             case R.id.rb_weather_now :
-                tv_now_weather.setVisibility(View.VISIBLE);
-                setting_temperature.setVisibility(View.GONE);
-                setting_season.setVisibility(View.GONE);
+                ll_now_weather.setVisibility(View.VISIBLE);
+                fl_setting_temperature.setVisibility(View.GONE);
+                fl_setting_season.setVisibility(View.GONE);
                 scrollDown();
                 break;
             case R.id.rb_weather_temper :
-                tv_now_weather.setVisibility(View.GONE);
-                setting_temperature.setVisibility(View.VISIBLE);
-                setting_season.setVisibility(View.GONE);
+                ll_now_weather.setVisibility(View.GONE);
+                fl_setting_temperature.setVisibility(View.VISIBLE);
+                fl_setting_season.setVisibility(View.GONE);
                 scrollDown();
                 break;
             case R.id.rb_weather_season :
-                tv_now_weather.setVisibility(View.GONE);
-                setting_temperature.setVisibility(View.GONE);
-                setting_season.setVisibility(View.VISIBLE);
+                ll_now_weather.setVisibility(View.GONE);
+                fl_setting_temperature.setVisibility(View.GONE);
+                fl_setting_season.setVisibility(View.VISIBLE);
                 scrollDown();
                 break;
         }
@@ -1143,73 +1160,208 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         }
     }
 
-    void applyWeather(){
-
-        if(rb_weather_none.isChecked()){
-            return;
-        }else if(rb_weather_now.isChecked()){
-
-        }else if(rb_weather_temper.isChecked()){
-
-        }else if(rb_weather_season.isChecked()){
-
-        }
-
-
-
-
-
-        if(temperature!=10000){ //사용자가 온도 설정시
-            if(temperature<6)
-                recommendedDCate = getResources().getStringArray(R.array.to5);
-            else if(temperature>=6 && temperature<10)
-                recommendedDCate = getResources().getStringArray(R.array.fr6to9);
-            else if(temperature>=10 && temperature<12)
-                recommendedDCate = getResources().getStringArray(R.array.fr10to11);
-            else if(temperature>=12 && temperature<17)
-                recommendedDCate = getResources().getStringArray(R.array.fr12to16);
-            else if(temperature>=17 && temperature<19)
-                recommendedDCate = getResources().getStringArray(R.array.fr17to19);
-            else if(temperature>=19 && temperature<22)
-                recommendedDCate = getResources().getStringArray(R.array.fr20to22);
-            else if(temperature>=23 && temperature<26)
-                recommendedDCate = getResources().getStringArray(R.array.fr23to26);
-            else if(temperature>=27)
-                recommendedDCate = getResources().getStringArray(R.array.fr27);
-        }
-        //else if 계절 등 다른 설정시
-
-        if(recommendedDCate!=null)
-            weatherApplied=true;
-
+    boolean loadWeather(){
+        //여기서부터
+        return true;
     }
 
-    void loadTemperature(){
-        CheckBox temper0= findViewById(R.id.temper0);
-        CheckBox temper1= findViewById(R.id.temper1);
-        CheckBox temper2= findViewById(R.id.temper2);
-        CheckBox temper3= findViewById(R.id.temper3);
-        CheckBox temper4= findViewById(R.id.temper4);
-        CheckBox temper5= findViewById(R.id.temper5);
-        CheckBox temper6= findViewById(R.id.temper6);
-        CheckBox temper7= findViewById(R.id.temper7);
+    boolean applyWeather(){
+        temperature = 10000;
 
-        List<CheckBox> checkBoxes= new ArrayList<>();
-        checkBoxes.add(temper0);
-        checkBoxes.add(temper1);
-        checkBoxes.add(temper2);
-        checkBoxes.add(temper3);
-        checkBoxes.add(temper4);
-        checkBoxes.add(temper5);
-        checkBoxes.add(temper6);
-        checkBoxes.add(temper7);
+        if(rb_weather_none.isChecked()){ //적용 안함
+            return true; //적용 안함 시 스킵
+        }else if(rb_weather_now.isChecked()){ //현재 기온
+            //설정된 기온을 읽어들임
+            String temperStr = tv_now_temperature.getText().toString();
+            if(!temperStr.isEmpty()){
+                int idx = temperStr.indexOf(TEMPER_CODE); //℃
+                temperStr = temperStr.substring(0, idx);
+                temperature = Double.parseDouble(temperStr);
+            }
+            else{
+                Toast.makeText(this, "기온이 바르게 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            //기온 별 옷차림 목록 받아옴
+            if(temperature!=10000){ //사용자가 온도 설정시
+                if(temperature<6)
+                    recommendedDCate = getResources().getStringArray(R.array.to5);
+                else if(temperature>=6 && temperature<10)
+                    recommendedDCate = getResources().getStringArray(R.array.fr6to9);
+                else if(temperature>=10 && temperature<12)
+                    recommendedDCate = getResources().getStringArray(R.array.fr10to11);
+                else if(temperature>=12 && temperature<17)
+                    recommendedDCate = getResources().getStringArray(R.array.fr12to16);
+                else if(temperature>=17 && temperature<19)
+                    recommendedDCate = getResources().getStringArray(R.array.fr17to19);
+                else if(temperature>=19 && temperature<22)
+                    recommendedDCate = getResources().getStringArray(R.array.fr20to22);
+                else if(temperature>=23 && temperature<26)
+                    recommendedDCate = getResources().getStringArray(R.array.fr23to26);
+                else if(temperature>=27)
+                    recommendedDCate = getResources().getStringArray(R.array.fr27);
+            }
+        }else{ //기온 or 날씨 설정
 
-        for(int temperNum=0; temperNum<8; temperNum++) {
-            if (checkBoxes.get(temperNum).isChecked()){
-                
+            temper0= findViewById(R.id.temper0);
+            temper1= findViewById(R.id.temper1);
+            temper2= findViewById(R.id.temper2);
+            temper3= findViewById(R.id.temper3);
+            temper4= findViewById(R.id.temper4);
+            temper5= findViewById(R.id.temper5);
+            temper6= findViewById(R.id.temper6);
+            temper7= findViewById(R.id.temper7);
+
+            weatherCheckBoxes= new ArrayList<>();
+            weatherCheckBoxes.add(temper0);
+            weatherCheckBoxes.add(temper1);
+            weatherCheckBoxes.add(temper2);
+            weatherCheckBoxes.add(temper3);
+            weatherCheckBoxes.add(temper4);
+            weatherCheckBoxes.add(temper5);
+            weatherCheckBoxes.add(temper6);
+            weatherCheckBoxes.add(temper7);
+
+
+            if(rb_weather_temper.isChecked()){ //기온 설정
+                if(!loadCheckedTemperature())
+                    return false;
+            }else if(rb_weather_season.isChecked()){ //계절 설정
+                if(!checkSeason()) //계절별로 기온 체크
+                    return false;
+                if(!loadCheckedTemperature()) //체크된 기온으로부터 옷차림 불러오기
+                    return false;
             }
         }
 
+        if(recommendedDCate!=null){
+            weatherApplied=true;
+            return true;
+        }
+        else{
+            Toast.makeText(this, "기온별 옷차림 적용에 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    boolean loadCheckedTemperature(){
+
+        HashSet<String> stringHashSet = new HashSet<>();
+        int checkedSize=0;
+        int checkedTemper=10000;
+        for(int temperNum=0; temperNum<8; temperNum++) {
+            if (weatherCheckBoxes.get(temperNum).isChecked()){
+                checkedSize+=1;
+                switch(temperNum){
+                    case 0:
+                        checkedTemper=5;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.to5)));
+                        break;
+                    case 1:
+                        checkedTemper=6;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr6to9)));
+                        break;
+                    case 2:
+                        checkedTemper=10;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr10to11)));
+                        break;
+                    case 3:
+                        checkedTemper=12;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr12to16)));
+                        break;
+                    case 4:
+                        checkedTemper=17;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr17to19)));
+                        break;
+                    case 5:
+                        checkedTemper=20;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr20to22)));
+                        break;
+                    case 6:
+                        checkedTemper=23;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr23to26)));
+                        break;
+                    case 7:
+                        checkedTemper=27;
+                        stringHashSet.addAll(Arrays.asList(getResources().getStringArray(R.array.fr27)));
+                        break;
+                }
+            }
+        }
+
+        if(checkedSize==0){
+            Toast.makeText(this, "적어도 하나의 기온을 선택해야 합니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(checkedSize==1){
+            temperature = checkedTemper;
+        }
+
+        if(stringHashSet.size()!=0)
+            recommendedDCate = (String[])stringHashSet.toArray(new String[0]);
+
+        if(recommendedDCate!=null && recommendedDCate.length!=0)
+            return true;
+        else{
+            Toast.makeText(this, "기온별 옷차림을 불러올 수 없었습니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    boolean checkSeason(){
+        RadioButton spring= findViewById(R.id.spring);
+        RadioButton summer= findViewById(R.id.summer);
+        RadioButton fall= findViewById(R.id.fall);
+        RadioButton winter= findViewById(R.id.winter);
+        List<RadioButton> seasonRadioButtons= new ArrayList<>();
+        seasonRadioButtons.add(spring);
+        seasonRadioButtons.add(summer);
+        seasonRadioButtons.add(fall);
+        seasonRadioButtons.add(winter);
+
+        int checkedSize=0;
+        for(int seasonNum=0; seasonNum<4; seasonNum++) {
+            if (seasonRadioButtons.get(seasonNum).isChecked()){
+                checkedSize+=1;
+                switch(seasonNum){
+                    case 0:
+                        setTemperCheckedTrue(new int[]{2,3,4});
+                        setTemperCheckedFalse(new int[]{0,1,5,6,7});
+                        break;
+                    case 1:
+                        setTemperCheckedTrue(new int[]{5,6,7});
+                        setTemperCheckedFalse(new int[]{0,1,2,3,4});
+                        break;
+                    case 2:
+                        setTemperCheckedTrue(new int[]{1,2,3});
+                        setTemperCheckedFalse(new int[]{0,4,5,6,7});
+                        break;
+                    case 3:
+                        setTemperCheckedTrue(new int[]{0, 1});
+                        setTemperCheckedFalse(new int[]{2,3,4,5,6,7});
+                        break;
+                }
+            }
+        }
+
+        if(checkedSize==0){
+            Toast.makeText(this, "적어도 하나의 계절을 선택해야 합니다.", Toast.LENGTH_SHORT).show();
+            return false;
+        }else
+            return true;
+    }
+
+    void setTemperCheckedTrue(int[] indexes){
+        for (int index : indexes){
+            CheckBox cb =weatherCheckBoxes.get(index);
+            cb.setChecked(true);
+        }
+    }
+
+    void setTemperCheckedFalse(int[] indexes){
+        for (int index : indexes){
+            CheckBox cb =weatherCheckBoxes.get(index);
+            cb.setChecked(false);
+        }
     }
 
 
