@@ -241,11 +241,8 @@ public class Page_recommended_codi extends Fragment {
 
         //날씨별 문구
         TextView tv_weather_tip = view.findViewById(R.id.tv_weather_tip);
-        int temperature = codi.getTemperature();
-        temperature =new Random().nextInt(30); //임의. 0~29
-        if(new Random().nextBoolean())
-            temperature=-1;
-        if(temperature==-1){
+        double temperature = codi.getTemperature();
+        if(temperature==10000){
             tv_weather_tip.setVisibility(View.GONE);
         }
         else if(temperature<=5){
@@ -258,7 +255,7 @@ public class Page_recommended_codi extends Fragment {
                     "요즘은 ‘얼.죽.코’라는 말도 있는데, ‘얼어 죽어도 코트를 입는 사람’ 이라는 뜻이라고 해요.\n" +
                     "그래도 너무 추울 땐 감기에 걸릴 수도 있으니까 꼭 꼭 따뜻하게 입어주세요!");
         }else if(temperature <= 11){
-            tv_weather_tip.setText("늦가을즈음, 조금 쌀쌀한 날씨!\n" +
+            tv_weather_tip.setText("늦가을 즈음, 조금 쌀쌀한 날씨!\n" +
                     "간절기인 만큼 아우터를 들고 나가야 할까 말아야 할까 고민이 많이 되실 것 같은데요.\n" +
                     "이럴 땐 트렌치코트나 간절기 야상을 입는 것을 추천 드려요 :)\n" +
                     "또한 한창 이때 많이들 감기에 걸리시는데요ㅠ_ㅜ 쌀쌀한 추위에 대비할 수 있도록 얇은 옷을 여러 벌 껴입는 것도 추천드립니다!");

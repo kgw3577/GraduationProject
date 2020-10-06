@@ -66,4 +66,7 @@ dependencies {
     //플로팅 액션 버튼 라이브러리
     implementation 'com.github.clans:fab:1.6.4'
 
+    //플로우 레이아웃
+    implementation 'org.apmem.tools:layouts:1.10@aar'
+
 }

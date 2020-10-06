@@ -200,14 +200,9 @@ public class activity_weatherCodi extends AppCompatActivity implements Page_cate
         tv_weather.setText(weather);
 
 
-        //layout_preview = (RelativeLayout) findViewById(R.id.preview);
-        //layout_preview.setVisibility(View.GONE);
-        //ivPreviewImage  = (ImageView) findViewById(R.id.iv_preview_image);
-
         //헤더 메뉴 아이콘 받아오기
         ImageView ivRevert = (ImageView) findViewById(R.id.iv_revert);
         ImageView ivRandom = (ImageView) findViewById(R.id.iv_random);
-        //TextView tvPreview = (TextView) findViewById(R.id.tv_preview);
         TextView tvDone = (TextView) findViewById(R.id.tv_done);
 
         //코디 화면 레이아웃 받아오기

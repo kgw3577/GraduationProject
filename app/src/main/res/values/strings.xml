@@ -244,6 +244,211 @@
         <item>#C0C0C0</item>
     </string-array>
 
+    <string-array name="to5">
+        <item>"라운드넥긴팔티셔츠"</item>
+        <item>"브이넥긴팔티셔츠"</item>
+        <item>"헨리넥긴팔티셔츠"</item>
+        <item>"카라긴팔티셔츠"</item>
+        <item>"클래식/드레스셔츠"</item>
+        <item>"체크/패턴셔츠"</item>
+        <item>"캐주얼셔츠"</item>
+        <item>"헨리넥/차이나셔츠"</item>
+        <item>"블라우스"</item>
+        <item>"베스트니트"</item>
+        <item>"가디건"</item>
+        <item>"후드티셔츠"</item>
+        <item>"후드집업"</item>
+        <item>"청바지"</item>
+        <item>"면바지"</item>
+        <item>"슬랙스"</item>
+        <item>"트레이닝바지"</item>
+        <item>"레깅스"</item>
+        <item>"숏/미니스커트"</item>
+        <item>"미디엄스커트"</item>
+        <item>"롱스커트"</item>
+        <item>"반팔원피스"</item>
+        <item>"긴팔원피스"</item>
+        <item>"블레이저"</item>
+        <item>"트러커자켓"</item>
+        <item>"가죽자켓"</item>
+        <item>"데님/청자켓"</item>
+        <item>"블루종"</item>
+        <item>"후리스"</item>
+        <item>"야구점퍼"</item>
+        <item>"항공점퍼"</item>
+        <item>"트랙점퍼"</item>
+        <item>"바람막이"</item>
+        <item>"스니커즈"</item>
+        <item>"구두"</item>
+        <item>"워커/부츠"</item>
+        <item>"운동화"</item>
+        <item>"가방"</item>
+        <item>"캡모자"</item>
+        <item>"안경"</item>
+        <item>"지갑"</item>
+        <item>"시계"</item>
+        <item>"벨트"</item>
+        <item>"팔찌"</item>
+        <item>"반지"</item>
+        <item>"귀걸이"</item>
+        <item>"목걸이"</item>
+        <item>"넥타이"</item>
+        <item>"양말"</item>
+    </string-array>
+    <string-array name="fr6to9">
+        <item>"라운드넥긴팔티셔츠"</item>
+        <item>"브이넥긴팔티셔츠"</item>
+        <item>"헨리넥긴팔티셔츠"</item>
+        <item>"카라긴팔티셔츠"</item>
+        <item>"클래식/드레스셔츠"</item>
+        <item>"체크/패턴셔츠"</item>
+        <item>"캐주얼셔츠"</item>
+        <item>"헨리넥/차이나셔츠"</item>
+        <item>"블라우스"</item>
+        <item>"베스트니트"</item>
+        <item>"가디건"</item>
+        <item>"후드티셔츠"</item>
+        <item>"후드집업"</item>
+        <item>"청바지"</item>
+        <item>"면바지"</item>
+        <item>"슬랙스"</item>
+        <item>"트레이닝바지"</item>
+        <item>"레깅스"</item>
+        <item>"숏/미니스커트"</item>
+        <item>"미디엄스커트"</item>
+        <item>"롱스커트"</item>
+        <item>"반팔원피스"</item>
+        <item>"긴팔원피스"</item>
+        <item>"블레이저"</item>
+        <item>"트러커자켓"</item>
+        <item>"가죽자켓"</item>
+        <item>"데님/청자켓"</item>
+        <item>"블루종"</item>
+        <item>"후리스"</item>
+        <item>"야구점퍼"</item>
+        <item>"항공점퍼"</item>
+        <item>"트랙점퍼"</item>
+        <item>"바람막이"</item>
+        <item>"스니커즈"</item>
+        <item>"구두"</item>
+        <item>"워커/부츠"</item>
+        <item>"운동화"</item>
+        <item>"가방"</item>
+        <item>"캡모자"</item>
+        <item>"안경"</item>
+        <item>"지갑"</item>
+        <item>"시계"</item>
+        <item>"벨트"</item>
+        <item>"팔찌"</item>
+        <item>"반지"</item>
+        <item>"귀걸이"</item>
+        <item>"목걸이"</item>
+        <item>"넥타이"</item>
+        <item>"양말"</item>
+    </string-array>
+    <string-array name="fr10to11">
+        <item>"라운드넥긴팔티셔츠"</item>
+        <item>"브이넥긴팔티셔츠"</item>
+        <item>"헨리넥긴팔티셔츠"</item>
+        <item>"카라긴팔티셔츠"</item>
+        <item>"클래식/드레스셔츠"</item>
+        <item>"체크/패턴셔츠"</item>
+        <item>"캐주얼셔츠"</item>
+        <item>"헨리넥/차이나셔츠"</item>
+        <item>"블라우스"</item>
+        <item>"베스트니트"</item>
+        <item>"가디건"</item>
+        <item>"후드티셔츠"</item>
+        <item>"후드집업"</item>
+        <item>"청바지"</item>
+        <item>"면바지"</item>
+        <item>"슬랙스"</item>
+        <item>"트레이닝바지"</item>
+        <item>"레깅스"</item>
+        <item>"숏/미니스커트"</item>
+        <item>"미디엄스커트"</item>
+        <item>"롱스커트"</item>
+        <item>"반팔원피스"</item>
+        <item>"긴팔원피스"</item>
+        <item>"블레이저"</item>
+        <item>"트러커자켓"</item>
+        <item>"가죽자켓"</item>
+        <item>"데님/청자켓"</item>
+        <item>"블루종"</item>
+        <item>"후리스"</item>
+        <item>"야구점퍼"</item>
+        <item>"항공점퍼"</item>
+        <item>"트랙점퍼"</item>
+        <item>"바람막이"</item>
+        <item>"스니커즈"</item>
+        <item>"구두"</item>
+        <item>"워커/부츠"</item>
+        <item>"운동화"</item>
+        <item>"가방"</item>
+        <item>"캡모자"</item>
+        <item>"안경"</item>
+        <item>"지갑"</item>
+        <item>"시계"</item>
+        <item>"벨트"</item>
+        <item>"팔찌"</item>
+        <item>"반지"</item>
+        <item>"귀걸이"</item>
+        <item>"목걸이"</item>
+        <item>"넥타이"</item>
+        <item>"양말"</item>
+    </string-array>
+
+    <string-array name="fr12to16">
+        <item>"라운드넥긴팔티셔츠"</item>
+        <item>"브이넥긴팔티셔츠"</item>
+        <item>"헨리넥긴팔티셔츠"</item>
+        <item>"카라긴팔티셔츠"</item>
+        <item>"클래식/드레스셔츠"</item>
+        <item>"체크/패턴셔츠"</item>
+        <item>"캐주얼셔츠"</item>
+        <item>"헨리넥/차이나셔츠"</item>
+        <item>"블라우스"</item>
+        <item>"베스트니트"</item>
+        <item>"가디건"</item>
+        <item>"후드티셔츠"</item>
+        <item>"후드집업"</item>
+        <item>"청바지"</item>
+        <item>"면바지"</item>
+        <item>"슬랙스"</item>
+        <item>"트레이닝바지"</item>
+        <item>"레깅스"</item>
+        <item>"숏/미니스커트"</item>
+        <item>"미디엄스커트"</item>
+        <item>"롱스커트"</item>
+        <item>"반팔원피스"</item>
+        <item>"긴팔원피스"</item>
+        <item>"블레이저"</item>
+        <item>"트러커자켓"</item>
+        <item>"가죽자켓"</item>
+        <item>"데님/청자켓"</item>
+        <item>"블루종"</item>
+        <item>"후리스"</item>
+        <item>"야구점퍼"</item>
+        <item>"항공점퍼"</item>
+        <item>"트랙점퍼"</item>
+        <item>"바람막이"</item>
+        <item>"스니커즈"</item>
+        <item>"구두"</item>
+        <item>"워커/부츠"</item>
+        <item>"운동화"</item>
+        <item>"가방"</item>
+        <item>"캡모자"</item>
+        <item>"안경"</item>
+        <item>"지갑"</item>
+        <item>"시계"</item>
+        <item>"벨트"</item>
+        <item>"팔찌"</item>
+        <item>"반지"</item>
+        <item>"귀걸이"</item>
+        <item>"목걸이"</item>
+        <item>"넥타이"</item>
+        <item>"양말"</item>
+    </string-array>
 
     <string-array name="fr17to19">
         <item>"라운드넥긴팔티셔츠"</item>
@@ -267,6 +472,7 @@
         <item>"숏/미니스커트"</item>
         <item>"미디엄스커트"</item>
         <item>"롱스커트"</item>
+        <item>"반팔원피스"</item>
         <item>"긴팔원피스"</item>
         <item>"블레이저"</item>
         <item>"트러커자켓"</item>
@@ -298,6 +504,11 @@
 
 
     <string-array name="fr20to22">
+        <item>"라운드넥반팔티셔츠"</item>
+        <item>"브이넥반팔티셔츠"</item>
+        <item>"헨리넥반팔티셔츠"</item>
+        <item>"카라반팔티셔츠"</item>
+        <item>"민소매티셔츠"</item>
         <item>"라운드넥긴팔티셔츠"</item>
         <item>"브이넥긴팔티셔츠"</item>
         <item>"헨리넥긴팔티셔츠"</item>
@@ -347,6 +558,7 @@
         <item>"브이넥반팔티셔츠"</item>
         <item>"헨리넥반팔티셔츠"</item>
         <item>"카라반팔티셔츠"</item>
+        <item>"민소매티셔츠"</item>
         <item>"반팔/7부셔츠"</item>
         <item>"베스트니트"</item>
         <item>"청바지"</item>
@@ -359,6 +571,7 @@
         <item>"숏/미니스커트"</item>
         <item>"미디엄스커트"</item>
         <item>"롱스커트"</item>
+        <item>"민소매원피스"</item>
         <item>"반팔원피스"</item>
         <item>"긴팔원피스"</item>
         <item>"스니커즈"</item>

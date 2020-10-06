@@ -24,15 +24,16 @@
             android:layout_height="match_parent" />
     </com.ssomai.android.scalablelayout.ScalableLayout>
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_marginBottom="10dp"
         android:layout_below="@id/header"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="15dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -46,9 +47,9 @@
                     android:layout_height="wrap_content"
                     android:text="코디 구성"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/블랙"></TextView>
+                    android:textColor="@color/블랙"/>
 
-                <LinearLayout
+                <org.apmem.tools.layouts.FlowLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -65,9 +66,9 @@
                     <CheckBox
                         android:id="@+id/cb_suit"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="한벌옷"
-                        android:checked="true"/>
+                        android:layout_height="match_parent"
+                        android:checked="true"
+                        android:text="한벌옷" />
 
                     <CheckBox
                         android:id="@+id/cb_outer"
@@ -91,25 +92,16 @@
                         android:text="가방"
                         android:checked="true"/>
 
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-
-
                     <CheckBox
                         android:id="@+id/cb_accessory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="액세서리"
                         android:checked="true"/>
-                </LinearLayout>
 
+
+
+                </org.apmem.tools.layouts.FlowLayout>
 
             </LinearLayout>
 
@@ -584,35 +576,154 @@
                     android:text="날씨"
                     android:textColor="@color/블랙"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    />
+
+                <org.apmem.tools.layouts.FlowLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <RadioGroup
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <RadioButton
+                            android:id="@+id/rb_weather_none"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="적용 안 함"
+                            android:checked="true"/>
+                        <RadioButton
+                            android:id="@+id/rb_weather_now"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="현재 기온" />
+                        <RadioButton
+                            android:id="@+id/rb_weather_temper"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="기온 설정" />
+                        <RadioButton
+                            android:id="@+id/rb_weather_season"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="계절 설정" />
+                    </RadioGroup>
+
+                </org.apmem.tools.layouts.FlowLayout>
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/tv_now_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="부천시 35℃"
+                    android:textSize="15sp"
+                    android:visibility="gone"
                     >
                 </TextView>
-                <RadioGroup
-                    android:layout_marginTop="5dp"
+
+                <org.apmem.tools.layouts.FlowLayout
+                    android:id="@+id/setting_temperature"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:id="@+id/rb_weather_all"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+
+                    <CheckBox
+                        android:id="@+id/temper0"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="적용 안 함"
-                        android:checked="true"/>
-                    <RadioButton
-                        android:id="@+id/rb_weather_now"
+                        android:text="5℃ 이하"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/temper1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="6℃~9℃"/>
+
+                    <CheckBox
+                        android:id="@+id/temper2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="현재 날씨" />
-                    <RadioButton
-                        android:id="@+id/rb_weather_temper"
+                        android:text="10℃~11℃"/>
+
+
+                    <CheckBox
+                        android:id="@+id/temper3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="기온 선택" />
-                    <RadioButton
-                        android:id="@+id/rb_weather_season"
+                        android:text="12℃~16℃"/>
+
+                    <CheckBox
+                        android:id="@+id/temper4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="계절 선택" />
-                </RadioGroup>
+                        android:text="17℃~19℃"/>
+
+                    <CheckBox
+                        android:id="@+id/temper5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="20℃~22℃"/>
+
+                    <CheckBox
+                        android:id="@+id/temper6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="23℃~26℃"/>
+
+                    <CheckBox
+                        android:id="@+id/temper7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="27℃ 이상"/>
+
+
+
+                </org.apmem.tools.layouts.FlowLayout>
+
+                <org.apmem.tools.layouts.FlowLayout
+                    android:id="@+id/setting_season"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="2dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <CheckBox
+                        android:id="@+id/spring"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="봄"
+                        />
+
+                    <CheckBox
+                        android:id="@+id/summer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="여름"/>
+
+                    <CheckBox
+                        android:id="@+id/fall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="가을"/>
+
+
+                    <CheckBox
+                        android:id="@+id/winter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="겨울"/>
+
+                </org.apmem.tools.layouts.FlowLayout>
+
 
 
 

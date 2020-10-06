@@ -1,57 +1,45 @@
 package com.Project.Closet.codi.recoCodi;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
+import android.location.Address;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.Project.Closet.Global;
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.R;
-import com.Project.Closet.activity_login;
 import com.Project.Closet.closet.closet_activities.activity_closet_DB;
-import com.Project.Closet.codi.addCodi.Page_category;
-import com.Project.Closet.codi.fragment_codi;
-import com.Project.Closet.home.activity_home;
-import com.Project.Closet.social.addFeed.activity_addBoard;
-import com.Project.Closet.util.ColorArrange;
 import com.Project.Closet.util.MySpinnerAdapter;
 import com.Project.Closet.util.Utils;
 import com.ssomai.android.scalablelayout.ScalableLayout;
-import com.theartofdev.edmodo.cropper.CropImage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import org.apmem.tools.layouts.FlowLayout;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -67,6 +55,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     Call<List<ClothesVO>> cloListCall;
     List<ClothesVO> clothesList;
 
+    ScrollView scrollView;
+
     List<CheckBox> checkBoxes;
     CheckBox cb_top;
     CheckBox cb_bottom;
@@ -77,7 +67,6 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     CheckBox cb_accessory;
 
     RadioButton rb_man;
-
 
 
     TextView tv_main_color;
@@ -111,15 +100,14 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
 
 
     private static final int FROM_CLOSET = 1009;
+    final int MAIN_COLOR = 0;
+    final int SUB_COLOR = 1;
 
     SlidingDrawer slidingDrawer;
     LinearLayout drawer_content;
 
-    EditText tv_contents;
-
     //TextView tv_add_image;
     TextView tv_from_closet;
-    TextView tv_from_share;
     TextView tv_cancel;
 
     ArrayList<ImageView> list_childClothes;
@@ -146,9 +134,30 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     TextView tv_child7;
 
 
+    //날씨 관련
+    boolean weatherApplied;
+    double temperature = 10000;
+    String[] recommendedDCate;
 
-    final int MAIN_COLOR = 0;
-    final int SUB_COLOR = 1;
+    RadioButton rb_weather_none;
+    RadioButton rb_weather_now;
+    RadioButton rb_weather_temper;
+    RadioButton rb_weather_season;
+
+    TextView tv_now_weather;
+    FlowLayout setting_temperature;
+    FlowLayout setting_season;
+
+
+
+    private LocationManager locationManager;
+    private static final int REQUEST_CODE_LOCATION = 2;
+    String API_KEY = "f73fa03d36a8a1b6c8acdca0ea6d229a";
+    public Address addr;
+    String season;
+    String loc_weather;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +167,11 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         TextView header_title = findViewById(R.id.header_title);
         header_title.setText("코디 추천 설정");
 
+        scrollView = findViewById(R.id.scrollView);
+
         //체크박스 관련
         cb_top = findViewById(R.id.cb_top_bottom);
-        cb_bottom = findViewById(R.id.cb_top_bottom);
+        cb_bottom = cb_top;
         cb_suit = findViewById(R.id.cb_suit);
         cb_outer = findViewById(R.id.cb_outer);
         cb_bag = findViewById(R.id.cb_bag);
@@ -209,8 +220,6 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         final Spinner spinner_bag = (Spinner)findViewById(R.id.spinner_select_bag);
         final Spinner spinner_shoes = (Spinner)findViewById(R.id.spinner_select_shoes);
         final Spinner spinner_accessory = (Spinner)findViewById(R.id.spinner_select_accessory);
-        final List<Spinner> spn_categories = new ArrayList<>(Arrays.asList(spinner_top,spinner_bottom,spinner_suit,
-                spinner_outer,spinner_bag,spinner_shoes,spinner_accessory));
         //
         final Spinner spinner_top_detail = (Spinner)findViewById(R.id.spinner_select_top_detail);
         final Spinner spinner_bottom_detail = (Spinner)findViewById(R.id.spinner_select_bottom_detail);
@@ -219,9 +228,6 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         final Spinner spinner_bag_detail = (Spinner)findViewById(R.id.spinner_select_bag_detail);
         final Spinner spinner_shoes_detail = (Spinner)findViewById(R.id.spinner_select_shoes_detail);
         final Spinner spinner_accessory_detail = (Spinner)findViewById(R.id.spinner_select_accessory_detail);
-        List<Spinner> spn_detail_categories = new ArrayList<>(Arrays.asList(spinner_top_detail,
-                spinner_bottom_detail,spinner_suit_detail,spinner_outer_detail,
-                spinner_bag_detail,spinner_shoes_detail,spinner_accessory_detail));
 
         //상의
         String[] itemArray = getResources().getStringArray(R.array.상의);
@@ -258,8 +264,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if(spinner_top_detail.getSelectedItemPosition() != spinner_top_detail.getCount()) { //hint 제외
-                                    String selected = (String) spinner_top_detail.getSelectedItem();
-                                    top_detail = selected;
+                                    top_detail = (String) spinner_top_detail.getSelectedItem();
                                 }else
                                     top_detail ="";
                             }
@@ -320,8 +325,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if(spinner_bottom_detail.getSelectedItemPosition() != spinner_bottom_detail.getCount()) { //hint 제외
-                                    String selected = (String) spinner_bottom_detail.getSelectedItem();
-                                    bottom_detail = selected;
+                                    bottom_detail = (String) spinner_bottom_detail.getSelectedItem();
                                 }else
                                     bottom_detail ="";
                             }
@@ -683,12 +687,32 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             v.setOnClickListener(this);
         }
 
+        //날씨 관련
+        rb_weather_none = findViewById(R.id.rb_weather_none);
+        rb_weather_now = findViewById(R.id.rb_weather_now);
+        rb_weather_temper = findViewById(R.id.rb_weather_temper);
+        rb_weather_season = findViewById(R.id.rb_weather_season);
+        tv_now_weather = findViewById(R.id.tv_now_weather);
+        setting_temperature= findViewById(R.id.setting_temperature);
+        setting_season= findViewById(R.id.setting_season);
+
+        rb_weather_none.setOnClickListener(this);
+        rb_weather_now.setOnClickListener(this);
+        rb_weather_temper.setOnClickListener(this);
+        rb_weather_season.setOnClickListener(this);
+        tv_now_weather.setOnClickListener(this);
+        setting_temperature.setOnClickListener(this);
+        setting_season.setOnClickListener(this);
+
 
         //설정 완료 버튼
         ScalableLayout sl_ok = findViewById(R.id.sl_ok);
         sl_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //날씨 설정
+                applyWeather();
 
                 try {
                     clothesList = new networkTask().execute().get();
@@ -727,6 +751,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 intent.putParcelableArrayListExtra("clothesList",(ArrayList<ClothesVO>) clothesList);
                 intent.putExtra("main_color", main_color_num);  //배색 조합 정보 보내기(default 값:-1)
                 intent.putExtra("sub_color", sub_color_num);
+                intent.putExtra("temperature", temperature);
                 startActivityForResult(intent, RECO_CODI);
             }
         });
@@ -744,11 +769,21 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         @Override
         protected List<ClothesVO> doInBackground(String... params) {
             String userID = MySharedPreferences.getInstanceOf(getApplicationContext()).getUserID();
-            ClothesVO clothesFilter = new ClothesVO();
-            clothesFilter.setLocation("private");
-            cloListCall = ClothesService.getRetrofit(getApplicationContext()).searchClothesNoPage(clothesFilter, userID);
-
             try {
+                if(!weatherApplied){
+                    ClothesVO clothesFilter = new ClothesVO();
+                    clothesFilter.setLocation("private");
+                    cloListCall = ClothesService.getRetrofit(getApplicationContext()).searchClothesNoPage(clothesFilter, userID);
+                }
+                else{
+                    if(recommendedDCate==null)
+                        Toast.makeText(activity_recoCodi_setting.this, "날씨 설정 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                    HashMap map = new HashMap();
+                    map.put("location","private");
+                    map.put("list",recommendedDCate);
+                    cloListCall = ClothesService.getRetrofit(getApplicationContext()).searchClothesByListNoPage(
+                            map, userID, "detailCategory");
+                }
                 return cloListCall.execute().body();
                 // Do something with the response.
             } catch (IOException e) {
@@ -761,6 +796,17 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         protected void onPostExecute(List<ClothesVO> clolist) {
             super.onPostExecute(clolist);
         }
+    }
+
+
+
+    private void scrollDown(){
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
     }
 
 
@@ -1045,6 +1091,29 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             case R.id.tv_cancel :
                 resetCurrentItem();
                 break;
+            case R.id.rb_weather_none :
+                tv_now_weather.setVisibility(View.GONE);
+                setting_temperature.setVisibility(View.GONE);
+                setting_season.setVisibility(View.GONE);
+                break;
+            case R.id.rb_weather_now :
+                tv_now_weather.setVisibility(View.VISIBLE);
+                setting_temperature.setVisibility(View.GONE);
+                setting_season.setVisibility(View.GONE);
+                scrollDown();
+                break;
+            case R.id.rb_weather_temper :
+                tv_now_weather.setVisibility(View.GONE);
+                setting_temperature.setVisibility(View.VISIBLE);
+                setting_season.setVisibility(View.GONE);
+                scrollDown();
+                break;
+            case R.id.rb_weather_season :
+                tv_now_weather.setVisibility(View.GONE);
+                setting_temperature.setVisibility(View.GONE);
+                setting_season.setVisibility(View.VISIBLE);
+                scrollDown();
+                break;
         }
     }
 
@@ -1073,6 +1142,76 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             }
         }
     }
+
+    void applyWeather(){
+
+        if(rb_weather_none.isChecked()){
+            return;
+        }else if(rb_weather_now.isChecked()){
+
+        }else if(rb_weather_temper.isChecked()){
+
+        }else if(rb_weather_season.isChecked()){
+
+        }
+
+
+
+
+
+        if(temperature!=10000){ //사용자가 온도 설정시
+            if(temperature<6)
+                recommendedDCate = getResources().getStringArray(R.array.to5);
+            else if(temperature>=6 && temperature<10)
+                recommendedDCate = getResources().getStringArray(R.array.fr6to9);
+            else if(temperature>=10 && temperature<12)
+                recommendedDCate = getResources().getStringArray(R.array.fr10to11);
+            else if(temperature>=12 && temperature<17)
+                recommendedDCate = getResources().getStringArray(R.array.fr12to16);
+            else if(temperature>=17 && temperature<19)
+                recommendedDCate = getResources().getStringArray(R.array.fr17to19);
+            else if(temperature>=19 && temperature<22)
+                recommendedDCate = getResources().getStringArray(R.array.fr20to22);
+            else if(temperature>=23 && temperature<26)
+                recommendedDCate = getResources().getStringArray(R.array.fr23to26);
+            else if(temperature>=27)
+                recommendedDCate = getResources().getStringArray(R.array.fr27);
+        }
+        //else if 계절 등 다른 설정시
+
+        if(recommendedDCate!=null)
+            weatherApplied=true;
+
+    }
+
+    void loadTemperature(){
+        CheckBox temper0= findViewById(R.id.temper0);
+        CheckBox temper1= findViewById(R.id.temper1);
+        CheckBox temper2= findViewById(R.id.temper2);
+        CheckBox temper3= findViewById(R.id.temper3);
+        CheckBox temper4= findViewById(R.id.temper4);
+        CheckBox temper5= findViewById(R.id.temper5);
+        CheckBox temper6= findViewById(R.id.temper6);
+        CheckBox temper7= findViewById(R.id.temper7);
+
+        List<CheckBox> checkBoxes= new ArrayList<>();
+        checkBoxes.add(temper0);
+        checkBoxes.add(temper1);
+        checkBoxes.add(temper2);
+        checkBoxes.add(temper3);
+        checkBoxes.add(temper4);
+        checkBoxes.add(temper5);
+        checkBoxes.add(temper6);
+        checkBoxes.add(temper7);
+
+        for(int temperNum=0; temperNum<8; temperNum++) {
+            if (checkBoxes.get(temperNum).isChecked()){
+                
+            }
+        }
+
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

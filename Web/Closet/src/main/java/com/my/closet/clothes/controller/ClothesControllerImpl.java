@@ -135,8 +135,8 @@ public class ClothesControllerImpl implements ClothesController {
 			@RequestBody HashMap map,
 			@RequestParam String userID, 
 			@RequestParam String mode,
-			@RequestParam String page, 
-			@RequestParam String pageSize) throws Exception {
+			@RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "pageSize", required = false) String pageSize) throws Exception {
 		List<ClothesVO> searched_clolist;
 		HashMap keywordMap = new HashMap();
 		
@@ -145,17 +145,21 @@ public class ClothesControllerImpl implements ClothesController {
 		//String decodeResult = URLDecoder.decode(list, "UTF-8");
 		//String[] strArray = decodeResult.split(",");
 		
-		keywordMap.put("kind",map.get("kind"));
+		if(map.containsKey("kind"))
+			keywordMap.put("kind",map.get("kind"));
 		keywordMap.put("userID",userID);
 		keywordMap.put("location","private");
 		keywordMap.put("mode", mode); //조건 칼럼(ex detailCategory), 그 리스트
 		keywordMap.put(mode, strArray);
 		
-		if(!page.isEmpty()&&!pageSize.isEmpty()) {
+		if(page!=null&&pageSize!=null&&!page.isEmpty()&&!pageSize.isEmpty()) {
 			int pageInt = Integer.parseInt(page);
 			int pageSizeInt = Integer.parseInt(pageSize);
 			keywordMap.put("pageStart",pageInt*pageSizeInt);
 			keywordMap.put("pageSize",pageSizeInt);
+		}else {
+			keywordMap.put("pageStart",-1);
+			keywordMap.put("pageSize",-1);
 		}
 		System.out.println("////////////"+userID+mode+strArray);
 		

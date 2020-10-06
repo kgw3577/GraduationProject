@@ -52,6 +52,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
     int sub_part;
     int other_parts[];
 
+    double temperature = 10000;
 
     //뷰페이저 선언
     private TabLayout tabLayout;
@@ -70,6 +71,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         clothesList = getIntent().getExtras().getParcelableArrayList("clothesList");
         setting_main_color = getIntent().getExtras().getInt("main_color");
         setting_sub_color = getIntent().getExtras().getInt("sub_color");
+        temperature = getIntent().getExtras().getDouble("temperature");
 
         if(setting_main_color !=-1 && setting_sub_color !=-1)
             settingArrange = new ColorArrange(setting_main_color, setting_sub_color);
@@ -157,9 +159,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         if(modes.size()==0){
             Toast.makeText(this, "만들 수 있는 코디가 없습니다. 더 많은 옷을 추가해보세요.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent();
-            setResult(RESULT_CANCELED, intent);
-            finish();
+            finish_cancel();
         }
 
 
@@ -255,6 +255,8 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                     for(int j=0; j<numRepeat; j++){ //해당 색조합을 반복횟수만큼 코디를 만듬
 
                         Codi codi = new Codi(colorArrange); //코디 만들기
+                        if(temperature!=10000)
+                            codi.setTemperature(temperature);
                         int main_color = colorArrange.getMain_color();
                         int sub_color = colorArrange.getSub_color();
                         Set<Integer> other_colors = colorArrange.getOther_colors();
@@ -344,9 +346,10 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
 
         }
 
-
-
-
+        if(codiList.size()==0){
+            Toast.makeText(this, "에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+            finish_cancel();
+        }
 
         //코디 리스트 총점 순으로 정렬
         Collections.sort(codiList);
@@ -467,7 +470,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
             if (numTop != 0 && numOuter != 0        &&numBottom!=0) {
                 modesT.add(TOP_OUTER);
             }
-            if (numBottom != 0 && numOuter != 0     &&numTop!=0) {
+            if (numOuter != 0 && numBottom != 0     &&numTop!=0) {
                 modesT.add(OUTER_BOTTOM);
             }
             if (modesT.size() != 0) {
@@ -604,7 +607,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
                 if(numTop != 0 &&
                         colorsOfPart[Utils.Kind.OUTER].contains(sub_color))
                     modesT.add(TOP_OUTER);
-                if(numBottom != 0 &&
+                if(numOuter != 0 &&
                         colorsOfPart[Utils.Kind.BOTTOM].contains(sub_color)
                         && numTop!=0)
                     modesT.add(OUTER_BOTTOM);

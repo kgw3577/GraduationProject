@@ -20,7 +20,7 @@ public class Codi implements Comparable<Codi>, Parcelable {
     ClothesVO accessory;
 
     ColorArrange colorArrange;
-    int temperature=-1;
+    double temperature=-1;
 
 
     protected Codi(Parcel in) {
@@ -32,7 +32,7 @@ public class Codi implements Comparable<Codi>, Parcelable {
         bag = in.readParcelable(ClothesVO.class.getClassLoader());
         accessory = in.readParcelable(ClothesVO.class.getClassLoader());
         colorArrange = in.readParcelable(ColorArrange.class.getClassLoader());
-        temperature = in.readInt();
+        temperature = in.readDouble();
     }
 
     public Codi(){
@@ -44,6 +44,7 @@ public class Codi implements Comparable<Codi>, Parcelable {
         bag = new ClothesVO();
         accessory = new ClothesVO();
         colorArrange = new ColorArrange();
+        temperature = 10000;
     }
 
     public Codi(ColorArrange colorArrange){
@@ -55,6 +56,7 @@ public class Codi implements Comparable<Codi>, Parcelable {
         bag = new ClothesVO();
         accessory = new ClothesVO();
         this.colorArrange = colorArrange;
+        temperature = 10000;
     }
 
 
@@ -158,11 +160,11 @@ public class Codi implements Comparable<Codi>, Parcelable {
         this.colorArrange = colorArrange;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -181,7 +183,7 @@ public class Codi implements Comparable<Codi>, Parcelable {
         dest.writeParcelable(bag, flags);
         dest.writeParcelable(accessory, flags);
         dest.writeParcelable(colorArrange, flags);
-        dest.writeInt(temperature);
+        dest.writeDouble(temperature);
     }
 
     public void setPart(int index, ClothesVO clothes) {

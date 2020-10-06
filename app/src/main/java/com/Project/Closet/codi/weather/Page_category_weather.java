@@ -197,9 +197,6 @@ public class Page_category_weather extends Fragment {
         protected List<ClothesVO> doInBackground(String... params) {
             String userID = MySharedPreferences.getInstanceOf(getContext()).getUserID();
             HashMap map = new HashMap();
-            ClothesVO clothesFilter = new ClothesVO();
-
-            clothesFilter.setLocation("private");
             Log.e("message",recommendedDCate.toString());
             for(String str : recommendedDCate){
                 Log.e("message",str);
@@ -227,8 +224,8 @@ public class Page_category_weather extends Fragment {
                 case "가방" : //카테고리 bag 조회
                 case "액세서리" : //카테고리 accessory 조회
                     map.put("kind",identifier);
+                    map.put("location","private");
                     map.put("list",recommendedDCate);
-                    clothesFilter.setKind(identifier);
                     cloListCall = ClothesService.getRetrofit(getActivity()).searchClothesByList(
                             map, userID, params[0], pagesize,"detailCategory");
                     break;

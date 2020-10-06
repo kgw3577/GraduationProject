@@ -75,6 +75,12 @@ public class ClothesService extends APIAdapter {
         @PUT("clothes/search/by_list")
         Call<List<ClothesVO>> searchClothesByList(@Body HashMap map, @Query("userID") String userID, @Query("page") String page, @Query("pageSize") String pageSize, @Query("mode") String mode);
 
+        //리스트로 옷 찾기
+        @Headers("Content-Type: application/json")
+        @PUT("clothes/search/by_list")
+        Call<List<ClothesVO>> searchClothesByListNoPage(@Body HashMap map, @Query("userID") String userID, @Query("mode") String mode);
+
+
 
         //옷 정보 받아오기
         //cloNo를 파라미터로 받아 API URL을 완성해서 GET 방식으로 요청
