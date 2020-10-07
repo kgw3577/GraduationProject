@@ -103,7 +103,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
 
     private FloatingActionMenu fam;
-    private FloatingActionButton fabAdd, fabMake, fabWeather, fabRecommend;
+    private FloatingActionButton fabMake, fabRecommend;
 
     public static fragment_codi newInstance() {
 
@@ -385,7 +385,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
 
         //fabAdd = (FloatingActionButton) getView().findViewById(R.id.fab_add_photo);
         fabMake = (FloatingActionButton) getView().findViewById(R.id.fab_make_codi);
-        fabWeather = (FloatingActionButton) getView().findViewById(R.id.fab_weather_codi);
         fabRecommend = (FloatingActionButton) getView().findViewById(R.id.fab_recommend_codi);
         fam = (FloatingActionMenu) getView().findViewById(R.id.fab_menu);
 
@@ -404,7 +403,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
         //handling each floating action button clicked
         //fabAdd.setOnClickListener(onClickListener);
         fabMake.setOnClickListener(onClickListener);
-        fabWeather.setOnClickListener(onClickListener);
         fabRecommend.setOnClickListener(onClickListener);
 
 
@@ -527,15 +525,6 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
                 case R.id.fab_make_codi:
                     intent = new Intent(getContext(), activity_addCodi.class);
                     startActivityForResult(intent, MAKE_CODI);
-                    break;
-                case R.id.fab_weather_codi:
-                    if(ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-                        intent = new Intent(getContext(), PermissionActivity.class);
-                        startActivity(intent);
-                    }else{
-                        intent = new Intent(getContext(), activity_weatherCodi.class);
-                        startActivityForResult(intent, WEATHER_CODI);
-                    }
                     break;
                 case R.id.fab_recommend_codi:
                     intent = new Intent(getContext(), activity_recoCodi_setting.class);

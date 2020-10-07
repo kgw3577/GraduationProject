@@ -347,7 +347,7 @@ public class activity_recommendCodi extends AppCompatActivity implements Page_re
         }
 
         if(codiList.size()==0){
-            Toast.makeText(this, "에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "에러가 발생했습니다.", Toast.LENGTH_SHORT).show();
             finish_cancel();
         }
 

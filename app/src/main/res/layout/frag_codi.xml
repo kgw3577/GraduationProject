@@ -188,21 +188,8 @@
             app:fab_colorNormal="#000000"
             app:fab_colorPressed="#F2AB00"
             app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="코디 만들기"
+            fab:fab_label="코디 직접 만들기"
             fab:fab_size="normal" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_weather_codi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icon_weather"
-            app:fab_colorNormal="#000000"
-            app:fab_colorPressed="#F2AB00"
-            app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="날씨 기반 코디 추천"
-            fab:fab_size="normal"
-            />
-
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_recommend_codi"
             android:layout_width="wrap_content"
@@ -211,7 +198,7 @@
             app:fab_colorNormal="#000000"
             app:fab_colorPressed="#F2AB00"
             app:fab_colorRipple="#99FFFFFF"
-            fab:fab_label="코디 추천"
+            fab:fab_label="코디 추천받기"
             fab:fab_size="normal"
             />
 

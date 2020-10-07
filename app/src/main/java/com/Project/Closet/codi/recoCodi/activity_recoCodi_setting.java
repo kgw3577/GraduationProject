@@ -1,11 +1,17 @@
 package com.Project.Closet.codi.recoCodi;
 
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,12 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
 import com.Project.Closet.HTTP.VO.ClothesVO;
+import com.Project.Closet.HTTP.weather.vo.ApiInterface;
+import com.Project.Closet.HTTP.weather.vo.Repo;
 import com.Project.Closet.R;
 import com.Project.Closet.closet.closet_activities.activity_closet_DB;
+import com.Project.Closet.codi.weather.PermissionActivity;
 import com.Project.Closet.util.MySpinnerAdapter;
 import com.Project.Closet.util.Utils;
 import com.ssomai.android.scalablelayout.ScalableLayout;
@@ -43,11 +53,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import petrov.kristiyan.colorpicker.ColorPicker;
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class activity_recoCodi_setting extends AppCompatActivity implements View.OnClickListener {
 
@@ -68,8 +81,6 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     CheckBox cb_accessory;
 
     RadioButton rb_man;
-
-    final static String TEMPER_CODE = "℃";
 
 
     TextView tv_main_color;
@@ -139,7 +150,9 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
 
     //날씨 관련
     boolean weatherApplied;
-    double temperature = 10000;
+    final double TEMPER_NULL = 10000;
+    double temperature = TEMPER_NULL;
+    final static String TEMPER_CODE = "℃";
     String[] recommendedDCate;
 
     RadioButton rb_weather_none;
@@ -165,13 +178,17 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     List<CheckBox> weatherCheckBoxes;
 
 
-
-    private LocationManager locationManager;
-    private static final int REQUEST_CODE_LOCATION = 2;
+    private LocationManager lm;
+    Location my_location;
+    private static final int REQUEST_PERMISSION = 1024;
     String API_KEY = "f73fa03d36a8a1b6c8acdca0ea6d229a";
     public Address addr;
-    String season;
-    String loc_weather;
+    boolean isNowApplied;
+
+    double longitude; //경도
+    double latitude; //위도
+
+
 
 
 
@@ -179,6 +196,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reco_codi_setting);
+
+
 
         TextView header_title = findViewById(R.id.header_title);
         header_title.setText("코디 추천 설정");
@@ -720,6 +739,11 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         fl_setting_season = findViewById(R.id.fl_setting_season);
 
 
+
+
+
+
+
         //설정 완료 버튼
         ScalableLayout sl_ok = findViewById(R.id.sl_ok);
         sl_ok.setOnClickListener(new View.OnClickListener() {
@@ -738,6 +762,9 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                if(clothesList==null)
+                    return;
 
                 //선택되지 않은 파트(코디 구성) 제거
                 deactivateParts();
@@ -793,8 +820,10 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                     cloListCall = ClothesService.getRetrofit(getApplicationContext()).searchClothesNoPage(clothesFilter, userID);
                 }
                 else{
-                    if(recommendedDCate==null)
+                    if(recommendedDCate==null){
                         Toast.makeText(activity_recoCodi_setting.this, "날씨 설정 과정에서 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+                        return null;
+                    }
                     HashMap map = new HashMap();
                     map.put("location","private");
                     map.put("list",recommendedDCate);
@@ -1029,9 +1058,19 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 }
 
                 if(remain_items==0){
-                    if(!detail_category.isEmpty())
+                    if(!detail_category.isEmpty()){
                         category = detail_category;
-                    Toast.makeText(this, "설정한 <"+category+"> 카테고리의 옷이 없습니다. \n더 많은 옷을 추가해보세요.", Toast.LENGTH_LONG).show();
+                    }
+
+//                    if(recommendedDCate!=null ){
+//                        List<String>recommendedDCateArray = Arrays.asList(recommendedDCate);
+//                        if(!recommendedDCateArray.contains(category)){
+//                            Toast.makeText(this, "해당 날씨에 맞지 않는 <"+category+"> 카테고리가 설정에 포함되어 있습니다.", Toast.LENGTH_LONG).show();
+//                            return false;
+//                        }
+//                    }
+
+                    Toast.makeText(this, "설정한 <"+category+"> 카테고리의 옷이 없거나 해당 날씨에 맞지 않습니다. \n더 많은 옷을 추가해보세요.", Toast.LENGTH_LONG).show();
                     return false;
                 }
             }
@@ -1109,15 +1148,10 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 resetCurrentItem();
                 break;
             case R.id.rb_weather_none :
-                ll_now_weather.setVisibility(View.GONE);
-                fl_setting_temperature.setVisibility(View.GONE);
-                fl_setting_season.setVisibility(View.GONE);
+                setWeatherNone();
                 break;
             case R.id.rb_weather_now :
-                ll_now_weather.setVisibility(View.VISIBLE);
-                fl_setting_temperature.setVisibility(View.GONE);
-                fl_setting_season.setVisibility(View.GONE);
-                scrollDown();
+                setNowTemper();
                 break;
             case R.id.rb_weather_temper :
                 ll_now_weather.setVisibility(View.GONE);
@@ -1160,17 +1194,35 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         }
     }
 
-    boolean loadWeather(){
-        //여기서부터
-        return true;
+    void setWeatherNone(){
+        ll_now_weather.setVisibility(View.GONE);
+        fl_setting_temperature.setVisibility(View.GONE);
+        fl_setting_season.setVisibility(View.GONE);
+    }
+
+    void setNowTemper() {
+        startFindLocation();
+        rb_weather_now.setChecked(true);
+        ll_now_weather.setVisibility(View.VISIBLE);
+        fl_setting_temperature.setVisibility(View.GONE);
+        fl_setting_season.setVisibility(View.GONE);
+        scrollDown();
     }
 
     boolean applyWeather(){
-        temperature = 10000;
+        temperature = TEMPER_NULL;
+        recommendedDCate=null;
+        weatherApplied=false;
 
         if(rb_weather_none.isChecked()){ //적용 안함
             return true; //적용 안함 시 스킵
         }else if(rb_weather_now.isChecked()){ //현재 기온
+
+            if(!isNowApplied){
+                Toast.makeText(this, "사용자의 위치를 수신하지 못했습니다.", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
             //설정된 기온을 읽어들임
             String temperStr = tv_now_temperature.getText().toString();
             if(!temperStr.isEmpty()){
@@ -1183,7 +1235,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 return false;
             }
             //기온 별 옷차림 목록 받아옴
-            if(temperature!=10000){ //사용자가 온도 설정시
+            if(temperature!=TEMPER_NULL){ //사용자가 온도 설정시
                 if(temperature<6)
                     recommendedDCate = getResources().getStringArray(R.array.to5);
                 else if(temperature>=6 && temperature<10)
@@ -1365,6 +1417,167 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     }
 
 
+    /**
+     * 사용자의 위치를 수신
+     */
+    private void startFindLocation() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(this, PermissionActivity.class);
+            startActivityForResult(intent,REQUEST_PERMISSION);
+        }
+        else {
+            lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+            assert lm != null;
+            lm.removeUpdates( mLocationListener );
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
+                    10, // 통지사이의 최소 시간간격 (miliSecond)
+                    1, // 통지사이의 최소 변경거리 (m)
+                    mLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자
+                    10, // 통지사이의 최소 시간간격 (miliSecond)
+                    1, // 통지사이의 최소 변경거리 (m)
+                    mLocationListener);
+
+        }
+    }
+
+    private LocationListener mLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            //여기서 위치값이 갱신되면 이벤트가 발생한다.
+            //값은 Location 형태로 리턴되며 좌표 출력 방법은 다음과 같다.
+
+            Log.d("test", "onLocationChanged, location:" + location);
+            my_location=location;
+            lm.removeUpdates(this);  //위치 정보 수신 끄기
+            longitude = location.getLongitude(); //경도
+            latitude = location.getLatitude();   //위도
+            double altitude = location.getAltitude();   //고도
+            float accuracy = location.getAccuracy();    //정확도
+            String provider = location.getProvider();   //위치제공자
+            //Gps 위치제공자에 의한 위치변화. 오차범위가 좁다.
+            //Network 위치제공자에 의한 위치변화
+            //Network 위치는 Gps에 비해 정확도가 많이 떨어진다.
+            Log.d("test", "위치정보 : " + provider + "\n위도 : " + longitude + "\n경도 : " + latitude
+                    + "\n고도 : " + altitude + "\n정확도 : "  + accuracy);
+
+            if(latitude==0 || longitude == 0){
+                Toast.makeText(activity_recoCodi_setting.this, "받아온 위치 정보에 오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                getAddress(getBaseContext(), latitude, longitude);//나라 도 시 구 동 번지
+
+                //String do_ = addr.getAdminArea(); //도
+                String si = addr.getLocality(); //시
+                String gu = addr.getThoroughfare(); //구
+                String gu_str=getCompleteWord(gu,"은","는");
+
+                tv_now_location.setText("지금 "+si + " " + gu_str+" : "); //지금 시흥시 정왕동은 :
+
+                try {
+                    temperature = new weatherTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, latitude, longitude).get();
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                int temperInt = (int) Math.round(temperature); //소수점 반올림
+                tv_now_temperature.setText(temperInt + TEMPER_CODE);//24℃
+                isNowApplied = true;
+
+            }
+        }
+        public void onProviderDisabled(String provider) {
+            // Disabled시
+            Log.d("test", "onProviderDisabled, provider:" + provider);
+        }
+
+        public void onProviderEnabled(String provider) {
+            // Enabled시
+            Log.d("test", "onProviderEnabled, provider:" + provider);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // 변경시
+            Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
+        }
+    };
+
+
+
+    /**
+     * 위도,경도로 주소구하기
+     * @param lat
+     * @param lng
+     * @return 주소
+     */
+    public String getAddress(Context mContext, double lat, double lng) {
+        String addressStr= null;
+        Geocoder geocoder = new Geocoder(mContext, Locale.KOREA);
+        List<Address> address;
+        try {
+            //세번째 파라미터는 좌표에 대해 주소를 리턴 받는 갯수로
+            //한좌표에 대해 두개이상의 이름이 존재할수있기에 주소배열을 리턴받기 위해 최대갯수 설정
+            address = geocoder.getFromLocation(lat, lng, 1);
+            if(address.size()==0){
+                Toast.makeText(mContext,  "현재 위치를 확인 할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else addr = address.get(0);
+
+            if (address.size() > 0) {
+                // 주소 받아오기
+                String currentLocationAddress = address.get(0).getAddressLine(0).toString();
+                addressStr  = currentLocationAddress;
+            }
+        } catch (IOException e) {
+            System.out.println("주소를 가져올 수 없습니다.");
+            e.printStackTrace();
+            return null;
+        }
+        return addressStr;
+    }
+
+
+
+
+    public class weatherTask extends AsyncTask<Double, Void, Double> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            startTime = Util.getCurrentTime();
+        }
+
+
+        @Override
+        protected Double doInBackground(Double... params)  {
+
+            Retrofit client = new Retrofit.Builder().baseUrl("http://api.openweathermap.org").addConverterFactory(GsonConverterFactory.create()).build();
+            ApiInterface service = client.create(ApiInterface.class);
+            Call<Repo> call = service.repo(API_KEY, params[0], params[1]); //lat,lon
+            Repo repo = null;
+            try {
+                repo = call.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "날씨 정보 받아오기 실패", Toast.LENGTH_SHORT).show();
+                return TEMPER_NULL;
+            }
+            assert repo != null;
+            return repo.getMain().getTemp()- 273.15; //기온 return
+
+        }
+
+        @Override
+        protected void onPostExecute(Double res) {
+            super.onPostExecute(res);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -1398,9 +1611,33 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 //옷 번호 저장
                 child_clothes_no[selected_clo_index] = Integer.parseInt(cloNo);
             }
+        }else if(requestCode == REQUEST_PERMISSION && resultCode == RESULT_OK){
+            setNowTemper();
+        }else if(requestCode == REQUEST_PERMISSION && resultCode == RESULT_CANCELED){
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                setNowTemper();
+            }else{
+                rb_weather_none.setChecked(true);
+                Toast.makeText(this, "위치 정보 권한 승인 후 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                setWeatherNone();
+            }
         }
 
     }
+
+    public final String getCompleteWord(String name, String firstValue, String secondValue) {
+
+        char lastName = name.charAt(name.length() - 1);
+
+        // 한글의 제일 처음과 끝의 범위밖일 경우는 오류
+        if (lastName < 0xAC00 || lastName > 0xD7A3) {
+            return name;
+        }
+
+        String selectedValue = (lastName - 0xAC00) % 28 > 0 ? firstValue : secondValue;
+        return name+selectedValue;
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -1410,5 +1647,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             super.onBackPressed();
         }
     }
+
+
 
 }

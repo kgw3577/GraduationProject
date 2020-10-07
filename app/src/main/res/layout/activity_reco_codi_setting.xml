@@ -27,7 +27,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="15dp"
         android:layout_below="@id/header"
         >
         <LinearLayout
@@ -623,7 +623,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="군포시"
+                        android:text="위치 수신 중..."
                         android:textSize="15sp"
                         >
                     </TextView>
@@ -633,7 +633,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
-                        android:text="25℃"
+                        android:text="잠시만 기다려주세요."
                         android:textSize="15sp"
                         >
                     </TextView>
