@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -70,6 +72,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     DrawerLayout drawer;
 
     LinearLayout ll_detail;
+    LinearLayout ll_detail_edit;
     public RelativeLayout Cloth_Info;
     public RelativeLayout Cloth_Info_edit;
     public ImageView iv_image;
@@ -121,6 +124,7 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         //shareButton.setVisibility(View.VISIBLE);
 
         ll_detail = viewGroup.findViewById(R.id.ll_detail);
+        ll_detail_edit = viewGroup.findViewById(R.id.ll_detail_edit);
 
         drawer = viewGroup.findViewById(R.id.final_drawer_layout);
 
@@ -146,18 +150,24 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
 
         tv_cloNo = (TextView) viewGroup.findViewById(R.id.tv_clothes_no);
         tv_cloFavorite = (TextView) viewGroup.findViewById(R.id.tv_clothes_favorite);
-        tv_edit_color = (TextView) viewGroup.findViewById(R.id.tv_info_color);
+        tv_edit_color = (TextView) viewGroup.findViewById(R.id.tv_edit_info_color);
         tv_edit_detailcategory = (TextView) viewGroup.findViewById(R.id.tv_edit_detailcategory);
         tv_edit_brand = (TextView) viewGroup.findViewById(R.id.tv_edit_brand);
         tv_edit_size = (TextView) viewGroup.findViewById(R.id.tv_edit_size);
-
         tv_edit_category = (TextView) viewGroup.findViewById(R.id.tv_edit_catergory);
         tv_edit_season = (TextView) viewGroup.findViewById(R.id.tv_edit_season);
         tv_edit_date = (TextView) viewGroup.findViewById(R.id.tv_edit_date);
         tv_edit_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(activity, listener, 2020, 6, 30);
+
+                Calendar cal = Calendar.getInstance();
+                //현재 년도, 월, 일
+                int year = cal.get (Calendar.YEAR);
+                int month = cal.get (Calendar.MONTH);
+                int date = cal.get (Calendar.DATE) ;
+
+                DatePickerDialog dialog = new DatePickerDialog(activity, listener, year, month, date);
                 dialog.show();
             }
         });
@@ -167,27 +177,8 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
         iv_modify.setOnClickListener(onClickListener);
         iv_delete.setOnClickListener(onClickListener);
         //shareButton.setOnClickListener(onClickListener);
+        iv_save.setOnClickListener(onClickListener);
 
-
-        iv_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(tv_edit_category.getText()!="카테고리를 선택해주세요.")
-                    tv_category.setText(tv_edit_category.getText());
-                if(tv_edit_detailcategory.getText()!=null)
-                    tv_detailcategory.setText(tv_edit_detailcategory.getText());
-                if(tv_edit_season.getText()!="계절을 선택해주세요.")
-                    tv_season.setText(tv_edit_season.getText());
-                if(tv_edit_brand.getText()!=null)
-                    tv_brand.setText(tv_edit_brand.getText());
-                if(tv_edit_size.getText()!=null)
-                    tv_size.setText(tv_edit_size.getText());
-                if(tv_edit_date.getText()!=null)
-                    tv_date.setText(tv_edit_date.getText());
-
-                Cloth_Info_edit.setVisibility(View.GONE);
-            }
-        });
         final String[] Season = {""};
         tv_edit_season.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,9 +425,11 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            tv_edit_date.setText(year + "년" + monthOfYear + "월" + dayOfMonth +"일");
-            Toast.makeText(getContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
+            String buyDate = String.format("%d-%02d-%02d",year,monthOfYear+1,dayOfMonth);
+            tv_edit_date.setText(buyDate);
+            tv_edit_date.setTextColor(Color.parseColor("#000000"));
         }
+
     };
 
 
@@ -535,6 +528,11 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
     //클릭 리스너
     class BtnOnClickListener implements Button.OnClickListener {
         String res="";
+        String color;
+        String season;
+        String brand;
+        String size;
+        String date;
 
         @Override
         public void onClick(View view) {
@@ -557,7 +555,57 @@ public class fragment_closet extends Fragment implements OnBackPressedListener {
                 case R.id.iv_modify : //수정 버튼
                     //Cloth_Info.setVisibility(View.GONE);
                     Cloth_Info_edit.setVisibility(View.VISIBLE);
-                    tv_edit_date.setText(tv_date.getText());
+
+                    tv_edit_category.setText(tv_category.getText());
+                    if(ll_detail.getVisibility()!=View.GONE){
+                        ll_detail_edit.setVisibility(View.VISIBLE);
+                        tv_edit_detailcategory.setText(tv_detailcategory.getText());
+                    }
+                    else{
+                        ll_detail_edit.setVisibility(View.GONE);
+                    }
+                    color =  tv_color.getText().toString();
+                    season = tv_season.getText().toString();
+                    brand =   tv_brand.getText().toString();
+                    size =   tv_size.getText().toString();
+                    date =   tv_date.getText().toString();
+
+                    if(!color.isEmpty())
+                        tv_edit_color.setText(tv_color.getText());
+                    if(!season.isEmpty())
+                        tv_edit_season.setText(tv_season.getText());
+                    if(!brand.isEmpty())
+                        tv_edit_brand.setText(tv_brand.getText());
+                    if(!size.isEmpty())
+                        tv_edit_size.setText(tv_size.getText());
+                    if(!date.isEmpty())
+                        tv_edit_date.setText(tv_date.getText());
+                    break;
+
+                case R.id.iv_save: //저장 버튼
+                    tv_category.setText(tv_edit_category.getText());
+                    if(ll_detail_edit.getVisibility()!=View.GONE){
+                        ll_detail.setVisibility(View.VISIBLE);
+                        tv_detailcategory.setText(tv_edit_detailcategory.getText());
+                    }
+                    else
+                        ll_detail.setVisibility(View.GONE);
+                    tv_color.setText(tv_edit_color.getText());
+
+                    season = tv_edit_season.getText().toString();
+                    date = tv_edit_date.getText().toString();
+                    brand =   tv_edit_brand.getText().toString();
+                    size =   tv_edit_size.getText().toString();
+                    date =   tv_edit_date.getText().toString();
+
+                    if(!season.equals("선택"))
+                        tv_season.setText(tv_edit_season.getText());
+                    tv_brand.setText(tv_edit_brand.getText());
+                    tv_size.setText(tv_edit_size.getText());
+                    if(!date.equals("선택"))
+                        tv_date.setText(tv_edit_date.getText());
+                    Cloth_Info_edit.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "옷을 수정했습니다.", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.iv_delete : //삭제 버튼
                     //확인 Alert 다이얼로그

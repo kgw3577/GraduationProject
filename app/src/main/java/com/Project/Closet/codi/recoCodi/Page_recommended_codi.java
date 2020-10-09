@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,7 @@ public class Page_recommended_codi extends Fragment {
     ImageView ivShoes;  //신발 파트
     ImageView ivBag;    //가방 파트
     ImageView ivAccessory; //액세서리4 파트
+    LinearLayout ll_right;
 
     //이미지 저장 관련
     Bitmap savedCodi;
@@ -125,6 +127,8 @@ public class Page_recommended_codi extends Fragment {
         ivShoes= (ImageView) view.findViewById(R.id.iv_shoes);
         ivBag= (ImageView) view.findViewById(R.id.iv_bag);
         ivAccessory = (ImageView) view.findViewById(R.id.iv_acc4);
+        ll_right = view.findViewById(R.id.ll_right);
+
 
         if(codi.getTop().getCategory()!=null)
             Glide.with(getContext()).load(Global.baseURL+codi.getTop().getFilePath()).into(ivTop);
@@ -146,20 +150,27 @@ public class Page_recommended_codi extends Fragment {
         else
             ivOuter.setVisibility(View.GONE);
 
-        if(codi.getShoes().getCategory()!=null)
-            Glide.with(getContext()).load(Global.baseURL+codi.getShoes().getFilePath()).into(ivShoes);
-        else
-            ivShoes.setVisibility(View.GONE);
+        if(codi.getShoes().getCategory()==null &&
+                codi.getBag().getCategory()==null &&
+                codi.getAccessory().getCategory()==null
+        )
+            ll_right.setVisibility(View.GONE);
+        else{
+            if(codi.getShoes().getCategory()!=null)
+                Glide.with(getContext()).load(Global.baseURL+codi.getShoes().getFilePath()).into(ivShoes);
+            else
+                ivShoes.setVisibility(View.GONE);
 
-        if(codi.getBag().getCategory()!=null)
-            Glide.with(getContext()).load(Global.baseURL+codi.getBag().getFilePath()).into(ivBag);
-        else
-            ivBag.setVisibility(View.GONE);
+            if(codi.getBag().getCategory()!=null)
+                Glide.with(getContext()).load(Global.baseURL+codi.getBag().getFilePath()).into(ivBag);
+            else
+                ivBag.setVisibility(View.GONE);
 
-        if(codi.getAccessory().getCategory()!=null)
-            Glide.with(getContext()).load(Global.baseURL+codi.getAccessory().getFilePath()).into(ivAccessory);
-        else
-            ivAccessory.setVisibility(View.GONE);
+            if(codi.getAccessory().getCategory()!=null)
+                Glide.with(getContext()).load(Global.baseURL+codi.getAccessory().getFilePath()).into(ivAccessory);
+            else
+                ivAccessory.setVisibility(View.GONE);
+        }
 
 
         ColorArrange colorArrange = codi.getColorArrange();

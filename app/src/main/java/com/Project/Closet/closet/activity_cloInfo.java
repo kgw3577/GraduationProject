@@ -86,8 +86,6 @@ public class activity_cloInfo extends AppCompatActivity {
         //iv_delete.setOnClickListener(onClickListener);
 
 
-
-
         String ImageUrl = Global.baseURL+cloInfoVO.getCloImagePath();
 
         Glide.with((iv_image).getContext()).load(ImageUrl).into(iv_image);

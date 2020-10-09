@@ -70,36 +70,37 @@
                 android:layout_toLeftOf="@id/iv_top_place"
 
                 />
-
-            <ImageView
-                android:id="@+id/iv_shoes"
+            <LinearLayout
+                android:id="@+id/ll_right"
                 android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:visibility="visible"
+                android:layout_height="300dp"
+                android:orientation="vertical"
+                android:gravity="center_vertical"
                 android:layout_toRightOf="@id/iv_bottom_place"
-                android:layout_below="@id/iv_bag"
-                />
+                >
 
-            <ImageView
-                android:id="@+id/iv_bag"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:visibility="visible"
-                android:layout_toRightOf="@id/iv_bottom_place"
-                android:layout_below="@id/iv_acc4"
-                />
+                <ImageView
+                    android:id="@+id/iv_acc4"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="visible"
+                    />
+                <ImageView
+                    android:id="@+id/iv_bag"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="visible"
+                    />
 
-            <ImageView
-                android:id="@+id/iv_acc4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerHorizontal="true"
-                android:visibility="visible"
-                android:layout_toRightOf="@id/iv_bottom_place"
+                <ImageView
+                    android:id="@+id/iv_shoes"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:visibility="visible"
+                    />
 
-                />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

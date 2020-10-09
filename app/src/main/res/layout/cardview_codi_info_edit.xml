@@ -45,35 +45,26 @@
                     android:layout_height="250dp"/>
 
 
+
                 <LinearLayout
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="카테고리" />
-
+                        android:text="카테고리"/>
                     <TextView
-                        android:id="@+id/tv_edit_catergory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="카테고리를 선택해주세요." />
+                        android:text="카테고리를 선택해주세요."
+                        android:id="@+id/tv_edit_catergory"/>
                 </LinearLayout>
-
                 <LinearLayout
-                    android:id="@+id/ll_detail_edit"
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -82,133 +73,112 @@
                         android:layout_gravity="center"
                         android:text="세부 카테고리" />
 
-                    <TextView
-                        android:id="@+id/tv_edit_detailcategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="컬러" />
-
-                    <TextView
-                        android:id="@+id/tv_edit_info_color"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="선택" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="계절" />
-
-                    <TextView
-                        android:id="@+id/tv_edit_season"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="선택" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="브랜드" />
-
                     <EditText
-                        android:id="@+id/tv_edit_brand"
                         android:layout_width="150dp"
-                        android:layout_height="35dp"
+                        android:layout_height="40dp"
+                        android:text=""
+                        android:id="@+id/tv_edit_detailcategory"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="컬러"/>
+                    <EditText
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:text=""
+                        android:id="@+id/tv_info_color"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="계절"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="계절을 선택해주세요."
+                        android:id="@+id/tv_edit_season"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="브랜드"/>
+                    <EditText
+                        android:layout_width="150dp"
+                        android:layout_height="40dp"
+                        android:text=""
+                        android:id="@+id/tv_edit_brand"
                         android:imeOptions="actionNext"
                         android:inputType="text"
-                        android:textSize="13dp"
 
                         />
                 </LinearLayout>
-
                 <LinearLayout
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="사이즈" />
-
+                        android:text="사이즈"/>
                     <EditText
-                        android:id="@+id/tv_edit_size"
                         android:layout_width="150dp"
-                        android:layout_height="35dp"
+                        android:layout_height="40dp"
+                        android:text=""
+                        android:id="@+id/tv_edit_size"
                         android:imeOptions="actionDone"
                         android:inputType="text"
-                        android:text=""
-                        android:textSize="13dp" />
+                        />
                 </LinearLayout>
-
                 <LinearLayout
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="15dp"
                     android:orientation="horizontal">
-
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="구입 날짜" />
-
+                        android:text="구입 날짜"/>
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="asdfsadfsadfsadfasf"
                         android:id="@+id/tv_edit_date"
+                        />
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="선택" />
-
-                    <TextView
+                        android:text=""
                         android:id="@+id/tv_clothes_no"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:visibility="invisible" />
-
+                        android:visibility="invisible"
+                        />
                     <TextView
-                        android:id="@+id/tv_clothes_favorite"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=""
-                        android:visibility="invisible" />
+                        android:id="@+id/tv_clothes_favorite"
+                        android:visibility="invisible"
+                        />
                 </LinearLayout>
 
             </LinearLayout>

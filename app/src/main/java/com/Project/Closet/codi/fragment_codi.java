@@ -57,8 +57,6 @@ import static android.app.Activity.RESULT_OK;
 
 public class fragment_codi extends Fragment implements OnBackPressedListener {
 
-    private static final int PERMISSIONS_REQUEST_CODE = 1500;
-
     ViewGroup viewGroup;
     Toast toast;
     long backKeyPressedTime;
@@ -130,6 +128,7 @@ public class fragment_codi extends Fragment implements OnBackPressedListener {
             activity = (Activity) context;
             ((activity_home)activity).setOnBackPressedListener(this);
         }
+        
     }
 
 
