@@ -27,6 +27,8 @@ public class ClothesVO implements Parcelable {
     private int pageSize =-1;
 
 
+
+
     protected ClothesVO(Parcel in) {
         cloNo = in.readInt();
         location = in.readString();
@@ -100,6 +102,22 @@ public class ClothesVO implements Parcelable {
         this.userID = userID;
         this.closetName = closetName;
         this.fileName = fileName;
+    }
+    public ClothesVO(int cloNo, String location, String kind, String category, String detailCategory,
+                     String color, String identifier,
+                     String fileName, String filePath, String favorite, String userID, String closetName){
+        this.cloNo = cloNo;
+        this.location =location;
+        this.kind =kind;
+        this.category= category;
+        this.detailCategory=detailCategory;
+        this.color=color;
+        this.identifier=identifier;
+        this.fileName=fileName;
+        this.filePath=filePath;
+        this.favorite=favorite;
+        this.userID=userID; // FOREIGN KEY(USER). not null
+        this.closetName=closetName; // FOREIGN KEY(CLOSET). not null
     }
 
     //get set

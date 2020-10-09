@@ -7,17 +7,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.Project.Closet.HTTP.Service.ClothesService;
 import com.Project.Closet.HTTP.Service.UserService;
+import com.Project.Closet.HTTP.Session.preference.MySharedPreferences;
+import com.Project.Closet.HTTP.VO.ClothesVO;
 import com.Project.Closet.HTTP.VO.UserVO;
 import com.Project.Closet.R;
+import com.Project.Closet.closet.closet_activities.TabFragment_Clothes_inClosetShare;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 
@@ -183,16 +189,85 @@ public class activity_signup extends AppCompatActivity {
                                 Toast.makeText(activity_signup.this, "잘못된 이메일 형식입니다.", Toast.LENGTH_SHORT).show();
                                 et_userID.setText("");
                             }else if(result.equals("ok")) {
-                                Intent intent = new Intent(getApplicationContext(), activity_signup_next.class);
-                                intent.putExtra("userID", userID);
-                                startActivity(intent);
-                            }else{
-                                Toast.makeText(activity_signup.this, result, Toast.LENGTH_SHORT).show();
+
+
+                                //기본 옷 추가
+                                ClothesVO cloInfo1 = new ClothesVO(0,"private","상의","셔츠","클래식/드레스셔츠",
+                                        "화이트","화이트_클래식/드레스셔츠",
+                                        "클래식／드레스셔츠_화이트.jpg","/download/clothes?imageFileName=클래식／드레스셔츠_화이트.jpg",
+                                        "no", userID,"default");
+                                ClothesVO cloInfo2 = new ClothesVO(0,"private","하의","청바지","청바지",
+                                        "블루","블루_청바지",
+                                        "admin_1598175126824.jpg","/download/clothes?imageFileName=admin_1598175126824.jpg",
+                                        "no", userID,"default");
+
+                                String res = null;
+                                try {
+
+
+                                    res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cloInfo1).get(); //옷 추가 1
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                Log.e("tag",res);
+
+
+                                if("ok".equals(res)){
+                                    try {
+
+
+                                        res = new AddTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, cloInfo2).get(); //옷 추가2
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Log.e("tag",res);
+
+
+                                    if("ok".equals(res)){
+                                        Intent intent = new Intent(getApplicationContext(), activity_signup_next.class);
+                                        intent.putExtra("userID", userID);
+                                        startActivity(intent);
+                                        return;
+                                    }
+                                }
                             }
+
+                            Toast.makeText(activity_signup.this, "오류가 발생했습니다.", Toast.LENGTH_SHORT).show();
+
                         }catch (Exception e) {}
                     }
                     break;
             }
         }
     }
+
+    public class AddTask extends AsyncTask<ClothesVO, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+        @Override
+        protected String doInBackground(ClothesVO... ClothesInfo) {
+
+            Call<String> stringCall = ClothesService.getRetrofit(getApplicationContext()).addClothesFrData(ClothesInfo[0]);
+            try {
+                return stringCall.execute().body();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+
+
 }
