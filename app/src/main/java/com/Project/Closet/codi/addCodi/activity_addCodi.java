@@ -63,6 +63,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
     private MyPagerAdapter pagerAdapter;
 
     //셀렉트바 선언
+    LinearLayout ll_explain;
     LinearLayout selectbar;
     ImageView iv_selected; // 현재 선택된 이미지뷰
     int selectedNum; //선택된 이미지뷰 번호
@@ -167,6 +168,7 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
 
 
         selectbar = (LinearLayout) findViewById(R.id.selectbar);
+        ll_explain = (LinearLayout) findViewById(R.id.explain);
 
         //버튼 온클릭리스너 설정
         BtnOnClickListener onClickListener = new BtnOnClickListener();
@@ -346,9 +348,10 @@ public class activity_addCodi extends AppCompatActivity implements Page_category
                     break;
             }
 
-            if(iv_selected!=null)
+            if(iv_selected!=null){
                 selectbar.setVisibility(View.VISIBLE);
-
+                ll_explain.setVisibility(View.GONE);
+            }
         }
     }
 

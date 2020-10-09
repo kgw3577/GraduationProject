@@ -207,6 +207,8 @@ public class Fragment_Feed extends Fragment {
                         Toast.makeText(getContext(), "실패하였습니다.", Toast.LENGTH_SHORT).show();
 
                     break;
+                case R.id.ll_icon_heart :
+                    break;
                 default:
                     selectedFeedDataList = feedListByBoardNo.get(pos);
                     intent = new Intent(context, activity_thisFeed.class);

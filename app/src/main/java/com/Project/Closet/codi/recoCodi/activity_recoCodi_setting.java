@@ -198,7 +198,6 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         setContentView(R.layout.activity_reco_codi_setting);
 
 
-
         TextView header_title = findViewById(R.id.header_title);
         header_title.setText("코디 추천 설정");
 

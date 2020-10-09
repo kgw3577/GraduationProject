@@ -13,6 +13,8 @@
         android:layout_centerHorizontal="true"
         android:adjustViewBounds="true"
         android:visibility="visible"
+
+        android:layout_centerInParent="true"
         android:layout_below="@id/iv_acc1"/>
 
     <ImageView
@@ -21,6 +23,8 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"
+
+        android:layout_centerInParent="true"
         android:layout_below="@id/iv_acc1"/>
 
 
@@ -43,7 +47,7 @@
         android:layout_marginBottom="3dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="상의 추가"
+        android:text="상의"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -75,7 +79,7 @@
         android:layout_margin="3dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="하의 추가"
+        android:text="하의"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -107,7 +111,7 @@
         android:layout_marginRight="1dp"
         android:layout_marginBottom="1dp"
         android:gravity="center"
-        android:text="한벌옷 추가"
+        android:text="한벌옷"
         android:textColor="#000000"
         android:textSize="18sp"
         android:visibility="gone"
@@ -144,7 +148,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="외투 추가"
+        android:text="외투"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -175,7 +179,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="신발 추가"
+        android:text="신발"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -206,7 +210,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="가방 추가"
+        android:text="가방"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -237,7 +241,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="액세서리 추가"
+        android:text="액세서리"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -264,7 +268,7 @@
         android:layout_marginBottom="3dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="액세서리 추가"
+        android:text="액세서리"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -293,7 +297,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="액세서리 추가"
+        android:text="액세서리"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -322,7 +326,7 @@
         android:layout_marginBottom="1dp"
         android:background="#66F3F3F3"
         android:gravity="center"
-        android:text="액세서리 추가"
+        android:text="액세서리"
         android:textColor="#000000"
         android:textSize="18sp" />
 
