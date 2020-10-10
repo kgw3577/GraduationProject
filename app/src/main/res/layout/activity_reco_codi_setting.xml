@@ -13,15 +13,75 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@android:color/black"
         app:scale_base_height="120"
-        app:scale_base_width="1080">
+        app:scale_base_width="1080"
+        tools:ignore="missingPrefix"
+        android:background="#EEEEEE"
+        >
 
-        <include
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/header_ci"
+            app:scale_left="0"
+            app:scale_top="0"
+            app:scale_width="800"
+            app:scale_height="120">
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_marginLeft="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="타이틀"
+                android:textColor="#000000"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                >
+            </TextView>
+        </RelativeLayout>
 
-            layout="@layout/header_add"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_reset"
+            app:scale_left="750"
+            app:scale_top="0"
+            app:scale_width="150"
+            app:scale_height="120">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/reset"-->
+<!--            android:layout_width="27dp"-->
+<!--            android:layout_height="27dp"-->
+<!--            android:layout_centerInParent="true"-->
+<!--            android:src="@drawable/ok2" />-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/와인"
+                android:layout_centerInParent="true">
+            </TextView>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rl_ok"
+            app:scale_left="920"
+            app:scale_top="0"
+            app:scale_width="130"
+            app:scale_height="120">
+
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ok2" />
+        </RelativeLayout>
     </com.ssomai.android.scalablelayout.ScalableLayout>
     <ScrollView
         android:id="@+id/scrollView"

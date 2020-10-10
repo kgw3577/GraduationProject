@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SlidingDrawer;
 import android.widget.Spinner;
@@ -80,6 +81,24 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     CheckBox cb_bag;
     CheckBox cb_accessory;
 
+    Spinner spinner_top;
+    Spinner spinner_bottom;
+    Spinner spinner_suit;
+    Spinner spinner_outer;
+    Spinner spinner_bag;
+    Spinner spinner_shoes;
+    Spinner spinner_accessory;
+
+    Spinner spinner_top_detail      ;
+    Spinner spinner_bottom_detail   ;
+    Spinner spinner_suit_detail     ;
+    Spinner spinner_outer_detail    ;
+    Spinner spinner_bag_detail      ;
+    Spinner spinner_shoes_detail    ;
+    Spinner spinner_accessory_detail;
+
+
+    RadioButton rb_all;
     RadioButton rb_man;
 
 
@@ -242,26 +261,27 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             }
         });
 
+        rb_all=findViewById(R.id.radioButton1);
         rb_man = findViewById(R.id.radioButton3);
 
 
         /*포함 카테고리 - 스피너 설정*/
 
-        final Spinner spinner_top = (Spinner)findViewById(R.id.spinner_select_top);
-        final Spinner spinner_bottom = (Spinner)findViewById(R.id.spinner_select_bottom);
-        final Spinner spinner_suit = (Spinner)findViewById(R.id.spinner_select_suit);
-        final Spinner spinner_outer = (Spinner)findViewById(R.id.spinner_select_outer);
-        final Spinner spinner_bag = (Spinner)findViewById(R.id.spinner_select_bag);
-        final Spinner spinner_shoes = (Spinner)findViewById(R.id.spinner_select_shoes);
-        final Spinner spinner_accessory = (Spinner)findViewById(R.id.spinner_select_accessory);
+        spinner_top        = (Spinner)findViewById(R.id.spinner_select_top);
+        spinner_bottom        = (Spinner)findViewById(R.id.spinner_select_bottom);
+        spinner_suit       = (Spinner)findViewById(R.id.spinner_select_suit);
+        spinner_outer      = (Spinner)findViewById(R.id.spinner_select_outer);
+        spinner_bag           = (Spinner)findViewById(R.id.spinner_select_bag);
+        spinner_shoes         = (Spinner)findViewById(R.id.spinner_select_shoes);
+        spinner_accessory         = (Spinner)findViewById(R.id.spinner_select_accessory);
         //
-        final Spinner spinner_top_detail = (Spinner)findViewById(R.id.spinner_select_top_detail);
-        final Spinner spinner_bottom_detail = (Spinner)findViewById(R.id.spinner_select_bottom_detail);
-        final Spinner spinner_suit_detail = (Spinner)findViewById(R.id.spinner_select_suit_detail);
-        final Spinner spinner_outer_detail = (Spinner)findViewById(R.id.spinner_select_outer_detail);
-        final Spinner spinner_bag_detail = (Spinner)findViewById(R.id.spinner_select_bag_detail);
-        final Spinner spinner_shoes_detail = (Spinner)findViewById(R.id.spinner_select_shoes_detail);
-        final Spinner spinner_accessory_detail = (Spinner)findViewById(R.id.spinner_select_accessory_detail);
+        spinner_top_detail        = (Spinner)findViewById(R.id.spinner_select_top_detail);
+        spinner_bottom_detail     = (Spinner)findViewById(R.id.spinner_select_bottom_detail);
+        spinner_suit_detail       = (Spinner)findViewById(R.id.spinner_select_suit_detail);
+        spinner_outer_detail      = (Spinner)findViewById(R.id.spinner_select_outer_detail);
+        spinner_bag_detail        = (Spinner)findViewById(R.id.spinner_select_bag_detail);
+        spinner_shoes_detail      = (Spinner)findViewById(R.id.spinner_select_shoes_detail);
+        spinner_accessory_detail  = (Spinner)findViewById(R.id.spinner_select_accessory_detail);
 
         //상의
         String[] itemArray = getResources().getStringArray(R.array.상의);
@@ -744,8 +764,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
 
 
         //설정 완료 버튼
-        ScalableLayout sl_ok = findViewById(R.id.sl_ok);
-        sl_ok.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout rl_ok = findViewById(R.id.rl_ok);
+        rl_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -798,7 +818,17 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 startActivityForResult(intent, RECO_CODI);
             }
         });
+
+
+        RelativeLayout rl_reset = findViewById(R.id.rl_reset);
+        rl_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetAllSetting();
+            }
+        });
     }
+
 
 
     public class networkTask extends AsyncTask<String, Void, List<ClothesVO>> {
@@ -893,18 +923,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
 
                     @Override
                     public void onCancel() {
-                        switch(numColor){
-                            case MAIN_COLOR:
-                                main_color_num = -1;
-                                tv_main_color.setText("미설정");
-                                civ_main_color.setColorFilter(Color.parseColor("#dddddd"));
-                                break;
-                            case SUB_COLOR :
-                                sub_color_num = -1;
-                                tv_sub_color.setText("미설정");
-                                civ_sub_color.setColorFilter(Color.parseColor("#dddddd"));
-                                break;
-                        }
+                        resetColor(numColor);
                     }
                 }).show();  // dialog 생성
     }
@@ -1177,6 +1196,17 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         slidingDrawer.close();
     }
 
+    void resetAllItem(){
+        for(int i=0; i<7; i++){
+            //이미지 리셋
+            list_childClothes.get(i).setImageResource(R.drawable.hanger_gray_small);
+            //옷 번호 리셋
+            child_clothes_no[i] = 0;
+            //텍스트 보이기
+            list_tv_childClothes.get(i).setVisibility(View.VISIBLE);
+        }
+    }
+
     void setGender(){
         if (rb_man.isChecked()){
             Iterator<ClothesVO> cloListIter = clothesList.iterator();
@@ -1194,6 +1224,7 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
     }
 
     void setWeatherNone(){
+        rb_weather_none.setChecked(true);
         ll_now_weather.setVisibility(View.GONE);
         fl_setting_temperature.setVisibility(View.GONE);
         fl_setting_season.setVisibility(View.GONE);
@@ -1375,8 +1406,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
                 checkedSize+=1;
                 switch(seasonNum){
                     case 0:
-                        setTemperCheckedTrue(new int[]{2,3,4});
-                        setTemperCheckedFalse(new int[]{0,1,5,6,7});
+                        setTemperCheckedTrue(new int[]{3,4});
+                        setTemperCheckedFalse(new int[]{0,1,2,5,6,7});
                         break;
                     case 1:
                         setTemperCheckedTrue(new int[]{5,6,7});
@@ -1637,6 +1668,71 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
         return name+selectedValue;
     }
 
+    void resetColor(int COLOR_PART){
+        switch(COLOR_PART){
+            case MAIN_COLOR:
+                main_color_num = -1;
+                tv_main_color.setText("미설정");
+                civ_main_color.setColorFilter(Color.parseColor("#dddddd"));
+                break;
+            case SUB_COLOR :
+                sub_color_num = -1;
+                tv_sub_color.setText("미설정");
+                civ_sub_color.setColorFilter(Color.parseColor("#dddddd"));
+                break;
+        }
+    }
+
+    void resetAllSpinners(){
+
+        reset_spinner(spinner_top);
+        spinner_top_detail.setVisibility(View.INVISIBLE);
+        top_detail ="";
+
+        reset_spinner(spinner_bottom);
+        spinner_bottom_detail.setVisibility(View.INVISIBLE);
+        bottom_detail ="";
+
+        reset_spinner(spinner_suit);
+        spinner_suit_detail.setVisibility(View.INVISIBLE);
+        suit_detail ="";
+
+        reset_spinner(spinner_outer);
+        spinner_outer_detail.setVisibility(View.INVISIBLE);
+        outer_detail ="";
+
+        reset_spinner(spinner_shoes);
+        spinner_shoes_detail.setVisibility(View.INVISIBLE);
+        shoes_detail ="";
+
+        reset_spinner(spinner_bag);
+        spinner_bag_detail.setVisibility(View.INVISIBLE);
+        bag_detail ="";
+
+        reset_spinner(spinner_accessory);
+        spinner_accessory_detail.setVisibility(View.INVISIBLE);
+        accessory_detail ="";
+
+    }
+
+    void resetAllSetting(){
+
+        for(CheckBox cb:checkBoxes){
+            cb.setChecked(true);
+        }
+        resetColor(MAIN_COLOR);
+        resetColor(SUB_COLOR);
+
+        resetAllSpinners();
+        resetAllItem();
+
+        rb_all.setChecked(true);
+        setWeatherNone();
+
+
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -1646,6 +1742,8 @@ public class activity_recoCodi_setting extends AppCompatActivity implements View
             super.onBackPressed();
         }
     }
+
+
 
 
 

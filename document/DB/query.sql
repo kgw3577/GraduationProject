@@ -1,5 +1,19 @@
 
 use CLOSET;
+select * from CODI;
+insert into CODI values(NULL, NULL, NULL, "캐주얼", NULL, NULL, NULL, 'default0.jpg', '/download/codi?imageFileName=default0.jpg', '2020-10-10 18:53:36', 'lemon');
+insert into CODI values(NULL, NULL, NULL, "캐주얼", NULL, NULL, NULL, 'default1.jpg', '/download/codi?imageFileName=default1.jpg', '2020-10-10 18:53:36', 'lemon');
+
+SELECT  * FROM CLOTHES WHERE userID="dog" and location="private";
+
+UPDATE CLOTHES SET regDate = "2020-10-09" WHERE cloNo = '640';
+
+UPDATE CLOTHES SET regDate = "2020-10-09" WHERE cloNo = '721';
+
+
+
+
+
 
 
 
@@ -164,6 +178,8 @@ select * FROM `COMMENT`;
 
 select * from BOARD;
 UPDATE BOARD SET contents = "돈까스 돈까스 돈까스 돈까스 돈까스 \n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스 돈까스 돈까스 돈까스 돈까스\n돈까스돈까스 돈까스 돈까스돈까스\n돈까스 돈까스 돈까스 돈까스" WHERE boardNo = '59';
+
+
 
 desc `COMMENT`;
 select * from `COMMENT`;
