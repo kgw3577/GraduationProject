@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import com.Project.Closet.social.detailFeed.activity_thisFeed;
 import com.Project.Closet.social.fragment_social;
 import com.Project.Closet.social.space.activity_space;
 import com.Project.Closet.util.NumFormat;
+import com.Project.Closet.util.RecyclerViewEmptySupport;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -70,6 +72,7 @@ public class Fragment_Feed extends Fragment {
 
     int page=0;
     RecyclerView rv_post;
+    TextView emptyView;
     List<ArrayList<DetailFeedVO>> feedListByBoardNo;
     HashMap<String, ArrayList<DetailFeedVO>> feedMapByBoardNo;
     
@@ -247,6 +250,9 @@ public class Fragment_Feed extends Fragment {
         rv_post.setAdapter(feedRecyclerAdapter);
         rv_post.setNestedScrollingEnabled(true);
 
+        emptyView = view.findViewById(R.id.empty_view);
+
+
 
         rv_post.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -367,6 +373,17 @@ public class Fragment_Feed extends Fragment {
                 }
                 feedRecyclerAdapter.notifyDataSetChanged();
             }
+
+
+            if (feedListByBoardNo.isEmpty()) {
+                rv_post.setVisibility(View.INVISIBLE);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+            else {
+                rv_post.setVisibility(View.VISIBLE);
+                emptyView.setVisibility(View.INVISIBLE);
+            }
+
         }
     }
 
